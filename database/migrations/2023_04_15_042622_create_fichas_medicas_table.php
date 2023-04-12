@@ -15,8 +15,8 @@ class CreateFichasMedicasTable extends Migration
     {
         Schema::create('fichas_medicas', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_mascota');
-            $table->integer('id_hora_reservada');
+            $table->unsignedBigInteger('id_mascota');
+            $table->unsignedBigInteger('id_hora_reservada');
             $table->integer('peso_mascota');
             $table->integer('edad');
             $table->text('observacion');

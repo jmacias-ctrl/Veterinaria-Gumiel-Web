@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -27,13 +28,14 @@
                         <th>{{ $user->rut }}</th>
                         <th>{{ $user->email }}</th>
                         <th><button type="button" class="btn btn-danger"
-                                onclick="deleted({{ $user->id }})">Delete</button></th>
+                                onclick="deleted({{ $user->id }})"><span class="material-symbols-outlined">delete</span></button>
+                            <button type="button" onclick="beforeModalPermisos({{$}})" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalPermisos"><span class="material-symbols-outlined">edit</span></button></th>
                     </tr>
                 @endforeach
             </tbody>
-        </table>
-
+        </table>"
     </div>
+@include('admin.usuarios.modal.modal_permisos')
 @endsection
 @section('js-after')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
@@ -49,7 +51,9 @@
                 pageLength: 10,
             });
         });
-
+        function beforeModalPermisos(user){
+            $()
+        }
         function deleted(id_get) {
 
             Swal.fire({

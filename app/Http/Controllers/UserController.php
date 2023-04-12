@@ -12,9 +12,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = DB::table('users')
-            ->wherein('id_rol', [1, 2, 3])
             ->orderBy('id', 'asc')
-            ->select('id', 'name', 'email', 'rut')
+            ->select('id', 'name', 'email', 'rut', 'id_rol')
             ->get();
 
         return view('admin.usuarios.usuarios', compact('users'));

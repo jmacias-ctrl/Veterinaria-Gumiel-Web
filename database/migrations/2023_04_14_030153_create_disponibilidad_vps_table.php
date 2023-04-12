@@ -15,12 +15,12 @@ class CreateDisponibilidadVpsTable extends Migration
     {
         Schema::create('disponibilidad_vps', function (Blueprint $table) {
             $table->id();
-            $table->integer('trabajador_rut');
+            $table->unsignedBigInteger('id_trabajador');
             $table->time('horario_desde');
             $table->time('horario_hasta');
             $table->timestamps();
 
-            $table->foreign('trabajador_rut')->references('id')->on('users');
+            $table->foreign('id_trabajador')->references('id')->on('users');
         });
     }
 

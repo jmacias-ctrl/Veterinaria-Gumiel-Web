@@ -20,6 +20,7 @@ class CreateMedicamentosVacunasTable extends Migration
             $table->enum('medicamentos_enfocados', ['perros','gatos']);
             $table->integer('mililitros')->nullable();
             $table->integer('gramos')->nullable();
+            $table->integer('stock');
             $table->timestamps();
         });
     }

@@ -41,6 +41,35 @@ class UserController extends Controller
         $roles = Role::all();
         return view('admin.usuarios.create_usuario', compact('roles'));
     }
+    public function index_roles(){
+        $roles = Role::all();
+
+        return view('admin.roles.roles', compact('roles'));
+    }
+
+    public function add_rol(){
+        return view('admin.roles.create_role');
+    }
+
+    public function store_rol(Request $request){
+        $role = Role::create(['name'=>$request->nombre]);
+
+        return redirect()->route('admin.roles.index');
+    }
+
+    public function delete_rol(Request $request){
+        $rol = Role::find($request->id);
+        $rol->delete();
+        return response()->json(['success' => true], 200);
+    }
+
+    public function update_rol(){
+        
+    }
+
+    public function modify_rol(){
+
+    }
 
     public function store_user(Request $request)
     {

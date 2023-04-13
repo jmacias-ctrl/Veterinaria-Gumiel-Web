@@ -27,3 +27,11 @@ Route::get('admin/usuarios/roles/{id}', [App\Http\Controllers\UserController::cl
 Route::get('admin/usuarios/add', [App\Http\Controllers\UserController::class, 'add_user'])->name('admin.usuarios.add');
 Route::post('admin/usuarios/store', [App\Http\Controllers\UserController::class, 'store_user'])->name('admin.usuarios.store');
 Route::post('admin/usuarios/roles/update', [App\Http\Controllers\UserController::class, 'update_roles'])->name('admin.usuarios.update.roles');
+
+Route::get('admin/roles', [App\Http\Controllers\UserController::class, 'index_roles'])->name('admin.roles.index');
+Route::get('admin/roles/add', [App\Http\Controllers\UserController::class, 'add_rol'])->name('admin.roles.add');
+Route::post('admin/roles/store', [App\Http\Controllers\UserController::class, 'store_rol'])->name('admin.roles.store');
+Route::get('admin/roles/modify/{id}', [App\Http\Controllers\UserController::class, 'modify_rol'])->name('admin.roles.modify');
+Route::post('admin/roles/update', [App\Http\Controllers\UserController::class, 'update_rol'])->name('admin.roles.update');
+Route::post('admin/roles/delete', [App\Http\Controllers\UserController::class, 'delete_rol'])->name('admin.roles.delete');
+

@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
+use App\Models\User;
 class UserSeeder extends Seeder
 {
     /**
@@ -15,33 +17,29 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        User::create([
             'name' => 'Veterinario Demo',
             'rut' => '11111111-1',
             'email' => 'veterinario@vetgumiel.cl',
-            'id_rol' => '1',
             'password' => 'asdf123',
-        ]);
-        DB::table('users')->insert([
+        ])->assignRole('Veterinario');
+        User::create([
             'name' => 'Peluquero Demo',
             'rut' => '22222222-2',
             'email' => 'peluquero@vetgumiel.cl',
-            'id_rol' => '2',
             'password' => 'asdf123',
-        ]);
-        DB::table('users')->insert([
+        ])->assignRole('Peluquero');
+        User::create([
             'name' => 'Cliente Demo',
             'rut' => '33333333-3',
             'email' => 'cliente@vetgumiel.cl',
-            'id_rol' => '3',
             'password' => 'asdf123',
-        ]);
-        DB::table('users')->insert([
+        ])->assignRole('Cliente');
+        User::create([
             'name' => 'Administrador Demo',
             'rut' => '44444444-4',
             'email' => 'admin@vetgumiel.cl',
-            'id_rol' => '4',
             'password' => 'asdf123',
-        ]);
+        ])->assignRole('Admin');
     }
 }

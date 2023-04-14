@@ -15,8 +15,8 @@ class CreateUtilizasTable extends Migration
     {
         Schema::create('utilizas', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_ficha_medica');
-            $table->integer('id_medicamento_vacuna');
+            $table->unsignedBigInteger('id_ficha_medica');
+            $table->unsignedBigInteger('id_medicamento_vacuna');
             $table->timestamps();
 
             $table->foreign('id_ficha_medica')->references('id')->on('fichas_medicas');

@@ -15,15 +15,15 @@ class CreateAgendaPeluqueriasTable extends Migration
     {
         Schema::create('agenda_peluquerias', function (Blueprint $table) {
             $table->id();
-            $table->integer('rut_peluquero');
-            $table->integer('id_mascota');
-            $table->integer('rut_cliente');
+            $table->unsignedBigInteger('id_peluquero');
+            $table->unsignedBigInteger('id_mascota');
+            $table->unsignedBigInteger('id_cliente');
             $table->date('fecha_cita_inicio');
             $table->date('fecha_cita_termino');
             $table->timestamps();
 
-            $table->foreign('rut_veterinario')->references('id')->on('users');
-            $table->foreign('rut_cliente')->references('id')->on('users');
+            $table->foreign('id_peluquero')->references('id')->on('users');
+            $table->foreign('id_cliente')->references('id')->on('users');
             $table->foreign('id_mascota')->references('id')->on('mascotas');
         });
     }

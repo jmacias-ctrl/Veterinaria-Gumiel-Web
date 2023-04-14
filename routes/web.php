@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InsumosMedicosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,6 @@ Route::get('admin/roles/modify/{id}', [App\Http\Controllers\UserController::clas
 Route::post('admin/roles/update', [App\Http\Controllers\UserController::class, 'update_rol'])->name('admin.roles.update');
 Route::post('admin/roles/delete', [App\Http\Controllers\UserController::class, 'delete_rol'])->name('admin.roles.delete');
 
+Route::get('admin/insumosmedicos',[App\Http\Controllers\InsumosMedicosController::class,'index_insumos'])->name('admin.insumos_medicos.index');
+Route::get('admin/insumosmedicos/create',[App\Http\Controllers\InsumosMedicosController::class,'create'])->name('admin.insumos_medicos.create');
+Route::get('admin/insumosmedicos/store',[App\Http\Controllers\InsumosMedicosController::class,'store'])->name('admin.insumos_medicos.store');

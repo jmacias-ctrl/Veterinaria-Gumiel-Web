@@ -1,13 +1,20 @@
 @extends('layouts.app')
-<title>Gestion Insumos médicos</title>
+<title>Gestion Tipo Insumos médicos</title>
+@section('css-before')
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+@endsection
+@section('js-before')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-5">
-                <h4>Gestion de Insumos Medicos</h4>
+                <h4>Gestion de Tipos de Insumos Medicos</h4>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}" role="button">Agregar insumo</a>  
+                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.create') }}" role="button">Agregar tipo de insumo</a>  
             </div>
         </div>
         <br>
@@ -17,34 +24,21 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Stock</th>
                     <th scope="col">Opciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($insumos_medicos as $insumos)
+                @foreach ($tipoinsumos as $tipos)
                     <tr>
-                        <th>{{ $insumos->id }}</th>
-                        <th>{{ $insumos->nombre }}</th>
-                        <th>{{ $insumos->marca }}</th>
-                        <th>
-                        @foreach ($insumos->tipo as $Tipoinsumos)
-                            {{ $Tipoinsumos }}
-                            <br>
-                        @endforeach
-                        </th>
-                        <th>@{{ $insumos->stock }}</th>
-                        <th>
-                            <button type="button" class="btn btn-danger"
-                                                onclick="deleted({{ $insumos->id }})"><span
+                        <th>{{ $tipos->id }}</th>
+                        <th>{{ $tipos->nombre }}</th>
+                        <th><button type="button" class="btn btn-danger"
+                                                onclick="deleted({{ $tipos->id }})"><span
                                                     class="material-symbols-outlined">delete</span></button>
-                                                    <a id="editInsumos" class="btn btn-primary"
-                                                href="{{ route('admin.insumos_medicos.edit', ['id' => "$insumos->id"]) }}"
+                                            <a id="editTipos" class="btn btn-primary"
+                                                href="{{ route('admin.tipoinsumos.edit', ['id' => "$tipos->id"]) }}"
                                                 role="button"><span
                                                     class="material-symbols-outlined">manage_accounts</span></a>
-                                            
                         </th>
                     </tr>
                 @endforeach
@@ -52,7 +46,6 @@
             </table>
         </div>
     </div>
-
 @endsection
 
 @section('js-after')
@@ -75,7 +68,7 @@
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar Insumo medico?',
+                title: '¿Eliminar tipo de insumo?',
                 text: "¿Estás seguro? no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -83,8 +76,36 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si, borrar',
                 cancelButtonText: 'Cancelar'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    axios.post("{{ route('admin.tipoinsumos.delete') }}", {
+                            id: id_get
+                        })
+                        .then(function(response) {
+
+                            toastr.success('Tipo de insumo eliminado correctamente!')
+
+                        })
+                        .catch(function(error) {
+                            toastr.error('La acción no se pudo realizar')
+                        })
+                        .finally(function() {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Tipo de insumo eliminado correctamente!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500);
+
+                        });
+                }
+            });
 
         }
     </script>
 @endsection
-
+         

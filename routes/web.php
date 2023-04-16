@@ -38,4 +38,14 @@ Route::post('admin/roles/delete', [App\Http\Controllers\UserController::class, '
 
 Route::get('admin/insumosmedicos',[App\Http\Controllers\InsumosMedicosController::class,'index_insumos'])->name('admin.insumos_medicos.index');
 Route::get('admin/insumosmedicos/create',[App\Http\Controllers\InsumosMedicosController::class,'create'])->name('admin.insumos_medicos.create');
-Route::get('admin/insumosmedicos/store',[App\Http\Controllers\InsumosMedicosController::class,'store'])->name('admin.insumos_medicos.store');
+Route::post('admin/insumosmedicos/store',[App\Http\Controllers\InsumosMedicosController::class,'store'])->name('admin.insumos_medicos.store');
+Route::post('admin/insumosmedicos/delete',[App\Http\Controllers\InsumosMedicosController::class,'delete'])->name(('admin.insumos_medicos,delete'));
+
+
+Route::get('admin/tipoinsumos',[\App\Http\Controllers\TipoinsumosController::class,'index_tipo'])->name('admin.tipoinsumos.index');
+Route::get('admin/tipoinsumos/create',[\App\Http\Controllers\TipoinsumosController::class,'create'])->name('admin.tipoinsumos.create');
+Route::post('admin/tipoinsumos/store',[\App\Http\Controllers\TipoinsumosController::class,'store_tipo'])->name('admin.tipoinsumos.store');
+Route::get('admin/tipoinsumos/edit',[\App\Http\Controllers\TipoinsumosController::class,'edit'])->name('admin.tipoinsumos.edit');
+Route::post('admin/tipoinsumos/delete',[\App\Http\Controllers\TipoinsumosController::class,'delete'])->name('admin.tipoinsumos.delete');
+Route::post('admin/tipoinsumos/update',[\App\Http\Controllers\TipoinsumosController::class,'update'])->name('admin.tipoinsumos.update');
+

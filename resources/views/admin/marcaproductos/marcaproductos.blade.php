@@ -14,7 +14,7 @@
                 <h4>Gestion Marca de Productos</h4>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.create') }}" role="button">Agregar Marca</a>  
+                <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>  
             </div>
         </div>
         <br>
@@ -35,7 +35,7 @@
                         <th><button type="button" class="btn btn-danger"
                                                 onclick="deleted({{ $marca->id }})"><span
                                                     class="material-symbols-outlined">delete</span></button>
-                                            <a id="editMarcas" class="btn btn-primary"
+                                            <a id="editMarcas" style="background-color:#F7C044; border-color:#F7C044;" class="btn btn-primary"
                                                 href="{{ route('admin.marcaproductos.edit', ['id' => "$marca->id"]) }}"
                                                 role="button"><span
                                                     class="material-symbols-outlined">manage_accounts</span></a>

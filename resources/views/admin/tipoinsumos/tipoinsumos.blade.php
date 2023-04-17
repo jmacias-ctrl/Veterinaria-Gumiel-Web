@@ -14,7 +14,7 @@
                 <h4>Gestion de Tipos de Insumos Medicos</h4>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.create') }}" role="button">Agregar tipo de insumo</a>  
+                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de insumo</a>  
             </div>
         </div>
         <br>
@@ -35,7 +35,7 @@
                         <th><button type="button" class="btn btn-danger"
                                                 onclick="deleted({{ $tipos->id }})"><span
                                                     class="material-symbols-outlined">delete</span></button>
-                                            <a id="editTipos" class="btn btn-primary"
+                                            <a id="editTipos" style="background-color:#F7C044; border-color:#F7C044;" class="btn btn-primary"
                                                 href="{{ route('admin.tipoinsumos.edit', ['id' => "$tipos->id"]) }}"
                                                 role="button"><span
                                                     class="material-symbols-outlined">manage_accounts</span></a>

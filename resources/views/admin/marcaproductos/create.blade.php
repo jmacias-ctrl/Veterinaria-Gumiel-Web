@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<title>Ingresar Tipo de Insumo</title>
+<title>Ingresar Nueva Marca</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -11,16 +11,16 @@
 @endsection
 @section('content')
     <div class="container-sm">
-        <h2>Ingresar Nuevo Insumo Medico</h2>
+        <h2>Ingresar Nueva Marca</h2>
         <hr>
-        <form action="{{ route('admin.tipoinsumos.store') }}" method="POST">
+        <form action="{{ route('admin.marcaproductos.store') }}" method="POST">
             @csrf
             <div class="container">
-                <h5 class="mt-4">Informacion del Insumo</h5>
+                <h5 class="mt-4">Informacion de la marca</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="Nombre" class="form-label">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Algodon"
+                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Eucanuba"
                             aria-label="Nombre" required>
                     </div>
                 <br>
@@ -45,7 +45,7 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Agregar Nuevo Tipo de Tnsumo',
+                    title: 'Agregar Nueva Marca',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,

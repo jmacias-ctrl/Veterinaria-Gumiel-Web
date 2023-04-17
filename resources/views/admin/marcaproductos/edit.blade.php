@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<title>Modificar Tipo Insumo</title>
+<title>Modificar Marca Producto</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -18,14 +18,14 @@
 @endsection
 @section('content')
     <div class="container-sm">
-        <h2>Modificar Tipos de Insumos</h2>
+        <h2>Modificar Marca de Producto</h2>
         <hr>
-            <form action="{{route('admin.tipoinsumos.update')}}" method="POST">
+            <form action="{{route('admin.marcaproductos.update')}}" method="POST">
                 @csrf
-                <input type="hidden" name="id" value="{{$tipoinsumos->id}}">
+                <input type="hidden" name="id" value="{{$marcaproductos->id}}">
                 <div id="tipoWindow">
-                    <label for="nombre">Nombre Tipo de Insumo</label>
-                    <input type="text" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
+                    <label for="nombre">Nombre Marca</label>
+                    <input type="text" name="nombre" value="{{$marcaproductos->nombre}}" id="nombre" checked>
 
                     <input name="" id="" class="btn btn-primary" type="submit" value="Modificar">
                 
@@ -33,4 +33,3 @@
         </div>
     </div>
 @endsection
-

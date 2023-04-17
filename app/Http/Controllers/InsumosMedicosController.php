@@ -19,27 +19,32 @@ class InsumosMedicosController extends Controller
     }
 
     public function create()
-    {
-        return view('admin.insumos_medicos.create');
+    {   
+        $tipoinsumos = Tipoinsumos::all();
+        return view('admin.insumos_medicos.create',compact('tipoinsumos'));
     }
 
     public function store(Request $request)
     {
         try {
+
             db::beginTransaction();
             $insumos_medicos = new insumos_medicos;
             $nombre = $request->nombre;
+            $marca = $request->marca;
+            $id_tipo = $request->id_tipo;
+            $stock = $request->stock;
 
-            $insumos_medicos->nombre = $insumos_medicos;
-            $insumos_medicos->marca;
-            $insumos_medicos->tipo = $request->tipo;
-            $insumos_medicos->stock;
+
+            $insumos_medicos->nombre = $nombre;
+            $insumos_medicos->marca = $marca;
+            $insumos_medicos->id_tipo = $id_tipo;
+            $insumos_medicos->stock = $stock;
             $insumos_medicos->save();
             db::commit();
 
-            $insumos_medicos->assignTipoinsumos($request->Tipoinsumos);
 
-            return redirect()->route('admin.insumos_medicos.insumos')->with('success', 'El insumo medico'.$insumos_medicos->nombre.'ha sido guardado exitosamente');
+            return redirect()->route('admin.insumos_medicos.index_insumos')->with('success', 'El insumo medico'.$insumos_medicos->nombre.'ha sido guardado exitosamente');
         } catch (QueryException $exception) {
             DB::rollBack();
             return back()->withInput();

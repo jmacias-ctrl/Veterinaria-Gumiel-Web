@@ -6,39 +6,31 @@
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="container-xl p-5 border" style="background: white;">
-        <div class="container-sm">
-            <div class="d-inline-flex">
-                <a href="{{route('admin.roles.index')}}"> <span class="material-symbols-outlined" style="font-size:40px;">
-                        arrow_back
-                    </span> </a>
-                <h2 class="mx-5">Ingresar Nuevo Usuario</h2>
-            </div>
-            <hr>
-            <form action="{{ route('admin.roles.store') }}" method="POST" class="needs-validation">
-                @csrf
-
-                <div id="RoleWindow">
-                    <h5 class="mt-4">Informacion del Rol</h5>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" id="nombre" name="nombre"
-                                class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Logistica"
-                                aria-label="Nombre" required>
-                            @error('nombre')
-                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                            @enderror
-                        </div>
-                        <hr class="my-3">
-                        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol">
+<div class="container-xl p-5 border" style="background: white;">
+    <div class="container-sm">
+        <h2>Modificar Rol</h2>
+        <hr>
+        <form action="{{ route('admin.roles.update') }}" method="POST" id="formRole">
+            @csrf
+            <div id="RoleWindow">
+                <h5 class="mt-4">Informacion del Rol</h5>
+                <input type="hidden" name="id" value="{{$rol->id}}">
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="Nombre" class="form-label">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Logistica"
+                            aria-label="Nombre" value="{{$rol->name}}" required>
                     </div>
-            </form>
-        </div>
+                <hr class="my-3">
+                <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol">
+            </div>
+        </form>
     </div>
+</div>
 @endsection
 
 @section('js-after')
@@ -49,8 +41,10 @@
     <script>
         $(document).ready(function() {
             $('#btn-submit').on('click', function(e) {
-                e.preventDefault();
                 var form = $(this).parents(form);
+                $("#formRole").validate();
+                e.preventDefault();
+                
                 Swal.fire({
                     title: 'Agregar Nuevo Rol',
                     text: "¿Estás seguro de que todos los datos estan correctos?",

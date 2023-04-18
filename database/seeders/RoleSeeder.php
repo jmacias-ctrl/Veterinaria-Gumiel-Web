@@ -15,7 +15,17 @@ class RoleSeeder extends Seeder
     public function run()
     {
         //
-        Role::create(['name'=>'Admin']);
+        Permission::create(['name'=>'ver notificaciones']);
+
+        Permission::create(['name'=>'ver productos']);
+        Permission::create(['name'=>'modificar productos']);
+        Permission::create(['name'=>'eliminar productos']);
+
+        Permission::create(['name'=>'ver servicios']);
+        Permission::create(['name'=>'modificar servicios']);
+        Permission::create(['name'=>'eliminar servicios']);
+
+        Role::create(['name'=>'Admin'])->syncPermissions(['ver productos', 'modificar productos', 'eliminar productos', 'modificar servicios', 'eliminar servicios', 'ver notificaciones']);
         Role::create(['name'=>'Veterinario']);
         Role::create(['name'=>'Peluquero']);
         Role::create(['name'=>'Inventario']);

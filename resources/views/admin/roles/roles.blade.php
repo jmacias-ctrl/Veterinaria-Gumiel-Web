@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layouts_users')
 <title>Gestion Usuarios - Administrador</title>
 @section('css-before')
     <link rel="stylesheet"
@@ -8,48 +8,69 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
-    <div class="row mb-4">
-        <div class="col-md-12 mb-4">
-            <div class="card text-left">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <div class="col">
-                            <h4 class="card-title mb-3">Gestion de Roles</h4>
+    <div class="container-xl">
+        <div class="row mb-4">
+            <div class="col-md-12 mb-4">
+                <div class="card text-left my-5">
+                    <div class="card-body">
+                        {{-- Breadcrumb  --}}
+
+                        <div class="breadcrumb mb-1 mx-2 opacity-50">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{ route('home') }}"
+                                            style="text-decoration:none;">Inicio</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                                </ol>
+                            </nav>
                         </div>
-                        <div class="col text-right">
-                            <a class="btn btn-primary mr-auto" href="{{ route('admin.roles.add') }}" role="button">Ingresar
-                                Rol</a>
+                        <h1>Gestion Roles</h1>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="col">
+                                <a class="btn btn-primary mr-auto" href="{{ route('admin.roles.add') }}"
+                                    role="button">Ingresar
+                                    Rol</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table
-                            class="datatable display responsive nowrap table table-sm table-bordered table-hover table-striped w-100 shadow-sm"
-                            id="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($roles as $rol)
+
+                        @if (session()->get('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
+                        <div class="table-responsive">
+                            <table
+                                class="datatable display responsive nowrap table table-sm table-bordered table-hover table-striped shadow-sm"
+                                id="table">
+                                <thead>
                                     <tr>
-                                        <th>{{ $rol->id }}</th>
-                                        <th>{{ $rol->name }}</th>
-                                        <th>{{ $rol->phone }}</th>
-                                        <th><button type="button" class="btn btn-danger"
-                                                onclick="deleted({{ $user->id }})"><span
-                                                    class="material-symbols-outlined">delete</span></button>
-                                            <a id="modifyRoles" class="btn btn-primary"
-                                                href="{{ route('admin.usuarios.roles', ['id' => "$rol->id"]) }}"
-                                                role="button"><span
-                                                    class="material-symbols-outlined">manage_accounts</span></a>
-                                        </th>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Acciones</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($roles as $rol)
+                                        <tr>
+                                            <th>{{ $rol->id }}</th>
+                                            <td>{{ $rol->name }}</td>
+                                            <td><button type="button" class="btn btn-danger"
+                                                    onclick="deleted({{ $rol->id }})"><span
+                                                        class="material-symbols-outlined">delete</span></button>
+                                                <a id="modifyRoles" class="btn btn-warning"
+                                                    href="{{ route('admin.roles.modify', ['id' => "$rol->id"]) }}"
+                                                    role="button"><span class="material-symbols-outlined">edit</span></a>
+                                                <a id="EditPermissions" class="btn btn-primary"
+                                                    href="{{ route('admin.roles.permission', ['id' => "$rol->id"]) }}"
+                                                    role="button"><span
+                                                        class="material-symbols-outlined">settings</span></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,7 +97,7 @@
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar usuario?',
+                title: '¿Eliminar Rol?',
                 text: "¿Estás seguro? no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -87,12 +108,12 @@
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    axios.post("{{ route('admin.usuarios.delete') }}", {
+                    axios.post("{{ route('admin.roles.delete') }}", {
                             id: id_get
                         })
                         .then(function(response) {
 
-                            toastr.success('Usuario eliminada correctamente!')
+                            toastr.success('Rol eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -101,7 +122,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Usuario eliminado correctamente!',
+                                title: 'Rol eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

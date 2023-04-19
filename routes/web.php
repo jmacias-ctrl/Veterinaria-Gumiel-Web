@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MarcasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/marca',[MarcasController::class,'index'])->name('marcas');
+Route::post('/marca',[MarcasController::class,'store'])->name('marcas');
+
+Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
+Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
+Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');

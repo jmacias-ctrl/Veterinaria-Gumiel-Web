@@ -8,8 +8,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -29,18 +27,21 @@
 </head>
 
 <body>
+    @php
+        $userNotification = sizeof(Auth::user()->unreadNotifications);
+    @endphp
     <div id="app">
         <div class="sidebar">
             <div class="logo-details">
                 <a href="{{ route('welcome') }}">
-                    <div class="logo_name"><img src="{{ asset('image/logo.png') }}" alt=""
-                            style="width: 125px;" class="topImage"></div>
+                    <div class="logo_name"><img src="{{ asset('image/logo.png') }}" alt="" style="width: 125px;"
+                            class="topImage"></div>
                 </a>
                 <i class='bx bx-menu' id="btn"></i>
             </div>
             <ul class="nav-list">
                 <li>
-                    
+
                     <a href="{{ route('home') }}">
                         <i class='bx bx-grid-alt'></i>
                         <span class="links_name">Inicio</span>
@@ -94,7 +95,7 @@
                         </div>
                     </li>
                 @endcan
-                @hasrole('Veterinario')
+                @can('ver cita')
                     <li>
                         <a class="collapse-links" data-bs-toggle="collapse" href="#productosCollapse" role="button"
                             aria-expanded="false" aria-controls="usuarioCollapse">
@@ -111,7 +112,7 @@
                             </div>
                         </div>
                     </li>
-                @endhasrole
+                    @endcan
                 @hasrole('Admin')
                     <li>
                         <a href="#">
@@ -122,12 +123,19 @@
                     </li>
                 @endhasrole
                 <li class="notification">
-                    <a href="{{ route('users.notification') }}">
-                        <span class="translate-middle badge rounded-pill bg-danger"
-                            style="position: absolute; top:30%; left:40px">
-                            99+
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
+                    <a href="{{ route('users.notification.index') }}">
+                        @if ($userNotification != 0)
+                            <span class="translate-middle badge rounded-pill bg-danger"
+                                style="position: absolute; top:30%; left:50px">
+                                @if ($userNotification < 99)
+                                    {{ $userNotification }}
+                                @else
+                                    99+
+                                @endif
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        @endif
+
                         <i class='bx bxs-bell'></i>
                         <span class="links_name">Notificaciones</span>
                     </a>
@@ -137,7 +145,7 @@
                 <li class="profile">
                     <a href="" id="profileEdit">
                         <div class="profile-details">
-                            <img src="{{asset('image/default-user-image.png')}}" alt="profileImg">
+                            <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg">
                             <div class="name_job">
                                 <div class="name">{{ Auth::user()->name }}</div>
                                 <div class="job">
@@ -147,10 +155,11 @@
                                 </div>
                             </div>
                         </div>
-                    </a> 
+                    </a>
                     <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
-                               document.getElementById('logout-form').submit();" id="logout"><i class='bx bx-log-out' id="log_out"></i>
+                               document.getElementById('logout-form').submit();"
+                        id="logout"><i class='bx bx-log-out' id="log_out"></i>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
@@ -159,7 +168,7 @@
             </ul>
         </div>
 
-        <section class="home-section">
+        <section class="home-section pt-5 px-5">
             @yield('content')
         </section>
     </div>

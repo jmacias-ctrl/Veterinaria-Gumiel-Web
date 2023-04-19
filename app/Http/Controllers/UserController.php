@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Mail\UsuarioCreadoAUsuario;
 use App\Mail\UsuarioEliminadoNotificacionUsuario;
 use Illuminate\Support\Facades\Mail;
-
+use App\Notifications\NuevoUsuarioNotificacion;
+use App\Notifications\UsuarioRemovidoNotificacion;
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -32,10 +33,13 @@ class UserController extends Controller
         $correo = new UsuarioEliminadoNotificacionUsuario;
         Mail::to($user->email)->send($correo);
         $user->delete();
-        
+        $admins = User::role('Admin')->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new UsuarioRemovidoNotificacion($user, auth()->user()->name));
+        }
         return response()->json(['success' => true], 200);
     }
-
+    
     public function modify_roles($id)
     {
         $user = User::find($id);
@@ -50,7 +54,7 @@ class UserController extends Controller
     }
     public function index_roles()
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'Admin')->get();
 
         return view('admin.roles.roles', compact('roles'));
     }
@@ -142,10 +146,17 @@ class UserController extends Controller
                 $user->phone = $request->telefono;
                 $user->save();
                 db::commit();
-
-
-
                 $user->assignRole($request->roles);
+                $admins = User::role('Admin')->get();
+
+                $roleText = "";
+                foreach ($request->roles as $role) {
+                    $roleText .= $role;
+                }
+                foreach ($admins as $admin) {
+                    $admin->notify(new NuevoUsuarioNotificacion($user, auth()->user()->name, $roleText));
+                }
+
                 $correo = new UsuarioCreadoAUsuario($request->roles, $name, $rut, $request->telefono, $request->email);
                 Mail::to($request->email)->send($correo);
                 return redirect()->route('admin.usuarios.index')->with('success', 'El Usuario ' . $user->name . ' fue agregado de manera satisfactoria');
@@ -165,6 +176,11 @@ class UserController extends Controller
 
     public function get_notifications()
     {
-        return view('users.notification');
+        $userNotifications = auth()->user()->notifications;
+        return view('users.index_notification', compact('userNotifications'));
+    }
+    public function delete_notification(Request $request){
+        $notification = db::table('notifications')->where('id', '=', $request->id)->delete();
+        return redirect()->route('users.notification.index')->with('success', 'Se ha eliminado la notificación');
     }
 }

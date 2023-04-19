@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+
 Route::group(['middleware'=>['role:Admin']], function(){
     Route::get('/home', function(){
         return view('admin.home');
@@ -40,7 +41,8 @@ Route::group(['middleware'=>['role:Admin']], function(){
     Route::post('admin/roles/update', [App\Http\Controllers\UserController::class, 'update_rol'])->name('admin.roles.update');
     Route::post('admin/roles/delete', [App\Http\Controllers\UserController::class, 'delete_rol'])->name('admin.roles.delete');
     Route::post('admin/roles/permission', [App\Http\Controllers\UserController::class, 'delete_rol'])->name('admin.roles.permission');
-    Route::get('admin/notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification');
+    Route::get('admin/notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
+    Route::post('admin/notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');
 });
     route::get('correo_test', function(){
         return view('emails.usuario_eliminado');

@@ -15,7 +15,7 @@
                 <a href="{{route('admin.roles.index')}}"> <span class="material-symbols-outlined" style="font-size:40px;">
                         arrow_back
                     </span> </a>
-                <h2 class="mx-5">Ingresar Nuevo Usuario</h2>
+                <h2 class="mx-5">Ingresar Nuevo Rol</h2>
             </div>
             <hr>
             <form action="{{ route('admin.roles.store') }}" method="POST" class="needs-validation">

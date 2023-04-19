@@ -424,7 +424,7 @@ dl {
 
 @media screen and (min-width: 700px) {
     .sidebar.open~.home-section {
-        left: 250px;
+        left: 280px;
         width: calc(100% - 250px);
     }
 

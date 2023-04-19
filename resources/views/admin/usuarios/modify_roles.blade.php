@@ -16,7 +16,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-<div class="container-xl p-5 border" style="background: white;">
     <div class="container-sm">
         <h2>Modificar Roles Usuarios</h2>
         <hr>
@@ -54,5 +53,4 @@
             </div>
         </form>
     </div>
-</div>
 @endsection

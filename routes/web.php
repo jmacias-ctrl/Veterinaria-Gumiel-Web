@@ -19,7 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Auth::routes();
+// Route::get('/landing', function () {
+//     return view('landing');
+// });
+
+Route::get('/landing', function () {
+    return view('landing');
+})->middleware('web');
+
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -69,3 +77,4 @@ Route::group(['middleware' => ['role:Admin']], function () {
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
 });
+Auth::routes();

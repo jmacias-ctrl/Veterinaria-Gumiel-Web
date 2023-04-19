@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Producto;
+use App\Models\productos_venta;
 use Illuminate\Http\Request;
 
-class ProductoController extends Controller
+class ProductosVentaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class ProductoController extends Controller
      */
     public function index_productos()
     {
-        $productos=Producto::all();
-        return view("Productos.Insert",['productos'=>$productos]);
+        $productos=productos_venta::all();
+        return view("producto.ingresar_producto",['productos'=>$productos]);
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
 
-        $producto= new Producto();
+        $producto= new productos_venta();
         $producto->nombre=$request->nombre;
         $producto->marca=$request->marca;
         $producto->descripcion=$request->descripcion;
@@ -49,7 +49,7 @@ class ProductoController extends Controller
 
 
      $producto->save();
-     return redirect('/productos');
+     return redirect()->route('productos.index');
     }
 
     /**
@@ -82,9 +82,9 @@ class ProductoController extends Controller
      */
     public function update(Request $request)
     {
-        $producto= Producto::findOrFail($request->id);
+        $producto= productos_venta::findOrFail($request->id);
         $producto->update($request->all());
-       return redirect('/productos');
+        return redirect()->route('productos.index');
     }
 
     /**
@@ -95,8 +95,8 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        $producto= Producto::findOrFail($id);
+        $producto= productos_venta::findOrFail($id);
         $producto->delete();
-       return redirect('/productos');
+        return redirect()->route('productos.index');
     }
 }

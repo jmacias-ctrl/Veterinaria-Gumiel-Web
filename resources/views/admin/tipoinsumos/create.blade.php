@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layouts_users')
 <title>Ingresar Tipo de Insumo</title>
 @section('css-before')
     <link rel="stylesheet" href="style.css">

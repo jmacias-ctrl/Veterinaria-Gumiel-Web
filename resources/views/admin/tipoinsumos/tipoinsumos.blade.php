@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layouts_users')
 <title>Gestion Tipo Insumos médicos</title>
 @section('css-before')
     <link rel="stylesheet"

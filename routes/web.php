@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InsumosMedicosController;
 use App\Http\Controllers\MarcaproductoController;
+use App\Http\Controllers\ProductosVentaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,12 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/marcaproductos/store', [\App\Http\Controllers\MarcaproductoController::class, 'store'])->name('admin.marcaproductos.store');
     Route::get('admin/marcaproductos/edit', [\App\Http\Controllers\MarcaproductoController::class, 'edit'])->name('admin.marcaproductos.edit');
     Route::post('admin/marcaproductos/update', [\App\Http\Controllers\MarcaproductoController::class, 'update'])->name('admin.marcaproductos.update');
+    Route::post('admin/marcaproductos/update', [\App\Http\Controllers\MarcaproductoController::class, 'update'])->name('admin.marcaproductos.update');
+
+    Route::get('admin/productos', [App\Http\Controllers\ProductosVentaController::class, 'index_productos'])->name('productos.index');
+    Route::post('admin/productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'destroy'])->name('productos.delete');
+    Route::post('admin/productos/store', [App\Http\Controllers\ProductosVentaController::class, 'store'])->name('productos.store');
+    Route::post('admin/productos', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.put');
 });
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');

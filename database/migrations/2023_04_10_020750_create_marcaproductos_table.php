@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInsumosMedicosTable extends Migration
+class CreatemarcaproductosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreateInsumosMedicosTable extends Migration
      */
     public function up()
     {
-        Schema::create('insumos_medicos', function (Blueprint $table) {
+        Schema::create('marcaproductos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('marca');
-            $table->unsignedBigInteger('id_tipo');
-            $table->integer('stock');
             $table->timestamps();
-
-            $table->foreign('id_tipo')->references('id')->on('tipoinsumos');
         });
     }
 
@@ -32,6 +27,6 @@ class CreateInsumosMedicosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('insumos_medicos');
+        Schema::dropIfExists('marcaproductos');
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InsumosMedicosController;
+use App\Http\Controllers\MarcaproductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +25,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-Route::group(['middleware'=>['role:Admin']], function(){
-    Route::get('/home', function(){
+Route::group(['middleware' => ['role:Admin']], function () {
+    Route::get('/home', function () {
         return view('admin.home');
     })->name('home');
     Route::get('admin/usuarios', [App\Http\Controllers\UserController::class, 'index'])->name('admin.usuarios.index');
@@ -33,7 +35,7 @@ Route::group(['middleware'=>['role:Admin']], function(){
     Route::get('admin/usuarios/add', [App\Http\Controllers\UserController::class, 'add_user'])->name('admin.usuarios.add');
     Route::post('admin/usuarios/store', [App\Http\Controllers\UserController::class, 'store_user'])->name('admin.usuarios.store');
     Route::post('admin/usuarios/roles/update', [App\Http\Controllers\UserController::class, 'update_roles'])->name('admin.usuarios.update.roles');
-    
+
     Route::get('admin/roles', [App\Http\Controllers\UserController::class, 'index_roles'])->name('admin.roles.index');
     Route::get('admin/roles/add', [App\Http\Controllers\UserController::class, 'add_rol'])->name('admin.roles.add');
     Route::post('admin/roles/store', [App\Http\Controllers\UserController::class, 'store_rol'])->name('admin.roles.store');
@@ -43,7 +45,27 @@ Route::group(['middleware'=>['role:Admin']], function(){
     Route::post('admin/roles/permission', [App\Http\Controllers\UserController::class, 'delete_rol'])->name('admin.roles.permission');
     Route::get('admin/notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
     Route::post('admin/notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');
+    
+    Route::get('admin/insumosmedicos', [App\Http\Controllers\InsumosMedicosController::class, 'index_insumos'])->name('admin.insumos_medicos.index');
+    Route::get('admin/insumosmedicos/create', [App\Http\Controllers\InsumosMedicosController::class, 'create'])->name('admin.insumos_medicos.create');
+    Route::post('admin/insumosmedicos/store', [App\Http\Controllers\InsumosMedicosController::class, 'store'])->name('admin.insumos_medicos.store');
+    Route::post('admin/insumosmedicos/delete', [App\Http\Controllers\InsumosMedicosController::class, 'delete'])->name(('admin.insumos_medicos,delete'));
+    // Route::get('admin/insumosmedicos/tipoinsumos/{id}', [App\Http\Controllers\InsumosMedicosController::class, 'modify_roles'])->name('admin.usuarios.roles');
+
+    Route::get('admin/tipoinsumos', [\App\Http\Controllers\TipoinsumosController::class, 'index_tipo'])->name('admin.tipoinsumos.index');
+    Route::get('admin/tipoinsumos/create', [\App\Http\Controllers\TipoinsumosController::class, 'create'])->name('admin.tipoinsumos.create');
+    Route::post('admin/tipoinsumos/store', [\App\Http\Controllers\TipoinsumosController::class, 'store_tipo'])->name('admin.tipoinsumos.store');
+    Route::get('admin/tipoinsumos/edit', [\App\Http\Controllers\TipoinsumosController::class, 'edit'])->name('admin.tipoinsumos.edit');
+    Route::post('admin/tipoinsumos/delete', [\App\Http\Controllers\TipoinsumosController::class, 'delete'])->name('admin.tipoinsumos.delete');
+    Route::post('admin/tipoinsumos/update', [\App\Http\Controllers\TipoinsumosController::class, 'update'])->name('admin.tipoinsumos.update');
+
+    Route::get('admin/marcaproductos', [\App\Http\Controllers\MarcaproductoController::class, 'index_marca'])->name('admin.marcaproductos.index');
+    Route::get('admin/marcaproductos/create', [\App\Http\Controllers\MarcaproductoController::class, 'create'])->name('admin.marcaproductos.create');
+    Route::post('admin/marcaproductos/delete', [\App\Http\Controllers\MarcaproductoController::class, 'delete'])->name('admin.marcaproductos.delete');
+    Route::post('admin/marcaproductos/store', [\App\Http\Controllers\MarcaproductoController::class, 'store'])->name('admin.marcaproductos.store');
+    Route::get('admin/marcaproductos/edit', [\App\Http\Controllers\MarcaproductoController::class, 'edit'])->name('admin.marcaproductos.edit');
+    Route::post('admin/marcaproductos/update', [\App\Http\Controllers\MarcaproductoController::class, 'update'])->name('admin.marcaproductos.update');
 });
-    route::get('correo_test', function(){
-        return view('emails.usuario_eliminado');
-    });
+route::get('correo_test', function () {
+    return view('emails.usuario_eliminado');
+});

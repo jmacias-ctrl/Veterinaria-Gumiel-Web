@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class roles extends Model
+class Tipoinsumos extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $table = "tipoinsumos";
+  protected $fillable = ['nombre'];
 }

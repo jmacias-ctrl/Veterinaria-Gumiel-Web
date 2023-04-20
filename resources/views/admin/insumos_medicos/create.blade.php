@@ -36,7 +36,7 @@
                     @foreach ($tipoinsumos as $tipos)
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tipoinsumos[]" value="{{ $tipos->id }}">
+                                <input class="form-check-input" type="radio" name="tipoinsumos" value="{{ $tipos->id }}">
                                 <label class="form-check-label" for="">
                                     {{ $tipos->nombre }}
                                 </label>

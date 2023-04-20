@@ -1,0 +1,10 @@
+.boton-atras{
+    color: #6A6767;
+    text-decoration: none;
+    
+}
+
+.boton-atras:hover{
+    color: #2E7646;
+    text-decoration: none;
+}

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 <title>Ingresar Tipo de Insumo</title>
 @section('css-before')
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -11,10 +11,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="ms-4">
+    <!-- <div class="ms-4">
         <a href="{{ route('admin.tipoinsumos.index') }}" class="boton-atras" >
-        <span class="material-symbols-outlined">arrow_back</span></a>
-        <br>
+        <span class="material-symbols-outlined" style="font-weight: 900;" >
+arrow_back
+</span>ATRAS</a> 
+        <br>-->
     </div>
     <br>
     <div class="container-sm">
@@ -30,12 +32,13 @@
                         <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Algodon"
                             aria-label="Nombre" required>
                     </div>
+                </div>
                 <br>
-                <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-3">
-                        <br>
-                        <input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar">
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                <div class="container">
+                    <div class="row row-cols-auto">
+                        <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
+                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                    </div>
                     </div>
                 </div>
             </div>

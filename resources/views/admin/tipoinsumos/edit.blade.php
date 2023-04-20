@@ -4,13 +4,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <style>
-        #tipoWindow {
-            border: 1px solid;
-            padding: 15px;
-            border-radius: 25px;
-        }
-    </style>
+
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -23,14 +17,48 @@
             <form action="{{route('admin.tipoinsumos.update')}}" method="POST">
                 @csrf
                 <input type="hidden" name="id" value="{{$tipoinsumos->id}}">
-                <div id="tipoWindow">
                     <label for="nombre">Nombre Tipo de Insumo</label>
                     <input type="text" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
-
-                    <input name="" id="" class="btn btn-primary" type="submit" value="Modificar">
-                
+                    <br>
+                    <div class="container">
+                        <br>
+                        <div class="row row-cols-auto">
+                            <div class="col">
+                                <input name="" id="" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                            </div>
+                            <div class="col">
+                                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
             </form>
         </div>
+    </div>
+
+    <div class="container-sm">
+        <h2>Modificar Tipos de Insumos</h2>
+        <hr>
+        <form action="{{route('admin.tipoinsumos.update')}}" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="{{$tipoinsumos->id}}">
+            <div class="container">
+                <h5 class="mt-4">Nombre Tipo de Insumo</h5>
+                <div class="row mt-3">
+                    <div class="col">
+                        <input type="text" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
+                    </div>
+                </div>
+                <br>
+                <div class="container">
+                    <div class="row row-cols-auto">
+                        <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
+                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 @endsection
 

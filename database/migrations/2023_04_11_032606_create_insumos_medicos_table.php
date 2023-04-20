@@ -17,9 +17,11 @@ class CreateInsumosMedicosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('marca');
-            $table->enum('tipo', ['guantes','jeringa', 'sondas', 'gasas', 'algodones']);
+            $table->unsignedBigInteger('id_tipo');
             $table->integer('stock');
             $table->timestamps();
+
+            $table->foreign('id_tipo')->references('id')->on('tipoinsumos');
         });
     }
 

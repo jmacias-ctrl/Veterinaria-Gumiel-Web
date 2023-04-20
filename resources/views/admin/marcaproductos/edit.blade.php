@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layouts_users')
 <title>Modificar Marca Producto</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />

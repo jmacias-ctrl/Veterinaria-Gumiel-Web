@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layouts_users')
 <title>Marcas de productos</title>
 @section('css-before')
     <link rel="stylesheet"

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layouts_users')
 <title>Gestion Insumos médicos</title>
 @section('content')
     <div class="container">
@@ -7,52 +7,52 @@
                 <h4>Gestion de Insumos Medicos</h4>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}" role="button">Agregar insumo</a>  
+                <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}" role="button">Agregar
+                    insumo</a>
             </div>
         </div>
         <br>
         <div class="row table-responsive">
-            <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($insumos_medicos as $insumos)
+            <table
+                class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
+                id="table">
+                <thead>
                     <tr>
-                        <th>{{ $insumos->id }}</th>
-                        <th>{{ $insumos->nombre }}</th>
-                        <th>{{ $insumos->marca }}</th>
-                        <th>
-                        @foreach ($insumos->tipo as $Tipoinsumos)
-                            {{ $Tipoinsumos }}
-                            <br>
-                        @endforeach
-                        </th>
-                        <th>@{{ $insumos->stock }}</th>
-                        <th>
-                            <button type="button" class="btn btn-danger"
-                                                onclick="deleted({{ $insumos->id }})"><span
-                                                    class="material-symbols-outlined">delete</span></button>
-                                                    <a id="editInsumos" class="btn btn-primary"
-                                                href="{{ route('admin.insumos_medicos.tipoinsumos', ['id' => "$insumos->id"]) }}"
-                                                role="button"><span
-                                                    class="material-symbols-outlined">manage_accounts</span></a>
-                                            
-                        </th>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Opciones</th>
                     </tr>
-                @endforeach
-            </tbody>
+                </thead>
+                <tbody>
+                    @foreach ($insumos_medicos as $insumos)
+                        <tr>
+                            <th>{{ $insumos->id }}</th>
+                            <th>{{ $insumos->nombre }}</th>
+                            <th>{{ $insumos->marca }}</th>
+                            <th>
+                                @foreach ($insumos->tipo as $Tipoinsumos)
+                                    {{ $Tipoinsumos }}
+                                    <br>
+                                @endforeach
+                            </th>
+                            <th>@{{ $insumos - > stock }}</th>
+                            <th>
+                                <button type="button" class="btn btn-danger" onclick="deleted({{ $insumos->id }})"><span
+                                        class="material-symbols-outlined">delete</span></button>
+                                <a id="editInsumos" class="btn btn-primary"
+                                    href="{{ route('admin.insumos_medicos.tipoinsumos', ['id' => "$insumos->id"]) }}"
+                                    role="button"><span class="material-symbols-outlined">manage_accounts</span></a>
+
+                            </th>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
-
 @endsection
 
 @section('js-after')
@@ -84,7 +84,7 @@
                 confirmButtonText: 'Si, borrar',
                 cancelButtonText: 'Cancelar'
 
+            })
         }
     </script>
 @endsection
-

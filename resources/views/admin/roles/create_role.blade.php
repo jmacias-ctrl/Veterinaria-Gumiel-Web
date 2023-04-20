@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layouts_users')
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -9,23 +9,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="container-sm">
-        <h2>Ingresar Nuevo Rol</h2>
-        <hr>
-        <form action="{{ route('admin.roles.store') }}" method="POST">
-            @csrf
-            <div id="RoleWindow">
-                <h5 class="mt-4">Informacion del Rol</h5>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="Nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Logistica"
-                            aria-label="Nombre" required>
-                    </div>
-                <hr>
-                <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol">
+    <div class="container-xl p-5 border" style="background: white;">
+        <div class="container-sm">
+            <div class="d-inline-flex">
+                <a href="{{route('admin.roles.index')}}"> <span class="material-symbols-outlined" style="font-size:40px;">
+                        arrow_back
+                    </span> </a>
+                <h2 class="mx-5">Ingresar Nuevo Rol</h2>
             </div>
-        </form>
+            <hr>
+            <form action="{{ route('admin.roles.store') }}" method="POST" class="needs-validation">
+                @csrf
+
+                <div id="RoleWindow">
+                    <h5 class="mt-4">Informacion del Rol</h5>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" id="nombre" name="nombre"
+                                class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Logistica"
+                                aria-label="Nombre" required>
+                            @error('nombre')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+                        <hr class="my-3">
+                        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol">
+                    </div>
+            </form>
+        </div>
     </div>
 @endsection
 

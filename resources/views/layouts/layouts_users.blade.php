@@ -90,7 +90,7 @@
                                 <a href="{{route('productos.index')}}" id="link-dropdown">Productos</a>
                                 <a href="{{route('admin.marcaproductos.index')}}" id="link-dropdown">Marcas de Producto</a>
                                 <a href="{{route('admin.insumos_medicos.index')}}" id="link-dropdown">Insumos Medicos</a>
-                                <a href="#" id="link-dropdown">Marcas Insum.Medicos</a>
+                                <a href="{{route('admin.marcaInsumos.index')}}" id="link-dropdown">Marcas Insum.Medicos</a>
                             </div>
                         </div>
                     </li>

@@ -24,35 +24,35 @@
         @csrf
         <div id="">
             <h5 class="mt-4">Informacion Funcionarios</h5>
-            
+            <div class="row justify-content-center align-items-center g-2">
+                <label for="title" class="title">Selecciona Funcionario</label>
+                <select class="form-select" name="title" for="title">
+                <option  selected disabled>Seleciona un funcionario</option>
+                @foreach ($users as $user)
+                    <option type="text" id="title" name= "title" value="{{$user->name}}">{{$user->name}}</option>
+                @endforeach
+                </select>
+            </div>
             <div class="row justify-content-center align-items-center g-2">
                 <label for="id_usuario" class="form-label">Selecciona Funcionario</label>
-                <select class="form-select" name="id_usuario" for="id_usuario">
+                <select class="form-select" name="id_usuario" for="title">
                 <option  selected disabled>Seleciona un funcionario</option>
                 @foreach ($users as $user)
                     <option type="unsignedBigInteger" id="id_usuario" name= "id_usuario" value="{{$user->id}}">{{$user->name}}</option>
                 @endforeach
                 </select>
             </div>
-
-            <div class="row mt-3">
-                <div class="col">
-                    <label for="dia" class="form-label">Día turno: </label>
-                    <input type="date" id="dia"
-                        name="dia" required>
-                </div>
-            </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="start" class="form-label">Inicio turno: </label>
-                    <input type="time" id="start"
+                    <input type="dateTime-local" id="start"
                         name="start" required>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="end" class="form-label">Termino turno: </label>
-                    <input type="time" id="end"
+                    <input type="dateTime-local" id="end"
                         name="end" required>
                 </div>
             </div>

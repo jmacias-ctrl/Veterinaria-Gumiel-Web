@@ -10,12 +10,12 @@ class Horarios extends Model
     use HasFactory;
 
     static $rules=[
+        'title'=>'required',
         'id_usuario'=>'required',
-        'dia'=>'required',
         'start'=>'required',
         'end'=>'required',
     ];
 
     protected $table = "horarios";
-    protected $fillable = ['id_usuario','dia','start','end'];
+    protected $fillable = ['title', 'id_usuario','start','end'];
 }

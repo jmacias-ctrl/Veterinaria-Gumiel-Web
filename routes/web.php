@@ -86,7 +86,7 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::get('admin/horario',[App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
     Route::post('admin/horario/store',[App\Http\Controllers\HorariosController::class, 'store'])->name('admin.horario.store');
     Route::get('admin/horario/add',[App\Http\Controllers\HorariosController::class, 'add'])->name('admin.horario.add');
-    Route::get('admin/horario/mostrar',[App\Http\Controllers\HorariosController::class, 'show'])->name('admin.horario.sow');
+    Route::get('admin/horario/show',[App\Http\Controllers\HorariosController::class, 'show'])->name('admin.horario.show');
 });
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');

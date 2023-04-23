@@ -12,10 +12,13 @@ use DataTables;
 
 class InsumosMedicosController extends Controller
 {
+    
+
     public function index_insumos()
     {
-        $insumos_medicos = insumos_medicos::all();
-        return view('admin.insumos_medicos.insumos', compact('insumos_medicos'));
+        $tipoinsumos = Tipoinsumos::all();
+        $insumos_medicos = insumos_medicos::with('tipoinsumos')->get();
+        return view('admin.insumos_medicos.insumos', compact('tipoinsumos','insumos_medicos'));
     }
 
     public function create()
@@ -25,38 +28,41 @@ class InsumosMedicosController extends Controller
     }
 
     public function store(Request $request)
-    {
-        try {
+    {   
+        $tipoinsumos = Tipoinsumos::all();
+        $insumos_medicos = new insumos_medicos;
+        $insumos_medicos->nombre = $request->input('nombre');
+        $insumos_medicos->marca = $request->input('marca');
+        $insumos_medicos->id_tipo = $request->input('id_tipo');
+        $insumos_medicos->stock = $request->input('stock');
 
-            db::beginTransaction();
-            $insumos_medicos = new insumos_medicos;
-            $nombre = $request->nombre;
-            $marca = $request->marca;
-            $id_tipo = $request->id_tipo;
-            $stock = $request->stock;
+        $insumos_medicos->save();
+        return Redirect()->route('admin.insumos_medicos.index',compact('tipoinsumos'));
 
-
-            $insumos_medicos->nombre = $nombre;
-            $insumos_medicos->marca = $marca;
-            $insumos_medicos->id_tipo = $id_tipo;
-            $insumos_medicos->stock = $stock;
-            $insumos_medicos->save();
-            db::commit();
-
-
-            return redirect()->route('admin.insumos_medicos.index_insumos')->with('success', 'El insumo medico'.$insumos_medicos->nombre.'ha sido guardado exitosamente');
-        } catch (QueryException $exception) {
-            DB::rollBack();
-            return back()->withInput();
-        }
-
-        
     }
 
-    public function delete()
-    {
+    public function delete(Request $request){
         $insumos_medicos = insumos_medicos::find($request->id);
         $insumos_medicos->delete();
         return response()->json(['success' => true], 200);
+    }
+
+    public function edit(Request $request){
+        $tipoinsumos = Tipoinsumos::all();
+        $insumos_medicos = insumos_medicos::find($request->id);
+        return view('admin.insumos_medicos.edit',compact('tipoinsumos','insumos_medicos'));
+
+    }
+
+    public function update(Request $request)
+    {
+        $tipoinsumos = Tipoinsumos::all();
+        $insumos_medicos = insumos_medicos::find($request->id);
+        $insumos_medicos->nombre = $request->input('nombre');
+        $insumos_medicos->marca = $request->input('marca');
+        $insumos_medicos->id_tipo = $request->input('id_tipo');
+        $insumos_medicos->stock = $request->input('stock');
+        $insumos_medicos->save();
+        return redirect()->route('admin.insumos_medicos.index');
     }
 }

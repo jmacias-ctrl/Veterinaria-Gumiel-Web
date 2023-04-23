@@ -11,10 +11,22 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.js"></script>
+    <link rel="stylesheet" type="text/css" href="fullCalendar4/packages/timegrid/main.css">
+    <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
+    <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script> 
     @yield('css-before')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -167,7 +179,7 @@
                 </li>
             </ul>
         </div>
-
+        <script src="{{ asset('js/horarios.js') }}" defer></script>
         <section class="home-section pt-5 px-5">
             @yield('content')
         </section>
@@ -205,7 +217,12 @@
             closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); //replacing the iocns class
         }
     }
+
+    
+
+    
 </script>
+
 @yield('js-after')
 
 </html>

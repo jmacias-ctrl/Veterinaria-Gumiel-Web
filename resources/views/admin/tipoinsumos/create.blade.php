@@ -11,25 +11,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <!-- <div class="ms-4">
+    <div class="ms-4">
         <a href="{{ route('admin.tipoinsumos.index') }}" class="boton-atras" >
         <span class="material-symbols-outlined" style="font-weight: 900;" >
 arrow_back
 </span>ATRAS</a> 
-        <br>-->
+        <br>
     </div>
     <br>
     <div class="container-sm">
-        <h2>Ingresar Nuevo Insumo Medico</h2>
+        <h2>Ingresar Nuevo Tipo de Insumo Medico</h2>
         <hr>
         <form action="{{ route('admin.tipoinsumos.store') }}" method="POST">
             @csrf
             <div class="container">
-                <h5 class="mt-4">Informacion del Insumo</h5>
+                <h5 class="mt-4">Informacion del Tipo</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="Nombre" class="form-label">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Algodon"
+                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Quirúrgicos"
                             aria-label="Nombre" required>
                     </div>
                 </div>

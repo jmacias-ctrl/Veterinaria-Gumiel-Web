@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class insumos_medicos extends Model
 {
     use HasFactory;
+    public function Tipoinsumos(){
+        return $this->belongsTo('App\Models\Tipoinsumos','id_tipo','id');
+    }
 }

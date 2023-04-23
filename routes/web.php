@@ -58,8 +58,10 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::get('admin/insumosmedicos', [App\Http\Controllers\InsumosMedicosController::class, 'index_insumos'])->name('admin.insumos_medicos.index');
     Route::get('admin/insumosmedicos/create', [App\Http\Controllers\InsumosMedicosController::class, 'create'])->name('admin.insumos_medicos.create');
     Route::post('admin/insumosmedicos/store', [App\Http\Controllers\InsumosMedicosController::class, 'store'])->name('admin.insumos_medicos.store');
-    Route::post('admin/insumosmedicos/delete', [App\Http\Controllers\InsumosMedicosController::class, 'delete'])->name(('admin.insumos_medicos,delete'));
-    // Route::get('admin/insumosmedicos/tipoinsumos/{id}', [App\Http\Controllers\InsumosMedicosController::class, 'modify_roles'])->name('admin.usuarios.roles');
+    Route::post('admin/insumosmedicos/delete', [App\Http\Controllers\InsumosMedicosController::class, 'delete'])->name('admin.insumos_medicos.delete');
+    Route::get('admin/insumosmedicos/edit', [App\Http\Controllers\InsumosMedicosController::class, 'edit'])->name('admin.insumos_medicos.edit');
+    Route::post('admin/insumosmedicos/update', [App\Http\Controllers\InsumosMedicosController::class, 'update'])->name('admin.insumos_medicos.update');
+
 
     Route::get('admin/tipoinsumos', [\App\Http\Controllers\TipoinsumosController::class, 'index_tipo'])->name('admin.tipoinsumos.index');
     Route::get('admin/tipoinsumos/create', [\App\Http\Controllers\TipoinsumosController::class, 'create'])->name('admin.tipoinsumos.create');
@@ -80,6 +82,11 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'destroy'])->name('productos.delete');
     Route::post('admin/productos/store', [App\Http\Controllers\ProductosVentaController::class, 'store'])->name('productos.store');
     Route::post('admin/productos', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.put');
+
+    Route::get('admin/horario',[App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
+    Route::post('admin/horario/store',[App\Http\Controllers\HorariosController::class, 'store'])->name('admin.horario.store');
+    Route::get('admin/horario/add',[App\Http\Controllers\HorariosController::class, 'add'])->name('admin.horario.add');
+    Route::get('admin/horario/mostrar',[App\Http\Controllers\HorariosController::class, 'show'])->name('admin.horario.sow');
 });
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');

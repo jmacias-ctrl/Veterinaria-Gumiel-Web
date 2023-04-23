@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -52,9 +51,12 @@
                 <br>
                 <div class="container">
                     <div class="row row-cols-auto">
-                        <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
-                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
-                    </div>
+                        <div class="col">
+                            <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,7 +75,7 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Modificar Tipo Insumo Medico',
+                    title: 'Modificar Tipo Insumo',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,

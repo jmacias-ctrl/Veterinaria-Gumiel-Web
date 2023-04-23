@@ -37,8 +37,7 @@ arrow_back
                 <div class="container">
                     <div class="row row-cols-auto">
                         <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
-                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
-                    </div>
+                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a></div>
                     </div>
                 </div>
             </div>

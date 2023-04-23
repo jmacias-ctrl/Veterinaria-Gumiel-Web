@@ -4,13 +4,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <style>
-        #tipoWindow {
-            border: 1px solid;
-            padding: 15px;
-            border-radius: 25px;
-        }
-    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -22,13 +15,24 @@
         <hr>
             <form action="{{route('admin.marcaproductos.update')}}" method="POST">
                 @csrf
-                <input type="hidden" name="id" value="{{$marcaproductos->id}}">
-                <div id="tipoWindow">
-                    <label for="nombre">Nombre Marca</label>
-                    <input type="text" name="nombre" value="{{$marcaproductos->nombre}}" id="nombre" checked>
-
-                    <input name="" id="" class="btn btn-primary" type="submit" value="Modificar">
-                
+                <div class="row mt-3">
+                    <div class="col">
+                    <input type="hidden" name="id" value="{{$marcaproductos->id}}">
+                    <label for="nombre" class="form-label">Nombre Marca</label>
+                    <input type="text" class="form-control" name="nombre" value="{{$marcaproductos->nombre}}" id="nombre" checked>
+                    </div>
+                </div>
+                <br>
+                <div class="container">
+                    <div class="row row-cols-auto">
+                        <div class="col">
+                            <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                        </div>
+                    </div>
+                </div>  
             </form>
         </div>
     </div>

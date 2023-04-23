@@ -53,7 +53,7 @@
                     </div>
                 </div>
 <br>
-                <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Insumo">
+                <input class="btn btn-primary" id="btn-submit" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Agregar Insumo">
             </div>
         </form>
     </div>    

@@ -1,7 +1,6 @@
 @extends('layouts.layouts_users')
 <title>Ingresar Tipo de Insumo</title>
 @section('css-before')
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -11,14 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="ms-4">
-        <a href="{{ route('admin.tipoinsumos.index') }}" class="boton-atras" >
-        <span class="material-symbols-outlined" style="font-weight: 900;" >
-arrow_back
-</span>ATRAS</a> 
-        <br>
-    </div>
-    <br>
     <div class="container-sm">
         <h2>Ingresar Nuevo Tipo de Insumo Medico</h2>
         <hr>

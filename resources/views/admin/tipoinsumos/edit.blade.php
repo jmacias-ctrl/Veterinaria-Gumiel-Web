@@ -13,53 +13,27 @@
     <div class="container-sm">
         <h2>Modificar Tipos de Insumos</h2>
         <hr>
-            <form action="{{route('admin.tipoinsumos.update')}}" method="POST">
-                @csrf
-                <input type="hidden" name="id" value="{{$tipoinsumos->id}}">
-                    <label for="nombre" class="form-label">Nombre Tipo de Insumo</label>
-                    <input type="text" class="form-control" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
-                    <br>
-                    <div class="container">
-                        <br>
-                        <div class="row row-cols-auto">
-                            <div class="col">
-                                <input name="" id="" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
-                            </div>
-                            <div class="col">
-                                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-            </form>
-        </div>
-    </div>
-
-    <div class="container-sm">
-        <h2>Modificar Tipos de Insumos</h2>
-        <hr>
         <form action="{{route('admin.tipoinsumos.update')}}" method="POST">
             @csrf
-            <input type="hidden" name="id" value="{{$tipoinsumos->id}}">
-            <div class="container">
-                <h5 class="mt-4">Nombre Tipo de Insumo</h5>
-                <div class="row mt-3">
-                    <div class="col">
-                        <input type="text" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
-                    </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <input type="hidden"  name="id" value="{{$tipoinsumos->id}}">
+                    <label for="nombre" class="form-label">Nombre Tipo de Insumo</label>
+                    <input type="text" class="form-control" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
                 </div>
-                <br>
-                <div class="container">
-                    <div class="row row-cols-auto">
-                        <div class="col">
-                            <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
-                        </div>
-                        <div class="col">
-                            <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
+            <br>
+            <div class="container">
+                <div class="row row-cols-auto">
+                    <div class="col">
+                        <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                    </div>
+                    <div class="col">
+                        <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                    </div>
+                </div>
+            </div>    
         </form>
     </div>
 @endsection

@@ -10,12 +10,17 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-lg-9 col-md-9 col-sm-5">
+            <div class="col-lg-6 col-md-6 col-sm-6">
                 <h4>Gestion de Insumos Medicos</h4>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-5">
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#2E7646; border-color:#2E7646;" role="button">Tipo insumos</a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <a class="btn btn-primary ms-5" href="#" style="background-color:#2E7646; border-color:#2E7646;" role="button">Marca insumos</a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
                 <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar insumo</a>
-                
             </div>
         </div>
         <br>
@@ -53,6 +58,8 @@
             </table>
         </div>
     </div>
+    <br>
+    
 @endsection
 
 @section('js-after')

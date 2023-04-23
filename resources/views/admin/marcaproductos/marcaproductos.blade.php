@@ -1,6 +1,7 @@
 @extends('layouts.layouts_users')
 <title>Marcas de productos</title>
 @section('css-before')
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
@@ -8,6 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
+    <div class="ms-4">
+        <a href="#" class="boton-atras" >
+        <span class="material-symbols-outlined" style="font-weight: 900;" >
+            arrow_back
+        </span></a> 
+    </div>
+    <br>
     <div class="container">
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-5">

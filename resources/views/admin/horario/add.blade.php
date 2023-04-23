@@ -1,5 +1,6 @@
 @extends('layouts.layouts_users')
 @section('css-before')
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -11,9 +12,10 @@
 @section('content')
     <div class="d-inline-flex">
 
-        <a href="#"> <span class="material-symbols-outlined" style="font-size:40px;">
-                arrow_back
-            </span> </a>
+        <a href="{{ route('admin.horario.index') }}" class="boton-atras"> 
+        <span class="material-symbols-outlined" style="font-size:40px;">
+            arrow_back
+        </span> </a>
         <h2 class="mx-5">Nuevo Horario</h2>
     </div>
 

@@ -11,7 +11,7 @@
 @section('content')
     <div class="ms-4">
         <a href="{{ route('admin.insumos_medicos.index') }}" class="boton-atras" >
-        <span class="material-symbols-outlined" style="font-weight: 900;" >
+        <span class="material-symbols-outlined" style="font-size:40px;"  >
             arrow_back
         </span></a> 
     </div>

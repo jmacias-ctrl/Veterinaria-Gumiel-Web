@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let formulario = document.querySelector("form");
     var calendarEl = document.getElementById('horarios');
-  
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'timeGridWeek',
       headerToolbar: {

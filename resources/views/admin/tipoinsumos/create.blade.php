@@ -56,7 +56,7 @@ arrow_back
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Agregar Nuevo Tipo de Tnsumo',
+                    title: 'Agregar Nuevo Tipo de Insumo',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,

@@ -48,10 +48,9 @@ class InsumosMedicosController extends Controller
     }
 
     public function edit(Request $request){
-        $tipoinsumos = Tipoinsumos::all();
         $insumos_medicos = insumos_medicos::find($request->id);
-        return view('admin.insumos_medicos.edit',compact('tipoinsumos','insumos_medicos'));
-
+        $tipoinsumos = Tipoinsumos::all();
+        return view('admin.insumos_medicos.edit',compact('insumos_medicos','tipoinsumos'));
     }
 
     public function update(Request $request)

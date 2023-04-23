@@ -17,8 +17,8 @@
             <form action="{{route('admin.tipoinsumos.update')}}" method="POST">
                 @csrf
                 <input type="hidden" name="id" value="{{$tipoinsumos->id}}">
-                    <label for="nombre">Nombre Tipo de Insumo</label>
-                    <input type="text" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
+                    <label for="nombre" class="form-label">Nombre Tipo de Insumo</label>
+                    <input type="text" class="form-control" name="nombre" value="{{$tipoinsumos->nombre}}" id="nombre" checked>
                     <br>
                     <div class="container">
                         <br>
@@ -62,3 +62,32 @@
     </div>
 @endsection
 
+@section('js-after')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btn-submit').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).parents(form);
+                Swal.fire({
+                    title: 'Modificar Tipo Insumo Medico',
+                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, agregar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        })
+    </script>
+@endsection

@@ -36,7 +36,7 @@
                             <th>{{ $insumos->id }}</th>
                             <th>{{ $insumos->nombre }}</th>
                             <th>{{ $insumos->marca }}</th>
-                            <th>{{$insumos->tipoinsumos->nombre}}</th>
+                            <th>{{$insumos->Tipoinsumos->nombre}}</th>
                             <th>{{ $insumos -> stock }}</th>
                             <th><button type="button" class="btn btn-danger" 
                                                     onclick="deleted({{$insumos->id}})"><span

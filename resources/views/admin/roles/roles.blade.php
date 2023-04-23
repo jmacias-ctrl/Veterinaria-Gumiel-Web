@@ -1,6 +1,7 @@
 @extends('layouts.layouts_users')
 <title>Gestion Usuarios - Administrador</title>
-@section('css-before')
+@section('css-after')
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
@@ -18,20 +19,17 @@
             </ol>
         </nav>
     </div>
-    <h1>Gestion Roles</h1>
-    <hr>
-    <div class="d-flex justify-content-between mb-3">
-        <div class="col">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+
+        <h4>Gestion Roles</h4>
+
+        <div class="float-right">
             <a class="btn btn-primary mr-auto" href="{{ route('admin.roles.add') }}" role="button">Ingresar
                 Rol</a>
         </div>
     </div>
+    <hr>
 
-    @if (session()->get('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session()->get('success') }}
-        </div>
-    @endif
     <div class="table-responsive">
         <table class="datatable display responsive nowrap table table-sm table-bordered table-hover table-striped shadow-sm"
             id="table">
@@ -42,23 +40,6 @@
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach ($roles as $rol)
-                    <tr>
-                        <th>{{ $rol->id }}</th>
-                        <td>{{ $rol->name }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $rol->id }})"><span
-                                    class="material-symbols-outlined">delete</span></button>
-                            <a id="modifyRoles" class="btn btn-warning"
-                                href="{{ route('admin.roles.modify', ['id' => "$rol->id"]) }}" role="button"><span
-                                    class="material-symbols-outlined">edit</span></a>
-                            <a id="EditPermissions" class="btn btn-primary"
-                                href="{{ route('admin.roles.permission', ['id' => "$rol->id"]) }}" role="button"><span
-                                    class="material-symbols-outlined">settings</span></a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
         </table>
     </div>
 @endsection
@@ -69,13 +50,43 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    @if (Session::has('success'))
+        <script>
+            toastr.success("{{ Session::get('success') }}");
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            toastr.error("{{ Session::get('error') }}");
+        </script>
+    @endif
     <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
                 responsive: true,
                 processing: true,
+                serverSide: true,
                 searching: true,
                 pageLength: 10,
+                ajax: {
+                    url: "{{ route('admin.roles.index') }}",
+                    type: 'GET',
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                    }
+                ]
             });
         });
 
@@ -98,22 +109,14 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Rol eliminado correctamente!')
+                            toastr.success('Rol eliminado correctamente!');
 
                         })
                         .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar')
+                            toastr.error('La acción no se pudo realizar');
                         })
                         .finally(function() {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Rol eliminado correctamente!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
+                            $('#table').DataTable().ajax.reload();
 
                         });
                 }

@@ -7,7 +7,9 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
-
+.sidebar::-webkit-scrollbar{
+    display: none;
+  }
 .sidebar {
     position: fixed;
     left: 0;
@@ -18,7 +20,7 @@
     padding: 6px 14px;
     z-index: 99;
     transition: all 0.5s ease;
-    overflow: hidden;
+    overflow:scroll;
 }
 
 @media screen and (max-width: 700px) {
@@ -32,7 +34,7 @@
         padding: 6px 14px;
         z-index: 99;
         transition: all 0.5s ease;
-        overflow: hidden;
+        overflow:scroll;
     }
 }
 

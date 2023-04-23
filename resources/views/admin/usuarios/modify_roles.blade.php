@@ -49,8 +49,37 @@
                 </div>
                 <hr>
 
-                <input name="" id="" class="btn btn-primary" type="submit" value="Modificar Roles">
+                <input name="" id="btn-submit" class="btn btn-primary" type="submit" value="Modificar Roles">
             </div>
         </form>
     </div>
+@endsection
+@section('js-after')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btn-submit').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).parents(form);
+                Swal.fire({
+                    title: 'Modificacion de Roles de un Usuario',
+                    text: "¿Estás seguro de los roles asignados?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, modificar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        })
+    </script>
 @endsection

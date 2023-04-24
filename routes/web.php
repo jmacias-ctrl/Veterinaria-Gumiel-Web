@@ -5,6 +5,7 @@ use App\Http\Controllers\MarcasController;
 use App\Http\Controllers\InsumosMedicosController;
 use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
+use app\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,12 +48,13 @@ Route::group(['middleware' => ['role:Admin']], function () {
 
     Route::get('calendario', [\App\Http\Controllers\HorarioController::class, 'index'])->name('calendario.verCalendario.index');
 
-    Route::get('/shop', [\App\Http\Controllers\CarroController::class, 'shop'])->name('shop');
-    Route::get('/cart', [\App\Http\Controllers\CarroController::class, 'cart'])->name('cart.index');
-    Route::post('/add', [\App\Http\Controllers\CarroController::class, 'add'])->name('cart.store');
-    Route::post('/update', [\App\Http\Controllers\CarroController::class, 'update'])->name('cart.update');
-    Route::post('/remove', [\App\Http\Controllers\CarroController::class, 'remove'])->name('cart.remove');
-    Route::post('/clear', [\App\Http\Controllers\CarroController::class, 'clear'])->name('cart.clear');
+    Route::get('/shop', [\App\Http\Controllers\CartController::class, 'shop'])->name('shop.shop');
+    Route::get('shop/cart', [\App\Http\Controllers\CartController::class, 'cart'])->name('shop.cart.index');
+    Route::post('/add', [\App\Http\Controllers\CartController::class, 'add'])->name('shop.cart.store');
+    Route::get('shop/show/{id}', [\App\Http\Controllers\CartController::class, 'show'])->name('shop.show');
+    Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])->name('shop.cart.update');
+    Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
+    Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');    
 
 
     Route::get('admin/marcaInsumos', [\App\Http\Controllers\MarcaInsumoController::class, 'index_marca'])->name('admin.marcaInsumos.index');

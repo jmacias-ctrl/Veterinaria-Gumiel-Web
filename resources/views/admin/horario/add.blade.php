@@ -24,6 +24,11 @@
         @csrf
         <div id="">
             <h5 class="mt-4">Informacion Funcionarios</h5>
+            <div class="row mt-3">
+                <div class="col">
+                    <input type="hidden" id="id" name="id" required>
+                </div>
+            </div>
             <div class="row justify-content-center align-items-center g-2">
                 <label for="title" class="title">Selecciona Funcionario</label>
                 <select class="form-select" name="title" for="title">

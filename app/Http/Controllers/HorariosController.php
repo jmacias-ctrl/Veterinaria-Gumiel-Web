@@ -20,7 +20,8 @@ class HorariosController extends Controller
      */
     public function index()
     {
-        return view('admin.horario.index');
+        $users = User::all();
+        return view('admin.horario.index',compact('users'));
     }
 
     public function add()
@@ -31,7 +32,9 @@ class HorariosController extends Controller
     
     public function store(Request $request )
     {
+
         $horarios = new Horarios;
+        $horarios->id = $request->input('id');
         $horarios->title = $request->input('title');
         $horarios->id_usuario = $request->input('id_usuario');
         $horarios->start = $request->input('start');
@@ -47,18 +50,25 @@ class HorariosController extends Controller
         $data['horarios']=Horarios::all();
         return response()->json($data['horarios']);
     }
-    public function edit(Horarios $horarios)
+
+    public function edit($id)
     {
-        //
+        $horarios = Horarios::find($id);
+        return response()->json($horarios);
+    }
+
+    public function delete($id)
+    {
+        $horarios = Horarios::find($id)->delete();
+        return response()->json($horarios);
     }
 
     public function update(Request $request, Horarios $horarios)
     {
-        //
+        request()->validate(Horarios::$rules);
+        $horarios->update($request->all());
+        return response()->json($horarios);
     }
 
-    public function destroy(Horarios $horarios)
-    {
-        //
-    }
+    
 }

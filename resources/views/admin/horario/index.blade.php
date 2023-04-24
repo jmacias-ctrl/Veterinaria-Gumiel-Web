@@ -1,9 +1,7 @@
 @extends('layouts.layouts_users')
-<script src="list/main.js"></script>
-    <script src="timegrid/main.js"></script>
-    <script src="core/main.js"></script>
-    <script src="daygrid/main.js"></script>
-    <script src="interaction/main.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 
 @section('content')

@@ -12,6 +12,8 @@ use App\Models\MarcaInsumo;
 class MarcaInsumoController extends Controller
 {
 
+    
+    
     public function index_marca()
     {
         $marcaInsumo = MarcaInsumo::all();

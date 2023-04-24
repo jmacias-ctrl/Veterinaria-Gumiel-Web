@@ -165,7 +165,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="email">Correo electrónico</label>
+                <label for="email">Correo electrónicoOOO</label>
                 <input
                   type="email"
                   class="form-control"

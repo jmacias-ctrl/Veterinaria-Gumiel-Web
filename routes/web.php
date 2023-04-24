@@ -29,6 +29,10 @@ Route::get('/landing', function () {
     return view('landing');
 })->middleware('web');
 
+
+Route::get('/verCalendario', function () {
+    return view('verCalendario');
+})->middleware('web');
 // Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -40,6 +44,16 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::get('/home', function () {
         return view('admin.home');
     })->name('home');
+
+    Route::get('calendario', [\App\Http\Controllers\HorarioController::class, 'index'])->name('calendario.verCalendario.index');
+
+    Route::get('/shop', [\App\Http\Controllers\CarroController::class, 'shop'])->name('shop');
+    Route::get('/cart', [\App\Http\Controllers\CarroController::class, 'cart'])->name('cart.index');
+    Route::post('/add', [\App\Http\Controllers\CarroController::class, 'add'])->name('cart.store');
+    Route::post('/update', [\App\Http\Controllers\CarroController::class, 'update'])->name('cart.update');
+    Route::post('/remove', [\App\Http\Controllers\CarroController::class, 'remove'])->name('cart.remove');
+    Route::post('/clear', [\App\Http\Controllers\CarroController::class, 'clear'])->name('cart.clear');
+
 
     Route::get('admin/marcaInsumos', [\App\Http\Controllers\MarcaInsumoController::class, 'index_marca'])->name('admin.marcaInsumos.index');
     Route::get('admin/marcaInsumos/create', [\App\Http\Controllers\MarcaInsumoController::class, 'create'])->name('admin.marcaInsumos.create');

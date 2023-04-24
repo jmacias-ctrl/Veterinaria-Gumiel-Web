@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InsumosMedicosController;
 use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
+use App\Http\Controllers\MarcasController;
+use App\Http\Controllers\LandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +21,15 @@ use App\Http\Controllers\ProductosVentaController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+// Route::get('/', 'LandingPageController@index');
+// Route::get('/welcome', 'LandingPageController@index');
+// Route::get('/landing', 'LandingPageController@index')->middleware('web');
 
-// Route::get('/landing', function () {
-//     return view('landing');
-// });
+Route::get('/',[LandingPageController::class,'index']);
+Route::get('/welcome',[LandingPageController::class,'index']);
+Route::get('/landing',[LandingPageController::class,'index']);
 
-Route::get('/landing', function () {
-    return view('landing');
-})->middleware('web');
+
 
 // Auth::routes();
 
@@ -91,3 +94,9 @@ route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
 });
 Auth::routes();
+Route::get('/marca',[MarcasController::class,'index'])->name('marcas');
+Route::post('/marca',[MarcasController::class,'store'])->name('marcas');
+
+Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
+Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
+Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');

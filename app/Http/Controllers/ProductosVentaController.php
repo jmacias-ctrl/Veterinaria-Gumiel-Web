@@ -12,10 +12,10 @@ class ProductosVentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index_productos()
+    public function index_producto()
     {
         $productos=productos_venta::all();
-        return view("producto.ingresar_producto",['productos'=>$productos]);
+        return view("producto.index",compact('producto'));
     }
 
     /**
@@ -25,10 +25,9 @@ class ProductosVentaController extends Controller
      */
     public function create()
     {
-        //
+        return view('producto.crear');
     }
-
-    /**
+     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -36,20 +35,21 @@ class ProductosVentaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required', 'marca' => 'required','descripcion' => 'required','tipo' => 'required', 'stock' => 'required','producto_enfocado' => 'required','precio' => 'required','imagen' => 'required|image|mimes:jpeg,png,svg|max:1024'
+        ]);
 
-        $producto= new productos_venta();
-        $producto->nombre=$request->nombre;
-        $producto->marca=$request->marca;
-        $producto->descripcion=$request->descripcion;
-        $producto->tipo=$request->tipo;
-        $producto->stock=$request->stock;
-        $producto->producto_enfocado=$request->producto_enfocado;
-        $producto->precio=$request->precio;
+         $producto = $request->all();
 
-
-
-     $producto->save();
-     return redirect()->route('productos.index');
+         if($imagen = $request->file('imagen')) {
+             $rutaGuardarImg = 'imagen/';
+             $imagenProducto = date('YmdHis'). "." . $imagen->getClientOriginalExtension();
+             $imagen->move($rutaGuardarImg, $imagenProducto);
+             $producto['imagen'] = "$imagenProducto";             
+         }
+         
+         Producto::create($producto);
+         return redirect()->route('producto.index');
     }
 
     /**
@@ -69,22 +69,34 @@ class ProductosVentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Producto $producto)
     {
-
+        return view('producto.editar', compact('producto'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Producto $producto)
     {
-        $producto= productos_venta::findOrFail($request->id);
-        $producto->update($request->all());
-        return redirect()->route('productos.index');
+        $request->validate([
+            'nombre' => 'required', 'marca' => 'required','descripcion' => 'required','tipo' => 'required', 'stock' => 'required','producto_enfocado' => 'required','precio' => 'required'
+        ]);
+         $prod = $request->all();
+         if($imagen = $request->file('imagen')){
+            $rutaGuardarImg = 'imagen/';
+            $imagenProducto = date('YmdHis') . "." . $imagen->getClientOriginalExtension(); 
+            $imagen->move($rutaGuardarImg, $imagenProducto);
+            $prod['imagen'] = "$imagenProducto";
+         }else{
+            unset($prod['imagen']);
+         }
+         $producto->update($prod);
+         return redirect()->route('producto.index');
     }
 
     /**
@@ -93,10 +105,10 @@ class ProductosVentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Producto $producto)
     {
-        $producto= productos_venta::findOrFail($id);
         $producto->delete();
-        return redirect()->route('productos.index');
+        return redirect()->route('producto.index');
     }
 }
+  

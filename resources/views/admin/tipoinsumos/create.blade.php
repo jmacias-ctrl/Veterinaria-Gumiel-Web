@@ -1,7 +1,6 @@
 @extends('layouts.layouts_users')
 <title>Ingresar Tipo de Insumo</title>
 @section('css-before')
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -11,31 +10,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="ms-4">
-        <a href="{{ route('admin.tipoinsumos.index') }}" class="boton-atras" >
-        <span class="material-symbols-outlined">arrow_back</span></a>
-        <br>
-    </div>
-    <br>
     <div class="container-sm">
-        <h2>Ingresar Nuevo Insumo Medico</h2>
+        <h2>Ingresar Nuevo Tipo de Insumo Medico</h2>
         <hr>
         <form action="{{ route('admin.tipoinsumos.store') }}" method="POST">
             @csrf
             <div class="container">
-                <h5 class="mt-4">Informacion del Insumo</h5>
+                <h5 class="mt-4">Informacion del Tipo</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="Nombre" class="form-label">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Algodon"
+                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Quirúrgicos"
                             aria-label="Nombre" required>
                     </div>
+                </div>
                 <br>
-                <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-3">
-                        <br>
-                        <input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar">
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                <div class="container">
+                    <div class="row row-cols-auto">
+                        <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
+                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a></div>
                     </div>
                 </div>
             </div>
@@ -53,7 +46,7 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Agregar Nuevo Tipo de Tnsumo',
+                    title: 'Agregar Nuevo Tipo de Insumo',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,

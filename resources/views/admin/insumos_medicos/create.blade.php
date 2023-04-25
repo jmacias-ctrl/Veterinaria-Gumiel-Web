@@ -36,8 +36,8 @@
                     @foreach ($tipoinsumos as $tipos)
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tipoinsumos[]" value="{{ $tipos->id }}">
-                                <label class="form-check-label" for="">
+                                <input class="form-check-input" type="radio" name="id_tipo" id="id_tipo" value="{{ $tipos->id }}">
+                                <label class="form-check-label" name="id_tipo" for="id_tipo">
                                     {{ $tipos->nombre }}
                                 </label>
                             </div>
@@ -52,8 +52,17 @@
                             placeholder="ej. 21" maxlength="11" minlength="1">
                     </div>
                 </div>
-
-                <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Usuario">
+                <br>
+                <div class="container">
+                    <div class="row row-cols-auto">
+                        <div class="col">
+                        <input class="btn btn-primary" id="btn-submit" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Agregar Insumo">
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                        </div>
+                    </div>
+                </div>  
             </div>
         </form>
     </div>    

@@ -115,6 +115,13 @@ Route::group(['middleware' => ['permission:acceder panel']], function () {
     Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
     Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
+    Route::get('admin/horario',[App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
+    Route::post('admin/horario/store',[App\Http\Controllers\HorariosController::class, 'store'])->name('admin.horario.store');
+    Route::get('admin/horario/add',[App\Http\Controllers\HorariosController::class, 'add'])->name('admin.horario.add');
+    Route::get('admin/horario/show',[App\Http\Controllers\HorariosController::class, 'show']);
+    Route::post('admin/horario/edit/{id}',[App\Http\Controllers\HorariosController::class,'edit']);
+    Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
+    Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
 });
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');

@@ -1,6 +1,7 @@
 @extends('layouts.layouts_users')
 <title>Gestion Tipo Insumos médicos</title>
 @section('css-before')
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
@@ -8,13 +9,21 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
+    <div class="ms-4">
+        <a href="{{ route('admin.insumos_medicos.index') }}" class="boton-atras" >
+        <span class="material-symbols-outlined" style="font-size:40px;"  >
+            arrow_back
+        </span></a> 
+    </div>
+    <br>
     <div class="container">
+        
         <div class="row">
             <div class="col-lg-9 col-md-9 col-sm-5">
                 <h4>Gestion de Tipos de Insumos Medicos</h4>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de insumo</a>  
+                <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoinsumos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de insumo</a>  
             </div>
         </div>
         <br>

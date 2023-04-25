@@ -1,21 +1,31 @@
 @extends('layouts.layouts_users')
 <title>Gestion Insumos médicos</title>
+@section('css-before')
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+@endsection
+@section('js-before')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-lg-9 col-md-9 col-sm-5">
+            <div class="col-lg-6 col-md-6 col-sm-6">
                 <h4>Gestion de Insumos Medicos</h4>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}" role="button">Agregar
-                    insumo</a>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}" style="background-color:#2E7646; border-color:#2E7646;" role="button">Tipo insumos</a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <a class="btn btn-primary ms-5" href="#" style="background-color:#2E7646; border-color:#2E7646;" role="button">Marca insumos</a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar insumo</a>
             </div>
         </div>
         <br>
         <div class="row table-responsive">
-            <table
-                class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
-                id="table">
+            <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -32,18 +42,13 @@
                             <th>{{ $insumos->id }}</th>
                             <th>{{ $insumos->nombre }}</th>
                             <th>{{ $insumos->marca }}</th>
-                            <th>
-                                @foreach ($insumos->tipo as $Tipoinsumos)
-                                    {{ $Tipoinsumos }}
-                                    <br>
-                                @endforeach
-                            </th>
-                            <th>@{{ $insumos - > stock }}</th>
-                            <th>
-                                <button type="button" class="btn btn-danger" onclick="deleted({{ $insumos->id }})"><span
+                            <th>{{$insumos->Tipoinsumos->nombre}}</th>
+                            <th>{{ $insumos -> stock }}</th>
+                            <th><button type="button" class="btn btn-danger" 
+                                                    onclick="deleted({{$insumos->id}})"><span
                                         class="material-symbols-outlined">delete</span></button>
-                                <a id="editInsumos" class="btn btn-primary"
-                                    href="{{ route('admin.insumos_medicos.tipoinsumos', ['id' => "$insumos->id"]) }}"
+                                <a id="editInsumos" style="background-color:#F7C044; border-color:#F7C044;" class="btn btn-primary"
+                                    href="{{ route('admin.insumos_medicos.edit', ['id' => "$insumos->id"]) }}"
                                     role="button"><span class="material-symbols-outlined">manage_accounts</span></a>
 
                             </th>
@@ -53,6 +58,8 @@
             </table>
         </div>
     </div>
+    <br>
+    
 @endsection
 
 @section('js-after')
@@ -84,7 +91,35 @@
                 confirmButtonText: 'Si, borrar',
                 cancelButtonText: 'Cancelar'
 
-            })
-        }
-    </script>
+            }).then((result) => {
+
+            if (result.isConfirmed) {
+                axios.post("{{ route('admin.insumos_medicos.delete') }}", {
+                        id: id_get
+                    })
+                    .then(function(response) {
+
+                        toastr.success('Insumo medico eliminado correctamente!')
+
+                    })
+                    .catch(function(error) {
+                        toastr.error('La acción no se pudo realizar')
+                    })
+                    .finally(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Insumo medico eliminado correctamente!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+
+                    });
+            }
+            });
+
+}
+</script>
 @endsection

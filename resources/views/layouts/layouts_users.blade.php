@@ -11,10 +11,22 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="./jquery-3.6.3.js"></script>
+    
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.5/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.5/index.js"></script>
+    
+    <script type="text/javascript">
+        var baseURL = {!! json_encode(url('/')) !!}
+    </script>
+
     @yield('css-before')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -174,6 +186,7 @@
                 </li>
             </ul>
         </div>
+        <script src="{{ asset('js/horarios.js') }}" defer></script>
         <section class="home-section pt-5 px-5">
             @yield('content')
         </section>
@@ -260,6 +273,7 @@
         }, 1500);
     }
 </script>
+
 @yield('js-after')
 
 </html>

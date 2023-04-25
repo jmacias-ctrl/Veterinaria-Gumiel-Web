@@ -24,8 +24,7 @@ Route::get('/welcome',[LandingPageController::class,'index']);
 Route::get('/landing',[LandingPageController::class,'index']);
 
 
-
-// Auth::routes();
+ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

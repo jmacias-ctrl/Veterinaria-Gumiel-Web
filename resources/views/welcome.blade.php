@@ -70,7 +70,7 @@
   <div class="bg-white">
     <section class="d-flex justify-content-center align-items-center p-4">
       <div class="container bg-darkgreen rounded-50 w-50 p-4">
-      <img class="float-right" src="{{ asset('images/agenda.png') }}">
+        <img class="float-right" src="{{ asset('images/agenda.png') }}">
 
         <h2 class="text-white">Agendar horas</h2>
         <p class="lead text-white">
@@ -98,9 +98,12 @@
   <section class="fondoRandom">
     <div class="container">
       <div class="row">
-        <h2 class="text-white text-center">Nuestros servicios disponibles</h2>
-        <div class="col-md-6 mb-4 p-4">
-          <div class="p-4 rounded bg-white">
+
+        <div>
+          <h2 class="text-white text-center mb-5">Nuestros servicios disponibles</h2>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  mb-4 p-4">
+          <div class="p-4  cuadro-servicio">
             <div class="text-center">
               <img src="{{ asset('images/peluqueria.png') }}" style="width:50%;" alt="Imagen servicio 1" class="img-fluid rounded-circle mb-3" />
             </div>
@@ -111,8 +114,8 @@
             </p>
           </div>
         </div>
-        <div class="col-md-6 mb-4 p-4">
-          <div class="p-4 rounded bg-white">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-4 p-4">
+          <div class="p-4 cuadro-servicio">
             <div class="text-center">
               <img src="{{ asset('images/veterinaria.png') }}" style="width:50%;" alt="Imagen servicio 2" class="img-fluid rounded-circle mb-3" />
             </div>
@@ -129,7 +132,7 @@
     </div>
   </section>
 
-  <section id="contact" style="background-color: white;">
+  <section id="contact" class="contacto" style="background-color: white;">
     <div class="container p-4">
       <div class="row">
         <div class="col-md-12">
@@ -167,22 +170,13 @@
   <section class="fondoGumiel">
     <div class="container">
       <div class="row">
-        <h2 class="text-white text-center">Maps</h2>
-
-        <div class="col-md-6 mb-4 p-4">
-          <div class="p-4 rounded bg-white">
-            <div class="text-center">
-              <img src="{{ asset('images/.jpg') }}" style="width:50%;" alt="Imagen servicio 1" class="img-fluid rounded-circle mb-3" />
-            </div>
-            <h3 class="text-center font-weight-bold mb-3">Peluquería</h3>
-            <p class="text-center">
-              Ofrecemos servicios de peluquería para mantener a tus mascotas
-              limpias y bien arregladas.
-            </p>
-          </div>
-
+        <h2 class="text-white text-center pb-5">Donde puedes encontrarnos</h2>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6 ">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.442873327544!2d-73.40212952459001!3d-37.803094333427644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966a74cb799f78ed%3A0x4e32e96ea2b1070b!2sCl%C3%ADnica%20y%20Farmacia%20Veterinaria%20Gumiel!5e0!3m2!1ses!2scl!4v1682454729998!5m2!1ses!2scl" width="600" height="450" style="border-radius:25px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <h2 style="color:#fff">asdasfd</h2>
+        </div>
       </div>
     </div>
   </section>
@@ -195,18 +189,39 @@
 
   <style>
     .fondoRandom {
-      height: 500px;
-      background-color: #2E7646;
+      /* height: 900px; */
+      background-color: rgba(25, 60, 37, .70);
       background-blend-mode: overlay;
       background-image: url("{{ asset('images/common_01.jpg') }}");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+
+    .cuadro-servicio {
+      background-color: rgba(255, 255, 255, .75);
+      border-radius: 5%;
+      width: 500px;
+      height: 550px;
+    }
+
+    @media screen and (max-width: 480px) {
+      .cuadro-servicio {
+        width: 100%;
+      }
+    }
+
+    .contacto{
+      padding-top: 90px;
+      padding-bottom: 90px;
     }
 
     .fondoGumiel {
-      height: 500px;
-      background-color: #2E7646;
+      padding-top: 90px;
+      padding-bottom: 90px;
+      background-color: rgba(25, 60, 37, .70);
       background-blend-mode: overlay;
       background-image: url("{{ asset('images/vetgum.jpg') }}");
       background-repeat: no-repeat;

@@ -26,15 +26,28 @@
                 <div class="row mt-3">
                     <div class="col">
                     <label for="nombre" class="form-label">Marca</label>
-                    <input type="text" class="form-control" name="marca" value="{{$insumos_medicos->marca}}" id="marca" checked>
+                    <select class="form-select" aria-label="Default select example" name="marca" id="marca">
+                        @foreach ($marcasInsumos as $marca )
+                            @if($marca->id == $insumos_medicos->id_marca)
+                            <option selected type="unsignedBigInteger" id="id_marca" name= "marca" value="{{$marca -> id}}">{{$marca->nombre}}</option> 
+                            @else
+                            <option type="unsignedBigInteger" id="id_marca" name= "marca" value="{{$marca -> id}}">{{$marca->nombre}}</option> 
+                            @endif
+                           
+                        @endforeach
+                    </select>
                     </div>
                 </div>
-                <div class="row justify-content-center align-items-center g-2">
+                <div class="row justify-content-center align-items-center g-2 mt-2">
                     <label for="id_tipo" class="form-label">Tipo insumo</label>
                     <select class="form-select" name="id_tipo" for="id_tipo">
-                    <option  selected disabled>Seleciona una opción</option>
+                    <option disabled>Selecciona una opción</option>
                         @foreach ($tipoinsumos as $tipos )
-                           <option type="unsignedBigInteger" id="id_tipo" name= "id_tipo" value="{{$tipos -> id}}">{{$tipos->nombre}}</option> 
+                            @if($tipos->id == $insumos_medicos->id_tipo)
+                                <option selected type="unsignedBigInteger" id="id_tipo" name= "id_tipo" value="{{$tipos -> id}}">{{$tipos->nombre}}</option> 
+                            @else
+                                <option type="unsignedBigInteger" id="id_tipo" name= "id_tipo" value="{{$tipos -> id}}">{{$tipos->nombre}}</option> 
+                            @endif
                         @endforeach
                         
                     </select>

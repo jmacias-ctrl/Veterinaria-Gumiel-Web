@@ -76,6 +76,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script>
+        @if (Session::has('success'))
+        <script>
+            toastr.success("{{ Session::get('success') }}");
+        </script>
+        @endif
+        @if (Session::has('error'))
+            <script>
+                toastr.error("{{ Session::get('error') }}");
+            </script>
+        @endif
         $(document).ready(function() {
             var table = $("#table").DataTable({
                 responsive: true,

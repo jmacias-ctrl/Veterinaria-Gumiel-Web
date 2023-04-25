@@ -54,19 +54,19 @@
             <tbody>
                 @foreach ($insumos_medicos as $insumos)
                     <tr>
-                        <th>{{ $insumos->id }}</th>
-                        <th>{{ $insumos->nombre }}</th>
-                        <th>{{ $insumos->marca }}</th>
-                        <th>{{ $insumos->Tipoinsumos->nombre }}</th>
-                        <th>{{ $insumos->stock }}</th>
-                        <th><button type="button" class="btn btn-danger" onclick="deleted({{ $insumos->id }})"><span
+                        <th>{{ $insumos->id }}</td>
+                        <td>{{ $insumos->nombre }}</td>
+                        <td>{{ $insumos->marcaInsumos->nombre }}</td>
+                        <td>{{ $insumos->Tipoinsumos->nombre }}</td>
+                        <td>{{ $insumos->stock }}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $insumos->id }})"><span
                                     class="material-symbols-outlined">delete</span></button>
                             <a id="editInsumos" style="background-color:#F7C044; border-color:#F7C044;"
                                 class="btn btn-primary"
                                 href="{{ route('admin.insumos_medicos.edit', ['id' => "$insumos->id"]) }}"
-                                role="button"><span class="material-symbols-outlined">manage_accounts</span></a>
+                                role="button"><span class="material-symbols-outlined">edit</span></a>
 
-                        </th>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -71,7 +71,7 @@ class UserController extends Controller
     }
     public function add_user()
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'Cliente')->get();
         return view('admin.usuarios.create_usuario', compact('roles'));
     }
     public function index_roles(Request $request)
@@ -339,7 +339,7 @@ class UserController extends Controller
                 }
                 $user->save();
                 db::commit();
-                return redirect()->route('user.profile.index');
+                return redirect()->route('user.profile.index')->with('success', 'Tus datos fueron modificado exitosamente');
             } catch (QueryException $exception) {
                 DB::rollBack();
                 toastr()->error('Oops! Something went wrong!', 'Oops!');

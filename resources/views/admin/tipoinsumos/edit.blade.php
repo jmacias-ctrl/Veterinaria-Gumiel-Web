@@ -55,7 +55,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, agregar',
+                    confirmButtonText: 'Si, modificar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
 

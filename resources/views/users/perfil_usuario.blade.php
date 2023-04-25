@@ -67,10 +67,26 @@
                   </ul>
             </div>
             <div class="d-flex justify-content-center mt-4">
-                <a name="editProfile" id="editProfile" class="btn btn-primary btn-lg" href="{{route('user.profile.modify')}}" role="button">Editar Perfil</a>
+                <a name="editProfile" id="editProfile" class="btn btn-primary btn-lg" href="{{route('user.profile.modify')}}" role="button" style="background-color:#19A448; border-color:#19A448;">Editar Perfil</a>
             </div>
         </div>
     </div>
 @endsection
 @section('js-after')
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.4.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    @if (Session::has('success'))
+        <script>
+            toastr.success("{{ Session::get('success') }}");
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            toastr.error("{{ Session::get('error') }}");
+        </script>
+    @endif
 @endsection

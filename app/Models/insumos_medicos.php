@@ -11,4 +11,7 @@ class insumos_medicos extends Model
     public function Tipoinsumos(){
         return $this->belongsTo('App\Models\Tipoinsumos','id_tipo','id');
     }
+    public function marcaInsumos(){
+        return $this->belongsTo('App\Models\MarcaInsumo','id_marca','id');
+    }
 }

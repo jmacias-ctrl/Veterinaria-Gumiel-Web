@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\productos_venta;
+use App\Models\User;
+use App\Models\productos_ventas;
 use Illuminate\Http\Request;
 
 class ProductosVentaController extends Controller
@@ -12,10 +12,10 @@ class ProductosVentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index_producto()
+    public function index_productos()
     {
-        $productos=productos_venta::paginate(5);
-        return view("producto.index",compact('productos'));
+        $productos = productos_ventas::all();
+        return view('producto.index', ['productos' => $productos]);
     }
 
     /**
@@ -36,21 +36,42 @@ class ProductosVentaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required', 'marca' => 'required','descripcion' => 'required','tipo' => 'required', 'stock' => 'required','producto_enfocado' => 'required','precio' => 'required','imagen' => 'required|image|mimes:jpeg,png,svg|max:1024'
+            'nombre' => 'required', 
+            'marca' => 'required',
+            'descripcion' => 'required',
+            'tipo' => 'required', 
+            'stock' => 'required',
+            'producto_enfocado' => 'required',
+            'precio' => 'required',
+            'imagen_path' => 'required|image',
         ]);
+    
+        $imagen_path = $request->file('imagen_path');
+    
+        // Crea una instancia de la clase productos_ventas y asigna los valores
+        $producto = new productos_ventas();
+        $producto->nombre = $request->input('nombre');
+        $producto->marca = $request->input('marca');
+        $producto->descripcion = $request->input('descripcion');
+        $producto->tipo = $request->input('tipo');
+        $producto->stock = $request->input('stock');
+        $producto->producto_enfocado = $request->input('producto_enfocado');
+        $producto->precio = $request->input('precio');
+        $producto->imagen_path = $imagen_path->store('public/imagen');
+        $filename = time() . '.' . $imagen_path->getClientOriginalExtension();
 
-         $producto = $request->all();
+// Mueve el archivo cargado a la carpeta public/imagen
+$imagen_path->move(public_path('imagen'), $filename);
 
-         if($imagen = $request->file('imagen')) {
-             $rutaGuardarImg = 'imagen/';
-             $imagenProducto = date('YmdHis'). "." . $imagen->getClientOriginalExtension();
-             $imagen->move($rutaGuardarImg, $imagenProducto);
-             $producto['imagen'] = "$imagenProducto";             
-         }
-         
-         Producto::create($producto);
-         return redirect()->route('producto.index');
+// Asigna la ruta de la imagen al objeto $producto
+$producto->imagen_path = $filename;
+        // Guarda el producto en la base de datos
+        $producto->save();
+    
+        return redirect('admin/productos')->with('success', 'Producto agregado exitosamente');
     }
+    
+
 
     /**
      * Display the specified resource.
@@ -69,8 +90,9 @@ class ProductosVentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Producto $producto)
+    public function edit(productos_ventas $producto)
     {
+       // dd($producto->id);
         return view('producto.editar', compact('producto'));
     }
 
@@ -81,7 +103,7 @@ class ProductosVentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request, productos_ventas $producto)
     {
         $request->validate([
             'nombre' => 'required', 'marca' => 'required','descripcion' => 'required','tipo' => 'required', 'stock' => 'required','producto_enfocado' => 'required','precio' => 'required'
@@ -96,7 +118,9 @@ class ProductosVentaController extends Controller
             unset($prod['imagen']);
          }
          $producto->update($prod);
-         return redirect()->route('producto.index');
+         
+         return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
+
     }
 
     /**
@@ -105,10 +129,13 @@ class ProductosVentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Producto $producto)
-    {
-        $producto->delete();
-        return redirect()->route('producto.index');
-    }
+    public function destroy(Request $request, $id)
+{
+    $producto = productos_ventas::findOrFail($id);
+    $producto->delete();
+
+    return redirect('admin/productos')->with('success', 'Producto eliminado exitosamente');
+}
+
 }
   

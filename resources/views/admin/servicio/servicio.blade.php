@@ -30,7 +30,7 @@
                     @foreach ($servicio as $servicios)
                         <tr>
                             <th>{{ $servicios->id }}</th>
-                            <th>{{ $servicioss->nombre }}</th>
+                            <th>{{ $servicios->nombre }}</th>
                             <th>{{ $servicios->precio }}</th>
                             <th>
                                 @foreach ($servicios->tipo as $Tiposervicios)

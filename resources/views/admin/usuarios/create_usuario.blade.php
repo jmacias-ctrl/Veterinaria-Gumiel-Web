@@ -9,7 +9,6 @@
             -webkit-appearance: none;
             margin: 0;
         }
-
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -133,7 +132,6 @@
                     confirmButtonText: 'Si, agregar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
-
                     if (result.isConfirmed) {
                         form.submit();
                     }

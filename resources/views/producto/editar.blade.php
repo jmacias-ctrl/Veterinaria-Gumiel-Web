@@ -1,87 +1,87 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Editar Productos') }}
-        </h2>
-    </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-           
-            <form action="{{ route('producto.update',$producto->id) }}" method="POST" enctype="multipart/form-data"> 
-            @csrf
-            @method('PUT')
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-                <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre:</label>
-                    <input name="nombre" value="{{ $producto->nombre }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                </div>
-                <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Marca:</label>
-                    <input name="nombre" value="{{ $producto->nombre }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                </div>
-                <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Descripción:</label>
-                    <input name="descripcion" value="{{ $producto->descripcion }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                </div>
-                <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo:</label>
-                    <input name="descripcion" value="{{ $producto->descripcion }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                </div>
-                <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Stock:</label>
-                    <input name="descripcion" value="{{ $producto->descripcion }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                </div>
-                <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Producto_Enfocado:</label>
-                    <input name="descripcion" value="{{ $producto->descripcion }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                </div>
-                <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Precio:</label>
-                    <input name="descripcion" value="{{ $producto->descripcion }}" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                </div>
-                </div>
+@extends('layouts.layouts_users')
+<title>Modificar  Producto</title>
+@section('css-before')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        #tipoWindow {
+            border: 1px solid;
+            padding: 15px;
+            border-radius: 25px;
+        }
+    </style>
+@endsection
+@section('js-before')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+@endsection
+@section('content')
+    <div class="container-sm">
+        <h2>Modificar  Producto</h2>
+        <hr>
+        <form method="POST" action="{{ route('productos.update', $producto->id) }}" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <img src="/imagen/{{ $producto->imagen }}" width="200px" id="imagenSeleccionada">
-                </div>                                    
-                
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Subir Imagen</label>
-                    <div class='flex items-center justify-center w-full'>
-                        <label class='flex flex-col border-4 border-dashed w-full h-32 hover:bg-gray-100 hover:border-purple-300 group'>
-                            <div class='flex flex-col items-center justify-center pt-7'>
-                            <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Seleccione la imagen</p>
-                            </div>
-                        <input name="imagen" id="imagen" type='file' class="hidden" />
-                       
-                        </label>
-                    </div>
-                </div>
+    
+    <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ $producto->nombre }}">
+        </div>
 
-                <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
-                <a href="{{ route('productos.index') }}" class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Cancelar</a>
-                <button type="submit" class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Guardar</button>
-                </div>
-            </form>
+        <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" name="marca" id="marca" class="form-control" value="{{ $producto->marca }}">
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" id="descripcion" class="form-control">{{ $producto->descripcion }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Tipo</label>
+            <select name="tipo" id="tipo" class="form-control">
+                <option value="Perro" {{ $producto->tipo == 'perro' ? 'selected' : '' }}>perro</option>
+                <option value="Gato" {{ $producto->tipo == 'gato' ? 'selected' : '' }}>gato</option>
+                <option value="Ambos" {{ $producto->tipo == 'ambos' ? 'selected' : '' }}>Ambos</option>
                 
-            </div>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" name="stock" id="stock" class="form-control" value="{{ $producto->stock }}">
+        </div>
+
+        <div class="form-group">
+            <label for="producto_enfocado">Producto enfocado</label>
+            <input type="text" name="producto_enfocado" id="producto_enfocado" class="form-control" value="{{ $producto->producto_enfocado }}">
+        </div>
+
+        <div class="form-group">
+            <label for="precio">Precio</label>
+            <input type="number" name="precio" id="precio" value="{{ $producto->precio}}">
+    </div>
+    <div class="form-group">
+    <label for="imagen">Imagen</label>
+    @if ($producto->imagen_path)
+    <img src="{{ asset('imagen/' . $producto->imagen_path) }}" alt="{{ $producto->imagen_path }}" width="500">
+
+    @else
+        <p>No hay imagen para este producto</p>
+    @endif
+    <input type="file" name="imagen" id="imagen" class="form-control-file">
+</div>
+
+    
+
+    <!-- Resto de los campos del formulario -->
+
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>
+
         </div>
     </div>
-</x-app-layout>
-
-
-<!-- Script para ver la imagen antes de CREAR UN NUEVO PRODUCTO -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
-<script>   
-    $(document).ready(function (e) {   
-        $('#imagen').change(function(){            
-            let reader = new FileReader();
-            reader.onload = (e) => { 
-                $('#imagenSeleccionada').attr('src', e.target.result); 
-            }
-            reader.readAsDataURL(this.files[0]); 
-        });
-    });
-</script>
+@endsection

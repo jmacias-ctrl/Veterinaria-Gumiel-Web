@@ -1,86 +1,99 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Crear Productos') }}
-        </h2>
-    </x-slot>
+@extends('layouts.layouts_users')
+@section('css-before')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            
-            <form action="{{ route('producto.tienda ') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Nombre:</label>
-                        <input name="nombre" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Marca:</label>
-                        <input name="nombre" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Descripción:</label>
-                        <input name="descripcion" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Tipo:</label>
-                        <input name="nombre" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Stock:</label>
-                        <input name="nombre" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Producto_Enfocado:</label>
-                        <input name="nombre" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Precio:</label>
-                        <input name="nombre" class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" required/>
-                    </div>
-                </div>
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+@endsection
+@section('js-before')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+@endsection
+@section('content')
+    <div class="d-inline-flex">
 
-                <!-- Para ver la imagen seleccionada, de lo contrario no se -->
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <img id="imagenSeleccionada" style="max-height: 300px;">           
-                </div>
-
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Subir Imagen</label>
-                    <div class='flex items-center justify-center w-full'>
-                        <label class='flex flex-col border-4 border-dashed w-full h-32 hover:bg-gray-100 hover:border-purple-300 group'>
-                            <div class='flex flex-col items-center justify-center pt-7'>
-                            <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <p class='text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Seleccione la imagen</p>
-                            </div>
-                        <input name="imagen" id="imagen" type='file' class="hidden" />
-                        </label>
-                    </div>
-                </div>
-
-                <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
-                    <a href="{{ route('producto.index') }}" class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Cancelar</a>
-                    <button type="submit" class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Guardar</button>
-                </div>
-            </form> 
-
-            </div>
-        </div>
+        <a href="{{ route('productos.store') }}"> <span class="material-symbols-outlined" style="font-size:40px;">
+                arrow_back
+            </span> </a>
+        <h2 class="mx-5">Ingresar Nuevo producto</h2>
     </div>
-</x-app-layout>
 
-<!-- Script para ver la imagen antes de CREAR UN NUEVO PRODUCTO -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
-<script>   
-    $(document).ready(function (e) {   
-        $('#imagen').change(function(){            
-            let reader = new FileReader();
-            reader.onload = (e) => { 
-                $('#imagenSeleccionada').attr('src', e.target.result); 
-            }
-            reader.readAsDataURL(this.files[0]); 
-        });
-    });
-</script>
+    <hr>
+    <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" required>
+    </div>
+    <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" class="form-control" id="marca" name="marca" required>
+    </div>
+    <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <input type="text" class="form-control" id="tipo" name="tipo" required>
+    </div>
+    <div class="form-group">
+        <label for="stock">Stock:</label>
+        <input type="number" class="form-control" id="stock" name="stock" required>
+    </div>
+    <div class="form-group">
+        <label for="producto_enfocado">Producto enfocado:</label>
+        <input type="text" class="form-control" id="producto_enfocado" name="producto_enfocado" required>
+    </div>
+    <div class="form-group">
+        <label for="precio">Precio:</label>
+        <input type="number" class="form-control" id="precio" name="precio" required>
+    </div>
+    <div class="form-group">
+        <label for="imagen_path">Imagen:</label>
+        <input type="file" class="form-control" id="imagen_path" name="imagen_path" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Agregar producto</button>
+</form>
+
+@endsection
+
+@section('js-after')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btn-submit').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).parents(form);
+                Swal.fire({
+                    title: 'Agregar Nuevo producto',
+                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, agregar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        })
+    </script>
+@endsection

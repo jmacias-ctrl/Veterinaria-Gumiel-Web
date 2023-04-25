@@ -103,12 +103,6 @@ Route::group(['middleware' => ['permission:acceder panel']], function () {
     Route::get('marca_productos/edit', [\App\Http\Controllers\MarcaproductoController::class, 'edit'])->name('admin.marcaproductos.edit')->middleware(['permission:editar productos']);
     Route::post('marca_productos/update', [\App\Http\Controllers\MarcaproductoController::class, 'update'])->name('admin.marcaproductos.update')->middleware(['permission:editar productos']);
 
-    Route::get('productos', [App\Http\Controllers\ProductosVentaController::class, 'index_producto'])->name('productos.index')->middleware(['permission:ver productos']);
-    Route::get('productos/create', [App\Http\Controllers\ProductosVentaController::class, 'create'])->name('productos.create')->middleware(['permission:ver productos']);
-    Route::post('productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'destroy'])->name('productos.delete')->middleware(['permission:eliminar productos']);
-    Route::post('productos/store', [App\Http\Controllers\ProductosVentaController::class, 'store'])->name('productos.store')->middleware(['permission:crear productos']);
-    Route::post('productos', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.put')->middleware(['permission:crear productos']);
-
     Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
     Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
@@ -121,6 +115,14 @@ Route::group(['middleware' => ['permission:acceder panel']], function () {
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
 
     Route::get('servicio', [App\Http\Controllers\ServicioController::class, 'index'])->name('admin.servicio');
+
+    Route::get('admin/productos', [App\Http\Controllers\ProductosVentaController::class, 'index_productos'])->name('productos.index');
+    Route::get('productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'index_productos'])->name('productos.ver');
+    Route::delete('admin/productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'destroy'])->name('productos.delete');
+    Route::post('productos/store', [App\Http\Controllers\ProductosVentaController::class, 'store'])->name('productos.store');
+    Route::get('productos', [App\Http\Controllers\ProductosVentaController::class, 'create'])->name('productos.crear');
+    Route::match(['put', 'post'], 'productos/{producto}', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.update');
+    Route::get('admin/productos/{producto}/edit',[App\Http\Controllers\ProductosVentaController::class, 'edit'])->name('productos.edit');
 
 });
 route::get('correo_test', function () {

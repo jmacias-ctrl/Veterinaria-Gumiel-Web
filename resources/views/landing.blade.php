@@ -67,12 +67,137 @@
       </button>
     </div>     -->
 
-  <section class="jumbotron bg-darkgreen rounded-50">
-    <div class="container">
-      <h2 class="text-center text-white">Agendar horas</h2>
-      <p class="lead text-center text-white">
-        Puedes solicitar tu hora con el veterinario o a servicios de
-        peluquería.
+    <section class="jumbotron bg-darkgreen rounded-50">
+      <div class="container">
+        <h2 class="text-center text-white">Agendar horas</h2>
+        <p class="lead text-center text-white">
+          Puedes solicitar tu hora con el veterinario o a servicios de
+          peluquería.
+        </p>
+        <div class="text-center">
+          <a href="#" class="btn btn-success btn-lg">Agendar hora</a>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      .bg-darkgreen {
+        background-color: #2e7646; /* Cambiar por el color deseado */
+      }
+      .rounded-50 {
+        border-radius: 20px;
+      }
+    </style>
+
+    <section class="fondoRandom">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="p-4 rounded bg-white">
+              <div class="text-center">
+                <img
+                  src="ruta/a/la/imagen.jpg"
+                  alt="Imagen servicio 1"
+                  class="img-fluid rounded-circle mb-3"
+                />
+              </div>
+              <h3 class="text-center font-weight-bold mb-3">Peluquería</h3>
+              <p class="text-center">
+                Ofrecemos servicios de peluquería para mantener a tus mascotas
+                limpias y bien arregladas.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div class="p-4 rounded bg-white">
+              <div class="text-center">
+                <img
+                  src="ruta/a/la/imagen.jpg"
+                  alt="Imagen servicio 2"
+                  class="img-fluid rounded-circle mb-3"
+                />
+              </div>
+              <h3 class="text-center font-weight-bold mb-3">Veterinaria</h3>
+              <p class="text-center">
+                Realizamos consultas medicas para diagnosticar y tratar
+                cualquier problema de salud de tus mascotas. Tambien contamos
+                con un amplio catalogo de vacunas para prevenir diversas
+                enfermedades.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="background-color: white;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="text-center">Contáctanos</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mx-auto">
+            <form action="#" method="POST" style="background-color: #6A6767; color: white; border-radius: 10px; padding: 20px;">
+              <div class="form-group">
+                <label for="name">Nombre completo</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  required
+                  style="margin-bottom: 10px;"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Correo electrónicoOOO</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  required
+                  style="margin-bottom: 10px;"
+                />
+              </div>
+              <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phone"
+                  name="phone"
+                  required
+                  style="margin-bottom: 10px;"
+                />
+              </div>
+              <div class="form-group">
+                <label for="message">Mensaje</label>
+                <textarea
+                  class="form-control"
+                  id="message"
+                  name="message"
+                  rows="5"
+                  required
+                  style="margin-bottom: 10px;"
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-success btn-block">
+                Enviar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+
+    <footer style="background-color: #333; color: #fff; padding: 20px">
+      <p style="text-align: center">
+        © 2023 VeterinariaGumiel. Todos los derechos reservados.
       </p>
       <div class="text-center">
         <a href="#" class="btn btn-success btn-lg">Agendar hora</a>

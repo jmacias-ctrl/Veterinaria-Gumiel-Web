@@ -36,7 +36,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form action="" method="POST">
+          <form action="" method="POST" class="was-validated">
             @csrf
             <div id="">
                 <h5 class="mt-4">Informacion Funcionarios</h5>
@@ -47,16 +47,16 @@
                 </div>
                 <div class="row justify-content-center align-items-center g-2">
                     <label for="title" class="title">Selecciona Funcionario</label>
-                    <select class="form-select" name="title" for="title">
-                    <option  selected disabled>Seleciona un funcionario</option>
+                    <select class="form-select"required name="title" for="title">
+                    <option  selected disabled >Seleciona un funcionario</option>
                     @foreach ($users as $user)
-                        <option type="text" id="title" name= "title" value="{{$user->name}}">{{$user->name}}</option>
+                        <option type="text" id="title" name= "title" value="{{$user->name}}" >{{$user->name}}</option>
                     @endforeach
                     </select>
                 </div>
                 <div class="row justify-content-center align-items-center g-2">
                     <label for="id_usuario" class="form-label">Selecciona Funcionario</label>
-                    <select class="form-select" name="id_usuario" for="title">
+                    <select class="form-select" required name="id_usuario" for="title">
                     <option  selected disabled>Seleciona un funcionario</option>
                     @foreach ($users as $user)
                         <option type="unsignedBigInteger" id="id_usuario" name= "id_usuario" value="{{$user->id}}">{{$user->name}}</option>
@@ -66,14 +66,14 @@
                 <div class="row mt-3">
                     <div class="col">
                         <label for="start" class="form-label">Inicio turno: </label>
-                        <input type="dateTime-local" id="start"
+                        <input class="form-control" type="dateTime-local" id="start"
                             name="start" required>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="end" class="form-label">Termino turno: </label>
-                        <input type="dateTime-local" id="end"
+                        <input class="form-control" type="dateTime-local" id="end"
                             name="end" required>
                     </div>
                 </div>

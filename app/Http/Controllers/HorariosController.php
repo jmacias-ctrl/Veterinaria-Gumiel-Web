@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Use\assignUser;
 
 
+
 class HorariosController extends Controller
 {
     /**
@@ -32,16 +33,33 @@ class HorariosController extends Controller
     
     public function store(Request $request )
     {
+        $rules =[
+            'title'=>'required|min:1',
+            'id_usuario'=>'required|min:1',
+            'start'=>'required',
+            'end'=>'required'
+        ];
+        $attributes = [
+            'title'=>'Title',
+            'id_usuario'=>'id_usuario',
+            'start'=>'Start',
+            'end'=>'End'
+        ];
+        $message = [
+            'required' => ':attribute es obligatorio.',
+        ];
+        $validator = Validator::make($request->all(), $rules, $message, $attributes);
+        if ($validator->passes()) {
+            $horarios = new Horarios;
+            $horarios->id = $request->input('id');
+            $horarios->title = $request->input('title');
+            $horarios->id_usuario = $request->input('id_usuario');
+            $horarios->start = $request->input('start');
+            $horarios->end = $request->input('end');
 
-        $horarios = new Horarios;
-        $horarios->id = $request->input('id');
-        $horarios->title = $request->input('title');
-        $horarios->id_usuario = $request->input('id_usuario');
-        $horarios->start = $request->input('start');
-        $horarios->end = $request->input('end');
-
-        $horarios->save();
-        return Redirect()->route('admin.horario.index');
+            $horarios->save();
+        }
+        return back()->withErrors($validator)->withInput();
        
     }
 

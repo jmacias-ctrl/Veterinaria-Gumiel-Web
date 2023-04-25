@@ -17,7 +17,7 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><img src="{{ asset('images/logoGumiel.png') }}" style="width:5%;" /></a>
+    <a class="navbar-brand" href="#"><img src="{{ asset('images/logoGumiel.png') }}" style="width:80px;" /></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -45,16 +45,16 @@
     </div>
   </nav>
 
-  <div id="carouselExampleControls" class="carousel slide w-50" data-ride="carousel">
+  <div id="carouselExampleControls" class="carousel slide w-50 col-md-6 mx-auto" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="https://picsum.photos/640/360?random=1" class="d-block w-100" alt="First slide">
+        <img src="{{ asset('images/carrousel/01.png') }}" class="d-block w-100" alt="First slide">
       </div>
       <div class="carousel-item">
-        <img src="https://picsum.photos/640/360?random=2" class="d-block w-100" alt="Second slide">
+        <img src="{{ asset('images/carrousel/02.png') }}" class="d-block w-100" alt="Second slide">
       </div>
       <div class="carousel-item">
-        <img src="https://picsum.photos/640/360?random=3" class="d-block w-100" alt="Third slide">
+        <img src="{{ asset('images/carrousel/03.png') }}" class="d-block w-100" alt="Third slide">
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -70,6 +70,8 @@
   <div class="bg-white">
     <section class="d-flex justify-content-center align-items-center p-4">
       <div class="container bg-darkgreen rounded-50 w-50 p-4">
+      <img class="float-right" src="{{ asset('images/agenda.png') }}">
+
         <h2 class="text-white">Agendar horas</h2>
         <p class="lead text-white">
           Puedes solicitar tu hora con el veterinario o a servicios de peluquería.
@@ -77,7 +79,6 @@
         <div class="">
           <a href="#" class="btn btn-success btn-lg">Agendar hora</a>
         </div>
-        <img src="{{ asset('images/peluqueria.png') }}" style="width:10%; position: absolute; bottom: 10px; right: 10px; opacity: 0.5;">
       </div>
 
 
@@ -163,7 +164,28 @@
     </div>
   </section>
 
+  <section class="fondoGumiel">
+    <div class="container">
+      <div class="row">
+        <h2 class="text-white text-center">Maps</h2>
 
+        <div class="col-md-6 mb-4 p-4">
+          <div class="p-4 rounded bg-white">
+            <div class="text-center">
+              <img src="{{ asset('images/.jpg') }}" style="width:50%;" alt="Imagen servicio 1" class="img-fluid rounded-circle mb-3" />
+            </div>
+            <h3 class="text-center font-weight-bold mb-3">Peluquería</h3>
+            <p class="text-center">
+              Ofrecemos servicios de peluquería para mantener a tus mascotas
+              limpias y bien arregladas.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <footer style="background-color: #333; color: #fff; padding: 20px">
     <p style="text-align: center">
@@ -177,6 +199,16 @@
       background-color: #2E7646;
       background-blend-mode: overlay;
       background-image: url("{{ asset('images/common_01.jpg') }}");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .fondoGumiel {
+      height: 500px;
+      background-color: #2E7646;
+      background-blend-mode: overlay;
+      background-image: url("{{ asset('images/vetgum.jpg') }}");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;

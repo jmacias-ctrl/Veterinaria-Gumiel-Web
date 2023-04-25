@@ -77,9 +77,13 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/marcaproductos/update', [\App\Http\Controllers\MarcaproductoController::class, 'update'])->name('admin.marcaproductos.update');
 
     Route::get('admin/productos', [App\Http\Controllers\ProductosVentaController::class, 'index_productos'])->name('productos.index');
-    Route::post('admin/productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'destroy'])->name('productos.delete');
-    Route::post('admin/productos/store', [App\Http\Controllers\ProductosVentaController::class, 'store'])->name('productos.store');
-    Route::post('admin/productos', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.put');
+    Route::get('productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'index_productos'])->name('productos.ver');
+    Route::delete('admin/productos/{id}', [App\Http\Controllers\ProductosVentaController::class, 'destroy'])->name('productos.delete');
+    Route::post('productos/store', [App\Http\Controllers\ProductosVentaController::class, 'store'])->name('productos.store');
+    Route::get('productos', [App\Http\Controllers\ProductosVentaController::class, 'create'])->name('productos.crear');
+    Route::match(['put', 'post'], 'productos/{producto}', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.update');
+    Route::get('admin/productos/{producto}/edit',[App\Http\Controllers\ProductosVentaController::class, 'edit'])->name('productos.edit');
+
 });
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');

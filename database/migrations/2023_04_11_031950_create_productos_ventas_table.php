@@ -22,7 +22,7 @@ class CreateProductosVentasTable extends Migration
             $table->integer('stock');
             $table->enum('producto_enfocado', ['gato', 'perro', 'ambos']);
             $table->integer('precio');
-            $table->string('imagen');
+            $table->string('imagen_path');
             $table->timestamps();
         });
     }

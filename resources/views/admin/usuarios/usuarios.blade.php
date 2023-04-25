@@ -25,7 +25,7 @@
         <h4>Gestion Usuarios</h4>
 
         <div class="float-right">
-            <a class="btn btn-primary mr-auto" href="{{ route('admin.usuarios.add') }}" role="button">Ingresar
+            <a class="btn btn-primary mr-auto" href="{{ route('admin.usuarios.add') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
                 Usuario</a>
         </div>
     </div>

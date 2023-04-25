@@ -8,18 +8,37 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9 col-md-9 col-sm-5">
-                <h4>Gestion Marca de Insumos Medicos</h4>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>  
+    <div class="breadcrumb mb-1 mx-2 opacity-50">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.insumos_medicos.index') }}"
+                        style="text-decoration:none;">Insumos Medicos</a></li>
+                <li class="breadcrumb-item" aria-current="page">Marca Insumos Medicos</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-lg-8     col-md-5 col-sm-6">
+            <div class="d-inline-flex">
+                <a href="{{ route('admin.insumos_medicos.index') }}" class="boton-atras">
+                    <span class="material-symbols-outlined" style="font-size:40px;">
+                        arrow_back
+                    </span></a>
+                <h2 class="mx-5">Gestion Marca de Insumos Medicos</h2>
             </div>
         </div>
-        <br>
-        <div class="row table-responsive">
-            <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
+        <div class="col-lg-4 col-md-4 col-sm-6">
+            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}"
+                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
+        </div>
+    </div>
+    <br>
+    <div class="table-responsive">
+        <table
+            class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
+            id="table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -31,20 +50,18 @@
                 @foreach ($marcaInsumo as $marca)
                     <tr>
                         <th>{{ $marca->id }}</th>
-                        <th>{{ $marca->nombre }}</th>
-                        <th><button type="button" class="btn btn-danger"
-                                                onclick="deleted({{ $marca->id }})"><span
-                                                    class="material-symbols-outlined">delete</span></button>
-                                            <a id="editMarcas" style="background-color:#F7C044; border-color:#F7C044;" class="btn btn-primary"
-                                                href="{{ route('admin.marcaInsumos.edit', ['id' => "$marca->id"]) }}"
-                                                role="button"><span
-                                                    class="material-symbols-outlined">manage_accounts</span></a>
-                        </th>
+                        <td>{{ $marca->nombre }}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $marca->id }})"><span
+                                    class="material-symbols-outlined">delete</span></button>
+                            <a id="editMarcas" style="background-color:#F7C044; border-color:#F7C044;"
+                                class="btn btn-primary"
+                                href="{{ route('admin.marcaInsumos.edit', ['id' => "$marca->id"]) }}" role="button"><span
+                                    class="material-symbols-outlined">edit</span></a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
-            </table>
-        </div>
+        </table>
     </div>
 @endsection
 
@@ -61,6 +78,9 @@
                 responsive: true,
                 processing: true,
                 searching: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+                },
                 pageLength: 10,
             });
         });

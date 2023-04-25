@@ -46,7 +46,7 @@
     <div id="app">
         <div class="sidebar">
             <div class="logo-details">
-                <a href="{{ route('welcome') }}">
+                <a href="{{ route('inicio') }}">
                     <div class="logo_name"><img src="{{ asset('image/logo.png') }}" alt="" style="width: 125px;"
                             class="topImage"></div>
                 </a>
@@ -76,20 +76,19 @@
                             <div class="card card-body" id="dropdown">
                                 <a href="{{ route('admin.usuarios.index') }}" id="link-dropdown">Usuarios</a>
                                 <a href="{{ route('admin.roles.index') }}" id="link-dropdown">Roles</a>
+                                <a href="{{ route('admin.horario.index') }}" id="link-dropdown">Horarios</a>
                             </div>
                         </div>
 
                     </li>
                 @endhasrole
-                @can('ver servicios')
                     <li>
-                        <a href="#">
+                        <a href="{{route('admin.servicio')}}">
                             <i class='bx bxs-network-chart'></i>
                             <span class="links_name">Servicios</span>
                         </a>
                         <span class="tooltip-section">Servicios</span>
                     </li>
-                @endcan
                 @can('ver productos')
                     <li>
                         <a class="collapse-links" data-bs-toggle="collapse" href="#productosCollapse" role="button"
@@ -103,7 +102,6 @@
                                 <a href="{{route('productos.index')}}" id="link-dropdown">Productos</a>
                                 <a href="{{route('admin.marcaproductos.index')}}" id="link-dropdown">Marcas de Producto</a>
                                 <a href="{{route('admin.insumos_medicos.index')}}" id="link-dropdown">Insumos Medicos</a>
-                                <a href="{{route('admin.marcaInsumos.index')}}" id="link-dropdown">Marcas Insum.Medicos</a>
                             </div>
                         </div>
                     </li>

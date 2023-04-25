@@ -10,29 +10,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="container-sm">
-        <h2>Ingresar Nueva Marca</h2>
-        <hr>
-        <form action="{{ route('admin.marcaInsumos.store') }}" method="POST">
-            @csrf
-            <div class="container">
-                <h5 class="mt-4">Informacion de la marca insumos medicos</h5>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="Nombre" class="form-label">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Shinova"
-                            aria-label="Nombre" required>
-                    </div>
-                <br>
-                <div class="row">
-                    <div class="col">
-                        <br>
-                        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol">
-                    </div>
-                </div>
-            </div>
-        </form>
+    <div class="d-inline-flex">
+        <a href="{{ route('admin.marcaInsumos.index') }}"> <span class="material-symbols-outlined" style="font-size:40px;">
+                arrow_back
+            </span> </a>
+        <h2 class="mx-5">Ingresar Nueva Marca</h2>
     </div>
+    <hr>
+    <form action="{{ route('admin.marcaInsumos.store') }}" method="POST">
+        @csrf
+        <h5 class="mt-4">Informacion de la marca insumos medicos</h5>
+        <div class="row mt-3">
+            <div class="col">
+                <label for="Nombre" class="form-label">Nombre</label>
+                <input minlength="4" type="text" id="nombre" name="nombre" class="form-control"
+                    placeholder="Ej. Shinova" aria-label="Nombre" required>
+            </div>
+            <br>
+
+        </div>
+        <hr>
+        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Marca">
+    </form>
 @endsection
 @section('js-after')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />

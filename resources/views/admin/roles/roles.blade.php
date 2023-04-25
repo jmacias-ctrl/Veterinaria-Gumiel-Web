@@ -24,7 +24,7 @@
         <h4>Gestion Roles</h4>
 
         <div class="float-right">
-            <a class="btn btn-primary mr-auto" href="{{ route('admin.roles.add') }}" role="button">Ingresar
+            <a class="btn btn-primary mr-auto" href="{{ route('admin.roles.add') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
                 Rol</a>
         </div>
     </div>

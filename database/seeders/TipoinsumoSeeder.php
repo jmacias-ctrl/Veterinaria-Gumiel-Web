@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\insumos_medicos;
+use App\Models\Tipoinsumos as ModelsTipoinsumos;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Tipoinsumos;
 use Spatie\Permission\Models\Permission;
@@ -16,7 +17,6 @@ class TipoinsumosSeeder extends Seeder
      */
     public function run()
     {
-        //
 
     }
 }

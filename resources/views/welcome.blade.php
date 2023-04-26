@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('title')
+Inicio - Veterinaria Gumiel
+@endsection
 @section('content')
 
 <!DOCTYPE html>

@@ -9,7 +9,6 @@
             -webkit-appearance: none;
             margin: 0;
         }
-
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -116,7 +115,6 @@
 
 @section('js-after')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -134,7 +132,6 @@
                     confirmButtonText: 'Si, agregar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
-
                     if (result.isConfirmed) {
                         form.submit();
                     }

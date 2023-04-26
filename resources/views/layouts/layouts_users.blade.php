@@ -33,8 +33,7 @@
     <link rel="stylesheet" href="{{ asset('css/layout_user.css') }}">
     <!-- Boxicons CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    @yield('css-after')
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @yield('js-before')
 </head>
@@ -46,7 +45,7 @@
     <div id="app">
         <div class="sidebar">
             <div class="logo-details">
-                <a href="{{ route('inicio') }}">
+                <a href="{{ route('welcome') }}">
                     <div class="logo_name"><img src="{{ asset('image/logo.png') }}" alt="" style="width: 125px;"
                             class="topImage"></div>
                 </a>
@@ -76,19 +75,20 @@
                             <div class="card card-body" id="dropdown">
                                 <a href="{{ route('admin.usuarios.index') }}" id="link-dropdown">Usuarios</a>
                                 <a href="{{ route('admin.roles.index') }}" id="link-dropdown">Roles</a>
-                                <a href="{{ route('admin.horario.index') }}" id="link-dropdown">Horarios</a>
                             </div>
                         </div>
 
                     </li>
                 @endhasrole
+                @can('ver servicios')
                     <li>
-                        <a href="{{route('admin.servicio')}}">
+                        <a href="#">
                             <i class='bx bxs-network-chart'></i>
                             <span class="links_name">Servicios</span>
                         </a>
                         <span class="tooltip-section">Servicios</span>
                     </li>
+                @endcan
                 @can('ver productos')
                     <li>
                         <a class="collapse-links" data-bs-toggle="collapse" href="#productosCollapse" role="button"
@@ -102,6 +102,7 @@
                                 <a href="{{route('productos.index')}}" id="link-dropdown">Productos</a>
                                 <a href="{{route('admin.marcaproductos.index')}}" id="link-dropdown">Marcas de Producto</a>
                                 <a href="{{route('admin.insumos_medicos.index')}}" id="link-dropdown">Insumos Medicos</a>
+                                <a href="#" id="link-dropdown">Marcas Insum.Medicos</a>
                             </div>
                         </div>
                     </li>
@@ -123,7 +124,7 @@
                             </div>
                         </div>
                     </li>
-                @endcan
+                    @endcan
                 @hasrole('Admin')
                     <li>
                         <a href="#">
@@ -137,7 +138,7 @@
                     <a href="{{ route('users.notification.index') }}">
                         @if ($userNotification != 0)
                             <span class="translate-middle badge rounded-pill bg-danger"
-                                style="position: absolute; top:30%; left:50px" id="notificationCount">
+                                style="position: absolute; top:30%; left:50px">
                                 @if ($userNotification < 99)
                                     {{ $userNotification }}
                                 @else
@@ -154,15 +155,9 @@
 
                 </li>
                 <li class="profile">
-                    <a href="{{ route('user.profile.index') }}" id="profileEdit">
+                    <a href="" id="profileEdit">
                         <div class="profile-details">
-                            @if (isset(Auth::user()->image))
-                                <img src="{{ asset('storage') . '/' . Auth::user()->image }}" alt=""
-                                    class="imageProfile">
-                            @else
-                                <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg">
-                            @endif
-
+                            <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg">
                             <div class="name_job">
                                 <div class="name">{{ Auth::user()->name }}</div>
                                 <div class="job">
@@ -190,30 +185,10 @@
         </section>
     </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-<script src="https://code.jquery.com/jquery-migrate-3.4.1.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-@if ($userNotification == 1)
-    <script>
-        toastr.warning('Tienes una notificacion sin leer');
-    </script>
-@elseif ($userNotification < 99 && $userNotification > 1)
-    <script>
-        toastr.warning('Tienes {{ $userNotification }} notificaciones sin leer');
-    </script>
-@elseif($userNotification > 99)
-    <script>
-        toastr.warning('Tienes 99+ notificaciones sin leer');
-    </script>
-@endif
+
 <script>
     let sidebar = document.querySelector(".sidebar");
     let closeBtn = document.querySelector("#btn");
-    $(document).ready(function() {
-        checkForNewNotifications()
-    });
     document.querySelectorAll(".collapse-links").forEach(item => {
         item.addEventListener("click", () => {
             if (!sidebar.classList.contains('open')) {
@@ -243,33 +218,9 @@
         }
     }
 
-    function checkForNewNotifications() {
-        var notificationCount = {!! json_encode($userNotification, JSON_HEX_TAG) !!}
-        setInterval(() => {
-            axios({
-                method: 'get',
-                url: "{{ route('users.notification.updateNotificationCount') }}",
-                params: {
-                    lastNotificationCount: notificationCount,
-                },
-            }).then(res => {
-                if (res.data.newNotifications == true) {
-                    let difference = res.data.newCount - notificationCount;
-                    if (difference == 1) {
-                        toastr.warning('Tienes una notificacion nueva');
-                    } else if (difference < 99 && difference > 1) {
-                        toastr.warning('Tienes ' + difference + ' notificaciones nuevas');
-                    } else if (difference > 99) {
-                        toastr.warning('Tienes 99+ notificaciones nuevas');
-                    }
-                }
-                $(`#notificationCount`).html(notificationCount);
-                notificationCount = res.data.newCount;
-            }).catch(err => {
-                console.error(err);
-            });
-        }, 1500);
-    }
+    
+
+    
 </script>
 
 @yield('js-after')

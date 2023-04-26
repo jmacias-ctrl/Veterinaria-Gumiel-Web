@@ -20,11 +20,8 @@
                 <div class="row mt-3">
                     <div class="col">
                         <label for="Nombre" class="form-label">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Quirúrgicos"
+                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Quirúrgicos"
                             aria-label="Nombre" required>
-                        @error('nombre')
-                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                        @enderror
                     </div>
                 </div>
                 <br>

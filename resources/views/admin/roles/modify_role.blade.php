@@ -49,13 +49,13 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: 'Modificar    Rol',
+                    title: 'Agregar Nuevo Rol',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Modificar',
+                    confirmButtonText: 'Si, agregar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
 

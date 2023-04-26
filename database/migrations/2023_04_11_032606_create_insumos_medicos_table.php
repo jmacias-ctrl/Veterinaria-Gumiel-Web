@@ -16,13 +16,12 @@ class CreateInsumosMedicosTable extends Migration
         Schema::create('insumos_medicos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->unsignedBigInteger('id_marca');
+            $table->string('marca');
             $table->unsignedBigInteger('id_tipo');
             $table->integer('stock');
             $table->timestamps();
 
             $table->foreign('id_tipo')->references('id')->on('tipoinsumos');
-            $table->foreign('id_marca')->references('id')->on('marca_insumos');
         });
     }
 

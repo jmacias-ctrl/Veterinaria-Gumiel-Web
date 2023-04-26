@@ -40,12 +40,11 @@
     @if (sizeof(auth()->user()->notifications) > 0)
         @foreach (auth()->user()->notifications as $notification)
             @if (!isset($notification->read_at))
-                <a href="{{$notification->data['route']}}" style="text-decoration:none; color:black;">
-                    <div class="container border border-dark rounded py-3 px-5 shadow my-3 align-items-center"
-                        id="notificationDiv" style="color: white;">
+                <a href="" style="text-decoration: none; color:white;">
+                    <div class="container-sm border border-dark rounded py-3 px-5 shadow" id="notificationDiv">
 
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col"><img src="{{ asset('image/default-user-image.png') }}" style="width:100px"
+                        <div class="row justify-content-center align-items-center g-2">
+                            <div class="col-2"><img src="{{ asset('image/default-user-image.png') }}" style="width:100px"
                                     alt=""></div>
                             <div class="col">
                                 <h5>{{ $notification->data['title'] }}</h5>
@@ -53,38 +52,35 @@
                                 </p>
                             </div>
                             <div class="col">
-                                <form action="{{ route('users.notification.delete') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $notification->id }}">
-                                    <input class="btn btn-danger" type="submit" value="Eliminar">
+                                <form action="">
+                                    <input type="hiddedn" value="{{ $notification->id }}">
+                                    <p><button type="button" class="btn btn-danger">Eliminar</button></p>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </a>
             @else
-                <a href="{{$notification->data['route']}}" style="text-decoration:none; color:black;">
-                    <div class="container border border-dark rounded py-3 px-5 shadow my-3 align-items-center"
-                        id="notificationDiv" style="background:white;">
+                <div class="container border border-dark rounded py-3 px-5 shadow my-3 align-items-center"
+                    id="notificationDiv" style="background:white;">
 
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col"><img src="{{ asset('image/default-user-image.png') }}" style="width:100px"
-                                    alt=""></div>
-                            <div class="col">
-                                <h5>{{ $notification->data['title'] }}</h5>
-                                <p>{{ $notification->data['message'] }}
-                                </p>
-                            </div>
-                            <div class="col">
-                                <form action="{{ route('users.notification.delete') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $notification->id }}">
-                                    <input class="btn btn-danger" type="submit" value="Eliminar">
-                                </form>
-                            </div>
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col"><img src="{{ asset('image/default-user-image.png') }}" style="width:100px"
+                                alt=""></div>
+                        <div class="col">
+                            <h5>{{ $notification->data['title'] }}</h5>
+                            <p>{{ $notification->data['message'] }}
+                            </p>
+                        </div>
+                        <div class="col">
+                            <form action="{{ route('users.notification.delete') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $notification->id }}">
+                                <input class="btn btn-primary" type="submit" value="Submit">
+                            </form>
                         </div>
                     </div>
-                </a>
+                </div>
             @endif
         @endforeach
         @php

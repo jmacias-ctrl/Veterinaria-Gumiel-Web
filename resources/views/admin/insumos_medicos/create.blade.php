@@ -15,27 +15,19 @@
         <form action="{{ route('admin.insumos_medicos.store') }}" method="POST">
             @csrf
             <div id="RoleWindow">
-                <h5 class="mt-4">Informacion del Insumo</h5>
+                <h5 class="mt-4">Informacion Personal</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="nombre" class="form-label">Nombre insumo</label>
                         <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Agujas"
                             aria-label="Nombre" required>
-                           
-                        @error('nombre')
-                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                        @enderror
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="marca" class="form-label">Marca</label>
-                        <select class="form-select" aria-label="Default select example" name="marca" id="marca">
-                        <option selected>Selecciona una opcion</option>
-                        @foreach ($marcasInsumos as $marca )
-                           <option type="unsignedBigInteger" id="id_marca" name= "marca" value="{{$marca -> id}}">{{$marca->nombre}}</option> 
-                        @endforeach
-                    </select>
+                        <input type="text" class="form-control" id="marca" name="marca"
+                            placeholder="Ej. Novamed" required>
                     </div>
                 </div>
                 <hr class="mt-4">

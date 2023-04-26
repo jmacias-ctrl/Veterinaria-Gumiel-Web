@@ -44,9 +44,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    
-    public function horario(){
-        return $this->hasOne(Horario::class,'id_users');
-    }
 }

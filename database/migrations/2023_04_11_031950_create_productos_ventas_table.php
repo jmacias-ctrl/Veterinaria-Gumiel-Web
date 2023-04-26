@@ -16,7 +16,7 @@ class CreateProductosVentasTable extends Migration
         Schema::create('productos_ventas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('marca');
+            $table->unsignedBigInteger('id_marca');
             $table->text('descripcion');
             $table->enum('tipo', ['alimento', 'accesorio']);
             $table->integer('stock');
@@ -24,6 +24,8 @@ class CreateProductosVentasTable extends Migration
             $table->integer('precio');
             $table->string('imagen_path');
             $table->timestamps();
+
+            $table->foreign('id_marca')->references('id')->on('marcaproductos');
         });
     }
 

@@ -77,7 +77,7 @@ class UserController extends Controller
     public function index_roles(Request $request)
     {
         if ($request->ajax()) {
-            $data = Role::where('name', '!=', 'Admin')->where('name','!=','Cliente')->get();
+            $data = Role::where('name', '!=', 'Admin')->where('name','!=','Cliente')->where('name','!=','Veterinario')->where('name','!=','Peluquero')->where('name','!=','Inventario')->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.roles.datatable.action')

@@ -24,6 +24,7 @@
             <input type="hidden" name="id" value="{{ $role->id }}">
             <div id="RoleWindow">
                 <h4>Rol: {{ $role->name }}</h4>
+                <hr>
                 <h5 class="my-4">Permisos</h5>
                 <div class="row justify-content-center align-items-center g-2">
                     <div class="col">
@@ -83,6 +84,39 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="permisos[]" value="ingresar servicios"
                                 id="flexCheckDefault" @if ($permissions->contains('ingresar servicios')) checked @endif>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Ingresar
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center g-2 mt-3">
+                    <div class="col">
+                        <h5>Insumos Medicos</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="permisos[]" value="ver insumos medicos"
+                                id="flexCheckDefault" @if ($permissions->contains('ver insumos medicos')) checked @endif>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Ver
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="permisos[]" value="modificar insumos medicos"
+                                id="flexCheckDefault" @if ($permissions->contains('modificar insumos medicos')) checked @endif>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Modificar
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="permisos[]" value="eliminar insumos medicos"
+                                id="flexCheckDefault" @if ($permissions->contains('eliminar insumos medicos')) checked @endif>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Eliminar
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="permisos[]" value="ingresar insumos medicos"
+                                id="flexCheckDefault" @if ($permissions->contains('ingresar insumos medicos')) checked @endif>
                             <label class="form-check-label" for="flexCheckDefault">
                                 Ingresar
                             </label>

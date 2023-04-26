@@ -7,12 +7,12 @@
                 <h4>Servicio</h4>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.servicio.create') }}" role="button">Agregar
+                <a class="btn btn-primary ms-5" href="{{ route('admin.servicio.create') }}" role="button">Agregar Servicio
                     </a>
             </div>
         </div>
         <br>
-        <div class="row table-responsive">
+        <div class="table-responsive">
             <table
                 class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
                 id="table">
@@ -20,7 +20,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
-                        
                         <th scope="col">Tipo</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Opciones</th>
@@ -42,7 +41,7 @@
                                         class="material-symbols-outlined">delete</span></button>
                                 <a id="editInsumos" class="btn btn-primary"
                                     href="{{ route('admin.servicio.tiposervicios', ['id' => "$servicios->id"]) }}"
-                                    role="button"><span class="material-symbols-outlined">manage_accounts</span></a>
+                                    role="button"><span class="material-symbols-outlined">edit</span></a>
 
                             </th>
                         </tr>
@@ -66,6 +65,9 @@
                 responsive: true,
                 processing: true,
                 searching: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+                },
                 pageLength: 10,
             });
         });

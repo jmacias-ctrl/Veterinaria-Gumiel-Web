@@ -1,4 +1,5 @@
 @extends('layouts.layouts_users')
+<title>Crear Producto - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -22,7 +23,7 @@
 @section('content')
     <div class="d-inline-flex">
 
-        <a href="{{ route('productos.store') }}"> <span class="material-symbols-outlined" style="font-size:40px;">
+        <a href="{{ route('productos.index') }}"> <span class="material-symbols-outlined" style="font-size:40px;">
                 arrow_back
             </span> </a>
         <h2 class="mx-5">Ingresar Nuevo producto</h2>
@@ -30,42 +31,81 @@
 
     <hr>
     <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input type="text" class="form-control" id="nombre" name="nombre" required>
-    </div>
-    <div class="form-group">
-        <label for="marca">Marca:</label>
-        <input type="text" class="form-control" id="marca" name="marca" required>
-    </div>
-    <div class="form-group">
-        <label for="descripcion">Descripción:</label>
-        <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
-    </div>
-    <div class="form-group">
-        <label for="tipo">Tipo:</label>
-        <input type="text" class="form-control" id="tipo" name="tipo" required>
-    </div>
-    <div class="form-group">
-        <label for="stock">Stock:</label>
-        <input type="number" class="form-control" id="stock" name="stock" required>
-    </div>
-    <div class="form-group">
-        <label for="producto_enfocado">Producto enfocado:</label>
-        <input type="text" class="form-control" id="producto_enfocado" name="producto_enfocado" required>
-    </div>
-    <div class="form-group">
-        <label for="precio">Precio:</label>
-        <input type="number" class="form-control" id="precio" name="precio" required>
-    </div>
-    <div class="form-group">
-        <label for="imagen_path">Imagen:</label>
-        <input type="file" class="form-control" id="imagen_path" name="imagen_path" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Agregar producto</button>
-</form>
-
+        @csrf
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="marca">Marca:</label>
+            <select class="form-select @error('marca') is-invalid @enderror" aria-label="Default select example" id="marca" name="marca" required>
+                <option @if(old('marca')) selected @endif>Seleccione una Marca</option>
+                @foreach ($MarcaProductos as $MarcaProducto)
+                    <option value="{{ $MarcaProducto->id }}" @if( old('marca')==$MarcaProducto->id) selected @endif>{{ $MarcaProducto->nombre }}</option>
+                @endforeach
+            </select>
+            @error('marca')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control @error('descripcion') is-invalid @enderror" id="descripcion" name="descripcion"  required>{{ old('descripcion') }}</textarea>
+            @error('descripcion')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="tipo">Tipo:</label>
+            <select class="form-select @error('tipo') is-invalid @enderror" aria-label="Default select example" id="tipo" name="tipo" required>
+                <option @if(old('tipo'))selected @endif>Seleccione un tipo</option>
+                <option value="alimento" @if( old('tipo')=='alimento') selected @endif>Alimento</option>
+                <option value="accesorio" @if( old('tipo')=='accesorio') selected @endif>Accesorio</option>
+            </select>
+            @error('tipo')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="stock">Stock:</label>
+            <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock" value="{{ old('stock') }}"  required>
+            @error('stock')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="producto_enfocado">Producto enfocado:</label>
+            <select class="form-select @error('producto_enfocado') is-invalid @enderror" aria-label="Default select example" id="producto_enfocado" name="producto_enfocado"
+                required>
+                <option @if(old('producto_enfocado'))selected @endif>Seleccione una opcion</option>
+                <option value="gato" @if( old('producto_enfocado')=='gato') selected @endif>Gato</option>
+                <option value="perro" @if( old('producto_enfocado')=='perro') selected @endif>Perro</option>
+                <option value="ambos" @if( old('producto_enfocado')=='ambos') selected @endif>Ambos</option>
+            </select>
+            @error('producto_enfocado')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio" name="precio" value="{{ old('precio') }}"  required>
+            @error('precio')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="imagen_path">Imagen:</label>
+            <input type="file" class="form-control @error('imagen_path') is-invalid @enderror" id="imagen_path" name="imagen_path" required>
+            @error('imagen_path')
+                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+            @enderror
+        </div>
+        <hr class="my-3">
+        <button type="submit" class="btn btn-primary">Agregar producto</button>
+    </form>
 @endsection
 
 @section('js-after')

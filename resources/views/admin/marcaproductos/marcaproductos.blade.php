@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-lg-8     col-md-5 col-sm-6">
             <div class="d-inline-flex">
-                <a href="#" class="boton-atras">
+                <a href="{{route('productos.index')}}" class="boton-atras">
                     <span class="material-symbols-outlined" style="font-size:40px;">
                         arrow_back
                     </span></a>

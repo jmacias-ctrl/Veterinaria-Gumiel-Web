@@ -15,7 +15,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                <li class="breadcrumb-item active" aria-current="page">Roles</li>
             </ol>
         </nav>
     </div>
@@ -67,6 +67,9 @@
                 processing: true,
                 serverSide: true,
                 searching: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+                },
                 pageLength: 10,
                 ajax: {
                     url: "{{ route('admin.roles.index') }}",

@@ -2,13 +2,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\productos_venta;
+use App\Models\productos_ventas;
 
 class CartController extends Controller
 {
     public function shop()
     {
-        $products = productos_venta::all();
+        $products = productos_ventas::all();
         return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
     }
 
@@ -18,7 +18,7 @@ class CartController extends Controller
     }
 
     public function show($id)  {
-        $producto = productos_venta::find($id);
+        $producto = productos_ventas::find($id);
         return view('shop.show')->withTitle('GUMIEL TIENDA | CARRITO')->with(['producto' => $producto]);
     }
 

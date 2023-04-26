@@ -10,12 +10,12 @@
 @endsection
 @section('content')
     <div class="container-sm">
-        <h3>Ingresar insumos medicos</h3>
+        <h3>Ingresar Servicio</h3>
         <hr>
         <form action="{{ route('admin.servicio') }}" method="POST">
             @csrf
             <div id="RoleWindow">
-                <h5 class="mt-4">Informacion Personal</h5>
+                <h5 class="mt-4">Informacion del Servicio</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="nombre" class="form-label">Nombre Servicio</label>
@@ -33,16 +33,13 @@
                 <hr class="mt-4">
                 <h5 class="mt-4">Tipos de Servicio</h5>
                 <div class="row justify-content-center align-items-center g-2">
-                    @foreach ($tiposervicios as $tipos)
                         <div class="col">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="tiposervicios[]" value="{{ $tipos->id }}">
-                                <label class="form-check-label" for="">
-                                    {{ $tipos->nombre }}
-                                </label>
-                            </div>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Seleccione una opcion</option>
+                                <option value="consulta veterinario">Consulta Veterinario</option>
+                                <option value="peluqueria">Peluqueria</option>
+                              </select>
                         </div>
-                    @endforeach
                 </div>
                 <hr>
                 <div class="row mt-3">

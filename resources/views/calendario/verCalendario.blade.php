@@ -1,4 +1,5 @@
 @extends('layouts.layouts_users')
+<title>Administrador Inicio - Veterinaria Gumiel</title>
 @section('css-before')
     <style>
         .imageProfile {

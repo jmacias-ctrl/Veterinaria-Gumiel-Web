@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Gestion Usuarios - Administrador</title>
+<title>Gestion Productos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -13,51 +13,67 @@
     <div class="breadcrumb mb-1 mx-2 opacity-50">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Roles</li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Productos</li>
             </ol>
         </nav>
     </div>
-    <h1>Gestion Roles</h1>
+    <h1>Gestion de Productos</h1>
     <hr>
+
     <div class="d-flex justify-content-between mb-3">
         <div class="col">
-            <a class="btn btn-primary mr-auto" href="{{ route('admin.roles.add') }}" role="button">Ingresar
-                Rol</a>
+            <a class="btn btn-primary mr-auto" href="{{ route('admin.marcaproductos.index') }}" role="button">Marca de 
+                Productos</a>
         </div>
+        @can('ingresar productos')
+        <div class="col">
+            <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button">Ingresar
+                Producto</a>
+        </div>
+        @endcan
+        
+        
     </div>
-
     @if (session()->get('success'))
         <div class="alert alert-success" role="alert">
             {{ session()->get('success') }}
         </div>
     @endif
     <div class="table-responsive">
-        <table class="datatable display responsive nowrap table table-sm table-bordered table-hover table-striped shadow-sm"
+        <table
+            class="datatable display responsive nowrap table table-sm table-bordered table-hover table-striped w-100 shadow-sm"
             id="table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Producto enfocado</th>
+                    <th scope="col">Precio</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($roles as $rol)
-                    <tr>
-                        <th>{{ $rol->id }}</th>
-                        <td>{{ $rol->name }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $rol->id }})"><span
-                                    class="material-symbols-outlined">delete</span></button>
-                            <a id="modifyRoles" class="btn btn-warning"
-                                href="{{ route('admin.roles.modify', ['id' => "$rol->id"]) }}" role="button"><span
-                                    class="material-symbols-outlined">edit</span></a>
-                            <a id="EditPermissions" class="btn btn-primary"
-                                href="{{ route('admin.roles.permission', ['id' => "$rol->id"]) }}" role="button"><span
-                                    class="material-symbols-outlined">settings</span></a>
-                        </td>
-                    </tr>
-                @endforeach
+             
+            @foreach ($productos as $productos_ven)
+    <tr>
+        <td>{{ $productos_ven->id }}</td>
+        <td>{{ $productos_ven->nombre }}</td>
+        <td>{{ $productos_ven->MarcaProductos->nombre }}</td>
+        <td>{{ $productos_ven->tipo }}</td>
+        <td>{{ $productos_ven->stock }}</td>
+        <td>{{ $productos_ven->producto_enfocado }}</td>
+        <td>${{ $productos_ven->precio }}</td>
+        <td>
+            @can('modificar productos')<a href="{{ route('productos.edit', $productos_ven->id) }}" class="btn btn-primary"><span class="material-symbols-outlined">edit</span></a> @endcan
+            @can('eliminar productos')<button type="input" class="btn btn-danger" onclick="deleted({{$productos_ven->id}})"><span class="material-symbols-outlined">delete</span></button> @endcan
+        </td>
+    </tr>
+@endforeach
             </tbody>
         </table>
     </div>
@@ -85,7 +101,7 @@
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar Rol?',
+                title: '¿Eliminar Producto?',
                 text: "¿Estás seguro? no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -96,12 +112,12 @@
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    axios.post("{{ route('admin.roles.delete') }}", {
+                    axios.post("{{ route('productos.delete') }}", {
                             id: id_get
                         })
                         .then(function(response) {
 
-                            toastr.success('Rol eliminado correctamente!')
+                            toastr.success('Producto eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -110,7 +126,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Rol eliminado correctamente!',
+                                title: 'Producto eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

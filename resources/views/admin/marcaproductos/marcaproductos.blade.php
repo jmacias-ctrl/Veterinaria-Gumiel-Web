@@ -1,4 +1,4 @@
-@extends('layouts.layouts_users')
+extends('layouts.layouts_users')
 <title>Marcas de productos</title>
 @section('css-before')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
@@ -15,14 +15,14 @@
             arrow_back
         </span></a> 
     </div>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9 col-md-9 col-sm-5">
-                <h4>Gestion Marca de Productos</h4>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-5">
-                <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>  
+    <div class="row">
+        <div class="col-lg-8     col-md-5 col-sm-6">
+            <div class="d-inline-flex">
+                <a href="{{route('productos.index')}}" class="boton-atras">
+                    <span class="material-symbols-outlined" style="font-size:40px;">
+                        arrow_back
+                    </span></a>
+                <h2 class="mx-5">Gestion Marca de Productos</h2>
             </div>
         </div>
         <br>

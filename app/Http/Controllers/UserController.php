@@ -54,7 +54,14 @@ class UserController extends Controller
     }
     public function index_roles()
     {
-        $roles = Role::where('name', '!=', 'Admin')->get();
+        if ($request->ajax()) {
+            $data = Role::where('name', '!=', 'Admin')->where('name','!=','Cliente')->where('name','!=','Veterinario')->where('name','!=','Peluquero')->where('name','!=','Inventario')->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', 'admin.roles.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
 
         return view('admin.roles.roles', compact('roles'));
     }

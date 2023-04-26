@@ -12,7 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="./jquery-3.6.3.js"></script>
-    
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -22,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.5/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.5/index.js"></script>
-    
+
     <script type="text/javascript">
         var baseURL = {!! json_encode(url('/')) !!}
     </script>
@@ -54,9 +54,18 @@
             <ul class="nav-list">
                 <li>
 
-                    <a href="{{ route('home') }}">
-                        <i class='bx bx-grid-alt'></i>
-                        <span class="links_name">Inicio</span>
+                    @if (auth()->user()->hasRole('Admin'))
+                        <a href="{{ route('admin') }}">
+                        @elseif(auth()->user()->hasRole('Veterinario'))
+                            <a href="{{ route('veterinario') }}">
+                            @elseif (auth()->user()->hasRole('Peluquero'))
+                                <a href="{{ route('peluquero') }}">
+                                @elseif (auth()->user()->hasRole('Inventario'))
+                                    <a href="{{ route('inventario') }}">
+                    @endif
+
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Inicio</span>
                     </a>
                     <span class="tooltip-section">Inicio</span>
                 </li>
@@ -82,7 +91,7 @@
                 @endhasrole
                 @can('ver servicios')
                     <li>
-                        <a href="#">
+                        <a href="{{ route('admin.servicio') }}">
                             <i class='bx bxs-network-chart'></i>
                             <span class="links_name">Servicios</span>
                         </a>
@@ -99,10 +108,8 @@
                         <span class="tooltip-section">Gestion Productos</span>
                         <div class="collapse" id="productosCollapse">
                             <div class="card card-body" id="dropdown">
-                                <a href="{{route('productos.index')}}" id="link-dropdown">Productos</a>
-                                <a href="{{route('admin.marcaproductos.index')}}" id="link-dropdown">Marcas de Producto</a>
-                                <a href="{{route('admin.insumos_medicos.index')}}" id="link-dropdown">Insumos Medicos</a>
-                                <a href="#" id="link-dropdown">Marcas Insum.Medicos</a>
+                                <a href="{{ route('productos.index') }}" id="link-dropdown">Productos</a>
+                                <a href="{{ route('admin.insumos_medicos.index') }}" id="link-dropdown">Insumos Medicos</a>
                             </div>
                         </div>
                     </li>

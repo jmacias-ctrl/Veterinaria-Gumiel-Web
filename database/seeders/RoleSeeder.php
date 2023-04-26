@@ -28,11 +28,13 @@ class RoleSeeder extends Seeder
         Permission::create(['name'=>'modificar citas']);
         Permission::create(['name'=>'eliminar citas']);
 
-        Role::create(['name'=>'Admin'])->syncPermissions(['ver productos', 'modificar productos', 'eliminar productos', 'modificar servicios', 'eliminar servicios']);
-        Role::create(['name'=>'Veterinario']);
-        Role::create(['name'=>'Peluquero']);
-        Role::create(['name'=>'Inventario']);
-        Role::create(['name'=>'Cliente']);
+        Role::create(['name'=>'Admin'])->syncPermissions(['acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos','ver servicios','ingresar servicios','modificar servicios', 'eliminar servicios', 'ver insumos medicos', 'ingresar insumos medicos', 'modificar insumos medicos', 'eliminar insumos medicos']);
+        Role::create(['name'=>'Veterinario'])->syncPermissions(['acceder panel']);
+        Role::create(['name'=>'Peluquero'])->syncPermissions(['acceder panel']);
+        Role::create(['name'=>'Inventario'])->syncPermissions(['acceder panel']);
+        Role::create(['name'=>'Cliente'])->syncPermissions(['acceder panel']);
+        Role::create(['name'=>'RolePrueba1'])->syncPermissions(['acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos']);
+        Role::create(['name'=>'RolePrueba2'])->syncPermissions(['acceder panel','ver servicios', 'modificar servicios', 'eliminar servicios', 'ingresar servicios']);
 
         Permission::create(['name'=>'admin.usuarios.index']);
 

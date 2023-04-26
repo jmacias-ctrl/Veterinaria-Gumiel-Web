@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Servicio </title>
+<title>Gestion Servicio - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -13,7 +13,16 @@
     <div class="breadcrumb mb-1 mx-2 opacity-50">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a>
+                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Servicios</li>
             </ol>

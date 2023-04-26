@@ -30,9 +30,11 @@ class TipoinsumosController extends Controller
         $rule = [
             'nombre'=>'required|string',
         ];
-        
+        $atrribute =[
+            'nombre' => 'Nombre',
+        ];
         $message = ['required'=>'El :attribute es obligatorio'];
-        $validator = Validator::make($request->all(), $rule, $message);
+        $validator = Validator::make($request->all(), $rule, $message, $atrribute);
         if($validator->passes()){
             $tipoinsumos = Tipoinsumos::create(['nombre'=>$request->nombre]);
             return redirect()->route('admin.tipoinsumos.index')->with('success', 'El tipo de insumo ' . $request->nombre . ' fue agregado de manera satisfactoria');
@@ -56,9 +58,11 @@ class TipoinsumosController extends Controller
         $rule = [
             'nombre'=>'required|string',
         ];
-        
-        $message = ['required'=>'El :attribute es obligatorio'];
-        $validator = Validator::make($request->all(), $rule, $message);
+        $atrribute =[
+            'nombre' => 'Nombre',
+        ];
+        $message = ['required'=>':attribute es obligatorio'];
+        $validator = Validator::make($request->all(), $rule, $message, $atrribute);
         if($validator->passes()){
             $tipoinsumos = Tipoinsumos::find($request->id);
             $tipoinsumos->nombre = $request->nombre;

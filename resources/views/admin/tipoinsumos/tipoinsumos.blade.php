@@ -54,13 +54,13 @@
                 @foreach ($tipoinsumos as $tipos)
                     <tr>
                         <th>{{ $tipos->id }}</th>
-                        <th>{{ $tipos->nombre }}</th>
-                        <th><button type="button" class="btn btn-danger" onclick="deleted({{ $tipos->id }})"><span
+                        <td>{{ $tipos->nombre }}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $tipos->id }})"><span
                                     class="material-symbols-outlined">delete</span></button>
                             <a id="editTipos" style="background-color:#F7C044; border-color:#F7C044;"
                                 class="btn btn-primary" href="{{ route('admin.tipoinsumos.edit', ['id' => "$tipos->id"]) }}"
                                 role="button"><span class="material-symbols-outlined">edit</span></a>
-                        </th>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

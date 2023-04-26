@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Modificar Tipo Servicio</title>
+<title>Modificar Servicio - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -69,4 +69,33 @@
                     </div>
                 </div>
             </div>
+@endsection
+@section('js-after')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btn-submit').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).parents(form);
+                Swal.fire({
+                    title: 'Modificar Tipo de Servicio',
+                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, modificar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        })
+    </script>
 @endsection

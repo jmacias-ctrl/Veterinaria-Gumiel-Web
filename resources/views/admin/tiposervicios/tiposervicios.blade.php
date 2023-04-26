@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Gestion Tipo Servicios</title>
+<title>Gestion Tipo Servicios - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
@@ -14,7 +14,16 @@
     <div class="breadcrumb mb-1 mx-2 opacity-50">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a>
+                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.servicio') }}"
                         style="text-decoration:none;"> Servicios</a></li>
@@ -50,13 +59,13 @@
                 @foreach ($tiposervicios as $tipos)
                     <tr>
                         <th>{{ $tipos->id }}</th>
-                        <th>{{ $tipos->nombre }}</th>
-                        <th><button type="button" class="btn btn-danger" onclick="deleted({{ $tipos->id }})"><span
+                        <td>{{ $tipos->nombre }}</td>
+                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $tipos->id }})"><span
                                     class="material-symbols-outlined">delete</span></button>
                             <a id="editTipos" style="background-color:#F7C044; border-color:#F7C044;"
                                 class="btn btn-primary" href="{{ route('admin.tiposervicios.edit', ['id' => "$tipos->id"]) }}"
                                 role="button"><span class="material-symbols-outlined">edit</span></a>
-                        </th>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

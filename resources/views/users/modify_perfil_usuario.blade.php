@@ -1,4 +1,5 @@
 @extends('layouts.layouts_users')
+<title>Modificacion de Perfil - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -129,8 +130,8 @@
             <div class="row mt-3">
                 <div class="col">
                     <label for="passwordConfirmation" class="form-label">Confirmacion Nueva Contraseña</label>
-                    <input type="password" class="form-control @error('passNueva') is-invalid @enderror" id="passwordConfirmation"
-                        name="new_password_confirmation">
+                    <input type="password" class="form-control @error('passNueva') is-invalid @enderror"
+                        id="passwordConfirmation" name="new_password_confirmation">
                     @error('passNueva')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                     @enderror
@@ -147,25 +148,54 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        var Fn = {
+            validaRut: function(rutCompleto) {
+                if (!/^[0-9]+-[0-9kK]{1}$/.test(rutCompleto))
+                    return false;
+                var tmp = rutCompleto.split('-');
+                var digv = tmp[1];
+                var rut = tmp[0];
+                if (digv == 'K') digv = 'k';
+                return (Fn.dv(rut) == digv);
+            },
+            dv: function(T) {
+                var M = 0,
+                    S = 1;
+                for (; T; T = Math.floor(T / 10))
+                    S = (S + T % 10 * (9 - M++ % 6)) % 11;
+                return S ? S - 1 : 'k';
+            }
+        }
         $(document).ready(function() {
             $('#btn-submit').on('click', function(e) {
+                var rut = document.getElementById('rut').value;
                 e.preventDefault();
-                var form = $(this).parents(form);
-                Swal.fire({
-                    title: 'Modificar tu Perfil de Usuario',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, modificar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
+                if (!Fn.validaRut(rut)) {
+                    Swal.fire(
+                        'Error',
+                        'Rut ingresado no sigue el formato, debe ser xxxxxxxx-x',
+                        'error'
+                    )
+                    return;
+                } else {
+                    var form = $(this).parents(form);
+                    Swal.fire({
+                        title: 'Modificar tu Perfil de Usuario',
+                        text: "¿Estás seguro de que todos los datos estan correctos?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Si, modificar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
 
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                }
+
             });
         })
     </script>

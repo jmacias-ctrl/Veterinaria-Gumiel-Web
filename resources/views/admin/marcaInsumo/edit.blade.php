@@ -8,9 +8,9 @@
     </style>
 @endsection
 @section('js-before')
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
     <div class="d-inline-flex">
@@ -29,13 +29,16 @@
             <div class="row mt-3">
                 <div class="col-3">
                     <label for="nombre" class="form-label">Nombre Marca</label>
-                    <input type="text" name="nombre" class="form-control" placeholder="Ej. Braun" aria-label="nombre"
-                        value="{{ $marcaInsumo->nombre }}" id="nombre" checked>
+                    <input type="text"  class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Braun" aria-label="nombre"
+                        value="{{ $marcaInsumo->nombre }}" id="nombre" name="nombre" required>
+                    @error('nombre')
+                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                    @enderror
                 </div>
-                
+
             </div>
             <hr class="my-3">
-                <input class="btn btn-primary" id="btn-submit" type="submit" value="Modificar Marca">
+            <input class="btn btn-primary" id="btn-submit" type="submit" value="Modificar Marca">
         </form>
     </div>
 @endsection

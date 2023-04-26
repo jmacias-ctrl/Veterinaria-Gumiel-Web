@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Marcas de productos</title>
+<title>Marcas de productos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"

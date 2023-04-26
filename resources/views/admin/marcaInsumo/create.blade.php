@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Ingresar Nueva Marca Insumos Medicos</title>
+<title>Ingresar Nueva Marca Insumos Medicos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -22,9 +22,12 @@
         <h5 class="mt-4">Informacion de la marca insumos medicos</h5>
         <div class="row mt-3">
             <div class="col">
-                <label for="Nombre" class="form-label">Nombre</label>
+                <label for="Nombre" class="form-label @error('nombre') is-invalid @enderror">Nombre</label>
                 <input minlength="4" type="text" id="nombre" name="nombre" class="form-control"
                     placeholder="Ej. Shinova" aria-label="Nombre" required>
+                    @error('nombre')
+                    <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                @enderror
             </div>
             <br>
 

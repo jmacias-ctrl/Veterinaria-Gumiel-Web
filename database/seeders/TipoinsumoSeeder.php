@@ -17,7 +17,18 @@ class TipoinsumosSeeder extends Seeder
      */
     public function run()
     {
-
+        Tipoinsumos::create([
+            'nombre' => 'Curaciones',
+        ]);
+        Tipoinsumos::create([
+            'nombre' => 'Quirúrgicos',
+        ]);
+        Tipoinsumos::create([
+            'nombre' => 'Equipo médico',
+        ]);
+        Tipoinsumos::create([
+            'nombre' => 'Examenes',
+        ]);
     }
 }
 

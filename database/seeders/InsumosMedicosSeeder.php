@@ -15,7 +15,5 @@ class InsumosMedicosSeeder extends Seeder
      */
     public function run()
     {
-        //
-        
     }
 }

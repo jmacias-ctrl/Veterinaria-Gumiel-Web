@@ -11,7 +11,17 @@
     <div class="breadcrumb mb-1 mx-2 opacity-50">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a>
+                <li class="breadcrumb-item">
+                    @if (auth()->user()->hasRole('Admin'))
+                        <a href="{{ route('admin') }}">
+                        @elseif(auth()->user()->hasRole('Veterinario'))
+                            <a href="{{ route('veterinario') }}">
+                            @elseif (auth()->user()->hasRole('Peluquero'))
+                                <a href="{{ route('peluquero') }}">
+                                @elseif (auth()->user()->hasRole('Inventario'))
+                                    <a href="{{ route('inventario') }}">
+                    @endif
+                    Inicio</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.insumos_medicos.index') }}"
                         style="text-decoration:none;">Insumos Medicos</a></li>
@@ -85,54 +95,55 @@
             });
         });
         @if (Session::has('success'))
+            <
+            script >
+                toastr.success("{{ Session::get('success') }}");
+    </script>
+    @endif
+    @if (Session::has('error'))
         <script>
-            toastr.success("{{ Session::get('success') }}");
+            toastr.error("{{ Session::get('error') }}");
         </script>
-        @endif
-        @if (Session::has('error'))
-            <script>
-                toastr.error("{{ Session::get('error') }}");
-            </script>
-        @endif
-        function deleted(id_get) {
+    @endif
+    function deleted(id_get) {
 
-            Swal.fire({
-                title: '¿Eliminar Marca de Insumo Medico?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
+    Swal.fire({
+    title: '¿Eliminar Marca de Insumo Medico?',
+    text: "¿Estás seguro? no podrás revertir la acción!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, borrar',
+    cancelButtonText: 'Cancelar'
+    }).then((result) => {
 
-                if (result.isConfirmed) {
-                    axios.post("{{ route('admin.marcaInsumos.delete') }}", {
-                            id: id_get
-                        })
-                        .then(function(response) {
+    if (result.isConfirmed) {
+    axios.post("{{ route('admin.marcaInsumos.delete') }}", {
+    id: id_get
+    })
+    .then(function(response) {
 
-                            toastr.success('Marca eliminada correctamente!')
+    toastr.success('Marca eliminada correctamente!')
 
-                        })
-                        .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar')
-                        })
-                        .finally(function() {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Marca eliminada correctamente!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
+    })
+    .catch(function(error) {
+    toastr.error('La acción no se pudo realizar')
+    })
+    .finally(function() {
+    Swal.fire({
+    icon: 'success',
+    title: 'Marca eliminada correctamente!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+    setTimeout(() => {
+    location.reload();
+    }, 1500);
 
-                        });
-                }
-            });
+    });
+    }
+    });
 
-        }
+    }
     </script>

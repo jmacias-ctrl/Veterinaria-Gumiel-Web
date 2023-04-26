@@ -70,7 +70,7 @@
   <div class="bg-white">
     <section class="d-flex justify-content-center align-items-center p-4">
       <div class="container bg-darkgreen rounded-50 w-50 p-4">
-        <img class="float-right" src="{{ asset('images/agenda.png') }}">
+        <img class="float-right mini-logo" src="{{ asset('images/doc-check.png') }}">
 
         <h2 class="text-white">Agendar horas</h2>
         <p class="lead text-white">
@@ -167,7 +167,7 @@
     </div>
   </section>
 
-  <section class="fondoGumiel">
+  <!-- <section class="fondoGumiel">
     <div class="container">
       <div class="row">
         <h2 class="text-white text-center pb-5">Donde puedes encontrarnos</h2>
@@ -175,11 +175,60 @@
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.442873327544!2d-73.40212952459001!3d-37.803094333427644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966a74cb799f78ed%3A0x4e32e96ea2b1070b!2sCl%C3%ADnica%20y%20Farmacia%20Veterinaria%20Gumiel!5e0!3m2!1ses!2scl!4v1682454729998!5m2!1ses!2scl" width="600" height="450" style="border-radius:25px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <h2 style="color:#fff">asdasfd</h2>
+            <img src="{{ asset('images/icons/ubicacion.png') }}" class="landing-icons inverted" />
+            <h2 style="color:#fff">Villagran 437, Canete, Chile</h2>
+            <img src="{{ asset('images/icons/whatsapp.png') }}" class="landing-icons inverted" />
+            <h2 style="color:#fff">+56977088874</h2>
+            <img src="{{ asset('images/icons/time.png') }}" class="landing-icons inverted" />
+            <h2 style="color:#fff">Horarios
+                                    Lunes a Domingo y Festivos
+                                    09:30 - 14:00 hrs
+                                    15:00 - 19:00 hrs</h2>
+                                    
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <img src="{{ asset('images/icons/instagram.png') }}" class="landing-icons" />
+            <img src="{{ asset('images/icons/whatsapp.png') }}" class="landing-icons inverted" />
+            <img src="{{ asset('images/icons/facebook.png') }}" class="landing-icons" />
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
+
+<section class="fondoGumiel">
+  <div class="container">
+    <div class="row">
+      <h2 class="text-white text-center pb-5">Donde puedes encontrarnos</h2>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.442873327544!2d-73.40212952459001!3d-37.803094333427644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966a74cb799f78ed%3A0x4e32e96ea2b1070b!2sCl%C3%ADnica%20y%20Farmacia%20Veterinaria%20Gumiel!5e0!3m2!1ses!2scl!4v1682454729998!5m2!1ses!2scl" width="100%" height="450" style="border-radius:25px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 order-first order-sm-2 float-right text-right">
+        <img src="{{ asset('images/icons/ubicacion.png') }}" class="landing-icons inverted" />
+        <h2 style="color:#fff">Villagran 437, Canete, Chile</h2>
+        <img src="{{ asset('images/icons/whatsapp.png') }}" class="landing-icons inverted" />
+        <h2 style="color:#fff">+56977088874</h2>
+        <img src="{{ asset('images/icons/time.png') }}" class="landing-icons inverted" />
+        <h2 style="color:#fff">Horarios
+          Lunes a Domingo y Festivos
+          09:30 - 14:00 hrs
+          15:00 - 19:00 hrs</h2>
+        <div class="mt-3">
+          <a href="#" class="mr-3">
+            <img src="{{ asset('images/icons/instagram.png') }}" class="landing-icons" />
+          </a>
+          <a href="#" class="mr-3">
+            <img src="{{ asset('images/icons/whatsapp.png') }}" class="landing-icons inverted" />
+          </a>
+          <a href="#" class="mr-3">
+            <img src="{{ asset('images/icons/facebook.png') }}" class="landing-icons" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
   <footer style="background-color: #333; color: #fff; padding: 20px">
     <p style="text-align: center">
@@ -188,6 +237,15 @@
   </footer>
 
   <style>
+    .landing-icons{
+      width: 50px;
+      height: 50px;
+    }
+
+    .inverted {
+      filter: invert(100%);
+    }
+
     .fondoRandom {
       /* height: 900px; */
       background-color: rgba(25, 60, 37, .70);
@@ -227,6 +285,12 @@
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
+    }
+
+    .mini-logo{
+      width: 120px;
+      height: 120px;
+      opacity: 50%;
     }
 
     .opacity-50 {

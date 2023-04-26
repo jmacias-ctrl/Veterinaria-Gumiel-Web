@@ -34,8 +34,8 @@ class HorariosController extends Controller
     public function store(Request $request )
     {
         $rules =[
-            'title'=>'required|min:1',
-            'id_usuario'=>'required|min:1',
+            'title'=>'required',
+            'id_usuario'=>'required',
             'start'=>'required',
             'end'=>'required'
         ];

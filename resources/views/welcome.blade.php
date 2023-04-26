@@ -15,6 +15,8 @@ Inicio - Veterinaria Gumiel
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -44,8 +46,10 @@ Inicio - Veterinaria Gumiel
   <div class="bg-white">
     <section class="d-flex justify-content-center align-items-center p-4">
       <div class="container bg-darkgreen rounded-50 w-50 p-4">
-        <img class="float-right" src="{{ asset('images/agenda.png') }}">
-
+        <div class="imagen-check">
+          <img class="float-right" src="{{ asset('images/doc-check.png') }}" >
+        </div>
+        <div >
         <h2 class="text-white">Agendar horas</h2>
         <p class="lead text-white">
           Puedes solicitar tu hora con el veterinario o a servicios de peluquería.
@@ -54,12 +58,14 @@ Inicio - Veterinaria Gumiel
           <a href="#" class="btn btn-success btn-lg">Agendar hora</a>
         </div>
       </div>
+    </div>
 
 
     </section>
   </div>
 
   <style>
+
     .bg-darkgreen {
       background-color: #2e7646;
     }
@@ -78,8 +84,8 @@ Inicio - Veterinaria Gumiel
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  mb-4 p-4">
           <div class="p-4  cuadro-servicio">
-            <div class="text-center">
-              <img src="{{ asset('images/peluqueria.png') }}" style="width:50%;" alt="Imagen servicio 1" class="img-fluid rounded-circle mb-3" />
+            <div class="center">
+              <img src="{{ asset('images/peluqueria.png') }}" style="width:50%;" alt="Imagen servicio 1" class="img-fluid rounded-circle mb-3 " />
             </div>
             <h3 class="text-center font-weight-bold mb-3">Peluquería</h3>
             <p class="text-center">
@@ -90,7 +96,7 @@ Inicio - Veterinaria Gumiel
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-4 p-4">
           <div class="p-4 cuadro-servicio">
-            <div class="text-center">
+            <div class="center">
               <img src="{{ asset('images/veterinaria.png') }}" style="width:50%;" alt="Imagen servicio 2" class="img-fluid rounded-circle mb-3" />
             </div>
             <h3 class="text-center font-weight-bold mb-3">Veterinaria</h3>
@@ -145,11 +151,32 @@ Inicio - Veterinaria Gumiel
     <div class="container">
       <div class="row">
         <h2 class="text-white text-center pb-5">Donde puedes encontrarnos</h2>
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6 ">
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 ">
+          <div>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.442873327544!2d-73.40212952459001!3d-37.803094333427644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966a74cb799f78ed%3A0x4e32e96ea2b1070b!2sCl%C3%ADnica%20y%20Farmacia%20Veterinaria%20Gumiel!5e0!3m2!1ses!2scl!4v1682454729998!5m2!1ses!2scl" width="600" height="450" style="border-radius:25px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-            <h2 style="color:#fff">asdasfd</h2>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 datos">
+            <div>
+            <h3 class="font-weight-bold mb-3"><span class="material-symbols-outlined">location_on</span> Villagran 437,Cañete,Chile.</h3>
+            </div>
+            <div>
+            <h3 class="font-weight-bold mb-3"><span class="material-symbols-outlined">phone_in_talk</span> +56977088874</h3>
+            </div>
+            <div>
+            <h3 class="font-weight-bold"><span class="material-symbols-outlined">schedule</span> Horarios</h3>
+            </div>
+            <div>
+            <h3 class="font-weight-bold pl-5">Lunes a Domingos y Festivos</h3>
+            <h3 class="font-weight-bold pl-5">09:30 - 14:00 hrs</h3>
+            <h3 class="font-weight-bold pl-5">15:00 - 19:00 hrs</h3>
+            </div>
+            <br>
+            <div class="row row justify-content-md-center">
+              <div class="col-lg-2"><a style="color:#fff" href="https://instagram.com/vetgumiel?igshid=YmMyMTA2M2Y="><i class="bi bi-instagram" style="font-size: calc(1.325rem + .9vw) !important;"></i></a></div>
+              <div class="col col-lg-2"><a style="color:#fff" href="https://m.facebook.com/p/Clínica-Veterinaria-Gumiel-100083250432886/?_rdr"><i class="bi bi-facebook" style="font-size: calc(1.325rem + .9vw) !important;"></i></a></div>
+              <div class="col col-lg-2"><a style="color:#fff" href="https://api.whatsapp.com/send?phone=56977088874&text=Habla%20con%20nosotros! "><i class="bi bi-whatsapp" style="font-size: calc(1.325rem + .9vw) !important;"></i></div>
+            </div>
         </div>
       </div>
     </div>
@@ -174,6 +201,12 @@ Inicio - Veterinaria Gumiel
       padding-bottom: 90px;
     }
 
+    .datos{
+      align-content:initial;
+      color: #fff;
+      padding-top: 30px;
+    }
+
     .cuadro-servicio {
       background-color: rgba(255, 255, 255, .75);
       border-radius: 5%;
@@ -185,6 +218,12 @@ Inicio - Veterinaria Gumiel
       .cuadro-servicio {
         width: 100%;
       }
+    }
+
+    .center{
+      display: flex;
+       align-items: center;
+      justify-content: center;
     }
 
     .contacto{

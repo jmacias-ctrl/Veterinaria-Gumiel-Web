@@ -95,6 +95,13 @@ Route::group(['middleware'=>['can:ver servicios']], function(){
     Route::get('servicio', [App\Http\Controllers\ServicioController::class, 'index_servicios'])->name('admin.servicio');
     Route::get('servicio/ingresar', [App\Http\Controllers\ServicioController::class, 'create'])->name('admin.servicio.create');
     Route::post('servicio/store', [App\Http\Controllers\ServicioController::class, 'index_servicios'])->name('admin.servicio.update');
+
+    Route::get('tiposervicios', [\App\Http\Controllers\tiposerviciosController::class, 'index'])->name('admin.tiposervicios.index');
+    Route::get('tiposervicios/create', [\App\Http\Controllers\tiposerviciosController::class, 'create'])->name('admin.tiposervicios.create');
+    Route::post('tiposervicios/store', [\App\Http\Controllers\tiposerviciosController::class, 'store'])->name('admin.tiposervicios.store');
+    Route::get('tiposervicios/edit', [\App\Http\Controllers\tiposerviciosController::class, 'edit'])->name('admin.tiposervicios.edit');
+    Route::post('tiposervicios/delete', [\App\Http\Controllers\tiposerviciosController::class, 'delete'])->name('admin.tiposervicios.delete');
+    Route::post('tiposervicios/update', [\App\Http\Controllers\tiposerviciosController::class, 'update'])->name('admin.tiposervicios.update');
 });
 
 Route::group(['middleware' => ['role:Admin']], function () {

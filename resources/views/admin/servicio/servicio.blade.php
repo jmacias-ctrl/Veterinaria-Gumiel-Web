@@ -26,21 +26,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($servicio as $servicios)
+                    @foreach ($servicios as $servicio)
                         <tr>
-                            <th>{{ $servicios->id }}</th>
-                            <th>{{ $servicios->nombre }}</th>
-                            <th>{{ $servicios->precio }}</th>
+                            <th>{{ $servicio->id }}</th>
+                            <th>{{ $servicio->nombre }}</th>
+                            <th>{{ $servicio->precio }}</th>
                             <th>
-                                @foreach ($servicios->tipo as $Tiposervicios)
-                                    {{ $Tiposervicios }}
+                                @foreach ($servicio->tipo as $tiposervicios)
+                                    {{ $tiposervicios }}
                                     <br>
                                 @endforeach
                             
-                                <button type="button" class="btn btn-danger" onclick="deleted({{ $servicios->id }})"><span
+                                <button type="button" class="btn btn-danger" onclick="deleted({{ $servicio->id }})"><span
                                         class="material-symbols-outlined">delete</span></button>
                                 <a id="editInsumos" class="btn btn-primary"
-                                    href="{{ route('admin.servicio.tiposervicios', ['id' => "$servicios->id"]) }}"
+                                    href="{{ route('admin.servicio.edit', ['id' => "$servicio->id"]) }}"
                                     role="button"><span class="material-symbols-outlined">edit</span></a>
 
                             </th>

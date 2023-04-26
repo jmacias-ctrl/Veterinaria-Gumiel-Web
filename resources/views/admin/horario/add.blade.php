@@ -29,7 +29,7 @@
                     <input type="hidden" id="id" name="id" required>
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center g-2">
+            <!-- <div class="row justify-content-center align-items-center g-2">
                 <label for="title" class="title">Selecciona Funcionario</label>
                 <select class="form-select" required>
                 <option value="">Seleciona un funcionario</option>
@@ -37,7 +37,13 @@
                     <option type="text" id="title" name= "title" value="{{$user->name}}">{{$user->name}}</option>
                 @endforeach
                 </select>
-            </div>
+            </div> -->
+            <div class="row mt-3">
+                    <div class="col">
+                        <label for="title" class="form-label">Titulo: </label>
+                        <input class="form-control" required type="text" id="title" name="title" placeholder="Ej.Turno 1" required>
+                    </div>
+                </div>
             <div class=" justify-content-center align-items-center g-2">
                 <label for="id_usuario" class="form-label">Selecciona Funcionario</label>
                 <select class="form-select" required >

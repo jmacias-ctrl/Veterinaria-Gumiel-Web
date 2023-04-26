@@ -54,7 +54,7 @@
             <tbody>
                 @foreach ($insumos_medicos as $insumos)
                     <tr>
-                        <th>{{ $insumos->id }}</td>
+                        <td>{{ $insumos->id }}</td>
                         <td>{{ $insumos->nombre }}</td>
                         <td>{{ $insumos->marcaInsumos->nombre }}</td>
                         <td>{{ $insumos->Tipoinsumos->nombre }}</td>

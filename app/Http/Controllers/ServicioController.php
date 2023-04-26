@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ServicioController extends Controller
 {
-    public function index_servicios()
+    public function index()
     {
         $tiposervicios = tiposervicios::all();
         $servicios = servicios::with('tiposervicios')->get();
@@ -26,7 +26,7 @@ class ServicioController extends Controller
         return view('admin.servicio.create',compact('tiposervicios'));
     }
 
-    public function store_tipo(Request $request){
+    public function store(Request $request){
         $rules = [
             'nombre'=>'required|string',
             'id_tipo'=>'required',
@@ -49,7 +49,7 @@ class ServicioController extends Controller
             $servicio->precio = $request->input('precio');
     
             $servicio->save();
-            return redirect()->route('admin.servicio.index',compact('tiposervicios'))->with('success', 'El servicio ' . $request->nombre . ' fue agregado de manera satisfactoria');
+            return redirect()->route('admin.servicio',compact('tiposervicios'))->with('success', 'El servicio ' . $request->nombre . ' fue agregado de manera satisfactoria');
     
         }
         return back()->withErrors($validator)->withInput();
@@ -75,6 +75,6 @@ class ServicioController extends Controller
         $servicio->id_tipo = $request->input('id_tipo');
         $servicio->precio = $request->input('precio');
         $servicio->save();
-        return redirect()->route('admin.servicio.index')->with('success', 'El servicio ' . $request->nombre . ' fue modificado de manera satisfactoria');
+        return redirect()->route('admin.servicio')->with('success', 'El servicio ' . $request->nombre . ' fue modificado de manera satisfactoria');
     }
 }

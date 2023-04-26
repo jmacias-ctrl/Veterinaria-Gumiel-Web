@@ -4,13 +4,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <style>
-        #tipoWindow {
-            border: 1px solid;
-            padding: 15px;
-            border-radius: 25px;
-        }
-    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -20,31 +13,60 @@
     <div class="container-sm">
         <h2>Modificar Tipos de Servico</h2>
         <hr>
-            <form action="{{route('admin.servicios.update')}}" method="POST">
+            <form action="{{route('admin.servicio.update')}}" method="POST">
                 @csrf
-                <input type="hidden" name="id" value="{{$servicios->id}}">
-                <div id="tipoWindow">
-                    <label for="nombre">Nombre Tipo de servcio</label>
-                    <input type="text" name="nombre" value="{{$servicios->nombre}}" id="nombre" checked>
-
-                    <input name="" id="" class="btn btn-primary" type="submit" value="Modificar">
-                
-            </form>
-        </div>
-    </div>
-    div class="container-sm">
-        <h2>Modificar Precios de Servico</h2>
-        <hr>
-            <form action="{{route('admin.servicios.update')}}" method="POST">
-                @csrf
-                <input type="hidden" name="id" value="{{$servicios->id}}">
-                <div id="tipoWindow">
-                    <label for="precio">Precio de servcio</label>
-                    <input type="text" name="precio" value="{{$servicios->precio}}" id="precio" checked>
-
-                    <input name="" id="" class="btn btn-primary" type="submit" value="Modificar">
-                
-            </form>
-        </div>
-    </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <input type="hidden" name="id" value="{{ $servicio->id }}">
+                        <label for="nombre"class="form-label">Nombre Servicio</label>
+                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                            value="{{ $servicio->nombre }}" id="nombre" checked>
+                        @error('nombre')
+                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="nombre" class="form-label">Tipo se servicio</label>
+                        <select class="form-select @error('id_tipo') is-invalid @enderror" aria-label="Default select example"
+                        name="id_tipo" id="id_tipo">
+                        @foreach ($tiposervicios as $tipo)
+                            @if ($tipo->id == $servicio->id_tipo)
+                                <option selected type="unsignedBigInteger" id="id_tipo" name="tipo"
+                                    value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                            @else
+                                <option type="unsignedBigInteger" id="id_tipo" name="tipo" value="{{ $tipo->id }}">
+                                    {{ $tipo->nombre }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    @error('id_tipo')
+                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                    @enderror
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="int" class="form-control @error('precio') is-invalid @enderror" name="precio"
+                            value="{{ $servicio->precio }}" id="precio" checked>
+                        @error('precio')
+                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="container">
+                <br>
+                <div class="row row-cols-auto">
+                    <div class="col">
+                        <input name="" id="btn-submit" class="btn btn-primary"
+                            style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                    </div>
+                    <div class="col">
+                        <a class="btn btn-primary ms-5" href="{{ route('admin.servicio') }}"
+                            style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                    </div>
+                </div>
+            </div>
 @endsection

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\tiposervicios;
 
 class tiposerviciosSeeder extends Seeder
 {
@@ -13,6 +14,13 @@ class tiposerviciosSeeder extends Seeder
      */
     public function run()
     {
-        //
+        tiposervicios::create([
+            'nombre' => 'Peluquería'
+        ]);
+        
+        tiposervicios::create([
+            'nombre' => 'Atención medica'
+        ]);
+
     }
 }

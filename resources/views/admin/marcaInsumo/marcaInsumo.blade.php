@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Marcas de Innsumos Medicoa</title>
+<title>Marcas de Innsumos Medico - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />

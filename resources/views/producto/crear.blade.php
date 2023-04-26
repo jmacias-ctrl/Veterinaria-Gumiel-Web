@@ -104,7 +104,7 @@
             @enderror
         </div>
         <hr class="my-3">
-        <button type="submit" id="btn-submit" class="btn btn-primary">Agregar producto</button>
+        <button type="submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;">Agregar producto</button>
     </form>
 @endsection
 

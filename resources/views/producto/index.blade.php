@@ -19,23 +19,24 @@
             </ol>
         </nav>
     </div>
-    <h1>Gestion de Productos</h1>
-    <hr>
 
-    <div class="d-flex justify-content-between mb-3">
-        <div class="col">
-            <a class="btn btn-primary mr-auto" href="{{ route('admin.marcaproductos.index') }}" role="button">Marca de 
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <h4>Gestion de Productos</h4>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <a class="btn btn-primary mr-auto" href="{{ route('admin.marcaproductos.index') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Marca de 
                 Productos</a>
         </div>
         @can('ingresar productos')
-        <div class="col">
-            <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button">Ingresar
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
                 Producto</a>
         </div>
         @endcan
-        
-        
     </div>
+    <hr>
     @if (session()->get('success'))
         <div class="alert alert-success" role="alert">
             {{ session()->get('success') }}

@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Gestion Usuarios - Administrador</title>
+<title>Gestion Roles - Veterinaria Gumiel</title>
 @section('css-after')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet"

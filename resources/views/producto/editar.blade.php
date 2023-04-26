@@ -107,7 +107,7 @@
 
             <!-- Resto de los campos del formulario -->
 
-            <button type="submit" id="btn-submit" class="btn btn-primary">Actualizar</button>
+            <button type="submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;">Actualizar</button>
         </form>
 
     </div>

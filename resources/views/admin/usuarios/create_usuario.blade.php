@@ -110,7 +110,7 @@
             </div>
             <hr>
 
-            <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Usuario">
+            <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Usuario" style="background-color:#19A448; border-color:#19A448;">
         </div>
     </form>
 @endsection

@@ -42,7 +42,7 @@
         <div class="form-group">
             <label for="marca">Marca:</label>
             <select class="form-select @error('marca') is-invalid @enderror" aria-label="Default select example" id="marca" name="marca" required>
-                <option @if(old('marca')) selected @endif>Seleccione una Marca</option>
+                <option @if(old('marca')) selected @endif disabled>Seleccione una Marca</option>
                 @foreach ($MarcaProductos as $MarcaProducto)
                     <option value="{{ $MarcaProducto->id }}" @if( old('marca')==$MarcaProducto->id) selected @endif>{{ $MarcaProducto->nombre }}</option>
                 @endforeach
@@ -61,7 +61,7 @@
         <div class="form-group">
             <label for="tipo">Tipo:</label>
             <select class="form-select @error('tipo') is-invalid @enderror" aria-label="Default select example" id="tipo" name="tipo" required>
-                <option @if(old('tipo'))selected @endif>Seleccione un tipo</option>
+                <option @if(old('tipo'))selected @endif disabled>Seleccione un tipo</option>
                 <option value="alimento" @if( old('tipo')=='alimento') selected @endif>Alimento</option>
                 <option value="accesorio" @if( old('tipo')=='accesorio') selected @endif>Accesorio</option>
             </select>
@@ -80,7 +80,7 @@
             <label for="producto_enfocado">Producto enfocado:</label>
             <select class="form-select @error('producto_enfocado') is-invalid @enderror" aria-label="Default select example" id="producto_enfocado" name="producto_enfocado"
                 required>
-                <option @if(old('producto_enfocado'))selected @endif>Seleccione una opcion</option>
+                <option @if(old('producto_enfocado'))selected @endif disabled>Seleccione una opcion</option>
                 <option value="gato" @if( old('producto_enfocado')=='gato') selected @endif>Gato</option>
                 <option value="perro" @if( old('producto_enfocado')=='perro') selected @endif>Perro</option>
                 <option value="ambos" @if( old('producto_enfocado')=='ambos') selected @endif>Ambos</option>
@@ -104,7 +104,7 @@
             @enderror
         </div>
         <hr class="my-3">
-        <button type="submit" class="btn btn-primary">Agregar producto</button>
+        <button type="submit" id="btn-submit" class="btn btn-primary">Agregar producto</button>
     </form>
 @endsection
 

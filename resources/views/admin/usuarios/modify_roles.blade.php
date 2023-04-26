@@ -31,6 +31,9 @@
             <div id="RoleWindow">
                 <h4>Usuario: {{ $user->name }}</h4>
                 <h5 class="mt-4">Roles</h5>
+                @error('roles')
+                    <div class="text-danger"><span><small>{{ _('Debes seleccionar al menos un rol') }}</small></span></div>
+                @enderror
                 <div class="row justify-content-center align-items-center g-2">
                     @foreach ($user->nombre_roles as $rol)
                         <div class="col">

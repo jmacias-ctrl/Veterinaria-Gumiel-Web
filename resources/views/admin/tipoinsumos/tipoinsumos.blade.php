@@ -32,8 +32,6 @@
                     arrow_back
                 </span></a>
             <h2 class="mx-5">Gestion de Tipos de Insumos Medicos</h2>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-5">
             <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoinsumos.create') }}"
                 style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de insumo</a>
         </div>

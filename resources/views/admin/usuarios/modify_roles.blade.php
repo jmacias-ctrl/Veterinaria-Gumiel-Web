@@ -1,0 +1,94 @@
+@extends('layouts.layouts_users')
+@section('css-before')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        #RoleWindow {
+            border: 1px solid;
+            padding: 15px;
+            border-radius: 25px;
+        }
+    </style>
+@endsection
+@section('js-before')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+@endsection
+@section('content')
+    <div class="container-sm">
+        <div class="d-inline-flex">
+
+            <a href="{{ route('admin.usuarios.index') }}"> <span class="material-symbols-outlined" style="font-size:40px;">
+                    arrow_back
+                </span> </a>
+            <h2 class="mx-5">Modificar Roles Usuarios</h2>
+        </div>
+        <hr>
+        <form action="{{route('admin.usuarios.update.roles')}}" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="{{$user->id}}">
+            <div id="RoleWindow">
+                <h4>Usuario: {{ $user->name }}</h4>
+                <h5 class="mt-4">Roles</h5>
+                @error('roles')
+                    <div class="text-danger"><span><small>{{ _('Debes seleccionar al menos un rol') }}</small></span></div>
+                @enderror
+                <div class="row justify-content-center align-items-center g-2">
+                    @foreach ($user->nombre_roles as $rol)
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $rol }}" checked>
+                                <label class="form-check-label" for="">
+                                    {{ $rol }}
+                                </label>
+                            </div>
+                        </div>
+                    @endforeach
+                    @foreach ($roles as $rol)
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $rol->name }}">
+                                <label class="form-check-label">
+                                    {{ $rol->name }}
+                                </label>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <hr>
+
+                <input name="" id="btn-submit" class="btn btn-primary" type="submit" value="Modificar Roles" style="background-color:#19A448; border-color:#19A448;">
+            </div>
+        </form>
+    </div>
+@endsection
+@section('js-after')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btn-submit').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).parents(form);
+                Swal.fire({
+                    title: 'Modificacion de Roles de un Usuario',
+                    text: "¿Estás seguro de los roles asignados?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, modificar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        })
+    </script>
+@endsection

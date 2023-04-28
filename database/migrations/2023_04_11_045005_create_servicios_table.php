@@ -16,9 +16,11 @@ class CreateServiciosTable extends Migration
         Schema::create('servicios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->enum('tipo', ['consulta veterinario', 'peluqueria']);
+            $table->unsignedBigInteger('id_tipo');
             $table->integer('precio');
             $table->timestamps();
+
+            $table->foreign('id_tipo')->references('id')->on('tiposervicios');
         });
     }
 

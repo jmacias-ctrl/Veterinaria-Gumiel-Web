@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -27,7 +31,25 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->hasRole('Admin')) {
+            return redirect()->route('admin');
+        } else if ($user->hasRole('Veterinario')) {
+            
+            return redirect()->route('veterinario');
+        }else if ($user->hasRole('Peluquero')) {
+            
+            return redirect()->route('peluquero');
+        }else if ($user->hasRole('Inventario')) {
+            
+            return redirect()->route('inventario');
+        }
 
+        return redirect()->route('inicio');
+        //return property_exists($this, 'redirectTo') ? $this->redirectTo : 'admin/';
+
+    }
     /**
      * Create a new controller instance.
      *

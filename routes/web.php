@@ -22,21 +22,19 @@ use app\Http\Controllers\CartController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
+
 // Route::get('/', 'LandingPageController@index');
 // Route::get('/welcome', 'LandingPageController@index');
 // Route::get('/landing', 'LandingPageController@index')->middleware('web');
 
 Route::get('/',[LandingPageController::class,'index'])->name('inicio');
-
-
+Route::post('/contactanos', [landingPageController::class, "store"])->name('contactanos.store');
 
 Route::get('/verCalendario', function () {
     return view('verCalendario');
-})->middleware('web');
+})->name("verCalendario")->middleware('web');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 
 Route::group(['middleware'=>['can:ver productos']], function(){
     Route::get('marca_productos', [\App\Http\Controllers\MarcaproductoController::class, 'index_marca'])->name('admin.marcaproductos.index');

@@ -7,7 +7,9 @@
         </div>
         <div class="row">
             <div class="col-md-6 mx-auto">
-                <form action="#" method="POST" style="background-color: #6A6767; color: white; border-radius: 10px; padding: 20px;">
+                <form action="{{ route('contactanos.store') }}" method="POST" style="background-color: #6A6767; color: white; border-radius: 10px; padding: 20px;">
+                    @csrf
+
                     <div class="form-group">
                         <label for="name">Nombre completo</label>
                         <input type="text" class="form-control" id="name" name="name" required style="margin-bottom: 10px;" />

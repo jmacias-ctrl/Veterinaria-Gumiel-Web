@@ -31,11 +31,7 @@
     
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8">
-            <h4>Servicio</h4>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <a class="btn btn-primary ms-5" href="{{ route('admin.tiposervicios.index') }}"
-                style="background-color:#2E7646; border-color:#2E7646;" role="button">Tipo Servicios</a>
+            <h4>Gestion de Servicio</h4>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2">
             <a class="btn btn-primary ms-5" href="{{ route('admin.servicio.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Servicio
@@ -63,9 +59,9 @@
                         <td>{{ $servicio->nombre }}</td>
                         <td>{{$servicio->tiposervicios->nombre}}</td>   
                         <td>{{ $servicio->precio }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $servicio->id }})"><span
+                        <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $servicio->id }})"><span
                                     class="material-symbols-outlined">delete</span></button>
-                            <a id="editServicios" style="background-color:#F7C044; border-color:#F7C044;" class="btn btn-primary"
+                            <a id="editServicios" class="btn btn-outline-warning"
                                 href="{{ route('admin.servicio.edit', ['id' => "$servicio->id"]) }}"
                                 role="button"><span class="material-symbols-outlined">edit</span></a>
                         </td>

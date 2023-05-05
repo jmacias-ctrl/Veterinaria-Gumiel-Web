@@ -33,14 +33,6 @@
             <h4>Gestion de Insumos Medicos</h4>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2">
-            <a class="btn btn-primary ms-5" href="{{ route('admin.tipoinsumos.index') }}"
-                style="background-color:#2E7646; border-color:#2E7646;" role="button">Tipo insumos</a>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.index') }}"
-                style="background-color:#2E7646; border-color:#2E7646;" role="button">Marca insumos</a>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-2">
             <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}"
                 style="background-color:#19A448; border-color:#19A448;" role="button">Agregar insumo</a>
         </div>
@@ -68,10 +60,10 @@
                         <td>{{ $insumos->marcaInsumos->nombre }}</td>
                         <td>{{ $insumos->Tipoinsumos->nombre }}</td>
                         <td>{{ $insumos->stock }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $insumos->id }})"><span
+                        <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $insumos->id }})"><span
                                     class="material-symbols-outlined">delete</span></button>
-                            <a id="editInsumos" style="background-color:#F7C044; border-color:#F7C044;"
-                                class="btn btn-primary"
+                            <a id="editInsumos"
+                                class="btn btn-outline-primary"
                                 href="{{ route('admin.insumos_medicos.edit', ['id' => "$insumos->id"]) }}"
                                 role="button"><span class="material-symbols-outlined">edit</span></a>
 

@@ -34,10 +34,6 @@
             <h4>Gestion de Productos</h4>
         </div>
 
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <a class="btn btn-primary mr-auto" href="{{ route('admin.marcaproductos.index') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Marca de 
-                Productos</a>
-        </div>
         @can('ingresar productos')
         <div class="col-lg-2 col-md-2 col-sm-2">
             <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
@@ -79,8 +75,8 @@
         <td>{{ $productos_ven->producto_enfocado }}</td>
         <td>${{ $productos_ven->precio }}</td>
         <td>
-            @can('modificar productos')<a href="{{ route('productos.edit', $productos_ven->id) }}" class="btn btn-primary"><span class="material-symbols-outlined">edit</span></a> @endcan
-            @can('eliminar productos')<button type="input" class="btn btn-danger" onclick="deleted({{$productos_ven->id}})"><span class="material-symbols-outlined">delete</span></button> @endcan
+            @can('modificar productos')<a href="{{ route('productos.edit', $productos_ven->id) }}" class="btn btn-outline-primary"><span class="material-symbols-outlined">edit</span></a> @endcan
+            @can('eliminar productos')<button type="input" class="btn btn-outline-danger" onclick="deleted({{$productos_ven->id}})"><span class="material-symbols-outlined">delete</span></button> @endcan
         </td>
     </tr>
 @endforeach

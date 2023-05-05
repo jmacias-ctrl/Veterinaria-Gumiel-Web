@@ -25,8 +25,6 @@
                 @endif
                 Inicio</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.servicio') }}"
-                        style="text-decoration:none;"> Servicios</a></li>
                 <li class="breadcrumb-item" aria-current="page">Tipos Servicios</li>
             </ol>
         </nav>
@@ -34,10 +32,6 @@
     <br>
     <div class="row">
         <div class="d-inline-flex">
-            <a href="{{ route('admin.servicio') }}" class="boton-atras">
-                <span class="material-symbols-outlined" style="font-size:40px;">
-                    arrow_back
-                </span></a>
             <h2 class="mx-5">Gestion de Tipos de Servicios</h2>
             <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tiposervicios.create') }}"
                 style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de servicios</a>
@@ -60,10 +54,10 @@
                     <tr>
                         <th>{{ $tipos->id }}</th>
                         <td>{{ $tipos->nombre }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $tipos->id }})"><span
+                        <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $tipos->id }})"><span
                                     class="material-symbols-outlined">delete</span></button>
-                            <a id="editTipos" style="background-color:#F7C044; border-color:#F7C044;"
-                                class="btn btn-primary" href="{{ route('admin.tiposervicios.edit', ['id' => "$tipos->id"]) }}"
+                            <a id="editTipos"
+                                class="btn btn-outline-warning" href="{{ route('admin.tiposervicios.edit', ['id' => "$tipos->id"]) }}"
                                 role="button"><span class="material-symbols-outlined">edit</span></a>
                         </td>
                     </tr>

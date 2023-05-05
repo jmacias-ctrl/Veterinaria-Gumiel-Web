@@ -23,8 +23,6 @@
                 @endif
                 Inicio</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.insumos_medicos.index') }}"
-                        style="text-decoration:none;">Productos</a></li>
                 <li class="breadcrumb-item" aria-current="page">Marca Productos</li>
             </ol>
         </nav>
@@ -32,10 +30,6 @@
     <div class="row">
         <div class="col-lg-8     col-md-5 col-sm-6">
             <div class="d-inline-flex">
-                <a href="{{route('productos.index')}}" class="boton-atras">
-                    <span class="material-symbols-outlined" style="font-size:40px;">
-                        arrow_back
-                    </span></a>
                 <h2 class="mx-5">Gestion Marca de Productos</h2>
             </div>
         </div>
@@ -63,10 +57,10 @@
                     <tr>
                         <th>{{ $marca->id }}</th>
                         <td>{{ $marca->nombre }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $marca->id }})"><span
+                        <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $marca->id }})"><span
                                     class="material-symbols-outlined">delete</span></button>
-                            <a id="editMarcas" style="background-color:#F7C044; border-color:#F7C044;"
-                                class="btn btn-primary"
+                            <a id="editMarcas"
+                                class="btn btn-outline-warning"
                                 href="{{ route('admin.marcaproductos.edit', ['id' => "$marca->id"]) }}" role="button"><span
                                     class="material-symbols-outlined">edit</span></a>
                         </td>

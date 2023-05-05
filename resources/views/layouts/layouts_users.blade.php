@@ -136,11 +136,20 @@
                 @endcan
                 @hasrole('Admin')
                     <li>
-                        <a href="#">
+                        <a class="collapse-links" data-bs-toggle="collapse" href="#mantenedoresCollapse" role="button"
+                            aria-expanded="false" aria-controls="usuarioCollapse">
                             <i class='bx bx-cog'></i>
-                            <span class="links_name">Landing Page</span>
+                            <span class="links_name">Mantenedores</span>
                         </a>
-                        <span class="tooltip-section">Setting</span>
+                        <span class="tooltip-section">Mantenedores</span>
+                        <div class="collapse" id="mantenedoresCollapse">
+                            <div class="card card-body" id="dropdown">
+                                <a href="{{route('admin.marcaproductos.index')}}" id="link-dropdown">Marcas de Producto</a>
+                                <a href="{{route('admin.tiposervicios.index')}}" id="link-dropdown">Tipo Servicios</a>
+                                <a href="{{route('admin.marcaInsumos.index')}}" id="link-dropdown">Marcas Insum.Medicos</a>
+                                <a href="{{route('admin.tipoinsumos.index')}}" id="link-dropdown">Tipo Insum.Medicos</a>
+                            </div>
+                        </div>
                     </li>
                 @endhasrole
                 <li class="notification">

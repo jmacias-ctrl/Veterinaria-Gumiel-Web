@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Ingresar Nueva Marca - Veterinaria Gumiel</title>
+<title>Ingresar Nueva Marca</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -20,21 +20,15 @@
                 <div class="row mt-3">
                     <div class="col">
                         <label for="Nombre" class="form-label">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror"
-                            placeholder="Ej. Eucanuba" aria-label="Nombre" required>
-                        @error('nombre')
-                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                        @enderror
+                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Eucanuba"
+                            aria-label="Nombre" required>
                     </div>
                 </div>
                 <br>
                 <div class="container">
                     <div class="row row-cols-auto">
-                        <div class="col"><input class="btn btn-primary"
-                                style="background-color:#19A448; border-color:#19A448;" id="btn-submit" type="submit"
-                                value="Agregar Marca"></div>
-                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.index') }}"
-                                style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a></div>
+                        <div class="col"><input class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" id="btn-submit" type="submit" value="Agregar Marca"></div>
+                        <div class="col"><a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a></div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 @extends('layouts.layouts_users')
-<title>Crear Rol - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -35,7 +34,7 @@
                             @enderror
                         </div>
                         <hr class="my-3">
-                        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol" style="background-color:#19A448; border-color:#19A448;">
+                        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol">
                     </div>
             </form>
         </div>

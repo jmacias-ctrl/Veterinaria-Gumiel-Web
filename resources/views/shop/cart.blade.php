@@ -1,7 +1,5 @@
 @extends('layouts.app')
-@section('title')
-Carro de Compras - Veterinaria Gumiel
-@endsection
+
 @section('content')
     <div class="container" style="margin-top: 80px">
         <nav aria-label="breadcrumb">

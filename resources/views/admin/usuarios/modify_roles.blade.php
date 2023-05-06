@@ -25,9 +25,6 @@
             <div id="RoleWindow">
                 <h4>Usuario: {{ $user->name }}</h4>
                 <h5 class="mt-4">Roles</h5>
-                @error('roles')
-                    <div class="text-danger"><span><small>{{ _('Debes seleccionar al menos un rol') }}</small></span></div>
-                @enderror
                 <div class="row justify-content-center align-items-center g-2">
                     @foreach ($user->nombre_roles as $rol)
                         <div class="col">
@@ -52,7 +49,7 @@
                 </div>
                 <hr>
 
-                <input name="" id="btn-submit" class="btn btn-primary" type="submit" value="Modificar Roles" style="background-color:#19A448; border-color:#19A448;">
+                <input name="" id="" class="btn btn-primary" type="submit" value="Modificar Roles">
             </div>
         </form>
     </div>

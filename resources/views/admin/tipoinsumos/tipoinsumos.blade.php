@@ -9,41 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
-    {{-- Breadcrumb  --}}
-
-    <div class="breadcrumb mb-1 mx-2 opacity-50">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.insumos_medicos.index') }}"
-                        style="text-decoration:none;">Insumos Medicos</a></li>
-                <li class="breadcrumb-item" aria-current="page">Tipos Insumos Medicos</li>
-            </ol>
-        </nav>
-    </div>
-
-    <br>
-
-    <div class="row">
-        <div class="d-inline-flex">
-            <a href="{{ route('admin.insumos_medicos.index') }}" class="boton-atras">
-                <span class="material-symbols-outlined" style="font-size:40px;">
-                    arrow_back
-                </span></a>
-            <h2 class="mx-5">Gestion de Tipos de Insumos Medicos</h2>
-            <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoinsumos.create') }}"
-                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de insumo</a>
-        </div>
+    <div class="ms-4">
+        <a href="{{ route('admin.insumos_medicos.index') }}" class="boton-atras" >
+        <span class="material-symbols-outlined" style="font-size:40px;"  >
+            arrow_back
+        </span></a> 
     </div>
     <br>
     <div class="container">
@@ -70,13 +40,15 @@
                 @foreach ($tipoinsumos as $tipos)
                     <tr>
                         <th>{{ $tipos->id }}</th>
-                        <td>{{ $tipos->nombre }}</td>
-                        <td><button type="button" class="btn btn-danger" onclick="deleted({{ $tipos->id }})"><span
-                                    class="material-symbols-outlined">delete</span></button>
-                            <a id="editTipos" style="background-color:#F7C044; border-color:#F7C044;"
-                                class="btn btn-primary" href="{{ route('admin.tipoinsumos.edit', ['id' => "$tipos->id"]) }}"
-                                role="button"><span class="material-symbols-outlined">edit</span></a>
-                        </td>
+                        <th>{{ $tipos->nombre }}</th>
+                        <th><button type="button" class="btn btn-danger"
+                                                onclick="deleted({{ $tipos->id }})"><span
+                                                    class="material-symbols-outlined">delete</span></button>
+                                            <a id="editTipos" style="background-color:#F7C044; border-color:#F7C044;" class="btn btn-primary"
+                                                href="{{ route('admin.tipoinsumos.edit', ['id' => "$tipos->id"]) }}"
+                                                role="button"><span
+                                                    class="material-symbols-outlined">manage_accounts</span></a>
+                        </th>
                     </tr>
                 @endforeach
             </tbody>

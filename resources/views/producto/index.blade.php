@@ -13,39 +13,29 @@
     <div class="breadcrumb mb-1 mx-2 opacity-50">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Productos</li>
             </ol>
         </nav>
     </div>
+    <h1>Gestion de Productos</h1>
+    <hr>
 
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <h4>Gestion de Productos</h4>
-        </div>
-
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <a class="btn btn-primary mr-auto" href="{{ route('admin.marcaproductos.index') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Marca de 
+    <div class="d-flex justify-content-between mb-3">
+        <div class="col">
+            <a class="btn btn-primary mr-auto" href="{{ route('admin.marcaproductos.index') }}" role="button">Marca de 
                 Productos</a>
         </div>
         @can('ingresar productos')
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
+        <div class="col">
+            <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button">Ingresar
                 Producto</a>
         </div>
         @endcan
+        
+        
     </div>
-    <hr>
     @if (session()->get('success'))
         <div class="alert alert-success" role="alert">
             {{ session()->get('success') }}

@@ -1,5 +1,4 @@
 @extends('layouts.layouts_users')
-<title>Modificacion de Rol - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -31,7 +30,7 @@
                             aria-label="Nombre" value="{{ $rol->name }}" required>
                     </div>
                     <hr class="my-3">
-                    <input class="btn btn-primary" id="btn-submit" type="submit" value="Modificar Rol" style="background-color:#19A448; border-color:#19A448;">
+                    <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol">
                 </div>
         </form>
     </div>
@@ -50,7 +49,7 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: 'Modificar Rol',
+                    title: 'Agregar Nuevo Rol',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,

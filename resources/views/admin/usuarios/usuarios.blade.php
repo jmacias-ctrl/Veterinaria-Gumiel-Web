@@ -13,17 +13,7 @@
     <div class="breadcrumb mb-1 mx-2 opacity-50">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    @if (auth()->user()->hasRole('Admin'))
-                        <a href="{{ route('admin') }}">
-                        @elseif(auth()->user()->hasRole('Veterinario'))
-                            <a href="{{ route('veterinario') }}">
-                            @elseif (auth()->user()->hasRole('Peluquero'))
-                                <a href="{{ route('peluquero') }}">
-                                @elseif (auth()->user()->hasRole('Inventario'))
-                                    <a href="{{ route('inventario') }}">
-                    @endif
-                    Inicio</a>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
             </ol>

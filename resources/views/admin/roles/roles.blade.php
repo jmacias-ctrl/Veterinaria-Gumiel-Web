@@ -1,7 +1,6 @@
 @extends('layouts.layouts_users')
-<title>Gestion Roles - Veterinaria Gumiel</title>
-@section('css-after')
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<title>Gestion Usuarios - Administrador</title>
+@section('css-before')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
@@ -14,16 +13,7 @@
     <div class="breadcrumb mb-1 mx-2 opacity-50">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="text-decoration:none;">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Roles</li>
             </ol>
         </nav>

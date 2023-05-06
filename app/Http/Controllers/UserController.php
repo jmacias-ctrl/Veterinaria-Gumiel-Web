@@ -44,8 +44,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->nombre_roles = $user->getRoleNames();
-        $roles = Role::whereNotIn('name', $user->nombre_roles)->where('name','!=','Cliente')->get();
-
+        $roles = Role::whereNotIn('name', $user->nombre_roles)->get();
         return view('admin.usuarios.modify_roles', compact('user', 'roles'));
     }
     public function add_user()
@@ -177,33 +176,9 @@ class UserController extends Controller
     }
     public function update_roles(Request $request)
     {
-        $rules=['roles' => 'required|array|min:1'];
-        $attribute = ['roles'=>'Rol'];
-        $message = ['required', 'Debe haber al menos 1 rol'];
-        $validator = Validator::make($request->all(), $rules, $message,$attribute);
-        if($validator->passes()){
-            $user = User::find($request->id);
-            $user->syncRoles($request->roles);
-            $admins = User::role('Admin')->get();
-    
-    
-            $mensajeRoles = "";
-            for ($i = 0; $i < sizeof($request->roles); $i++) {
-                if ($i == sizeof($request->roles) - 1) {
-                    $mensajeRoles .= $request->roles[$i];
-                } else {
-                    $mensajeRoles .= $request->roles[$i] . ",";
-                }
-            }
-            $mensajeAdmin = 'El Administrador ' . auth()->user()->name . ' ha modificado los roles del usuario ' . $user->name . ', nuevos roles: ' . $mensajeRoles;
-            $mensajeUsuario = 'Te han cambiado los roles a los siguientes: ' . $mensajeRoles;
-            foreach ($admins as $admin) {
-                $admin->notify(new GeneralNotificationForUsers('Modificación de roles a un usuario', $mensajeAdmin, route('admin.usuarios.index')));
-            }
-            $user->notify(new UsuarioModificacionRoles($user, $mensajeUsuario));
-            return redirect()->route('admin.usuarios.index')->with('success', 'Se ha modificados los roles para el usuario ' . $user->name);
-        }
-        return back()->withErrors($validator)->withInput();
+        $user = User::find($request->id);
+        $user->syncRoles($request->roles);
+        return redirect()->route('admin.usuarios.index')->with('success', 'Se ha modificados los roles para el usuario ' . $user->name);
     }
 
     public function get_notifications()

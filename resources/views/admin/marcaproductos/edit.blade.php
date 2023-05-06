@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Modificar Marca Producto - Veterinaria Gumiel</title>
+<title>Modificar Marca Producto</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -13,35 +13,28 @@
     <div class="container-sm">
         <h2>Modificar Marca de Producto</h2>
         <hr>
-        <form action="{{ route('admin.marcaproductos.update') }}" method="POST">
-            @csrf
-            <div class="row mt-3">
-                <div class="col">
-                    <input type="hidden" name="id" value="{{ $marcaproductos->id }}">
+            <form action="{{route('admin.marcaproductos.update')}}" method="POST">
+                @csrf
+                <div class="row mt-3">
+                    <div class="col">
+                    <input type="hidden" name="id" value="{{$marcaproductos->id}}">
                     <label for="nombre" class="form-label">Nombre Marca</label>
-                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                        value="{{ $marcaproductos->nombre }}" id="nombre" checked>
-                    @error('nombre')
-                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                    @enderror
-                </div>
-
-            </div>
-            <br>
-            <div class="container">
-                <div class="row row-cols-auto">
-                    <div class="col">
-                        <input name="btn-submit" id="btn-submit" class="btn btn-primary"
-                            style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
-                    </div>
-                    <div class="col">
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.index') }}"
-                            style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                    <input type="text" class="form-control" name="nombre" value="{{$marcaproductos->nombre}}" id="nombre" checked>
                     </div>
                 </div>
-            </div>
-        </form>
-    </div>
+                <br>
+                <div class="container">
+                    <div class="row row-cols-auto">
+                        <div class="col">
+                            <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                        </div>
+                    </div>
+                </div>  
+            </form>
+        </div>
     </div>
 @endsection
 
@@ -62,7 +55,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Modificar',
+                    confirmButtonText: 'Si, agregar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
 

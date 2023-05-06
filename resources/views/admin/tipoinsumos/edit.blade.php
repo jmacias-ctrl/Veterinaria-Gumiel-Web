@@ -11,13 +11,7 @@
 @endsection
 @section('content')
     <div class="container-sm">
-        <div class="d-inline-flex">
-
-            <a href="{{ route('admin.tipoinsumos.index') }}"> <span class="material-symbols-outlined" style="font-size:40px;">
-                    arrow_back
-                </span> </a>
-            <h2 class="mx-5">Modificar Tipos de Insumos</h2>
-        </div>
+        <h2>Modificar Tipos de Insumos</h2>
         <hr>
         <form action="{{route('admin.tipoinsumos.update')}}" method="POST">
             @csrf

@@ -1,7 +1,5 @@
 @extends('layouts.app')
-@section('title')
-{{ $producto->nombre }} - Veterinaria Gumiel
-@endsection
+
 @section('content')
 <div class="container" style="margin-top: 80px">
         <nav aria-label="breadcrumb">

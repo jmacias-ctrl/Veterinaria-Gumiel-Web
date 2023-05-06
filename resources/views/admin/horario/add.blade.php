@@ -29,7 +29,7 @@
                     <input type="hidden" id="id" name="id" required>
                 </div>
             </div>
-            <!-- <div class="row justify-content-center align-items-center g-2">
+            <div class="row justify-content-center align-items-center g-2">
                 <label for="title" class="title">Selecciona Funcionario</label>
                 <select class="form-select" required>
                 <option value="">Seleciona un funcionario</option>
@@ -37,19 +37,13 @@
                     <option type="text" id="title" name= "title" value="{{$user->name}}">{{$user->name}}</option>
                 @endforeach
                 </select>
-            </div> -->
-            <div class="row mt-3">
-                    <div class="col">
-                        <label for="title" class="form-label">Titulo: </label>
-                        <input class="form-control" required type="text" id="title" name="title" placeholder="Ej.Turno 1" required value="{{old('title')}}">
-                    </div>
-                </div>
+            </div>
             <div class=" justify-content-center align-items-center g-2">
                 <label for="id_usuario" class="form-label">Selecciona Funcionario</label>
-                <select class="form-select" id="id_usuario" name= "id_usuario" required>
+                <select class="form-select" required >
                 <option value="">Seleciona un funcionario</option>
                 @foreach ($users as $user)
-                    <option type="unsignedBigInteger" value="{{$user->id}}">{{$user->name}}</option>
+                    <option type="unsignedBigInteger" id="id_usuario" name= "id_usuario" value="{{$user->id}}">{{$user->name}}</option>
                 @endforeach
                 </select>
             </div>
@@ -57,14 +51,14 @@
                 <div class="col">
                     <label for="start" class="form-label">Inicio turno: </label>
                     <input class="form-control" type="dateTime-local" id="start"
-                        name="start" value="{{old('start')}}" required>
+                        name="start" required>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
                     <label for="end" class="form-label">Termino turno: </label>
                     <input class="form-control" type="dateTime-local" id="end"
-                        name="end" value="{{old('end')}}" required>
+                        name="end" required>
                 </div>
             </div>
             <br>

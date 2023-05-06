@@ -1,12 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MarcasController;
 use App\Http\Controllers\InsumosMedicosController;
 use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
-use App\Http\Controllers\LandingPageController;
-use app\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,17 +19,16 @@ use app\Http\Controllers\CartController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
-// Route::get('/', 'LandingPageController@index');
-// Route::get('/welcome', 'LandingPageController@index');
-// Route::get('/landing', 'LandingPageController@index')->middleware('web');
 
-Route::get('/',[LandingPageController::class,'index'])->name('inicio');
+// Route::get('/landing', function () {
+//     return view('landing');
+// });
 
-
-
-Route::get('/verCalendario', function () {
-    return view('verCalendario');
+Route::get('/landing', function () {
+    return view('landing');
 })->middleware('web');
+
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -63,13 +59,14 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
     Route::post('insumos_medicos/delete', [App\Http\Controllers\InsumosMedicosController::class, 'delete'])->name(('admin.insumos_medicos.delete'));
     // Route::get('insumosmedicos/tipoinsumos/{id}', [App\Http\Controllers\InsumosMedicosController::class, 'modify_roles'])->name('admin.usuarios.roles');
 
-    Route::get('tipo_insumos', [\App\Http\Controllers\TipoinsumosController::class, 'index_tipo'])->name('admin.tipoinsumos.index');
-    Route::get('tipo_insumos/create', [\App\Http\Controllers\TipoinsumosController::class, 'create'])->name('admin.tipoinsumos.create');
-    Route::post('tipo_insumos/store', [\App\Http\Controllers\TipoinsumosController::class, 'store_tipo'])->name('admin.tipoinsumos.store');
-    Route::get('tipo_insumos/edit', [\App\Http\Controllers\TipoinsumosController::class, 'edit'])->name('admin.tipoinsumos.edit');
-    Route::post('tipo_insumos/delete', [\App\Http\Controllers\TipoinsumosController::class, 'delete'])->name('admin.tipoinsumos.delete');
-    Route::post('tipo_insumos/update', [\App\Http\Controllers\TipoinsumosController::class, 'update'])->name('admin.tipoinsumos.update');
 
+    Route::get('admin/tipoinsumos', [\App\Http\Controllers\TipoinsumosController::class, 'index_tipo'])->name('admin.tipoinsumos.index');
+    Route::get('admin/tipoinsumos/create', [\App\Http\Controllers\TipoinsumosController::class, 'create'])->name('admin.tipoinsumos.create');
+    Route::post('admin/tipoinsumos/store', [\App\Http\Controllers\TipoinsumosController::class, 'store_tipo'])->name('admin.tipoinsumos.store');
+    Route::get('admin/tipoinsumos/edit', [\App\Http\Controllers\TipoinsumosController::class, 'edit'])->name('admin.tipoinsumos.edit');
+    Route::post('admin/tipoinsumos/delete', [\App\Http\Controllers\TipoinsumosController::class, 'delete'])->name('admin.tipoinsumos.delete');
+    Route::post('admin/tipoinsumos/update', [\App\Http\Controllers\TipoinsumosController::class, 'update'])->name('admin.tipoinsumos.update');
+    
     Route::get('admin/marcaInsumos', [\App\Http\Controllers\MarcaInsumoController::class, 'index_marca'])->name('admin.marcaInsumos.index');
     Route::get('admin/marcaInsumos/create', [\App\Http\Controllers\MarcaInsumoController::class, 'create'])->name('admin.marcaInsumos.create');
     Route::post('admin/marcaInsumos/delete', [\App\Http\Controllers\MarcaInsumoController::class, 'delete'])->name('admin.marcaInsumos.delete');
@@ -133,7 +130,6 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/horario/edit/{id}',[App\Http\Controllers\HorariosController::class,'edit']);
     Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
-
 });
 
 Route::group(['middleware' => ['role:Veterinario']], function () {
@@ -165,10 +161,3 @@ route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
 });
 Auth::routes();
-Route::get('/marca',[MarcasController::class,'index'])->name('marcas');
-Route::post('/marca',[MarcasController::class,'store'])->name('marcas');
-
-Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
-Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
-Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');
-

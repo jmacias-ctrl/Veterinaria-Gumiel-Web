@@ -1,5 +1,5 @@
-extends('layouts.layouts_users')
-<title>Marcas de productos</title>
+@extends('layouts.layouts_users')
+<title>Marcas de productos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
@@ -9,11 +9,25 @@ extends('layouts.layouts_users')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
-    <div class="ms-4">
-        <a href="#" class="boton-atras" >
-        <span class="material-symbols-outlined" style="font-size:40px;" >
-            arrow_back
-        </span></a> 
+    <div class="breadcrumb mb-1 mx-2 opacity-50">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="{{ route('admin.insumos_medicos.index') }}"
+                        style="text-decoration:none;">Productos</a></li>
+                <li class="breadcrumb-item" aria-current="page">Marca Productos</li>
+            </ol>
+        </nav>
     </div>
     <div class="row">
         <div class="col-lg-8     col-md-5 col-sm-6">

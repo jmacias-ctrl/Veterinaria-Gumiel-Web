@@ -26,8 +26,19 @@ class TipoinsumosController extends Controller
     }
 
     public function store_tipo(Request $request){
-        $tipoinsumos = Tipoinsumos::create(['nombre'=>$request->nombre]);
-        return redirect()->route('admin.tipoinsumos.index');
+        $rule = [
+            'nombre'=>'required|string',
+        ];
+        $atrribute =[
+            'nombre' => 'Nombre',
+        ];
+        $message = ['required'=>'El :attribute es obligatorio'];
+        $validator = Validator::make($request->all(), $rule, $message, $atrribute);
+        if($validator->passes()){
+            $tipoinsumos = Tipoinsumos::create(['nombre'=>$request->nombre]);
+            return redirect()->route('admin.tipoinsumos.index')->with('success', 'El tipo de insumo ' . $request->nombre . ' fue agregado de manera satisfactoria');
+        }
+        return back()->withErrors($validator)->withInput();
     }
 
     public function delete(Request $request){
@@ -43,10 +54,21 @@ class TipoinsumosController extends Controller
     
     public function update(Request $request)
     {
-        $tipoinsumos = Tipoinsumos::find($request->id);
-        $tipoinsumos->nombre = $request->nombre;
-        $tipoinsumos->save();
-        return redirect()->route('admin.tipoinsumos.index');
+        $rule = [
+            'nombre'=>'required|string',
+        ];
+        $atrribute =[
+            'nombre' => 'Nombre',
+        ];
+        $message = ['required'=>':attribute es obligatorio'];
+        $validator = Validator::make($request->all(), $rule, $message, $atrribute);
+        if($validator->passes()){
+            $tipoinsumos = Tipoinsumos::find($request->id);
+            $tipoinsumos->nombre = $request->nombre;
+            $tipoinsumos->save();
+            return redirect()->route('admin.tipoinsumos.index')->with('success', 'El tipo de insumo ' . $request->nombre . ' fue modificado de manera satisfactoria');
+        }
+        return back()->withErrors($validator)->withInput();
     }
 }
 

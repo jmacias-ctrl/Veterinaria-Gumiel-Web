@@ -34,16 +34,16 @@ class HorariosController extends Controller
     public function store(Request $request )
     {
         $rules =[
-            'title'=>'required|min:1',
-            'id_usuario'=>'required|min:1',
+            'title'=>'required',
+            'id_usuario'=>'required',
             'start'=>'required',
             'end'=>'required'
         ];
         $attributes = [
-            'title'=>'Title',
+            'title'=>'title',
             'id_usuario'=>'id_usuario',
-            'start'=>'Start',
-            'end'=>'End'
+            'start'=>'start',
+            'end'=>'end'
         ];
         $message = [
             'required' => ':attribute es obligatorio.',
@@ -51,13 +51,14 @@ class HorariosController extends Controller
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
             $horarios = new Horarios;
-            $horarios->id = $request->input('id');
+            // $horarios->id = $request->input('id');
             $horarios->title = $request->input('title');
             $horarios->id_usuario = $request->input('id_usuario');
             $horarios->start = $request->input('start');
             $horarios->end = $request->input('end');
 
             $horarios->save();
+            return redirect()->route('admin.horario.index')->with('success', 'El horario ' . $request->title . ' fue agregado de manera satisfactoria');
         }
         return back()->withErrors($validator)->withInput();
        

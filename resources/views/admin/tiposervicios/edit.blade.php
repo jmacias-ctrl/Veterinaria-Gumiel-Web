@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Modificar Marca Producto - Veterinaria Gumiel</title>
+<title>Modificar Tipo Servicio - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -11,19 +11,15 @@
 @endsection
 @section('content')
     <div class="container-sm">
-        <h2>Modificar Marca de Producto</h2>
+        <h2>Modificar Tipos de Servicio</h2>
         <hr>
-        <form action="{{ route('admin.marcaproductos.update') }}" method="POST">
+        <form action="{{route('admin.tiposervicios.update')}}" method="POST">
             @csrf
             <div class="row mt-3">
                 <div class="col">
-                    <input type="hidden" name="id" value="{{ $marcaproductos->id }}">
-                    <label for="nombre" class="form-label">Nombre Marca</label>
-                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                        value="{{ $marcaproductos->nombre }}" id="nombre" checked>
-                    @error('nombre')
-                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                    @enderror
+                    <input type="hidden"  name="id" value="{{$tiposervicios->id}}">
+                    <label for="nombre" class="form-label">Nombre Tipo de Servicio</label>
+                    <input type="text" class="form-control" name="nombre" value="{{$tiposervicios->nombre}}" id="nombre" checked>
                 </div>
 
             </div>
@@ -31,17 +27,14 @@
             <div class="container">
                 <div class="row row-cols-auto">
                     <div class="col">
-                        <input name="btn-submit" id="btn-submit" class="btn btn-primary"
-                            style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                        <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
                     </div>
                     <div class="col">
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.index') }}"
-                            style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
+                        <a class="btn btn-primary ms-5" href="{{ route('admin.tiposervicios.index') }}" style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
                     </div>
                 </div>
-            </div>
+            </div>    
         </form>
-    </div>
     </div>
 @endsection
 
@@ -56,13 +49,13 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Modificar Marca Productos',
+                    title: 'Modificar Tipo Servicio',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Modificar',
+                    confirmButtonText: 'Si, modificar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
 

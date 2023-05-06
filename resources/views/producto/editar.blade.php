@@ -107,9 +107,38 @@
 
             <!-- Resto de los campos del formulario -->
 
-            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <button type="submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;">Actualizar</button>
         </form>
 
     </div>
     </div>
+@endsection
+@section('js-after')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btn-submit').on('click', function(e) {
+                e.preventDefault();
+                var form = $(this).parents(form);
+                Swal.fire({
+                    title: 'Agregar Nuevo producto',
+                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, agregar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        })
+    </script>
 @endsection

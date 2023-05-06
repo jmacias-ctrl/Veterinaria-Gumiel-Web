@@ -1,4 +1,5 @@
 @extends('layouts.layouts_users')
+<title>Modificacion de Permisos del Rol - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -125,7 +126,7 @@
                 </div>
                 <hr>
 
-                <input name="" id="btn-submit" class="btn btn-primary" type="submit" value="Modificar Permisos">
+                <input name="" id="btn-submit" class="btn btn-primary" type="submit" value="Modificar Permisos" style="background-color:#19A448; border-color:#19A448;">
             </div>
         </form>
     </div>

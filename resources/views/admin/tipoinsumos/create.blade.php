@@ -1,5 +1,5 @@
 @extends('layouts.layouts_users')
-<title>Ingresar Tipo de Insumo</title>
+<title>Ingresar Tipo de Insumo - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -11,7 +11,13 @@
 @endsection
 @section('content')
     <div class="container-sm">
-        <h2>Ingresar Nuevo Tipo de Insumo Medico</h2>
+        <div class="d-inline-flex">
+
+            <a href="{{ route('admin.tipoinsumos.index') }}"> <span class="material-symbols-outlined" style="font-size:40px;">
+                    arrow_back
+                </span> </a>
+            <h2 class="mx-5">Ingresar Nuevo Tipo de Insumo Medico</h2>
+        </div>
         <hr>
         <form action="{{ route('admin.tipoinsumos.store') }}" method="POST">
             @csrf

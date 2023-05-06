@@ -81,17 +81,26 @@ Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], funct
     Route::get('notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
     Route::post('notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');
     
-    
-
     Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
     Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 
 Route::group(['middleware'=>['can:ver servicios']], function(){
-    Route::get('servicio', [App\Http\Controllers\ServicioController::class, 'index_servicios'])->name('admin.servicio');
-    Route::get('servicio/ingresar', [App\Http\Controllers\ServicioController::class, 'create'])->name('admin.servicio.create');
-    Route::post('servicio/store', [App\Http\Controllers\ServicioController::class, 'index_servicios'])->name('admin.servicio.update');
+   
+    Route::get('servicio', [\App\Http\Controllers\ServicioController::class, 'index'])->name('admin.servicio');
+    Route::get('servicio/create', [\App\Http\Controllers\ServicioController::class, 'create'])->name('admin.servicio.create');
+    Route::post('servicio/store', [\App\Http\Controllers\ServicioController::class, 'store'])->name('admin.servicio.store');
+    Route::get('servicio/edit', [\App\Http\Controllers\ServicioController::class, 'edit'])->name('admin.servicio.edit');
+    Route::post('servicio/delete', [\App\Http\Controllers\ServicioController::class, 'delete'])->name('admin.servicio.delete');
+    Route::post('servicio/update', [\App\Http\Controllers\ServicioController::class, 'update'])->name('admin.servicio.update');
+
+    Route::get('tiposervicios', [\App\Http\Controllers\tiposerviciosController::class, 'index'])->name('admin.tiposervicios.index');
+    Route::get('tiposervicios/create', [\App\Http\Controllers\tiposerviciosController::class, 'create'])->name('admin.tiposervicios.create');
+    Route::post('tiposervicios/store', [\App\Http\Controllers\tiposerviciosController::class, 'store'])->name('admin.tiposervicios.store');
+    Route::get('tiposervicios/edit', [\App\Http\Controllers\tiposerviciosController::class, 'edit'])->name('admin.tiposervicios.edit');
+    Route::post('tiposervicios/delete', [\App\Http\Controllers\tiposerviciosController::class, 'delete'])->name('admin.tiposervicios.delete');
+    Route::post('tiposervicios/update', [\App\Http\Controllers\tiposerviciosController::class, 'update'])->name('admin.tiposervicios.update');
 });
 
 Route::group(['middleware' => ['role:Admin']], function () {

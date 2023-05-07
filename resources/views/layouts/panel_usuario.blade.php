@@ -20,6 +20,11 @@
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    
+    <script type="text/javascript">
+        var baseURL = {!! json_encode(url('/')) !!}
+    </script>
+
     @yield('css-after')
     <style>
         .bg-gradient-primary {
@@ -364,6 +369,7 @@
                     </li>
                 </ul>
             </div>
+            <script src="{{ asset('js/horarios.js') }}" defer></script>
         </nav>
         <!-- End Navbar -->
         <!-- Header -->
@@ -460,6 +466,7 @@
                     </div>
                 </div>
             </div>
+            <script src="{{ asset('js/horarios.js') }}" defer></script>
         </div>
         <div class="container-fluid mt--7">
             @yield('content')
@@ -542,6 +549,7 @@
             }, 1500);
         }
     </script>
+    
     @yield('js-after')
 </body>
 

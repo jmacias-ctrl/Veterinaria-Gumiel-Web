@@ -18,7 +18,8 @@
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     @yield('css-after')
     <style>
         .bg-gradient-primary {
@@ -30,7 +31,9 @@
         }
     </style>
 </head>
-
+@php
+        $userNotification = sizeof(Auth::user()->unreadNotifications);
+    @endphp
 <body class="">
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
@@ -77,11 +80,11 @@
                         <div class=" dropdown-header noti-title">
                             <h6 class="text-overflow m-0">¡Bienvenido!</h6>
                         </div>
-                        <a href="./examples/profile.html" class="dropdown-item">
+                        <a href="{{ route('user.profile.index') }}" class="dropdown-item">
                             <i class="ni ni-single-02"></i>
                             <span>Mi Perfil</span>
                         </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
+                        <a href="{{route('user.profile.modify')}}" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
                             <span>Configuracion</span>
                         </a>
@@ -136,7 +139,7 @@
                 </form>
                 <!-- Navigation -->
                 <ul class="navbar-nav">
-                    <li class="nav-item  active ">
+                    <li class="nav-item @if(Route::currentRouteName()=='veterinario' || Route::currentRouteName()=='admin' || Route::currentRouteName()=='inventario' || Route::currentRouteName()=='peluquero') active @endif">
                         @if (auth()->user()->hasRole('Admin'))
                             <a class="nav-link  active " href="{{ route('admin') }}">
                             @elseif(auth()->user()->hasRole('Veterinario'))
@@ -150,7 +153,7 @@
                         </a>
                     </li>
                     @hasrole('Admin')
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::currentRouteName()=='admin.usuarios.index') active @endif">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#usuarioCollapse"
                                 role="button" aria-expanded="false" aria-controls="usuarioCollapse">
                                 <i class="ni ni-circle-08 text-green"></i> Gestion Usuarios
@@ -263,10 +266,14 @@
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
             <div class="container-fluid">
                 <!-- Brand -->
-                
-                <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-                    href="{{ route(Route::currentRouteName()) }}">@yield('header-title')</a>
-                @yield('breadcrumbs')
+
+                @yield('back-arrow')
+                <div class="row">
+
+                    <a class="h3 mb-0 text-white text-uppercase d-none d-lg-inline-block"
+                        href="{{ url()->full() }}">@yield('header-title')</a>
+                </div>
+
                 <!-- Form -->
                 <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
                     <div class="form-group mb-0">
@@ -282,13 +289,23 @@
                     <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="ni ni-bell-55"></i>
+                        <span class="badge badge-danger">@if ($userNotification < 99)
+                            {{ $userNotification }}
+                        @else
+                            99+
+                        @endif</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right"
                         aria-labelledby="navbar-default_dropdown_1">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        @for ($i=0; $i<sizeof(auth()->user()->notifications); $i++)
+                            @if ($i==3)
+                                @break
+                            @endif
+                            <a class="dropdown-item" href="{{ route('users.notification.index') }}">{{auth()->user()->notifications[$i]->data['title']}}</a>
+                        @endfor
+                        
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="{{ route('users.notification.index') }}">Ver todas las notificaciones</a>
                     </div>
                 </li>
                 <!-- User -->
@@ -300,7 +317,7 @@
                                 <span class="avatar avatar-sm rounded-circle">
                                     @if (isset(Auth::user()->image))
                                         <img alt="Image placeholder"
-                                            src="{{ asset('storage') . '/' . Auth::user()->image }}}">
+                                            src="{{ asset('storage') . '/' . Auth::user()->image }}">
                                     @else
                                         <img alt="Image placeholder"
                                             src="{{ asset('image/default-user-image.png') }}">
@@ -315,11 +332,11 @@
                             <div class=" dropdown-header noti-title">
                                 <h6 class="text-overflow m-0">¡Bienvenido!</h6>
                             </div>
-                            <a href="./examples/profile.html" class="dropdown-item">
+                            <a href="{{ route('user.profile.index') }}" class="dropdown-item">
                                 <i class="ni ni-single-02"></i>
                                 <span>Mi Perfil</span>
                             </a>
-                            <a href="./examples/profile.html" class="dropdown-item">
+                            <a href="{{route('user.profile.modify')}}" class="dropdown-item">
                                 <i class="ni ni-settings-gear-65"></i>
                                 <span>Configuracion</span>
                             </a>
@@ -352,6 +369,7 @@
         <!-- Header -->
         <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
             <div class="container-fluid">
+                @yield('breadcrumbs')
                 <div class="header-body">
                     <!-- Card stats -->
                     <div class="row">
@@ -470,12 +488,59 @@
     <!--   Argon JS   -->
     <script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script> toastr.options.positionClass = 'toast-bottom-right';</script>
+    @if ($userNotification == 1)
+        <script>
+            
+            toastr.warning('Tienes una notificacion sin leer');
+        </script>
+    @elseif ($userNotification < 99 && $userNotification > 1)
+        <script>
+            toastr.warning('Tienes {{ $userNotification }} notificaciones sin leer');
+        </script>
+    @elseif($userNotification > 99)
+        <script>
+            toastr.warning('Tienes 99+ notificaciones sin leer');
+        </script>
+    @endif
     <script>
         window.TrackJS &&
             TrackJS.install({
                 token: "ee6fab19c5a04ac1a32a645abde4613a",
                 application: "argon-dashboard-free"
             });
+    </script>
+    <script>
+    
+        function checkForNewNotifications() {
+            var notificationCount = {!! json_encode($userNotification, JSON_HEX_TAG) !!}
+            setInterval(() => {
+                axios({
+                    method: 'get',
+                    url: "{{ route('users.notification.updateNotificationCount') }}",
+                    params: {
+                        lastNotificationCount: notificationCount,
+                    },
+                }).then(res => {
+                    if (res.data.newNotifications == true) {
+                        let difference = res.data.newCount - notificationCount;
+                        if (difference == 1) {
+                            toastr.warning('Tienes una notificacion nueva');
+                        } else if (difference < 99 && difference > 1) {
+                            toastr.warning('Tienes ' + difference + ' notificaciones nuevas');
+                        } else if (difference > 99) {
+                            toastr.warning('Tienes 99+ notificaciones nuevas');
+                        }
+                    }
+                    $(`#notificationCount`).html(notificationCount);
+                    notificationCount = res.data.newCount;
+                }).catch(err => {
+                    console.error(err);
+                });
+            }, 1500);
+        }
     </script>
     @yield('js-after')
 </body>

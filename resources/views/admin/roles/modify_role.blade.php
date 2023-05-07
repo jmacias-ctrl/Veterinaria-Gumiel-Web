@@ -1,4 +1,4 @@
-@extends('layouts.layouts_users')
+@extends('layouts.panel_usuario')
 <title>Modificacion de Rol - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
@@ -10,30 +10,56 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
+@section('back-arrow')
+    <a href="{{ route('admin.roles.index') }}"> <span class="material-symbols-outlined" style="font-size:40px; color:white;">
+            arrow_back
+        </span> </a>
+@endsection
+@section('header-title')
+    Modificacion del Rol {{ $rol->name }}
+@endsection
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                @if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}" style="color:black;">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.roles.index') }}"
+                    style="color:black;">Roles</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Rol</li>
+    </nav>
+@endsection
 @section('content')
-    <div class="container-sm p-5" style="background: white;">
-        <div class="d-inline-flex">
-            <a href="{{route('admin.roles.index')}}"> <span class="material-symbols-outlined" style="font-size:40px;">
-                    arrow_back
-                </span> </a>
-            <h2 class="mx-5">Modificar Rol</h2>
+    <div class="row">
+        <div class="col">
+            <div class="card shadow p-4">
+                <form action="{{ route('admin.roles.update') }}" method="POST" id="formRole">
+                    @csrf
+                    <div id="RoleWindow">
+                        <h2 class="mt-4">Informacion del Rol</h2>
+                        <input type="hidden" name="id" value="{{ $rol->id }}">
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <label for="Nombre" class="form-label">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" class="form-control"
+                                    placeholder="Ej. Logistica" aria-label="Nombre" value="{{ $rol->name }}" required>
+                            </div>
+                            <hr class="my-3">
+                            <input class="btn btn-primary" id="btn-submit" type="submit" value="Modificar Rol"
+                                style="background-color:#19A448; border-color:#19A448;">
+                        </div>
+                </form>
+            </div>
         </div>
-        <hr>
-        <form action="{{ route('admin.roles.update') }}" method="POST" id="formRole">
-            @csrf
-            <div id="RoleWindow">
-                <h5 class="mt-4">Informacion del Rol</h5>
-                <input type="hidden" name="id" value="{{ $rol->id }}">
-                <div class="row mt-3">
-                    <div class="col-3">
-                        <label for="Nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Logistica"
-                            aria-label="Nombre" value="{{ $rol->name }}" required>
-                    </div>
-                    <hr class="my-3">
-                    <input class="btn btn-primary" id="btn-submit" type="submit" value="Modificar Rol" style="background-color:#19A448; border-color:#19A448;">
-                </div>
-        </form>
     </div>
 @endsection
 

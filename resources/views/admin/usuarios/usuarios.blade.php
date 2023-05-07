@@ -9,14 +9,14 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion Usuario
+    Gestion de Usuario
 @endsection
 @section('breadcrumbs')
-    <nav aria-label="breadcrumb" style="background: none;">
+    <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}">
+                    <a href="{{ route('admin') }}" style="color:black;">
                     @elseif(auth()->user()->hasRole('Veterinario'))
                         <a href="{{ route('veterinario') }}">
                         @elseif (auth()->user()->hasRole('Peluquero'))
@@ -26,8 +26,7 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
-        </ol>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Usuarios</li>
     </nav>
 @endsection
 @section('content')
@@ -41,10 +40,10 @@
                 
                 <div class="row">
                     <div class="col-sm-10">
-                        
+                        <h1>Listado de Usuarios</h1>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-primary mr-auto" href="{{ route('admin.usuarios.add') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
+                        <a class="btn btn-primary mr-auto shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
                             Usuario</a>
                     </div>
                 </div>

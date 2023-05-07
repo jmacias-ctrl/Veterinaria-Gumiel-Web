@@ -1,4 +1,4 @@
-@extends('layouts.layouts_users')
+@extends('layouts.panel_usuario')
 <title>Administrador Inicio - Veterinaria Gumiel</title>
 @section('css-before')
     <style>

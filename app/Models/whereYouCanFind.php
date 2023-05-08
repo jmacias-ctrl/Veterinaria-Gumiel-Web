@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class WhereYouCanFind extends Model
 {
+    protected $table = 'whereYouCanFind';
+
     use HasFactory;
     protected $fillable = [
         'id',

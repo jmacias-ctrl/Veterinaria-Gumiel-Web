@@ -9,24 +9,29 @@
       </div>
       <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 datos">
         <div>
-          <h3 class="font-weight-bold mb-3"><span class="material-symbols-outlined">location_on</span> Villagran 437,Cañete,Chile.</h3>
+          <h3 class="font-weight-bold mb-3"><span class="material-symbols-outlined">location_on</span> {{$landingMaps->direccion}}</h3>
         </div>
         <div>
-          <h3 class="font-weight-bold mb-3"><span class="material-symbols-outlined">phone_in_talk</span> +56977088874</h3>
+          <h3 class="font-weight-bold mb-3"><span class="material-symbols-outlined">phone_in_talk</span> {{$landingMaps->telefono}} </h3>
         </div>
         <div>
           <h3 class="font-weight-bold"><span class="material-symbols-outlined">schedule</span> Horarios</h3>
         </div>
-        <div>
+        <!-- <div>
           <h3 class="font-weight-bold pl-5">Lunes a Domingos y Festivos</h3>
           <h3 class="font-weight-bold pl-5">09:30 - 14:00 hrs</h3>
           <h3 class="font-weight-bold pl-5">15:00 - 19:00 hrs</h3>
+        </div> -->
+
+        <div>
+          <h3 class="font-weight-bold pl-5">{!! nl2br(e($landingMaps->horarios)) !!}</h3>
         </div>
+
         <br>
         <div class="row row justify-content-md-center">
-          <div class="col-lg-2"><a style="color:#fff" href="https://instagram.com/vetgumiel?igshid=YmMyMTA2M2Y="><i class="bi bi-instagram" style="font-size: calc(1.325rem + .9vw) !important;"></i></a></div>
-          <div class="col col-lg-2"><a style="color:#fff" href="https://m.facebook.com/p/Clínica-Veterinaria-Gumiel-100083250432886/?_rdr"><i class="bi bi-facebook" style="font-size: calc(1.325rem + .9vw) !important;"></i></a></div>
-          <div class="col col-lg-2"><a style="color:#fff" href="https://api.whatsapp.com/send?phone=56977088874&text=Habla%20con%20nosotros! "><i class="bi bi-whatsapp" style="font-size: calc(1.325rem + .9vw) !important;"></i></div>
+          <div class="col-lg-2"><a style="color:#fff" href="{{$landingMaps->instagram}}"><i class="bi bi-instagram" style="font-size: calc(1.325rem + .9vw) !important;"></i></a></div>
+          <div class="col col-lg-2"><a style="color:#fff" href="{{$landingMaps->facebook}}"><i class="bi bi-facebook" style="font-size: calc(1.325rem + .9vw) !important;"></i></a></div>
+          <div class="col col-lg-2"><a style="color:#fff" href="{{$landingMaps->whatsapp}} "><i class="bi bi-whatsapp" style="font-size: calc(1.325rem + .9vw) !important;"></i></div>
         </div>
       </div>
     </div>

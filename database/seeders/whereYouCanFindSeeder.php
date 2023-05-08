@@ -6,7 +6,6 @@ use App\Models\whereYouCanFind;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
-
 class whereYouCanFindSeeder extends Seeder
 {
     /**
@@ -14,9 +13,12 @@ class whereYouCanFindSeeder extends Seeder
      *
      * @return void
      */
+
+    //php artisan migrate:fresh --seed
+
     public function run()
     {
-        WhereYouCanFind::create([
+        whereYouCanFind::create([
             'id' => 0,
             'direccion' => 'Villagran 437,Cañete,Chile.', 
             'telefono'=> '56977088874', 

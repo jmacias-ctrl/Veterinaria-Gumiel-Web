@@ -9,7 +9,10 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        $landingMaps = \App\Models\whereYouCanFind::first();
+        return view('welcome', ['landingMaps' => $landingMaps]);
+
+        // return view('welcome');
     }
 
     public function index2()

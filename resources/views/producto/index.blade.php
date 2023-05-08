@@ -57,8 +57,10 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
+                                <th scope="col">Slug</th>
                                 <th scope="col">Marca</th>
                                 <th scope="col">Tipo</th>
+                                <th scope="col">Min Stock</th>
                                 <th scope="col">Stock</th>
                                 <th scope="col">Producto enfocado</th>
                                 <th scope="col">Precio</th>
@@ -101,16 +103,20 @@
                         name: 'nombre'
                     },
                     {
+                        data: 'slug',
+                        name: 'slug'
+                    },
+                    {
                         data: 'id_marca',
                         name: 'id_marca'
                     },
                     {
-                        data: 'descripcion',
-                        name: 'descripcion'
-                    },
-                    {
                         data: 'tipo',
                         name: 'tipo'
+                    },
+                    {
+                        data: 'min_stock',
+                        name: 'min_stock'
                     },
                     {
                         data: 'stock',

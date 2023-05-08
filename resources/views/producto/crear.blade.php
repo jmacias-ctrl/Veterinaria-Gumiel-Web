@@ -62,6 +62,13 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="nombre">Slug:</label>
+                            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}" required>
+                            @error('slug')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="marca">Marca:</label>
                             <select class="form-select @error('marca') is-invalid @enderror" aria-label="Default select example" id="marca" name="marca" required>
                                 <option @if(old('marca')) selected @endif disabled>Seleccione una Marca</option>
@@ -95,6 +102,13 @@
                             <label for="stock">Stock:</label>
                             <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock" value="{{ old('stock') }}"  required>
                             @error('stock')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="stock">Minimo Stock:</label>
+                            <input type="number" class="form-control @error('min_stock') is-invalid @enderror" id="min_stock" name="min_stock" value="{{ old('stock') }}"  required>
+                            @error('min_stock')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
                         </div>

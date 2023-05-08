@@ -30,7 +30,10 @@ class ProductosVentaController extends Controller
                 ->rawColumns(['action'])
                 ->toJson();
         }
-        $productos = productos_ventas::with('marcaproductos')->get();
+        $productos = productos_ventas::with('marcaproductos')->get()->map(function($producto){
+            $producto->id_marca = $producto->marcaproductos->nombre;
+            return $producto;
+        });
         return view('producto.index', compact('productos'));
     }
 
@@ -55,9 +58,11 @@ class ProductosVentaController extends Controller
         $rules = ([
             'nombre' => 'required',
             'marca' => 'required',
+            'slug'=>'required',
             'descripcion' => 'required',
             'tipo' => 'required',
             'stock' => 'required|integer',
+            'min_stock' => 'required|integer',
             'producto_enfocado' => 'required',
             'precio' => 'required|integer',
             'imagen_path' => 'required|mimes:jpg,jpeg,png',
@@ -65,7 +70,9 @@ class ProductosVentaController extends Controller
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'slug'=>'Slug',
             'descripcion' => 'Descripcion',
+            'min_stock'=>'Minimo Stock',
             'tipo' => 'Tipo',
             'stock' => 'Stock',
             'producto_enfocado' => 'Enfoque del Producto',
@@ -86,6 +93,8 @@ class ProductosVentaController extends Controller
             $producto->nombre = $request->input('nombre');
             $producto->id_marca = $request->input('marca');
             $producto->descripcion = $request->input('descripcion');
+            $producto->slug = $request->input('slug');
+            $producto->min_stock = $request->input('min_stock');
             $producto->tipo = $request->input('tipo');
             $producto->stock = $request->input('stock');
             $producto->producto_enfocado = $request->input('producto_enfocado');
@@ -142,18 +151,22 @@ class ProductosVentaController extends Controller
     {
         $rules = ([
             'nombre' => 'required',
-            'id_marca' => 'required',
+            'marca' => 'required',
+            'slug'=>'required',
             'descripcion' => 'required',
             'tipo' => 'required',
             'stock' => 'required|integer',
+            'min_stock' => 'required|integer',
             'producto_enfocado' => 'required',
             'precio' => 'required|integer',
-            'imagen_path' => 'mimes:jpg,jpeg,png',
+            'imagen_path' => 'required|mimes:jpg,jpeg,png',
         ]);
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'slug'=>'Slug',
             'descripcion' => 'Descripcion',
+            'min_stock'=>'Minimo Stock',
             'tipo' => 'Tipo',
             'stock' => 'Stock',
             'producto_enfocado' => 'Enfoque del Producto',
@@ -178,6 +191,8 @@ class ProductosVentaController extends Controller
             }
             $prod->nombre = $request->input('nombre');
             $prod->id_marca = $request->input('id_marca');
+            $producto->slug = $request->input('slug');
+            $producto->min_stock = $request->input('min_stock');
             $prod->descripcion = $request->input('descripcion');
             $prod->tipo = $request->input('tipo');
             $prod->stock = $request->input('stock');

@@ -18,8 +18,10 @@ class CreateProductosVentasTable extends Migration
             $table->string('nombre');
             $table->unsignedBigInteger('id_marca');
             $table->text('descripcion');
+            $table->string('slud')->nullable();
             $table->enum('tipo', ['alimento', 'accesorio']);
             $table->integer('stock');
+            $table->integer('min_stock')->nullable();
             $table->enum('producto_enfocado', ['gato', 'perro', 'ambos']);
             $table->integer('precio');
             $table->string('imagen_path');

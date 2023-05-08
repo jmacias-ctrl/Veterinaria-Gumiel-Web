@@ -1,46 +1,263 @@
-@extends('layouts.layouts_users')
-<title>Gestion Insumos médicos - Veterinaria Gumiel</title>
+@extends('layouts.panel_usuario')
+<title>Punto de Venta - Veterinaria Gumiel</title>
 @section('css-before')
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
-@section('content')
-    {{-- Breadcrumb  --}}
-
-    <div class="breadcrumb mb-1 mx-2 opacity-50">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}">
+@section('header-title')
+    Punto de Venta
+@endsection
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                @if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}" style="color:black;">
                     @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
+                        <a href="{{ route('veterinario') }}" style="color:black;">
                         @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
+                            <a href="{{ route('peluquero') }}" style="color:black;">
                             @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
+                                <a href="{{ route('inventario') }}" style="color:black;">
                 @endif
                 Inicio</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">Punto de Venta</li>
-            </ol>
-        </nav>
-    </div>
-    <div>
-        
+            </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Punto de Venta</li>
+    </nav>
+@endsection
+@section('content')
+    {{-- Breadcrumb  --}}
+    <div class="row">
+        <div class="col-lg">
+            <div class="card shadow p-4 overflow-auto">
+                <h2>Productos</h2>
+                <div class="row my-2 mb-4">
+                    <div class="col-sm-7">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><span class="material-symbols-outlined">search</span></div>
+                            </div>
+                            <input type="text" name="search" id="search" class="form-control shadow-none"
+                                placeholder="Ingrese el nombre de algún producto...">
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <select name="" id="selectCategory" class="form-control">
+                            <option value="all">Todos los productos</option>
+
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach ($productos as $pro)
+                        <div class="col-lg-3">
+                            <div class="card p-2" style="background-color:light-gray; margin-bottom: 20px; height: auto;">
+                                <img src="/image/productos/{{ $pro->imagen_path }}" class="card-img-top mx-auto"
+                                    style="height: 150px; width: 150px;display: block;" alt="{{ $pro->imagen_path }}">
+
+                                <div class="card-body">
+                                    <p>{{ $pro->marca }}</p>
+                                    <a href="{{ route('shop.show', ['id' => $pro->id]) }}">
+                                        <h6 class="card-title">{{ $pro->nombre }}</h6>
+                                    </a>
+
+                                    <div style="display:flex;">
+
+                                    </div>
+                                    <div class="d-flex flex-column bd-highlight mb-3">
+                                        <p class="text-center">$ {{ $pro->precio }}</p>
+                                        <input type="number" class="form-control form-control-sm" value="1"
+                                            id="quantity_{{$pro->id}}" name="quantity" min="1" max="{{ $pro->stock }}">
+                                    </div>
+
+                                    <div class="card-footer" style="background-color: white;">
+                                        <div class="row">
+                                            <button style="margin: 0 auto;" class="btn btn-secondary btn-sm"
+                                                onclick="addProduct({{ $pro->id }})" class="tooltip-test">
+                                                <i class="fa fa-shopping-cart"></i> Añadir
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card shadow p-4">
+                <h4>Venta</h4>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-sm mb-3">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productShown">
+                            <tr>
+                                <th>No hay productos añadidos</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <h3>Resumen de la venta:</h3>
+                <div class="d-flex flex-column float-right">
+                    <h3 id="subTotal">Sub-total: $0</h3>
+                    <h3 id="total">Total: $0</h3>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-danger btn-lg">Cancelar</button>
+                            <button type="button" class="btn btn-primary btn-lg">Pagar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
-
 @section('js-after')
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.4.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script>
-        
+        function deleteProduct(value) {
+            axios.get(" {{ route('point_sale.removeProduct') }}", {
+                    params: {
+                        value: value,
+                    }
+                })
+                .then(res => {
+                    $("#productShown").empty();
+                    $.map(res.data.cartItems, function(elementOrValue, indexOrKey) {
+                        var productMoney = new Intl.NumberFormat('es-CL', {
+                            currency: 'CLP',
+                            style: 'currency'
+                        }).format(elementOrValue.price)
+                        $("#productShown").append(`
+            
+                        <tr> 
+                            
+                                                   
+                            <td class="text-wrap">${elementOrValue.name}</td>
+                            <th class ="pl-4" scope="row">   ${elementOrValue.quantity}  </th>
+                            <td>${productMoney}</td>
+                            <td><button type="button" class="btn btn-outline-danger" onclick="deleteProduct(${elementOrValue.id})">Eliminar</button></td>
+                         
+                        </tr>
+                    
+                
+                    
+                    `);
+
+
+
+                    });
+
+                    $("#monto").val(res.data.total);
+                    var total = new Intl.NumberFormat('es-CL', {
+                        currency: 'CLP',
+                        style: 'currency'
+                    }).format(res.data.total)
+                    var subTotal = new Intl.NumberFormat('es-CL', {
+                        currency: 'CLP',
+                        style: 'currency'
+                    }).format(res.data.subTotal)
+                    $("#total").html("Total: " + total);
+                    $("#subTotal").html("Sub-total: " + subTotal);
+
+
+                })
+
+                .catch(err => {
+                    console.error(err);
+
+                    $(`#errorText${err.response.data.errors2}`).removeClass('d-none');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `Producto ${err.response.data.errors} sin stock`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                })
+        }
+
+        function addProduct(value) {
+            axios.get(" {{ route('point_sale.addProduct') }}", {
+                    params: {
+                        value: value,
+                    }
+                })
+                .then(res => {
+
+
+                    $("#productShown").empty();
+                    $.map(res.data.cartItems, function(elementOrValue, indexOrKey) {
+                        var productMoney = new Intl.NumberFormat('es-CL', {
+                            currency: 'CLP',
+                            style: 'currency'
+                        }).format(elementOrValue.price)
+                        $("#productShown").append(`
+            
+                        <tr> 
+                            
+                                                   
+                            <td class="text-wrap">${elementOrValue.name}</td>
+                            <th class ="pl-4" scope="row">   ${elementOrValue.quantity}  </th>
+                            <td>${productMoney}</td>
+                            <td><button type="button" class="btn btn-outline-danger" onclick="deleteProduct(${elementOrValue.id})">Eliminar</button></td>
+                         
+                        </tr>
+                    
+                
+                    
+                    `);
+
+
+
+                    });
+
+                    $("#monto").val(res.data.total);
+                    var total = new Intl.NumberFormat('es-CL', {
+                        currency: 'CLP',
+                        style: 'currency'
+                    }).format(res.data.total)
+                    var subTotal = new Intl.NumberFormat('es-CL', {
+                        currency: 'CLP',
+                        style: 'currency'
+                    }).format(res.data.subTotal)
+                    $("#total").html("Total: " + total);
+                    $("#subTotal").html("Sub-total: " + subTotal);
+
+
+                })
+
+                .catch(err => {
+                    console.error(err);
+
+                    $(`#errorText${err.response.data.errors2}`).removeClass('d-none');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `Producto ${err.response.data.errors} sin stock`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                })
+        }
     </script>
 @endsection

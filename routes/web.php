@@ -89,6 +89,8 @@ Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], funct
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 
+
+
 Route::group(['middleware'=>['can:ver servicios']], function(){
    
     Route::get('servicio', [\App\Http\Controllers\ServicioController::class, 'index'])->name('admin.servicio');
@@ -150,6 +152,9 @@ Route::group(['middleware' => ['role:Inventario']], function () {
     Route::get('/inicio/inventario', function(){
         return view('admin.home');
     })->name('inventario');
+    Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
+    Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
+    Route::get('inventario/punto_de_venta/remove',[App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
 });
 
 

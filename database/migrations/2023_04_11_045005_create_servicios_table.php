@@ -18,6 +18,7 @@ class CreateServiciosTable extends Migration
             $table->string('nombre');
             $table->unsignedBigInteger('id_tipo');
             $table->integer('precio');
+            $table->integer('tiempo')->nullable();
             $table->timestamps();
 
             $table->foreign('id_tipo')->references('id')->on('tiposervicios');

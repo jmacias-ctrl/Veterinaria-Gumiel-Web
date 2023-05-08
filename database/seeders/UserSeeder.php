@@ -42,6 +42,12 @@ class UserSeeder extends Seeder
             'email' => 'admin@vetgumiel.cl',
             'password' => bcrypt('asdf123'),
         ])->assignRole('Admin');
+        User::create([
+            'name' => 'Inventario Demo',
+            'rut' => '55555555-5',
+            'email' => 'inventario@vetgumiel.cl',
+            'password' => bcrypt('asdf123'),
+        ])->assignRole('Inventario');
 
         Horarios::create([
             'title'=>'Veterinario Demo',

@@ -1,4 +1,4 @@
-@extends('layouts.layouts_users')
+@extends('layouts.panel_usuario')
 <title>Marcas de Innsumos Medico - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet"
@@ -7,71 +7,71 @@
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
+@section('header-title')
+    Gestion de Marca Insumos
+@endsection
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                @if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}" style="color:black;">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Marca productos</li>
+    </nav>
+@endsection
 @section('content')
-    <div class="breadcrumb mb-1 mx-2 opacity-50">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    @if (auth()->user()->hasRole('Admin'))
-                        <a href="{{ route('admin') }}">
-                        @elseif(auth()->user()->hasRole('Veterinario'))
-                            <a href="{{ route('veterinario') }}">
-                            @elseif (auth()->user()->hasRole('Peluquero'))
-                                <a href="{{ route('peluquero') }}">
-                                @elseif (auth()->user()->hasRole('Inventario'))
-                                    <a href="{{ route('inventario') }}">
-                    @endif
-                    Inicio</a>
-                </li>
-                <li class="breadcrumb-item" aria-current="page">Marca Insumos Medicos</li>
-            </ol>
-        </nav>
-    </div>
+    {{-- Breadcrumb  --}}
     <div class="row">
-        <div class="col-lg-8     col-md-5 col-sm-6">
-            <div class="d-inline-flex">
-                <h2 class="mx-5">Gestion Marca de Insumos Medicos</h2>
+        <div class="col">
+            <div class="card shadow p-4">
+                <div class="card-header border-0">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h1>Listado de Marca de Insumos</h1>
+                        </div>
+                        <div class="col-sm-3">
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                </table>
+                </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
-            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}"
-                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
-        </div>
     </div>
-    <br>
-    <div class="table-responsive">
-        <table
-            class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
-            id="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
+    
+    
+            <!-- <tbody>
                 @foreach ($marcaInsumo as $marca)
                     <tr>
                         <th>{{ $marca->id }}</th>
                         <td>{{ $marca->nombre }}</td>
-                        <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $marca->id }})"><span
-                                    class="material-symbols-outlined">delete</span></button>
-                            <a id="editMarcas"
-                                class="btn btn-outline-warning"
-                                href="{{ route('admin.marcaInsumos.edit', ['id' => "$marca->id"]) }}" role="button"><span
-                                    class="material-symbols-outlined">edit</span></a>
-                        </td>
+                        
                     </tr>
                 @endforeach
-            </tbody>
-        </table>
-    </div>
+            </tbody> -->
+
 @endsection
 
 @section('js-after')
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.4.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -79,18 +79,38 @@
     <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
-                responsive: true,
-                processing: true,
-                searching: true,
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
                 },
+                responsive: true,
+                processing: true,
+                searching: true,
+                serverSide: true,
                 pageLength: 10,
+                ajax: {
+                    url: "{{ route('admin.marcaInsumos.index') }}",
+                    type: 'GET',
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'nombre',
+                        name: 'nombre'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                    }
+                ]
             });
         });
         @if (Session::has('success'))
-            <
-            script >
+            <script>
                 toastr.success("{{ Session::get('success') }}");
     </script>
     @endif
@@ -141,3 +161,4 @@
 
     }
     </script>
+@endsection

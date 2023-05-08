@@ -1,74 +1,100 @@
-@extends('layouts.layouts_users')
+@extends('layouts.panel_usuario')
 <title>Modificar Servicio - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
+@section('title')
+    Modificar Servicios - Veterinaria Gumiel
+@endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
+@section('header-title')
+    Modificacion de servicio {{ $servicio->nombre }}
+@endsection
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                @if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}" style="color:black;">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.servicio')}}" style="color:black;">Servicios</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Servicios</li>
+    </nav>
+@endsection
+@section('back-arrow')
+    <a href="{{ route('admin.servicio') }}"> <span class="material-symbols-outlined"
+            style="font-size:40px; color:white;">
+            arrow_back
+        </span> </a>
+@endsection
 @section('content')
-    <div class="container-sm">
-        <h2>Modificar Tipos de Servico</h2>
-        <hr>
-            <form action="{{route('admin.servicio.update')}}" method="POST">
-                @csrf
-                <div class="row mt-3">
-                    <div class="col">
-                        <input type="hidden" name="id" value="{{ $servicio->id }}">
-                        <label for="nombre"class="form-label">Nombre Servicio</label>
-                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                            value="{{ $servicio->nombre }}" id="nombre" checked>
-                        @error('nombre')
+    <div class="row">
+        <div class="col">
+            <div class="card shadow p-4">
+                <form action="{{route('admin.servicio.update')}}" method="POST">
+                    @csrf
+                    <div class="row mt-3">
+                        <div class="col">
+                            <input type="hidden" name="id" value="{{ $servicio->id }}">
+                            <label for="nombre"class="form-label">Nombre Servicio</label>
+                            <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                                value="{{ $servicio->nombre }}" id="nombre" checked>
+                            @error('nombre')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="nombre" class="form-label">Tipo se servicio</label>
+                            <select class="form-select @error('id_tipo') is-invalid @enderror" aria-label="Default select example"
+                            name="id_tipo" id="id_tipo">
+                            @foreach ($tiposervicios as $tipo)
+                                @if ($tipo->id == $servicio->id_tipo)
+                                    <option selected type="unsignedBigInteger" id="id_tipo" name="tipo"
+                                        value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
+                                @else
+                                    <option type="unsignedBigInteger" id="id_tipo" name="tipo" value="{{ $tipo->id }}">
+                                        {{ $tipo->nombre }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('id_tipo')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="nombre" class="form-label">Tipo se servicio</label>
-                        <select class="form-select @error('id_tipo') is-invalid @enderror" aria-label="Default select example"
-                        name="id_tipo" id="id_tipo">
-                        @foreach ($tiposervicios as $tipo)
-                            @if ($tipo->id == $servicio->id_tipo)
-                                <option selected type="unsignedBigInteger" id="id_tipo" name="tipo"
-                                    value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
-                            @else
-                                <option type="unsignedBigInteger" id="id_tipo" name="tipo" value="{{ $tipo->id }}">
-                                    {{ $tipo->nombre }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    @error('id_tipo')
-                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                    @enderror
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="precio" class="form-label">Precio</label>
+                            <input type="int" class="form-control @error('precio') is-invalid @enderror" name="precio"
+                                value="{{ $servicio->precio }}" id="precio" checked>
+                            @error('precio')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="precio" class="form-label">Precio</label>
-                        <input type="int" class="form-control @error('precio') is-invalid @enderror" name="precio"
-                            value="{{ $servicio->precio }}" id="precio" checked>
-                        @error('precio')
-                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                        @enderror
+                    <div class="container">
+                    <br>
+                    <input name="" id="btn-submit" class="btn btn-primary"
+                                style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
                     </div>
-                </div>
-                <div class="container">
-                <br>
-                <div class="row row-cols-auto">
-                    <div class="col">
-                        <input name="" id="btn-submit" class="btn btn-primary"
-                            style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
-                    </div>
-                    <div class="col">
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.servicio') }}"
-                            style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
-                    </div>
-                </div>
-            </div>
+                </form>
+        </div>
+    </div>
 @endsection
 @section('js-after')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />

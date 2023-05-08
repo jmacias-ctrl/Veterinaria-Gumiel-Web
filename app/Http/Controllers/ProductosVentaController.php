@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\productos_ventas;
 use App\Models\Marcaproducto;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -16,12 +17,21 @@ class ProductosVentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index_productos()
+    public function index_productos(Request $request)
     {
-        $MarcaProductos = Marcaproducto::all();
-        $productos = productos_ventas::with('MarcaProductos')->get();
-
-        return view('producto.index', compact('MarcaProductos', 'productos'));
+        if($request->ajax()){
+            $data = productos_ventas::with('marcaproductos')->get()->map(function($producto){
+                $producto->id_marca = $producto->marcaproductos->nombre;
+                return $producto;
+            });
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action','producto.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+        $productos = productos_ventas::with('marcaproductos')->get();
+        return view('producto.index', compact('productos'));
     }
 
     /**

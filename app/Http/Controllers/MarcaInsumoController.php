@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MarcaInsumo;
+use DataTables;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -13,10 +14,16 @@ use Illuminate\Support\Facades\Validator;
 class MarcaInsumoController extends Controller
 {
 
-
-
-    public function index_marca()
+    public function index_marca(Request $request)
     {
+        if($request->ajax()){
+            $data = MarcaInsumo::all();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', 'admin.marcaInsumo.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
         $marcaInsumo = MarcaInsumo::all();
         return view('admin.marcaInsumo.marcaInsumo', compact('marcaInsumo'));
     }

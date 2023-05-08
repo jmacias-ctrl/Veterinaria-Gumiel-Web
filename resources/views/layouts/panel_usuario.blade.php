@@ -380,61 +380,6 @@
                         </a>
                     </div>
                 </li>
-                <!-- User -->
-                <ul class="navbar-nav align-items-center d-none d-md-flex">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <div class="media align-items-center">
-                                <span class="avatar avatar-sm rounded-circle">
-                                    @if (isset(Auth::user()->image))
-                                        <img alt="Image placeholder"
-                                            src="{{ asset('storage') . '/' . Auth::user()->image }}">
-                                    @else
-                                        <img alt="Image placeholder"
-                                            src="{{ asset('image/default-user-image.png') }}">
-                                    @endif
-                                </span>
-                                <div class="media-body ml-2 d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-                            <div class=" dropdown-header noti-title">
-                                <h6 class="text-overflow m-0">¡Bienvenido!</h6>
-                            </div>
-                            <a href="{{ route('user.profile.index') }}" class="dropdown-item">
-                                <i class="ni ni-single-02"></i>
-                                <span>Mi Perfil</span>
-                            </a>
-                            <a href="{{route('user.profile.modify')}}" class="dropdown-item">
-                                <i class="ni ni-settings-gear-65"></i>
-                                <span>Configuracion</span>
-                            </a>
-                            <a href="./examples/profile.html" class="dropdown-item">
-                                <i class="ni ni-calendar-grid-58"></i>
-                                <span>Actividad</span>
-                            </a>
-                            <a href="./examples/profile.html" class="dropdown-item">
-                                <i class="ni ni-support-16"></i>
-                                <span>Soporte</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();"
-                                id="logout" class="dropdown-item">
-                                <i class="ni ni-user-run"></i>
-                                <span>Cerrar Sesion</span>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    class="d-none">
-                                    @csrf
-                                </form>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
             </div>
             <script src="{{ asset('js/horarios.js') }}" defer></script>
         </nav>

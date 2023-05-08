@@ -13,12 +13,22 @@ use Illuminate\Support\Facades\Validator;
 
 class ServicioController extends Controller
 {
-    public function index()
-    {
-        $tiposervicios = tiposervicios::all();
-        $servicios = servicios::with('tiposervicios')->get();
-        return view('admin.servicio.servicio', compact('tiposervicios', 'servicios'));
+    public function index(Request $request)
+{
+    if ($request->ajax()) {
+        $data = servicios::with('tiposervicios')->get()->map(function($servicio){
+            $servicio->id_tipo = $servicio->tiposervicios->nombre;
+            return $servicio;
+        });
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', 'admin.servicio.datatable.action')
+            ->rawColumns(['action'])
+            ->toJson();
     }
+    $servicios=servicios::with('tiposervicios')->get();
+    return view('admin.servicio.servicio', compact('servicios'));
+}
 
     public function create()
     {

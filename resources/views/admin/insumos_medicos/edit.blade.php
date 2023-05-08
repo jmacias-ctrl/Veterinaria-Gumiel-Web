@@ -1,19 +1,50 @@
-@extends('layouts.layouts_users')
+@extends('layouts.panel_usuario')
 <title>Modificar Insumo Medico - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
+@section('title')
+    Modificar Insumos - Veterinaria Gumiel
+@endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
+@section('header-title')
+    Modificacion de Insumo {{ $insumos_medicos->nombre }}
+@endsection
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                @if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}" style="color:black;">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.insumos_medicos.index')}}" style="color:black;">Insumos Médicos</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Insumos</li>
+    </nav>
+@endsection
+@section('back-arrow')
+    <a href="{{ route('admin.insumos_medicos.index') }}"> <span class="material-symbols-outlined"
+            style="font-size:40px; color:white;">
+            arrow_back
+        </span> </a>
+@endsection
 @section('content')
-    <div class="container-sm">
-        <h2>Modificar Insumos Médico</h2>
-        <hr>
-        <form action="{{ route('admin.insumos_medicos.update') }}" method="POST">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow p-4">
+            <form action="{{ route('admin.insumos_medicos.update') }}" method="POST">
             @csrf
             <div class="row mt-3">
                 <div class="col">
@@ -47,7 +78,8 @@
                 </div>
 
             </div>
-            <div class="row justify-content-center align-items-center g-2 mt-2">
+            <div class="row mt-3">
+                <div class="col">
                 <label for="id_tipo" class="form-label">Tipo insumo</label>
                 <select class="form-select @error('id_tipo') is-invalid @enderror" name="id_tipo" for="id_tipo">
                     <option disabled>Selecciona una opción</option>
@@ -65,7 +97,10 @@
                 @error('id_tipo')
                     <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                 @enderror
+                </div>
             </div>
+                
+            
             <div class="row mt-3">
                 <div class="col">
                     <label for="stock" class="form-label">Stock</label>
@@ -84,14 +119,12 @@
                         <input name="" id="btn-submit" class="btn btn-primary"
                             style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
                     </div>
-                    <div class="col">
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.index') }}"
-                            style="background-color:#6A6767; border-color:#6A6767;" role="button">Cancelar</a>
-                    </div>
                 </div>
             </div>
     </div>
     </form>
+            </div>
+        </div>
     </div>
     </div>
 @endsection

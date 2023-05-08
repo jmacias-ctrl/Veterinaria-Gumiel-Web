@@ -16,12 +16,22 @@ class InsumosMedicosController extends Controller
 {
 
 
-    public function index_insumos()
+    public function index_insumos(Request $request)
     {
-        $tipoinsumos = Tipoinsumos::all();
-        $marcaInsumos = MarcaInsumo::all();
+        if ($request->ajax()) {
+            $data = insumos_medicos::with('marcainsumos','tipoinsumos')->get()->map(function($insumos){
+                $insumos->id_marca = $insumos->marcainsumos->nombre;
+                $insumos->id_tipo = $insumos->tipoinsumos->nombre;
+                return $insumos;
+            });
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', 'admin.insumos_medicos.datatable.action')
+            ->rawColumns(['action'])
+            ->toJson();
+        }
         $insumos_medicos = insumos_medicos::with('tipoinsumos', 'marcaInsumos')->get();
-        return view('admin.insumos_medicos.insumos', compact('tipoinsumos', 'marcaInsumos', 'insumos_medicos'));
+        return view('admin.insumos_medicos.insumos', compact('insumos_medicos'));
     }
 
     public function create()

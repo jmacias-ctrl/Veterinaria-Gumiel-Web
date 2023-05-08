@@ -1,4 +1,4 @@
-@extends('layouts.layouts_users')
+@extends('layouts.panel_usuario')
 <title>Gestion Productos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet"
@@ -7,14 +7,15 @@
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
-@section('content')
-    {{-- Breadcrumb  --}}
-
-    <div class="breadcrumb mb-1 mx-2 opacity-50">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">@if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}">
+@section('header-title')
+    Gestion de Productos
+@endsection
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                @if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}" style="color:black;">
                     @elseif(auth()->user()->hasRole('Veterinario'))
                         <a href="{{ route('veterinario') }}">
                         @elseif (auth()->user()->hasRole('Peluquero'))
@@ -23,70 +24,54 @@
                                 <a href="{{ route('inventario') }}">
                 @endif
                 Inicio</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">Productos</li>
-            </ol>
-        </nav>
-    </div>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Productos</li>
+    </nav>
+@endsection
+@section('content')
+    {{-- Breadcrumb  --}}
 
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <h4>Gestion de Productos</h4>
+        <div class="col">
+            <div class="card shadow p-4">
+                <div class="card-header border-0">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h1>Listado de Productos</h1>
+                        </div>
+                        @can('ingresar productos')
+                        <div class="col-sm-3">
+                        <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar Producto</a>
+                        </div>
+                        @endcan
+                    </div>
+                </div>
+                @if (session()->get('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session()->get('success') }}
+                </div>
+                @endif
+                <div class="table-responsive">
+                    <table class="datatable display responsive nowrap table table-sm table-bordered table-hover table-striped w-100 shadow-sm" id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Producto enfocado</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
         </div>
-
-        @can('ingresar productos')
-        <div class="col-lg-2 col-md-2 col-sm-2">
-            <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
-                Producto</a>
-        </div>
-        @endcan
-    </div>
-    <hr>
-    @if (session()->get('success'))
-        <div class="alert alert-success" role="alert">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-    <div class="table-responsive">
-        <table
-            class="datatable display responsive nowrap table table-sm table-bordered table-hover table-striped w-100 shadow-sm"
-            id="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Producto enfocado</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-             
-            @foreach ($productos as $productos_ven)
-    <tr>
-        <td>{{ $productos_ven->id }}</td>
-        <td>{{ $productos_ven->nombre }}</td>
-        <td>{{ $productos_ven->MarcaProductos->nombre }}</td>
-        <td>{{ $productos_ven->tipo }}</td>
-        <td>{{ $productos_ven->stock }}</td>
-        <td>{{ $productos_ven->producto_enfocado }}</td>
-        <td>${{ $productos_ven->precio }}</td>
-        <td>
-            @can('modificar productos')<a href="{{ route('productos.edit', $productos_ven->id) }}" class="btn btn-outline-primary"><span class="material-symbols-outlined">edit</span></a> @endcan
-            @can('eliminar productos')<button type="input" class="btn btn-outline-danger" onclick="deleted({{$productos_ven->id}})"><span class="material-symbols-outlined">delete</span></button> @endcan
-        </td>
-    </tr>
-@endforeach
-            </tbody>
-        </table>
     </div>
 @endsection
 @section('js-after')
-    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.4.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -94,13 +79,58 @@
     <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
-                responsive: true,
-                processing: true,
-                searching: true,
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
                 },
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: true,
                 pageLength: 10,
+                ajax: {
+                    url: "{{ route('productos.index') }}",
+                    type: 'GET',
+                },
+                columns: [
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'nombre',
+                        name: 'nombre'
+                    },
+                    {
+                        data: 'id_marca',
+                        name: 'id_marca'
+                    },
+                    {
+                        data: 'descripcion',
+                        name: 'descripcion'
+                    },
+                    {
+                        data: 'tipo',
+                        name: 'tipo'
+                    },
+                    {
+                        data: 'stock',
+                        name: 'stock'
+                    },
+                    {
+                        data: 'producto_enfocado',
+                        name: 'producto_enfocado'
+                    },
+                    {
+                        data: 'precio',
+                        name: 'precio'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                    }
+                ]
             });
         });
 

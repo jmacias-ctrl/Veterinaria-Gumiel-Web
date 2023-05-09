@@ -186,6 +186,12 @@
                                                 id="link-dropdown">Horarios</a>
                                         </li>
                                     </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.horariofuncionarios.*')) active @endif" href="{{ route('admin.horariofuncionarios.edit') }}"
+                                                id="link-dropdown">Horario Funcionarios</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </li>

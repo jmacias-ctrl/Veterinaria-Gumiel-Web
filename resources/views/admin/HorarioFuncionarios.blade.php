@@ -32,7 +32,9 @@
 @section('content')
     {{-- Breadcrumb  --}}
 
-    <div class="row">
+    <form action="{{route(horariofuncionarios/store)}}" method="POST">
+        @csrf
+        <div class="row">
         <div class="col">
             <div class="card shadow p-4">
                 <div class="card-header border-0">
@@ -41,7 +43,7 @@
                             <h1>Horarios</h1>
                         </div>
                         <div class="col-sm-3">
-                            <a class="btn btn-primary ms-5" href="" style="background-color:#19A448; border-color:#19A448;" role="button"> Guardar Cambios</a>
+                            <button type="submit" class="btn btn-primary ms-5"  style="background-color:#19A448; border-color:#19A448;" role="button"> Guardar Cambios</button>
                         </div>
                     </div>
                 </div>
@@ -56,31 +58,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($days as $day)
+                        @foreach ($days as $key => $day)
                             <tr>
                                 <th>{{ $day }}</th>
                                 <td>
                                     <label class="custom-toggle">
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" name="active[]" value="{{ $key }}" checked>
                                         <span class="custom-toggle-slider rounded-circle" style="border:1px solid #19A448"></span>
                                     </label>
                                 </td>
                                 <td>
                                     <div class="row">
                                         <div class="col">
-                                            <select class="form-control">
+                                            <select class="form-control" name="morning_start[]">
                                                 @for ($i=9;$i<=14;$i++)
-                                                    <option value="">{{ $i}}:00 AM</option>
-                                                    <option value="">{{ $i}}:30 AM</option>
+                                                    <option value="{{$i}}:00">{{ $i}}:00 AM</option>
+                                                    <option value="{{ $i}}:30">{{ $i}}:30 AM</option>
                                                 @endfor
 
                                             </select>
                                         </div>
                                         <div class="col">
-                                            <select class="form-control">
+                                            <select class="form-control" name="morning_end[]">
                                                 @for ($i=9;$i<=14;$i++)
-                                                    <option value="">{{ $i}}:00 AM</option>
-                                                    <option value="">{{ $i}}:30 AM</option>
+                                                    <option value="{{ $i}}:00">{{ $i}}:00 AM</option>
+                                                    <option value="{{ $i}}:30">{{ $i}}:30 AM</option>
                                                 @endfor
 
                                             </select>
@@ -90,7 +92,7 @@
                                 <td>
                                     <div class="row">
                                         <div class="col">
-                                            <select class="form-control">
+                                            <select class="form-control" name="afternoon_start[]">
                                                 @for ($i=15;$i<=19;$i++)
                                                     <option value="">{{ $i}}:00 PM</option>
                                                     <option value="">{{ $i}}:30 PM</option>
@@ -99,7 +101,7 @@
                                             </select>
                                         </div>
                                         <div class="col">
-                                            <select class="form-control">
+                                            <select class="form-control" name="afternoon_end[]">
                                                 @for ($i=15;$i<=19;$i++)
                                                     <option value="">{{ $i}}:00 PM</option>
                                                     <option value="">{{ $i}}:30 PM</option>
@@ -117,4 +119,6 @@
             </div>
         </div>
     </div>
+    </form>
+    
 @endsection

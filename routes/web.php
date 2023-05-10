@@ -135,7 +135,9 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/horario/edit/{id}',[App\Http\Controllers\HorariosController::class,'edit']);
     Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
+
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
+    Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
 
 
 });

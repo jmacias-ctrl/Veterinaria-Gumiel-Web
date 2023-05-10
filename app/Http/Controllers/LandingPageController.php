@@ -20,10 +20,14 @@ class LandingPageController extends Controller
         
     }
 
-    public function index2()
+    public function modify_landingpage_ubication()
     {
-        // $configuracion = Configuracion::all();
-        // return view('pagina', ['configuracion' => $configuracion]);
+        return view('landingpage.ubication.modify');
+    }
+
+    public function modify_landingpage_aboutUs()
+    {
+        return view('landingpage.aboutUs.modify');
     }
 
     public function store(Request $request) // procesar el formulario y enviar el correo electronico

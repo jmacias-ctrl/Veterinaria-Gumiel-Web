@@ -75,6 +75,6 @@ class ProductosVentaSeeder extends Seeder
             'precio' => 34990,
             'imagen_path' => 'seresto-collar.png'
         ]);
-        
+        productos_ventas::factory(35)->create();
 }
 }

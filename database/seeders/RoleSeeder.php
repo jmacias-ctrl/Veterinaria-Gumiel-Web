@@ -14,7 +14,6 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        //
 
         Permission::create(['name'=>'acceder panel']);
 

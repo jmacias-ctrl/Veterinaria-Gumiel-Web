@@ -32,7 +32,7 @@
 @section('content')
     {{-- Breadcrumb  --}}
 
-    <form action="{{route(horariofuncionarios/store)}}" method="POST">
+    <form action="{{route('admin.horariofuncionarios.store')}}" method="POST">
         @csrf
         <div class="row">
         <div class="col">
@@ -58,12 +58,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($days as $key => $day)
+                        @foreach ($horarios as $key => $HorarioFuncionarios)
                             <tr>
-                                <th>{{ $day }}</th>
+                                <th>{{ $days[$key] }}</th>
                                 <td>
                                     <label class="custom-toggle">
-                                        <input type="checkbox" name="active[]" value="{{ $key }}" checked>
+                                        <input type="checkbox" name="active[]" value="{{ $key }}" @if($HorarioFuncionarios->active) checked @endif>
                                         <span class="custom-toggle-slider rounded-circle" style="border:1px solid #19A448"></span>
                                     </label>
                                 </td>
@@ -72,8 +72,8 @@
                                         <div class="col">
                                             <select class="form-control" name="morning_start[]">
                                                 @for ($i=9;$i<=14;$i++)
-                                                    <option value="{{$i}}:00">{{ $i}}:00 AM</option>
-                                                    <option value="{{ $i}}:30">{{ $i}}:30 AM</option>
+                                                    <option value="{{$i}}:00" {{ ($i.':00' == $HorarioFuncionarios->morning_start)?"selected":null}}>{{$i}}:00</option>
+                                                    <option value="{{$i}}:30" {{ ($i.':30' == $HorarioFuncionarios->morning_start)?"selected":null}}>{{$i}}:30</option>
                                                 @endfor
 
                                             </select>
@@ -81,8 +81,8 @@
                                         <div class="col">
                                             <select class="form-control" name="morning_end[]">
                                                 @for ($i=9;$i<=14;$i++)
-                                                    <option value="{{ $i}}:00">{{ $i}}:00 AM</option>
-                                                    <option value="{{ $i}}:30">{{ $i}}:30 AM</option>
+                                                    <option value="{{$i}}:00" {{ ($i.':00' == $HorarioFuncionarios->morning_end)?"selected":null}}>{{$i}}:00</option>
+                                                    <option value="{{$i}}:30" {{ ($i.':30' == $HorarioFuncionarios->morning_end)?"selected":null}}>{{$i}}:30</option>
                                                 @endfor
 
                                             </select>
@@ -94,8 +94,8 @@
                                         <div class="col">
                                             <select class="form-control" name="afternoon_start[]">
                                                 @for ($i=15;$i<=19;$i++)
-                                                    <option value="">{{ $i}}:00 PM</option>
-                                                    <option value="">{{ $i}}:30 PM</option>
+                                                    <option value="{{$i}}:00"@if ($i.':00' == $HorarioFuncionarios->afternoon_start) selected @endif>{{$i}}:00</option>
+                                                    <option value="{{$i}}:30"@if ($i.':30' == $HorarioFuncionarios->afternoon_start) selected @endif>{{$i}}:30</option>
                                                 @endfor
 
                                             </select>
@@ -103,8 +103,8 @@
                                         <div class="col">
                                             <select class="form-control" name="afternoon_end[]">
                                                 @for ($i=15;$i<=19;$i++)
-                                                    <option value="">{{ $i}}:00 PM</option>
-                                                    <option value="">{{ $i}}:30 PM</option>
+                                                    <option value="{{$i}}:00"@if ($i.':00' == $HorarioFuncionarios->afternoon_end) selected @endif>{{$i}}:00</option>
+                                                    <option value="{{$i}}:30"@if ($i.':30' == $HorarioFuncionarios->afternoon_end) selected @endif>{{$i}}:30</option>
                                                 @endfor
 
                                             </select>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\HorarioFuncionarios;
+use Carbon\Carbon;
 
 class HorarioFuncionariosController extends Controller
 {
@@ -12,7 +13,19 @@ class HorarioFuncionariosController extends Controller
         $days = [
             'Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'
         ];
-        return view('admin.HorarioFuncionarios' ,compact('days'));
+
+        $horarios = HorarioFuncionarios::where('user_id', auth()->id())->get();
+
+        $horarios->map(function($horarios){
+            $horarios->morning_start = (new Carbon($horarios->morning_start))->format('g:i');
+            $horarios->morning_end = (new Carbon($horarios->morning_end))->format('g:i');
+            $horarios->afternoon_start = (new Carbon($horarios->afternoon_start))->format('g:i');
+            $horarios->afternoon_end = (new Carbon($horarios->afternoon_end))->format('g:i');
+        });
+
+        //dd($horarios->toArray());
+
+        return view('admin.HorarioFuncionarios' ,compact('days', 'horarios'));
     }
 
     public function store(Request $request){

@@ -139,7 +139,7 @@
         });
 
         function deleted(id_get) {
-
+            var form = $(this).parents(form);
             Swal.fire({
                 title: '¿Eliminar usuario?',
                 text: "¿Estás seguro? no podrás revertir la acción!",

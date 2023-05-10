@@ -161,6 +161,7 @@ Route::group(['middleware' => ['role:Inventario']], function () {
     })->name('inventario');
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
+    Route::get('inventario/punto_de_venta/clear',[App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');
     Route::get('inventario/punto_de_venta/remove',[App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
 });
 

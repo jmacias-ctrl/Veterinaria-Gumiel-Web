@@ -13,6 +13,11 @@ class PointSaleController extends Controller
         $productos = productos_ventas::all();
         return view('inventario.punto_de_venta.point_sale', compact('productos'));
     }
+
+    public function update_product(Request $request){
+        
+    }
+
     public function add_product(Request $request)
     {
         $producto = productos_ventas::find($request->value);
@@ -20,7 +25,7 @@ class PointSaleController extends Controller
             'id' => $producto->id,
             'name' => $producto->nombre,
             'price' => $producto->precio,
-            'quantity' => 1,
+            'quantity' => $request->cantProduct,
             'attributes' => array(),
             'associatedModel' => $producto
         ));
@@ -35,5 +40,10 @@ class PointSaleController extends Controller
         $total = \Cart::session(auth()->user()->id)->getTotal();
         $subtotal = \Cart::session(auth()->user()->id)->getSubTotal();
         return response()->json(['success' => true, 'cartItems' => $cartItems, 'total' => $total, 'subTotal' => $subtotal], 200);
+    }
+
+    public function clear_products(){
+        \Cart::session(auth()->user()->id)->clear();
+        return response()->json(['success' => true], 200);
     }
 }

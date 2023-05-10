@@ -52,6 +52,13 @@ Route::group(['middleware'=>['can:ver productos']], function(){
     Route::get('productos/create', [App\Http\Controllers\ProductosVentaController::class, 'create'])->name('productos.crear')->middleware(['permission:ingresar productos']);
     Route::post('productos/update', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.update')->middleware(['permission:modificar productos']);
     Route::get('productos/{producto}/edit',[App\Http\Controllers\ProductosVentaController::class, 'edit'])->name('productos.edit')->middleware(['permission:modificar productos']);
+
+    Route::get('tipoproductos_ventas', [\App\Http\Controllers\tipoproductos_ventasController::class, 'index'])->name('admin.tipoproductos_ventas.index');
+    Route::get('tipoproductos_ventas/create', [\App\Http\Controllers\tipoproductos_ventasController::class, 'create'])->name('admin.tipoproductos_ventas.create');
+    Route::post('tipoproductos_ventas/store', [\App\Http\Controllers\tipoproductos_ventasController::class, 'store'])->name('admin.tipoproductos_ventas.store');
+    Route::get('tipoproductos_ventas/edit', [\App\Http\Controllers\tipoproductos_ventasController::class, 'edit'])->name('admin.tipoproductos_ventas.edit');
+    Route::post('tipoproductos_ventas/delete', [\App\Http\Controllers\tipoproductos_ventasController::class, 'delete'])->name('admin.tipoproductos_ventas.delete');
+    Route::post('tipoproductos_ventas/update', [\App\Http\Controllers\tipoproductos_ventasController::class, 'update'])->name('admin.tipoproductos_ventas.update');
 });
 
 Route::group(['middleware'=>['can:ver insumos medicos']], function(){

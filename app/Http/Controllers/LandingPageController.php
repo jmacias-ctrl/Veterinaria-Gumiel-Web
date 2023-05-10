@@ -15,6 +15,11 @@ class LandingPageController extends Controller
         // return view('welcome');
     }
 
+    public function edit()
+    {
+        
+    }
+
     public function index2()
     {
         // $configuracion = Configuracion::all();

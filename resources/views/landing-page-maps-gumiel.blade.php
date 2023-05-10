@@ -17,6 +17,7 @@
         <div>
           <h3 class="font-weight-bold"><span class="material-symbols-outlined">schedule</span> Horarios</h3>
         </div>
+        
         <!-- <div>
           <h3 class="font-weight-bold pl-5">Lunes a Domingos y Festivos</h3>
           <h3 class="font-weight-bold pl-5">09:30 - 14:00 hrs</h3>

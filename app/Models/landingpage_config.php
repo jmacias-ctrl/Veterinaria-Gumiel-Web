@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WhereYouCanFind extends Model
+class LandingPageConfig extends Model
 {
-    protected $table = 'whereYouCanFind';
+    protected $table = 'landingpage_config';
 
     use HasFactory;
     protected $fillable = [
@@ -17,6 +17,8 @@ class WhereYouCanFind extends Model
         'horarios', 
         'instagram', 
         'facebook', 
-        'whatsapp'
+        'whatsapp',
+
+        //another info
     ];
 }

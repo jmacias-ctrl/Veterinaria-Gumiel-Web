@@ -86,7 +86,7 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
     Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update');
 });
 
-Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], function(){
+Route::group(['middleware'=>['auth']], function(){
     Route::get('notification/getUpdate', [App\Http\Controllers\UserController::class, 'get_notifications_count'])->name('users.notification.updateNotificationCount');
     Route::get('notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
     Route::post('notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');
@@ -160,7 +160,9 @@ Route::group(['middleware' => ['role:Inventario']], function () {
         return view('admin.home');
     })->name('inventario');
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
+    Route::post('inventario/punto_de_venta/venta',[App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
+    Route::get('inventario/punto_de_venta/update',[App\Http\Controllers\PointSaleController::class, 'update_product'])->name('point_sale.updateProduct');
     Route::get('inventario/punto_de_venta/clear',[App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');
     Route::get('inventario/punto_de_venta/remove',[App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
 });

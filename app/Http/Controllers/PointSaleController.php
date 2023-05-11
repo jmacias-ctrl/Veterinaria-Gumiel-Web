@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\productos_ventas;
+use App\Models\Marcaproducto;
+use App\Models\trazabilidad_venta_presencial;
 
 class PointSaleController extends Controller
 {
@@ -11,12 +13,8 @@ class PointSaleController extends Controller
     {
         \Cart::session(auth()->user()->id)->clear();
         $productos = productos_ventas::orderBy('nombre')->get();
-        return view('inventario.punto_de_venta.point_sale', compact('productos'));
-    }
-    public function search(Request $request)
-    {
-        $productos = productos_ventas::where('nombre', 'like', '%' . $request->search . '%')->orderBy('nombre')->get();
-        return response()->json(['success' => true, 'productos' => $productos], 200);
+        $marcaProductos = Marcaproducto::all();
+        return view('inventario.punto_de_venta.point_sale', compact('productos', 'marcaProductos'));
     }
     public function update_product(Request $request)
     {
@@ -38,7 +36,30 @@ class PointSaleController extends Controller
         $subtotal = \Cart::session(auth()->user()->id)->getSubTotal();
         return response()->json(['success' => true, 'cartItems' => $cartItems, 'total' => $total, 'subTotal' => $subtotal], 200);
     }
+    public function venta(Request $request)
+    {
+        $cartGet = \Cart::session(auth()->user()->id)->getContent();
 
+        foreach ($cartGet as $item) {
+            $nuevaVenta  = new trazabilidad_venta_presencial();
+            $nuevaVenta->nombre_cliente = $request->nombreCliente;
+            $nuevaVenta->metodo_pago = $request->metodoPago;
+            $nuevaVenta->monto = $item->price;
+            $nuevaVenta->cantidad = $item->quantity;
+            $nuevaVenta->id_producto = $item->id;
+
+            $nuevaVenta->save();
+            
+            $producto = productos_ventas::find($item->id);
+
+            $producto->stock = $producto->stock - $item->quantity;
+            $producto->save();
+        }
+
+        \Cart::session(auth()->user()->id)->clear();
+
+        return redirect()->route('point_sale.index');
+    }
     public function add_product(Request $request)
     {
         $producto = productos_ventas::find($request->value);

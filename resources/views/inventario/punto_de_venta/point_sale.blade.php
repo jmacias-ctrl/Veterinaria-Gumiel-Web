@@ -3,6 +3,11 @@
 @section('css-before')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        .swal2-container {
+            z-index: 10000;
+        }
+    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -41,28 +46,30 @@
                                 <div class="input-group-text"><span class="material-symbols-outlined">search</span></div>
                             </div>
                             <input type="text" name="searchProduct" id="searchProduct" class="form-control shadow-none"
-                                placeholder="Ingrese el nombre de algún producto..." onchange="searchFilter()">
+                                placeholder="Ingrese el nombre de algún producto...">
                         </div>
                     </div>
                     <div class="col-sm">
-                        <select name="" id="selectCategory" class="form-control">
-                            <option value="all">Todos los productos</option>
-
+                        <select name="" id="selectMarca" class="form-control">
+                            <option value="all">Todas las marcas</option>
+                            @foreach($marcaProductos as $item)
+                            <option value="{{$item->nombre}}">{{$item->nombre}}</option>
+                            @endforeach
                         </select>
 
                     </div>
                 </div>
                 <div class="row overflow-auto" style="height:500px;" id="productAvailable">
                     @foreach ($productos as $pro)
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 producto" id="{{ $pro->nombre }}_{{$pro->marcaproductos->nombre}}">
                             <div class="card p-2" style="background-color:light-gray; margin-bottom: 20px; height: auto;">
                                 <img src="/image/productos/{{ $pro->imagen_path }}" class="card-img-top mx-auto"
                                     style="height: 150px; width: 150px;display: block;" alt="{{ $pro->imagen_path }}">
 
                                 <div class="card-body">
-                                    <p>{{ $pro->marca }}</p>
+                                    <p class="text-center">{{  $pro->nombre}}</p>
                                     <a href="{{ route('shop.show', ['id' => $pro->id]) }}">
-                                        <h6 class="card-title">{{ $pro->nombre }}</h6>
+                                        <h6 class="card-title text-center">{{ $pro->marcaproductos->nombre }}</h6>
                                     </a>
 
                                     <div style="display:flex;">
@@ -141,7 +148,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="pagoVenta" tabindex="-1" aria-labelledby="pagoVenta" aria-hidden="true">
+<div class="modal fade" id="pagoVenta" aria-labelledby="pagoVenta" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -151,9 +158,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST">
+                <form action="{{route('point_sale.venta')}}" method="POST" id="metodoPagoForm">
+                    @csrf
                     <input type="hidden" id="id" name="id" value="{{ auth()->user()->id }}">
                     <input type="hidden" id="monto" name="monto">
+                    <input type="hidden" id="vuelto" name="vuelto">
                     <h3>Metodo de Pago</h3>
                     <select class="form-control" id="metodoPago" name="metodoPago" onchange="cambioMetodoPago()">
                         <option value="efectivo">Efectivo</option>
@@ -164,12 +173,13 @@
                     <div class="form-group">
                         <label for="nombreCliente">Nombre del Cliente:</label>
                         <input type="text" class="form-control" id="nombreCliente" name="nombreCliente"
-                            placeholder="Ej. Juan">
+                            placeholder="Ej. Juan" required>
                     </div>
                     <div class="form-group d-none" id="numOperacionDiv">
                         <label for="numOperacion">Numero de Operacion:</label>
                         <div class="input-group mb-2">
-                            <input type="number" class="form-control" id="numOperacion" placeholder="">
+                            <input type="number" class="form-control" id="numOperacion" name="numOperacion"
+                                placeholder="">
                         </div>
                     </div>
                     <div class="form-group d-none" id="bancoDiv">
@@ -189,12 +199,13 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">$</div>
                             </div>
-                            <input type="number" class="form-control" id="montoEfectivo" placeholder="">
+                            <input type="number" class="form-control" id="montoEfectivo" name="montoEfectivo"
+                                placeholder="" required>
                         </div>
                     </div>
                     <hr>
                     <h3 id="totalPagarModal">Total a Pagar: $0</h3>
-                    <h3 id="vuelto">Vuelto: $0</h3>
+                    <h3 id="vueltoHtml">Vuelto: $0</h3>
 
             </div>
             <div class="modal-footer">
@@ -212,67 +223,76 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script>
         $(document).ready(function() {
-            $('#ventaForm').on('submit', function(e) {
+            $('#metodoPagoForm').on('submit', function(e) {
                 e.preventDefault();
                 var form = $(this).parents(form);
+                var efectivo = $('#montoEfectivo').val();
+                var total = $('#monto').val();
+                let metodoPago = $('#metodoPago').val();
+                if (metodoPago=='efectivo' && efectivo < total) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: `Cantidad de efectivo ofrecido es menor a total`,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    })
+                }
                 Swal.fire({
-                    title: '¿Cancelar Venta?',
-                    text: "¿Estás seguro? Se eliminaran todos los productos del carro",
+                    title: '¿Realizar Venta?',
+                    text: "¿Estás seguro que los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, borrar',
+                    confirmButtonText: 'Si, Realizar Venta',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
 
                     if (result.isConfirmed) {
-
+                        e.currentTarget.submit();
                     }
                 });
+            });
+
+            $("#searchProduct").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#selectMarca").val("all")
+                $("#productAvailable .producto").filter(function() {
+                    $(this).toggle($(this).attr('id').toLowerCase().indexOf(value) > -1)
+
+                });
+
+            });
+            $("#selectMarca").on('change', function() {
+                var value = $(this).val().toLowerCase();
+                $("#searchProducto").val("");
+                $("#productAvailable .producto").filter(function() {
+                    $(this).toggle($(this).attr('id').toLowerCase().indexOf(value) > -1)
+
+                });
+
             });
         })
 
         $('#montoEfectivo').on('change', function() {
             let efectivo = $('#montoEfectivo').val();
             let monto = $('#monto').val();
+            let calc = efectivo - monto
             let vuelto = new Intl.NumberFormat('es-CL', {
                 currency: 'CLP',
                 style: 'currency'
-            }).format(efectivo - monto);
-            if (efectivo > monto) {
-                $('#vuelto').html('Vuelto: ' + vuelto);
+            }).format(calc);
+            if (calc > 0) {
+                $('#vueltoHtml').html('Vuelto: ' + vuelto);
+                $('#vuelto').val(vuelto);
             } else {
-                $('#vuelto').html('Vuelto: $0');
+                $('#vueltoHtml').html('Vuelto: $0');
+                $('#vuelto').val(vuelto);
             }
         });
 
-        function searchFilter() {
-            let search = $('#searchProduct').val();
-            axios.get(" {{ route('point_sale.search') }}", {
-                    params: {
-                        search: search,
-                    }
-                })
-                .then(function(response){
-                    console.log('hola');
-                    console.log(response.data.productos);
 
-                })
-
-                .catch(err => {
-                    console.error(err);
-
-                    $(`#errorText${err.response.data.errors2}`).removeClass('d-none');
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: `Producto ${err.response.data.errors} sin stock`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                })
-        }
 
         function chequearCarro() {
             let monto = $('#monto').val();
@@ -297,14 +317,11 @@
 
         function cambioMetodoPago() {
             let metodoPago = $('#metodoPago').val();
-            $('#montoEfectivo').removeAttr('required');
-            $('#montoEfectivo').attr('disabled');
+            $('#montoEfectivo').prop('required', false);
 
-            $('#banco').removeAttr('required');
-            $('#banco').attr('disabled');
+            $('#banco').prop('required', false);
 
-            $('#numOperacion').removeAttr('required');
-            $('#numOperacion').attr('disabled');
+            $('#numOperacion').prop('required', false);
 
             $('#numOperacionDiv').removeClass('d-none')
             $('#bancoDiv').removeClass('d-none')
@@ -317,13 +334,17 @@
             $('#vuelto').addClass('d-none')
 
             if (metodoPago == "efectivo") {
-                $('#montoEfectivoDiv').removeClass('d-none')
-                $('#vuelto').removeClass('d-none')
+                $('#montoEfectivoDiv').removeClass('d-none');
+                $('#vuelto').removeClass('d-none');
+                $('#montoEfectivo').prop('required', true);
             } else if (metodoPago == "transferencia") {
-                $('#bancoDiv').removeClass('d-none')
-                $('#numOperacionDiv').removeClass('d-none')
+                $('#bancoDiv').removeClass('d-none');
+                $('#numOperacionDiv').removeClass('d-none');
+                $('#banco').prop('required', true);
+                $('#numOperacion').prop('required', true);
             } else {
-                $('#numOperacionDiv').removeClass('d-none')
+                $('#numOperacionDiv').removeClass('d-none');
+                $('#numOperacion').prop('required', true);
             }
         }
 

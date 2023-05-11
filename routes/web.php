@@ -153,7 +153,7 @@ Route::group(['middleware' => ['role:Inventario']], function () {
         return view('admin.home');
     })->name('inventario');
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
-    Route::get('inventario/punto_de_venta/search',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.search');
+    Route::post('inventario/punto_de_venta/venta',[App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
     Route::get('inventario/punto_de_venta/update',[App\Http\Controllers\PointSaleController::class, 'update_product'])->name('point_sale.updateProduct');
     Route::get('inventario/punto_de_venta/clear',[App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');

@@ -20,8 +20,9 @@
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <script type="text/javascript">
         var baseURL = {!! json_encode(url('/')) !!}
     </script>
@@ -148,51 +149,59 @@
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         @if (auth()->user()->hasRole('Admin'))
-                            <a class="nav-link @if(Route::current()->getName()=='admin') active @endif" href="{{ route('admin') }}">
+                            <a class="nav-link @if (Route::current()->getName() == 'admin') active @endif"
+                                href="{{ route('admin') }}">
                             @elseif(auth()->user()->hasRole('Veterinario'))
-                                <a  class="nav-link  @if(Route::current()->getName()=='veterinario') active @endif "  href="{{ route('veterinario') }}">
+                                <a class="nav-link  @if (Route::current()->getName() == 'veterinario') active @endif "
+                                    href="{{ route('veterinario') }}">
                                 @elseif (auth()->user()->hasRole('Peluquero'))
-                                    <a  class="nav-link  @if(Route::current()->getName()=='peluquero') active @endif "  href="{{ route('peluquero') }}">
+                                    <a class="nav-link  @if (Route::current()->getName() == 'peluquero') active @endif "
+                                        href="{{ route('peluquero') }}">
                                     @elseif (auth()->user()->hasRole('Inventario'))
-                                        <a  class="nav-link @if(Route::current()->getName()=='inventario') active @endif"  href="{{ route('inventario') }}">
+                                        <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
+                                            href="{{ route('inventario') }}">
                         @endif
                         <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
                     </li>
                     @hasrole('Admin')
-                    @if (Route::currentRouteName() == "admin.usuarios.index") <li class="nav-item  active">
-                        @else<li class="nav-item"> @endif
-                            <a class="nav-link collapse-links" data-toggle="collapse" href="#usuarioCollapse"
-                                role="button" aria-expanded="false" aria-controls="usuarioCollapse">
-                                <i class="ni ni-circle-08 text-green"></i> Gestion Usuarios
-                            </a>
-                            <div class="collapse" id="usuarioCollapse">
-                                <div class="card card-body" id="dropdown">
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.usuarios.*')) active @endif" href="{{ route('admin.usuarios.index') }}"
-                                                id="link-dropdown">Usuarios</a>
-                                        </li>
-                                    </ul>
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3" @if(request()->routeIs('admin.roles.*')) active @endif href="{{ route('admin.roles.index') }}"
-                                                id="link-dropdown">Roles</a>
-                                        </li>
-                                    </ul>
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.horario.*')) active @endif" href="{{ route('admin.horario.index') }}"
-                                                id="link-dropdown">Horarios</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                        @if (Route::currentRouteName() == 'admin.usuarios.index')
+                            <li class="nav-item  active">
+                            @else
+                            <li class="nav-item">
+                        @endif
+                        <a class="nav-link collapse-links" data-toggle="collapse" href="#usuarioCollapse" role="button"
+                            aria-expanded="false" aria-controls="usuarioCollapse">
+                            <i class="ni ni-circle-08 text-green"></i> Gestion Usuarios
+                        </a>
+                        <div class="collapse" id="usuarioCollapse">
+                            <div class="card card-body" id="dropdown">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('admin.usuarios.*')) active @endif"
+                                            href="{{ route('admin.usuarios.index') }}" id="link-dropdown">Usuarios</a>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3" @if (request()->routeIs('admin.roles.*')) active @endif
+                                            href="{{ route('admin.roles.index') }}" id="link-dropdown">Roles</a>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
+                                            href="{{ route('admin.horario.index') }}" id="link-dropdown">Horarios</a>
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
                         </li>
                     @endhasrole
                     @can('ver servicios')
                         <li class="nav-item">
-                            <a class="nav-link @if(request()->routeIs('admin.servicio.*')) active @endif" href="{{ route('admin.servicio') }}">
+                            <a class="nav-link @if (request()->routeIs('admin.servicio.*')) active @endif"
+                                href="{{ route('admin.servicio') }}">
                                 <i class="ni ni-atom text-green "></i> Servicios
                             </a>
                         </li>
@@ -207,13 +216,14 @@
                                 <div class="card card-body" id="dropdown">
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('productos.*')) active @endif" href="{{ route('productos.index') }}"
-                                                id="link-dropdown">Productos</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('productos.*')) active @endif"
+                                                href="{{ route('productos.index') }}" id="link-dropdown">Productos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.insumos_medicos.*')) active @endif" href="{{ route('admin.insumos_medicos.index') }}"
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.insumos_medicos.*')) active @endif"
+                                                href="{{ route('admin.insumos_medicos.index') }}"
                                                 id="link-dropdown">Insumos Medicos</a>
                                         </li>
                                     </ul>
@@ -231,26 +241,30 @@
                                 <div class="card card-body" id="dropdown">
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.marcaproductos.*')) active @endif" href="{{ route('admin.marcaproductos.index') }}"
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaproductos.*')) active @endif"
+                                                href="{{ route('admin.marcaproductos.index') }}"
                                                 id="link-dropdown">Marcas Productos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.tiposervicios.*')) active @endif" href="{{ route('admin.tiposervicios.index') }}"
-                                                id="link-dropdown">Tipos Servicios</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tiposervicios.*')) active @endif"
+                                                href="{{ route('admin.tiposervicios.index') }}" id="link-dropdown">Tipos
+                                                Servicios</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.marcaInsumos.*')) active @endif" href="{{ route('admin.marcaInsumos.index') }}"
-                                                id="link-dropdown">Marcas Insumos Medicos</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaInsumos.*')) active @endif"
+                                                href="{{ route('admin.marcaInsumos.index') }}" id="link-dropdown">Marcas
+                                                Insumos Medicos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.tipoinsumos.*')) active @endif" href="{{ route('admin.tipoinsumos.index') }}"
-                                                id="link-dropdown">Tipos Insumos Medicos</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoinsumos.*')) active @endif"
+                                                href="{{ route('admin.tipoinsumos.index') }}" id="link-dropdown">Tipos
+                                                Insumos Medicos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
@@ -263,8 +277,9 @@
                         </li>
                     @endhasrole
                     @hasrole('Inventario')
-                    <li class="nav-item active"> 
-                            <a class="nav-link @if(request()->routeIs('point_sale.*')) active @endif" href="{{ route('point_sale.index') }}">
+                        <li class="nav-item active">
+                            <a class="nav-link @if (request()->routeIs('point_sale.*')) active @endif"
+                                href="{{ route('point_sale.index') }}">
                                 <i class="ni ni-cart text-green"></i> Punto de Venta
                             </a>
                         </li>
@@ -284,8 +299,11 @@
                 @yield('back-arrow')
                 <div class="row">
 
-                    <a class="h3 mb-0 text-white text-uppercase d-none d-lg-inline-block"
-                        href="{{ url()->full() }}">@yield('header-title')</a>
+                    <a class="h3 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ url()->full() }}">
+                        <div class="d-flex justify-content-center align-items-center">
+                            @yield('header-title') @yield('breadcrumbs')
+                        </div>
+                    </a>
                 </div>
 
                 <!-- Form -->
@@ -380,106 +398,105 @@
                         </a>
                     </div>
                 </li>
-            </div>
-            <script src="{{ asset('js/horarios.js') }}" defer></script>
-        </nav>
-        <!-- End Navbar -->
-        <!-- Header -->
-        <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-            <div class="container-fluid">
-                @yield('breadcrumbs')
-                <div class="header-body">
-                    <!-- Card stats -->
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                                            <span class="h2 font-weight-bold mb-0">350,897</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                                <i class="fas fa-chart-bar"></i>
-                                            </div>
+        </div>
+        <script src="{{ asset('js/horarios.js') }}" defer></script>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+                <div class="row">
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                                        <span class="h2 font-weight-bold mb-0">350,897</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                            <i class="fas fa-chart-bar"></i>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </p>
                                 </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                                            <span class="h2 font-weight-bold mb-0">2,356</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                                                <i class="fas fa-chart-pie"></i>
-                                            </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                                        <span class="h2 font-weight-bold mb-0">2,356</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                            <i class="fas fa-chart-pie"></i>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                                        <span class="text-nowrap">Since last week</span>
-                                    </p>
                                 </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                                    <span class="text-nowrap">Since last week</span>
+                                </p>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                                            <span class="h2 font-weight-bold mb-0">924</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                                                <i class="fas fa-users"></i>
-                                            </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                                        <span class="h2 font-weight-bold mb-0">924</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                            <i class="fas fa-users"></i>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                                        <span class="text-nowrap">Since yesterday</span>
-                                    </p>
                                 </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                                    <span class="text-nowrap">Since yesterday</span>
+                                </p>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                                            <span class="h2 font-weight-bold mb-0">49,65%</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                                <i class="fas fa-percent"></i>
-                                            </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                                        <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                            <i class="fas fa-percent"></i>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
-                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                                        <span class="text-nowrap">Since last month</span>
-                                    </p>
                                 </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <script src="{{ asset('js/horarios.js') }}" defer></script>
         </div>
+        <script src="{{ asset('js/horarios.js') }}" defer></script>
+    </div>
     </nav>
     <div class="container-fluid mt--7">
         @yield('content')

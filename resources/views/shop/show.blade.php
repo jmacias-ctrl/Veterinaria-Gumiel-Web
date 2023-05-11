@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                         <h4>Producto</h4>
-                        <div class="row"  style="padding:10px;">
+                        <div class="row"  style="margin:0; background-color:white;">
                             <div class="col-lg-4">
                                 <img src="/image/productos/{{ $producto->imagen_path }}"
                                             class="card-img-top mx-auto"
@@ -48,12 +48,12 @@
                                                 id="quantity" name="quantity" style="width: 80px; height:40px;" min="1" max="{{ $producto->stock }}">
                                             </div>   
                                             <div style="margin: 0 10px 0 0;"> 
-                                                <button style=" height:38px;" class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                                <button style=" height:40px;" class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
                                                         <i class="fa fa-shopping-cart"></i> Agregar al Carrito
                                                 </button>
                                             </div>   
                                             <div style="margin: 0 10px 0 0;">
-                                                <a style=" height:38px;" class="btn btn-success" class="tooltip-test" title="checkout" href="/checkout">Comprar</a>
+                                                <a style=" height:40px;" class="btn btn-success" class="tooltip-test" title="checkout" href="/checkout">Comprar</a>
                                             </div>   
                                         </div>  
                                                  

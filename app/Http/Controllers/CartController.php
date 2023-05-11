@@ -61,7 +61,7 @@ class CartController extends Controller
             $tipo_msg='alert_msg';
             $msg='No es posible Agregar '.$request->quantity.' unidad(es) de este Producto. Maximo '.$stock-$cant.' unidad(es)';
         }
-        return redirect()->route('shop.cart.index')->with($tipo_msg, $msg);
+        return redirect()->route('shop.shop')->with($tipo_msg, $msg);
     }
 
     public function update(Request $request){

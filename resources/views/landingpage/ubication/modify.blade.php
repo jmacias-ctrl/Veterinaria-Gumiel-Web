@@ -67,8 +67,8 @@
                         <div class="col">
                             <label for="name" class="form-label">Direccion</label>
                             <input type="text" id="name" name="name"
-                                class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Pedro"
-                                aria-label="name" value="{{ Auth::user()->name }}" required>
+                                class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Villagran 437,Cañete,Chile."
+                                aria-label="name" value="{{$landingMaps->direccion}}" required>
                             @error('name')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror

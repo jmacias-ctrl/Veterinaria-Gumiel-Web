@@ -88,7 +88,7 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
     Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update');
 });
 
-Route::group(['middleware'=>['can:ver landing page']], function(){
+Route::group(['middleware'=>['role:Admin']], function(){
 
     // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
     // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');

@@ -47,6 +47,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-body">
+                    @if (session('notification'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('notification') }}
+                        </div>
+                    @endif
+
+                    @if (session('errors'))
+                        <div class="alert alert-danger" role="alert">
+                            los cambios se han guardado pero encontramos los siguientes errorres:
+                            <ul>
+                                @foreach (session('errors') as $error)
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+
+                        </div>
+                    @endif
+                </div>
                 <div class="table-responsive ">
                 <table class="datatable display responsive nowrap table table-sm table-hover table-striped table-bordered w-100 shadow-sm" id="table">
                     <thead>
@@ -72,8 +91,8 @@
                                         <div class="col">
                                             <select class="form-control" name="morning_start[]">
                                                 @for ($i=9;$i<=14;$i++)
-                                                    <option value="{{$i}}:00" {{ ($i.':00' == $HorarioFuncionarios->morning_start)?"selected":null}}>{{$i}}:00</option>
-                                                    <option value="{{$i}}:30" {{ ($i.':30' == $HorarioFuncionarios->morning_start)?"selected":null}}>{{$i}}:30</option>
+                                                    <option value="{{($i<10 ? '0' : '') . $i}}:00" {{ ($i.':00' == $HorarioFuncionarios->morning_start)?"selected":null}}>{{$i}}:00</option>
+                                                    <option value="{{($i<10 ? '0' : '') . $i}}:30" {{ ($i.':30' == $HorarioFuncionarios->morning_start)?"selected":null}}>{{$i}}:30</option>
                                                 @endfor
 
                                             </select>
@@ -81,8 +100,8 @@
                                         <div class="col">
                                             <select class="form-control" name="morning_end[]">
                                                 @for ($i=9;$i<=14;$i++)
-                                                    <option value="{{$i}}:00" {{ ($i.':00' == $HorarioFuncionarios->morning_end)?"selected":null}}>{{$i}}:00</option>
-                                                    <option value="{{$i}}:30" {{ ($i.':30' == $HorarioFuncionarios->morning_end)?"selected":null}}>{{$i}}:30</option>
+                                                    <option value="{{($i<10 ? '0' : '') . $i}}:00" {{ ($i.':00' == $HorarioFuncionarios->morning_end)?"selected":null}}>{{$i}}:00</option>
+                                                    <option value="{{($i<10 ? '0' : '') . $i}}:30" {{ ($i.':30' == $HorarioFuncionarios->morning_end)?"selected":null}}>{{$i}}:30</option>
                                                 @endfor
 
                                             </select>
@@ -94,8 +113,8 @@
                                         <div class="col">
                                             <select class="form-control" name="afternoon_start[]">
                                                 @for ($i=15;$i<=19;$i++)
-                                                    <option value="{{$i}}:00"@if ($i.':00' == $HorarioFuncionarios->afternoon_start) selected @endif>{{$i}}:00</option>
-                                                    <option value="{{$i}}:30"@if ($i.':30' == $HorarioFuncionarios->afternoon_start) selected @endif>{{$i}}:30</option>
+                                                    <option value="{{$i}}:00" @if ($i.':00' == $HorarioFuncionarios->afternoon_start) selected @endif>{{$i}}:00</option>
+                                                    <option value="{{$i}}:30" @if ($i.':30' == $HorarioFuncionarios->afternoon_start) selected @endif>{{$i}}:30</option>
                                                 @endfor
 
                                             </select>

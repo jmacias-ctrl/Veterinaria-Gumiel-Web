@@ -55,7 +55,7 @@ Inicio - Veterinaria Gumiel
           Puedes solicitar tu hora con el veterinario o a servicios de peluquería.
         </p>
         <div class="">
-          <a href="#" class="btn btn-success btn-lg">Agendar hora</a>
+          <a href="{{route('agendar-horas.create')}}" class="btn btn-success btn-lg">Agendar hora</a>
         </div>
       </div>
     </div>

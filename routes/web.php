@@ -181,5 +181,5 @@ Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
 Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
 Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');
 
-Route::get('/reservarcitas/create',[App\Http\Controllers\ReservarCitasController::class, 'create']);
-Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
+Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
+Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');

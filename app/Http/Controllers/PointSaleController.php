@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\productos_ventas;
 use App\Models\Marcaproducto;
 use App\Models\trazabilidad_venta_presencial;
+use App\Models\efectivo;
+use App\Models\transferencia;
+use App\Models\tarjeta;
+use App\Models\items_comprados;
+
 
 class PointSaleController extends Controller
 {
@@ -40,20 +45,47 @@ class PointSaleController extends Controller
     {
         $cartGet = \Cart::session(auth()->user()->id)->getContent();
 
+        $nuevaVenta  = new trazabilidad_venta_presencial();
+        $nuevaVenta->nombre_cliente = $request->nombreCliente;
+        $nuevaVenta->id_operador = auth()->user()->id;
+        $nuevaVenta->save();
+        $montoFinal = 0;
         foreach ($cartGet as $item) {
-            $nuevaVenta  = new trazabilidad_venta_presencial();
-            $nuevaVenta->nombre_cliente = $request->nombreCliente;
-            $nuevaVenta->metodo_pago = $request->metodoPago;
-            $nuevaVenta->monto = $item->price;
-            $nuevaVenta->cantidad = $item->quantity;
-            $nuevaVenta->id_producto = $item->id;
+            $itemComprado =  new items_comprados();
+            $itemComprado->monto = $item->price;
+            $itemComprado->cantidad = $item->quantity;
+            $itemComprado->id_producto = $item->id;
+            $itemComprado->id_venta = $nuevaVenta->id;
+            $itemComprado->save();
+            $montoFinal = $montoFinal + ($itemComprado->monto*$itemComprado->cantidad);
 
-            $nuevaVenta->save();
-            
             $producto = productos_ventas::find($item->id);
-
             $producto->stock = $producto->stock - $item->quantity;
             $producto->save();
+        }
+
+        
+        switch($request->metodoPago){
+            case 'transferencia':
+                $transferencia = new transferencia();
+                $transferencia->banco = $request->banco;
+                $transferencia->num_operacion=$request->numOperacion;
+                $transferencia->id_operacion = $nuevaVenta->id;
+                $transferencia->save();
+                break;
+            case 'efectivo':
+                $efectivo = new efectivo();
+                $efectivo->efectivo = $request->montoEfectivo;
+                $efectivo->vuelto = $request->montoEfectivo - $montoFinal;
+                $efectivo->id_operacion = $nuevaVenta->id;
+                $efectivo->save();
+                break;
+            case 'tarjeta':
+                $tarjeta = new tarjeta();
+                $tarjeta->num_operacion = $request->numOperacion;
+                $tarjeta->id_operacion = $nuevaVenta->id;
+                $tarjeta->save();
+                break; 
         }
 
         \Cart::session(auth()->user()->id)->clear();

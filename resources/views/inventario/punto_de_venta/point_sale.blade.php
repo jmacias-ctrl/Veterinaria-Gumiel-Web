@@ -52,8 +52,8 @@
                     <div class="col-sm">
                         <select name="" id="selectMarca" class="form-control">
                             <option value="all">Todas las marcas</option>
-                            @foreach($marcaProductos as $item)
-                            <option value="{{$item->nombre}}">{{$item->nombre}}</option>
+                            @foreach ($marcaProductos as $item)
+                                <option value="{{ $item->nombre }}">{{ $item->nombre }}</option>
                             @endforeach
                         </select>
 
@@ -61,13 +61,13 @@
                 </div>
                 <div class="row overflow-auto" style="height:500px;" id="productAvailable">
                     @foreach ($productos as $pro)
-                        <div class="col producto" id="{{ $pro->nombre }}_{{$pro->marcaproductos->nombre}}">
+                        <div class="col producto" id="{{ $pro->nombre }}_{{ $pro->marcaproductos->nombre }}">
                             <div class="card p-2" style="background-color:light-gray; margin-bottom: 20px; height: auto;">
                                 <img src="/image/productos/{{ $pro->imagen_path }}" class="card-img-top mx-auto"
                                     style="height: 150px; width: 150px;display: block;" alt="{{ $pro->imagen_path }}">
 
                                 <div class="card-body">
-                                    <p class="text-center">{{  $pro->nombre}}</p>
+                                    <p class="text-center">{{ $pro->nombre }}</p>
                                     <a href="{{ route('shop.show', ['id' => $pro->id]) }}">
                                         <h6 class="card-title text-center">{{ $pro->marcaproductos->nombre }}</h6>
                                     </a>
@@ -86,10 +86,14 @@
                                         {{ $pro->stock }}</p>
                                     <div class="card-footer" style="background-color: white;">
                                         <div class="row">
-                                            <button style="margin: 0 auto;" class="btn btn-secondary btn-sm"
-                                                onclick="addProduct({{ $pro->id }})" class="tooltip-test">
-                                                <i class="fa fa-shopping-cart"></i> Añadir
-                                            </button>
+                                            @if($pro->stock > 0)
+                                                <button style="margin: 0 auto;" class="btn btn-secondary btn-sm"
+                                                    onclick="addProduct({{ $pro->id }})" class="tooltip-test">
+                                                    <i class="fa fa-shopping-cart"></i> Añadir
+                                                </button>
+                                            @else
+                                                <p class="text-danger">Producto no Disponible</p>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -150,6 +154,7 @@
 <!-- Modal -->
 @include('inventario.punto_de_venta.modal.pagoVenta_Modal')
 @include('inventario.punto_de_venta.modal.comprobante')
+
 @section('js-after')
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -162,8 +167,11 @@
                 var form = $(this).parents(form);
                 var efectivo = $('#montoEfectivo').val();
                 var total = $('#monto').val();
-                let metodoPago = $('#metodoPago').val();
-                if (metodoPago=='efectivo' && efectivo < total) {
+                var metodoPago = $('#metodoPago').val();
+                var nombreCliente = $('#nombreCliente').val();
+                var numOperacion = $('#numOperacion').val();
+                var banco = $('#banco').val();
+                if (metodoPago == 'efectivo' && efectivo < total) {
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
@@ -184,7 +192,83 @@
                 }).then((result) => {
 
                     if (result.isConfirmed) {
-                        e.currentTarget.submit();
+                        console.log(efectivo);
+                        console.log(nombreCliente);
+                        console.log(banco);
+                        console.log(numOperacion);
+                        axios.post("{{ route('point_sale.venta') }}", {
+                                metodoPago: metodoPago,
+                                banco: banco,
+                                montoEfectivo: efectivo,
+                                vuelto: vuelto,
+                                nombreCliente: nombreCliente,
+                                numOperacion: numOperacion,
+                            })
+                            .then(function(response) {
+                                $('#pagoVenta').modal('hide')
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: `Venta realizada exitosamente`,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                $('#numVenta').html('Num. venta: '+ response.data
+                                    .nuevaVenta['id_venta']);
+                                $('#fecha').html('Fecha: ' + response.data.fecha);
+                                $('#hora').html('Hora: ' + response.data.hora);
+                                $('#nombreClienteShow').html('Nombre del Cliente: ' + response.data
+                                    .nuevaVenta['nombre_cliente']);
+                                $('#metodoPagoShow').html('Metodo de Pago: ' + response.data
+                                    .metodoPago);
+                                $('#totalVentaShow').html('Total de la Venta: ' + new Intl.NumberFormat('es-CL', {
+                                        currency: 'CLP',
+                                        style: 'currency'
+                                    }).format(response.data.montoFinal));
+                                $('#productosVendidos').empty();
+                                $.map(response.data.productosComprados, function(elementOrValue,
+                                    indexOrKey) {
+                                    var productMoney = new Intl.NumberFormat('es-CL', {
+                                        currency: 'CLP',
+                                        style: 'currency'
+                                    }).format(elementOrValue.price)
+                                    var total = elementOrValue.price * elementOrValue.quantity;
+                                    var TotalFormat = new Intl.NumberFormat('es-CL', {
+                                        currency: 'CLP',
+                                        style: 'currency'
+                                    }).format(total)
+                                    $("#productosVendidos").append(`
+            
+                                    <tr> 
+                                        
+                                        <th> ${indexOrKey}</th>                     
+                                        <td class="text-wrap">${elementOrValue.name}</td>
+                                        <th>${elementOrValue.quantity}</th>
+                                        <td>${productMoney}</td>
+                                        <td>${TotalFormat}</td>
+                                    </tr>
+                                
+                            
+                                    
+                                `);
+
+
+
+                                });
+
+                                $('#comprobanteModal').modal('show')
+                                console.log(response);
+                            })
+                            .catch(function(error) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: `No se pudo realizar la venta`,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                console.log(error);
+                            });
                     }
                 });
             });

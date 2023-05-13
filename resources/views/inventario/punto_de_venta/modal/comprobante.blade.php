@@ -1,66 +1,60 @@
-<div class="modal fade" id="pagoVenta" aria-labelledby="pagoVenta" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="comprobanteModal" aria-labelledby="comprobanteModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Realizar Venta</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Comprobante de Venta</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('point_sale.venta')}}" method="POST" id="metodoPagoForm">
-                    @csrf
-                    <input type="hidden" id="id" name="id" value="{{ auth()->user()->id }}">
-                    <input type="hidden" id="monto" name="monto">
-                    <input type="hidden" id="vuelto" name="vuelto">
-                    <h3>Metodo de Pago</h3>
-                    <select class="form-control" id="metodoPago" name="metodoPago" onchange="cambioMetodoPago()">
-                        <option value="efectivo">Efectivo</option>
-                        <option value="tarjeta">Tarjeta</option>
-                        <option value="transferencia">Transferencia</option>
-                    </select>
-                    <hr>
-                    <div class="form-group">
-                        <label for="nombreCliente">Nombre del Cliente:</label>
-                        <input type="text" class="form-control" id="nombreCliente" name="nombreCliente"
-                            placeholder="Ej. Juan" required>
-                    </div>
-                    <div class="form-group d-none" id="numOperacionDiv">
-                        <label for="numOperacion">Numero de Operacion:</label>
-                        <div class="input-group mb-2">
-                            <input type="number" class="form-control" id="numOperacion" name="numOperacion"
-                                placeholder="">
+                <ul class="list-group">
+                    <li class="list-group-item" id="numVenta">Num. Venta:</li>
+                    <li class="list-group-item" id="fecha">Fecha:</li>
+                    <li class="list-group-item" id="hora">Hora:</li>
+                    <li class="list-group-item" id="nombreClienteShow">Nombre del Cliente: </li>
+                    <li class="list-group-item" id="metodoPagoShow">Metodo de Pago: </li>
+                </ul>
+                </ul>
+                <h3 class="mt-2">Productos</h3>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre del Producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio Unitario</th>
+                            <th scope="col">Precio Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productosVendidos">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col" id="totalVentaShow">Total de la venta:</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <hr>
+                
+                <div class="d-flex justify-content-center">
+                    
+                    <form class="form-inline">
+                        <label for="email_cliente" class="form-label mr-4">Enviar comprobante por correo</label>
+                        <div class="form-group mb-2">
+                            <input type="email" class="form-control" id="email_cliente" name="email_cliente"
+                                value="email@example.com">
                         </div>
-                    </div>
-                    <div class="form-group d-none" id="bancoDiv">
-                        <label for="banco">Banco</label>
-                        <select class="form-control" id="banco" name="banco">
-                            <option value="bancoestado">Banco Estado</option>
-                            <option value="bancofalabella">Banco Falabella</option>
-                            <option value="bancosantander">Banco Santander</option>
-                            <option value="bancobci">Banco BCI</option>
-                            <option value="bancochile">Banco de Chile</option>
-                            <option value="bancoscotiabank">Banco Scotiabank</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="montoEfectivoDiv">
-                        <label for="montoEfectivo">Efectivo:</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">$</div>
-                            </div>
-                            <input type="number" class="form-control" id="montoEfectivo" name="montoEfectivo"
-                                placeholder="" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <h3 id="totalPagarModal">Total a Pagar: $0</h3>
-                    <h3 id="vueltoHtml">Vuelto: $0</h3>
-
+                        <button type="submit" class="btn btn-primary mb-2">Enviar</button>
+                    </form>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <input type="submit" class="btn btn-primary" value="Pagar">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Cerrar</button>
             </div>
             </form>
         </div>

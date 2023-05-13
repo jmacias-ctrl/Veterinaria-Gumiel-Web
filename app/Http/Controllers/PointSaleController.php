@@ -10,7 +10,8 @@ use App\Models\efectivo;
 use App\Models\transferencia;
 use App\Models\tarjeta;
 use App\Models\items_comprados;
-
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class PointSaleController extends Controller
 {
@@ -44,12 +45,15 @@ class PointSaleController extends Controller
     public function venta(Request $request)
     {
         $cartGet = \Cart::session(auth()->user()->id)->getContent();
-
+        $fecha = Carbon::now()->format('d-m-Y');
+        $hora = Carbon::now()->format('h:i:s A');
         $nuevaVenta  = new trazabilidad_venta_presencial();
+        $nuevaVenta->id_venta = Str::random(10);
         $nuevaVenta->nombre_cliente = $request->nombreCliente;
         $nuevaVenta->id_operador = auth()->user()->id;
         $nuevaVenta->save();
         $montoFinal = 0;
+        $metodoPagoEscogido = null;
         foreach ($cartGet as $item) {
             $itemComprado =  new items_comprados();
             $itemComprado->monto = $item->price;
@@ -72,6 +76,7 @@ class PointSaleController extends Controller
                 $transferencia->num_operacion=$request->numOperacion;
                 $transferencia->id_operacion = $nuevaVenta->id;
                 $transferencia->save();
+                $metodoPagoEscogido = $transferencia;
                 break;
             case 'efectivo':
                 $efectivo = new efectivo();
@@ -79,18 +84,18 @@ class PointSaleController extends Controller
                 $efectivo->vuelto = $request->montoEfectivo - $montoFinal;
                 $efectivo->id_operacion = $nuevaVenta->id;
                 $efectivo->save();
+                $metodoPagoEscogido = $efectivo;
                 break;
             case 'tarjeta':
                 $tarjeta = new tarjeta();
                 $tarjeta->num_operacion = $request->numOperacion;
                 $tarjeta->id_operacion = $nuevaVenta->id;
                 $tarjeta->save();
+                $metodoPagoEscogido = $tarjeta; 
                 break; 
         }
-
         \Cart::session(auth()->user()->id)->clear();
-
-        return redirect()->route('point_sale.index');
+        return response()->json(['success' => true,'metodoPago'=>$request->metodoPago, 'fecha'=>$fecha,'hora'=>$hora, 'productosComprados'=>$cartGet, 'montoFinal'=>$montoFinal, 'nuevaVenta'=>$nuevaVenta], 200);
     }
     public function add_product(Request $request)
     {

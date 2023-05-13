@@ -15,6 +15,7 @@ class CreateTrazabilidadVentaPresencialsTable extends Migration
     {
         Schema::create('trazabilidad_venta_presencials', function (Blueprint $table) {
             $table->id();
+            $table->string('id_venta');
             $table->string('nombre_cliente');
             $table->unsignedBigInteger('id_operador');
             $table->timestamps();

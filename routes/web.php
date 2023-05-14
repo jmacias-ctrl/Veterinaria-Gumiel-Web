@@ -181,5 +181,12 @@ Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
 Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
 Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');
 
-Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
-Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');
+Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
+
+Route::middleware('auth')->group(function(){
+    Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
+    Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');
+
+    //JSON
+    Route::get('/tiposervicios/{tiposervicio}/funcionarios',[App\Http\Controllers\Api\tiposerviciosController::class, 'funcionarios']);
+});

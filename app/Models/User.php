@@ -49,4 +49,16 @@ class User extends Authenticatable
     public function horario(){
         return $this->hasOne(Horario::class,'id_users');
     }
+
+    public function scopeFuncionario($query){
+        return $query->role(['Veterinario', 'Peluquero']);
+    }
+
+    // public function scopePeluquero($query){
+    //     return $query->Role('Peluquero');
+    // }
+
+    public function tiposervicios(){
+        return $this->belongsToMany(tiposervicios::class);
+    }
 }

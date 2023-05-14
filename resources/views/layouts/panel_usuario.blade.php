@@ -176,6 +176,12 @@
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
+                                            <a class="nav-link ms-3 @if(request()->routeIs('funcionarios.*')) active @endif" href="{{ route('funcionarios.index') }}"
+                                                id="link-dropdown">Funcionarios</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
                                             <a class="nav-link ms-3" @if(request()->routeIs('admin.roles.*')) active @endif href="{{ route('admin.roles.index') }}"
                                                 id="link-dropdown">Roles</a>
                                         </li>

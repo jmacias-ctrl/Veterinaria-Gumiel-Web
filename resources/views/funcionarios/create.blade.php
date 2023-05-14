@@ -49,127 +49,70 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="row">
-        <div class="col">
-            <div class="card shadow p-4">
-                <form action="{{ url('/funcionarios') }}" method="POST">
-                @csrf
-                <div class="container">
-                    <h2 class="mt-4">Informacion del funcionario</h2>
-                    <div class="row mt-3">
-                    <div class="row mt-3">
-                    <div class="row mt-3">
-                            <div class="col">
-                                <label for="name" class="form-label">Nombre</label>
-                                <input type="text" id="name" name="name"
-                                    class="form-control @error('name') is-invalid @enderror" placeholder="Ej. Pedro"
-                                    aria-label="Nombre" value="{{ old('name') }}" required>
-                                @error('nombre')
-                                    <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                @enderror
-                            </div>
-                            <!-- <div class="col">
-                                <label for="apellido" class="form-label">Apellido</label>
-                                <input type="text" id="apellido" name="apellido"
-                                    class="form-control @error('apellido') is-invalid @enderror" placeholder="Ej. Ignacio"
-                                    aria-label="Apellido" value="{{ old('apellido') }}" required>
-                                @error('apellido')
-                                    <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                @enderror
-                            </div> -->
-                        </div>
-                        
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label for="rut" class="form-label">Rut</label>
-                                <input type="text" class="form-control @error('rut') is-invalid @enderror" id="rut"
-                                    name="rut" placeholder="Ej. 12345678-9" value="{{ old('rut') }}" required>
-                                @error('rut')
-                                    <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" placeholder="Ej. email@gmail.com"
-                                    value="{{ old('email') }}" required>
-                                @error('email')
-                                    <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <label for="telefono" class="form-label">Telefono</label>
-                                <div class="input-group">
-                                    <div class="input-group-text">+56</div>
-                                    <input type="number" class="form-control @error('telefono') is-invalid @enderror"
-                                        id="telefono" name="telefono" placeholder="954231232" maxlength="9" minlength="9"
-                                        value="{{ old('telefono') }}">
-                                </div>
-                                @error('telefono')
-                                    <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                @enderror
-                            </div>
-                        </div>
-                        <h5 class='my-4'>La contraseña sera por defecto el rut sin el digito verificador</h5>
-                        <h5 class="mt-4">Roles</h5>
-                        <div class="row justify-content-center align-items-center g-2">
 
-
-                            @foreach ($roles as $rol)
-                                <div class="col">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="roles"
-                                            value="{{ $rol->name }}" @if (old('roles' . $rol->id . ']') == $rol->name) checked @endif>
-                                        <label class="form-check-label" for="inlineRadio">
-                                            {{ $rol->name }}
-                                        </label>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+    <div class="card shadow">
+        <div class="card-header border-0">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0">Nuevo Funcionario</h3>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Por favor!</strong>{{ $error }}
                     </div>
-                    <br>
-                    <div class="container">
-                        <div class="row row-cols-auto">
-                            <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
-                        </div>
+                @endforeach
+            @endif
+
+            <form action="{{ url('/funcionarios') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                </div>
+                <div class="form-group">
+                    <label for="tiposervicios">Tipo Servicios</label>
+                    <select name="tiposervicios[]" id="tiposervicios" class="form-control" title="Seleccionar Tipo servicio" required>
+                        @foreach ($tiposervicios as $tipo)
+                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rut">Rut</label>
+                    <input type="text" name="rut" class="form-control" value="{{ old('rut') }}">
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo</label>
+                    <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Teléfono</label>
+                    <div class="input-group">
+                        <div class="input-group-text">+56</div>
+                        <input type="number" name="phone" class="form-control" value="{{ old('phone') }}">
                     </div>
                 </div>
-                </form>
-            </div>
+                
+                <h5 class='my-4'>La contraseña sera por defecto el rut sin el digito verificador</h5>
+
+                <h5 class="mt-4">Roles</h5>
+                    @foreach ($roles as $rol)
+                    <div class="col">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="role" value="{{ $rol->name }}" @if (old('roles') == $rol->name) checked @endif>
+                            <label class="form-check-label" for="inlineRadio">{{ $rol->name }}</label>
+                        </div>  
+                    </div>
+                    @endforeach
+                <br>
+                <button type="submit" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Crear funcionario</button>
+            </form>
         </div>
     </div>
 @endsection
-@section('js-after')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        $(document).ready(function() {
-            $('#btn-submit').on('click', function(e) {
-                e.preventDefault();
-                var form = $(this).parents(form);
-                Swal.fire({
-                    title: 'Agregar Nuevo Tipo de Servicio',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, agregar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        })
-    </script>
-@endsection

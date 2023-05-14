@@ -16,6 +16,7 @@
     <!-- Icons -->
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
+    <link href="/assets-old/vendor/nucleo/css/nucleo.css" rel="stylesheet">
     <!-- CSS Files -->
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -155,6 +156,8 @@
                                     <a  class="nav-link  @if(Route::current()->getName()=='peluquero') active @endif "  href="{{ route('peluquero') }}">
                                     @elseif (auth()->user()->hasRole('Inventario'))
                                         <a  class="nav-link @if(Route::current()->getName()=='inventario') active @endif"  href="{{ route('inventario') }}">
+                                        @elseif (auth()->user()->hasRole('Cliente'))
+                                            <a  class="nav-link @if(Route::current()->getName()=='clientte') active @endif"  href="{{ route('inventario') }}">
                         @endif
                         <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
@@ -175,10 +178,10 @@
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('funcionarios.*')) active @endif" href="{{ route('funcionarios.index') }}"
-                                                id="link-dropdown">Funcionarios</a>
-                                        </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link ms-3 @if(request()->routeIs('funcionarios.*')) active @endif" href="{{ route('funcionarios.index') }}">
+                                        Funcionarios</a>
+                                    </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
@@ -192,16 +195,12 @@
                                                 id="link-dropdown">Horarios</a>
                                         </li>
                                     </ul>
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.horariofuncionarios.*')) active @endif" href="{{ route('admin.horariofuncionarios.edit') }}"
-                                                id="link-dropdown">Horario Funcionarios</a>
-                                        </li>
-                                    </ul>
+                                    
                                 </div>
                             </div>
                         </li>
                     @endhasrole
+                    
                     @can('ver servicios')
                         <li class="nav-item">
                             <a class="nav-link @if(request()->routeIs('admin.servicio.*')) active @endif" href="{{ route('admin.servicio') }}">
@@ -209,6 +208,20 @@
                             </a>
                         </li>
                     @endcan
+
+                    @can('ver citasvet')
+                        <li class="nav-item">
+                            <a class="nav-link @if(request()->routeIs('/agendar-horas/create')) active @endif" href="{{ route('agendar-horas.create') }}">
+                                <i class="ni ni-atom text-green "></i> Reservar cita
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @if(request()->routeIs('/miscitas')) active @endif" href="{{ route('Agendar') }}">
+                                <i class="ni ni-atom text-green "></i> Mis citas
+                            </a>
+                        </li>
+                    @endcan
+
                     @can('ver productos')
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#productosCollapse"
@@ -281,6 +294,25 @@
                             </a>
                         </li>
                     @endhasrole
+                        @can('ver gestionvet')
+                            <li class="nav-item active">
+                                <a class="nav-link  @if(request()->routeIs('admin.horariofuncionarios.*')) active @endif" href="{{ route('admin.horariofuncionarios.edit') }}">
+                                <i class="ni ni-calendar-grid-58 text-green"></i> Horario Funcionarios</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link  @if(request()->routeIs('pacientes.*')) active @endif" href="{{ route('pacientes.index') }}">
+                                <i class="ni ni-archive-2 text-green "></i>Mis Pacientes</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link  @if(request()->routeIs('miscitas.*')) active @endif" href="">
+                                <i class="	fas fa-calendar-check text-green "></i>Mis Citas</a>
+                            </li>
+                        @endcan  
+                    @can('ver citas')
+                        
+                    @endcan   
+                            
+                        
                 </ul>
                 <!-- Divider -->
                 <hr class="my-3">
@@ -400,7 +432,9 @@
         <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
             <div class="container-fluid">
                 @yield('breadcrumbs')
+                @can('ver estadisticas')
                 <div class="header-body">
+                
                     <!-- Card stats -->
                     <div class="row">
                         <div class="col-xl-3 col-lg-6">
@@ -489,7 +523,10 @@
                         </div>
                     </div>
                 </div>
+                  
+                
             </div>
+             @endcan 
             <script src="{{ asset('js/horarios.js') }}" defer></script>
         </div>
     </nav>
@@ -502,6 +539,9 @@
 <!--   Core   -->
 <script src="{{ asset('js/plugins/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+
+@yield('scripts')
+
 <!--   Optional JS   -->
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>

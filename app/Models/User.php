@@ -9,11 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
-    
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rut',
+        'phone',
+        'roles'
     ];
 
     /**
@@ -45,7 +46,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    
     public function horario(){
         return $this->hasOne(Horario::class,'id_users');
     }
@@ -54,11 +54,12 @@ class User extends Authenticatable
         return $query->role(['Veterinario', 'Peluquero']);
     }
 
-    // public function scopePeluquero($query){
-    //     return $query->Role('Peluquero');
-    // }
+    public function scopePaciente($query){
+        return $query->Role('Cliente');
+    }
 
-    public function tiposervicios(){
-        return $this->belongsToMany(tiposervicios::class);
+    public function tipoServicio()
+    {
+        return $this->hasMany(TipoServicio::class);
     }
 }

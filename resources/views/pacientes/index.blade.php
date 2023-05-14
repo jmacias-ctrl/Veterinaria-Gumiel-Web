@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Funcionarios - Veterinaria Gumiel</title>
+<title>Gestion Pacientes - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion Funcionarios
+    Gestion Pacientes
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -26,7 +26,7 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Funcionarios</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Pacientes</li>
     </nav>
 @endsection
 @section('content')
@@ -35,10 +35,10 @@
         <div class="card-header border-0">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="mb-0">Funcionarios</h3>
+                    <h3 class="mb-0">Pacientes</h3>
                 </div>
                 <div class="col text-right">
-                    <a href="{{url('/funcionarios/create')}}" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Nuevo funcionario</a>
+                    <a href="{{url('/pacientes/create')}}" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Nuevo paciente</a>
                 </div>
             </div>
         </div>
@@ -61,19 +61,19 @@
                     </tr>       
                 </thead> 
             <tbody>
-                @foreach ($funcionarios as $funcionario )
+                @foreach ($pacientes as $paciente )
                 <tr>
-                    <th scope="row">{{ $funcionario->id }}</th>
-                    <td>{{ $funcionario->name }}</td>
-                    <td>{{ $funcionario->email }}</td>
-                    <td>{{ $funcionario->nombre_rol }}</td>
+                    <th scope="row">{{ $paciente->id }}</th>
+                    <td>{{ $paciente->name }}</td>
+                    <td>{{ $paciente->email }}</td>
+                    <td>{{ $paciente->nombre_rol }}</td>
                     <td>
-                        <form action="{{ url('/funcionarios/'.$funcionario->id) }}" method="POST">
+                        <form action="{{ url('/pacientes/'.$paciente->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><span class="material-symbols-outlined">delete</span></button>
-                            <a href="{{ url('/funcionarios/'.$funcionario->id.'/edit') }}" class="btn btn-sm btn-outline-warning"><span class="material-symbols-outlined">edit</span></a>
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><span class="material-symbols-outlined">delete</span></button>    
+                            <a href="{{ url('/pacientes/'.$paciente->id.'/edit') }}" class="btn btn-sm btn-outline-warning"><span class="material-symbols-outlined">edit</span></a>
 
                         </form>
                     </td>
@@ -83,8 +83,8 @@
             </table>
         </div>
         <div class="card-body">
-            {{$funcionarios->links()}}
+            {{ $pacientes->links() }}
         </div>
     </div>
-    <br>
+
 @endsection

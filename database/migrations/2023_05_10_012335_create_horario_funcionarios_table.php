@@ -14,7 +14,7 @@ class CreateHorarioFuncionariosTable extends Migration
     public function up()
     {
         Schema::create('horario_funcionarios', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedSmallInteger('day');
             $table->boolean('active');
             $table->time('morning_start');

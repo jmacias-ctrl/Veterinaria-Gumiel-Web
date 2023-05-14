@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Editar Funcionario - Veterinaria Gumiel</title>
+<title>Ingresar Paciente - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -17,13 +17,13 @@
         </style>
 @endsection
 @section('back-arrow')
-    <a href="{{ route('funcionarios.index') }}"> <span class="material-symbols-outlined"
+    <a href="{{ route('pacientes.index') }}"> <span class="material-symbols-outlined"
             style="font-size:40px; color:white;">
             arrow_back
         </span> </a>
 @endsection
 @section('header-title')
-    Editar Funcionario
+    Crear Paciente
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -40,8 +40,8 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('funcionarios.index')}}" style="color:black;">Funcionarios</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Editar Funcionarios</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{route('pacientes.index')}}" style="color:black;">Pacientes</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Paciente</li>
     </nav>
 @endsection
 @section('js-before')
@@ -54,7 +54,7 @@
         <div class="card-header border-0">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="mb-0">Editar Funcionario</h3>
+                    <h3 class="mb-0">Nuevo Paciente</h3>
                 </div>
             </div>
         </div>
@@ -63,56 +63,36 @@
                 @foreach ($errors->all() as $error)
                     <div class="alert alert-danger" role="alert">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <strong>Por favor! </strong>{{ $error }}
+                        <strong>Por favor!</strong>{{ $error }}
                     </div>
                 @endforeach
             @endif
 
-            <form action="{{ url('/funcionarios/'.$funcionarios->id) }}" method="POST">
+            <form action="{{ url('/pacientes') }}" method="POST">
                 @csrf
-                @method('PUT')
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" name="name" class="form-control" value="{{ old('nombre', $funcionarios->name) }}">
+                    <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
                     <label for="rut">Rut</label>
-                    <input type="text" name="rut" class="form-control" value="{{ old('rut', $funcionarios->rut) }}">
+                    <input type="text" name="rut" class="form-control" value="{{ old('rut') }}">
                 </div>
                 <div class="form-group">
                     <label for="email">Correo</label>
-                    <input type="email" name="email" class="form-control" value="{{ old('email', $funcionarios->email) }}">
+                    <input type="email" name="email" class="form-control" value="{{ old('email') }}">
                 </div>
                 <div class="form-group">
                     <label for="phone">Teléfono</label>
                     <div class="input-group">
-                        <div class="input-group-text">+56</div>
-                        <input type="number" name="phone" class="form-control" value="{{ old('phone', $funcionarios->phone) }}">
+                        <span class="input-group-text" id="addon-wrapping">+56</span>
+                        <input type="number" name="phone" class="form-control" value="{{ old('phone') }}">
                     </div>
                 </div>
-
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="password">Contraseña</label>
-                        <input type="text" name="password" class="form-control">
-                        <small class="text-warning">Solo llena el campo si desea cambiar la contraseña</small>
-                    </div>
-                </div>
-
-                <h5 class="mt-4">Roles</h5>
-                    @foreach ($roles as $rol)
-                    <div class="col">
-                        <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" value="{{ $rol->name }}" 
-                @if (old('role', $funcionarios->role) == $rol->name) checked @endif>
-                            <label class="form-check-label" for="inlineRadio">{{ $rol->name }}</label>
-                        </div>  
-                    </div>
-                    @endforeach
+                <h5 class='my-4'>La contraseña sera por defecto el rut sin el digito verificador</h5>
                 <br>
-                <button type="submit" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Guardar cambios</button>
+                <button type="submit" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Crear paciente</button>
             </form>
         </div>
     </div>
 @endsection
-

@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 class ReservarCitasController extends Controller
 {
     public function create()
-{
-    $servicios = tiposervicios::all();
+    {
+        $tiposervicios = tiposervicios::all();
 
-    return view('ReservarCitas.create', compact('servicios'));
-}
+        return view('ReservarCitas.create', compact('tiposervicios'));
+    }
 }

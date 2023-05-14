@@ -135,13 +135,22 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/horario/edit/{id}',[App\Http\Controllers\HorariosController::class,'edit']);
     Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
+//Rutas funcionarios
+Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
+    
 
 });
 
-Route::group(['middleware' => ['role:Admin|Veterinario|Peluquero']], function () {
+Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
     Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
+    //Rutas pacientes
+    Route::resource('/pacientes','App\Http\Controllers\PacientesController');
+    
 });
+
+
+
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function(){
         return view('admin.home');
@@ -156,6 +165,7 @@ Route::group(['middleware' => ['role:Inventario']], function () {
     Route::get('/inicio/inventario', function(){
         return view('admin.home');
     })->name('inventario');
+
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
     Route::get('inventario/punto_de_venta/remove',[App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
@@ -181,7 +191,8 @@ Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
 Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
 Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');
 
-Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
+
+
 
 Route::middleware('auth')->group(function(){
     Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');

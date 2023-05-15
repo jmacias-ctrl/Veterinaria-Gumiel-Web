@@ -89,11 +89,6 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
 });
 
 Route::group(['middleware'=>['role:Admin']], function(){
-
-    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
-    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
-    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
-
     Route::get('landingpage/edit/aboutUs', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_aboutUs'])->name('admin.landingpage_aboutUs.modify');
     Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
 });
@@ -107,8 +102,6 @@ Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], funct
     Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
-
-
 
 Route::group(['middleware'=>['can:ver servicios']], function(){
    
@@ -155,7 +148,12 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
 
-    Route::get('/landing-edit', [\App\Http\Controllers\whereYouCanFind::class, 'edit'])->name('landing-edit');
+    Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
+    Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
+
+    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
+    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
+    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 
 Route::group(['middleware' => ['role:Veterinario']], function () {

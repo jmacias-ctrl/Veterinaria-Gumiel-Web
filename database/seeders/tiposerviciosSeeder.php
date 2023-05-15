@@ -16,12 +16,12 @@ class tiposerviciosSeeder extends Seeder
     {
         tiposervicios::create([
             'nombre' => 'Peluquería',
-            'user_id'=> '2'
+
         ]);
         
         tiposervicios::create([
             'nombre' => 'Atención medica',
-            'user_id'=> '1'
+
         ]);
 
     }

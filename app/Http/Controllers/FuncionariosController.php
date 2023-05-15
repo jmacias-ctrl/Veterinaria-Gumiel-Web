@@ -14,16 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\UsuarioModificacionRoles;
 use App\Notifications\GeneralNotificationForUsers;
-
-
-
-
-
-
-
 use App\Mail\UsuarioCreadoAUsuario;
-
-
 use App\Notifications\NuevoUsuarioNotificacion;
 use App\Http\Requests\PostRequest;
 use App\Models\tiposervicios;
@@ -42,7 +33,7 @@ class FuncionariosController extends Controller
 
     public function create()
     {
-        $tiposervicios = tiposervicios::all();
+        $tiposervicios= tiposervicios::all();
         $roles = Role::whereIn('name', ['Veterinario', 'Peluquero'])->get();
         return view('funcionarios.create',compact('roles','tiposervicios'));
     }
@@ -69,13 +60,12 @@ class FuncionariosController extends Controller
         $this->validate($request, $rules, $message);
     
 
-    
         $user = User::create(
             $request->only('name','rut','email','phone') + ['role' => $request->role] +
            ['password' => bcrypt(substr($request->rut, 0, 8))]              
         )->assignRole($request->role);
     
-        $user->tiposervicios()->attach($request->input('tiposervicio'));
+        $user->tiposervicio()->attach($request->input('tiposervicios'));
         
 
         $notification = 'El funcionario se a registrado correctamente ';

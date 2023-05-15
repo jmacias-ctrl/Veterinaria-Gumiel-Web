@@ -1,5 +1,8 @@
 @extends('layouts.panel_usuario')
 <title>Ingresar Funcionario - Veterinaria Gumiel</title>
+@section('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+@endsection
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -76,7 +79,7 @@
                 </div>
                 <div class="form-group">
                     <label for="tiposervicios">Tipo Servicios</label>
-                    <select name="tiposervicios[]" id="tiposervicios" class="form-control" title="Seleccionar Tipo servicio" required>
+                    <select name="tiposervicios[]" id="tiposervicios" class="form-control selectpicker" data-style="btn-white" title="Seleccionar Tipo servicio" required>
                         @foreach ($tiposervicios as $tipo)
                             <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
                         @endforeach
@@ -116,3 +119,6 @@
     </div>
 @endsection
 
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+@endsection

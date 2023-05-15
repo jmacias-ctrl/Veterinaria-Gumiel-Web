@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTiposervicioUserTable extends Migration
+class CreateUsersTiposerviciosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTiposervicioUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('tiposervicio_user', function (Blueprint $table) {
+        Schema::create('users_tiposervicios', function (Blueprint $table) {
             $table->id();
-            
+
             //funcionario
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -36,6 +36,6 @@ class CreateTiposervicioUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tiposervicio_user');
+        Schema::dropIfExists('users_tiposervicios');
     }
 }

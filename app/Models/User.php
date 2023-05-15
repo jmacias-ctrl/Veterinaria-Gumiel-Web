@@ -58,8 +58,8 @@ class User extends Authenticatable
         return $query->Role('Cliente');
     }
 
-    public function tipoServicio()
+    public function tiposervicio()
     {
-        return $this->hasMany(TipoServicio::class);
+        return $this->belongsToMany(tiposervicios::class);
     }
 }

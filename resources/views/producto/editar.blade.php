@@ -64,8 +64,10 @@
             <div class="form-group">
                 <label for="tipo">Tipo:</label>
                 <select class="form-select @error('tipo') is-invalid @enderror" aria-label="Default select example" id="tipo" name="tipo" required>
-                    <option value="alimento" @if( $producto->tipo=='alimento') selected @endif>Alimento</option>
-                    <option value="accesorio" @if( $producto->tipo=='accesorio') selected @endif>Accesorio</option>
+                    <option @if(old('tipo'))selected @endif disabled>Seleccione un tipo</option>
+                    @foreach ($TipoProductos as $item)
+                        <option value="{{ $item->id }}" @if( old('tipo')==$item->id) selected @endif>{{ $item->nombre }}</option>
+                    @endforeach
                 </select>
                 @error('tipo')
                     <div class="text-danger"><span><small>{{ $message }}</small></span></div>

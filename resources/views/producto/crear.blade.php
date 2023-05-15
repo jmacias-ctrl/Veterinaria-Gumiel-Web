@@ -91,8 +91,9 @@
                             <label for="tipo">Tipo:</label>
                             <select class="form-select @error('tipo') is-invalid @enderror" aria-label="Default select example" id="tipo" name="tipo" required>
                                 <option @if(old('tipo'))selected @endif disabled>Seleccione un tipo</option>
-                                <option value="alimento" @if( old('tipo')=='alimento') selected @endif>Alimento</option>
-                                <option value="accesorio" @if( old('tipo')=='accesorio') selected @endif>Accesorio</option>
+                                @foreach ($TipoProductos as $item)
+                                    <option value="{{ $item->id }}" @if( old('tipo')==$item->id) selected @endif>{{ $item->nombre }}</option>
+                                @endforeach
                             </select>
                             @error('tipo')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>

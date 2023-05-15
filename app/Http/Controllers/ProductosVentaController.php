@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\productos_ventas;
 use App\Models\Marcaproducto;
+use App\Models\tipoproductos_ventas;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,8 +21,9 @@ class ProductosVentaController extends Controller
     public function index_productos(Request $request)
     {
         if($request->ajax()){
-            $data = productos_ventas::with('marcaproductos')->get()->map(function($producto){
+            $data = productos_ventas::with(['marcaproductos','tipoproductos_ventas'])->get()->map(function($producto){
                 $producto->id_marca = $producto->marcaproductos->nombre;
+                $producto->id_tipo = $producto->tipoproductos_ventas->nombre;
                 return $producto;
             });
             return Datatables::of($data)
@@ -30,8 +32,9 @@ class ProductosVentaController extends Controller
                 ->rawColumns(['action'])
                 ->toJson();
         }
-        $productos = productos_ventas::with('marcaproductos')->get()->map(function($producto){
+        $productos = productos_ventas::with(['marcaproductos','tipoproductos_ventas'])->get()->map(function($producto){
             $producto->id_marca = $producto->marcaproductos->nombre;
+            $producto->id_tipo = $producto->tipoproductos_ventas->nombre;
             return $producto;
         });
         return view('producto.index', compact('productos'));
@@ -45,7 +48,8 @@ class ProductosVentaController extends Controller
     public function create()
     {
         $MarcaProductos = Marcaproducto::all();
-        return view('producto.crear', compact('MarcaProductos'));
+        $TipoProductos = tipoproductos_ventas::all();
+        return view('producto.crear', compact('MarcaProductos', 'TipoProductos'));
     }
     /**
      * Store a newly created resource in storage.
@@ -95,7 +99,7 @@ class ProductosVentaController extends Controller
             $producto->descripcion = $request->input('descripcion');
             $producto->slug = $request->input('slug');
             $producto->min_stock = $request->input('min_stock');
-            $producto->tipo = $request->input('tipo');
+            $producto->id_tipo = $request->input('tipo');
             $producto->stock = $request->input('stock');
             $producto->producto_enfocado = $request->input('producto_enfocado');
             $producto->precio = $request->input('precio');
@@ -137,7 +141,8 @@ class ProductosVentaController extends Controller
     public function edit(productos_ventas $producto)
     {
         $MarcaProductos = Marcaproducto::all();
-        return view('producto.editar', compact('MarcaProductos', 'producto'));
+        $TipoProductos = tipoproductos_ventas::all();
+        return view('producto.crear', compact('MarcaProductos', 'TipoProductos'));
     }
 
     /**
@@ -194,7 +199,7 @@ class ProductosVentaController extends Controller
             $producto->slug = $request->input('slug');
             $producto->min_stock = $request->input('min_stock');
             $prod->descripcion = $request->input('descripcion');
-            $prod->tipo = $request->input('tipo');
+            $prod->id_tipo = $request->input('tipo');
             $prod->stock = $request->input('stock');
             $prod->producto_enfocado = $request->input('producto_enfocado');
             $prod->precio = $request->input('precio');

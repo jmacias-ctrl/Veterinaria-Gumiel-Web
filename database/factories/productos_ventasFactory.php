@@ -18,7 +18,7 @@ class productos_ventasFactory extends Factory
             'id_marca'=> $this->faker->numberBetween(1,4),
             'descripcion'=>$this->faker->text(),
             'slug'=> $this->faker->name(),
-            'tipo'=> $this->faker->randomElement(['alimento','accesorio']),
+            'id_tipo'=> $this->faker->numberBetween(1,4),
             'producto_enfocado'=> $this->faker->randomElement(['gato','perro','ambos']),
             'stock'=> $this->faker->numberBetween(15,30),
             'min_stock'=> $this->faker->numberBetween(5,10),

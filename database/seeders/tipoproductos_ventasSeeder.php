@@ -21,6 +21,11 @@ class tipoproductos_ventasSeeder extends Seeder
         tipoproductos_ventas::create([
             'nombre' => 'Juguetes'
         ]);
-
+        tipoproductos_ventas::create([
+            'nombre' => 'Alimentos'
+        ]);
+        tipoproductos_ventas::create([
+            'nombre' => 'Medicamentos'
+        ]);
     }
 }

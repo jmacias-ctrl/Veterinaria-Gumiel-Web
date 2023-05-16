@@ -42,20 +42,14 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <h1>Listado de Roles</h1>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-primary mr-auto" href="{{ route('admin.roles.add') }}" role="button"
-                                style="background-color:#19A448; border-color:#19A448;">Ingresar
-                                Rol</a>
-                        </div>
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h1>Listado de Roles</h1>
+                        <a class="btn btn-primary ms-5" href="{{ route('admin.roles.add') }}" role="button"
+                            style="background-color:#19A448; border-color:#19A448;">Ingresar
+                            Rol</a>
                     </div>
                 </div>
-                <hr>
-
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">
                     <thead>
                         <tr>

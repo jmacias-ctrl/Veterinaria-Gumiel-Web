@@ -33,42 +33,43 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <h1>Listado de Marca de Insumos</h1>
-                        </div>
-                        <div class="col-sm-3">
-                            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
-                        </div>
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h1>Listado de Marca de Insumos</h1>
+                        @can('ingresar insumos medicos')
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
+                        @endcan
+
                     </div>
                 </div>
                 <div class="table-responsive">
-                <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Opciones</th>
-                        </tr>
-                    </thead>
-                </table>
+                    <table
+                        class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
+                        id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    
-    
-            <!-- <tbody>
-                @foreach ($marcaInsumo as $marca)
-                    <tr>
-                        <th>{{ $marca->id }}</th>
-                        <td>{{ $marca->nombre }}</td>
-                        
-                    </tr>
-                @endforeach
-            </tbody> -->
 
+
+    <!-- <tbody>
+                        @foreach ($marcaInsumo as $marca)
+    <tr>
+                                <th>{{ $marca->id }}</th>
+                                <td>{{ $marca->nombre }}</td>
+                                
+                            </tr>
+    @endforeach
+                    </tbody> -->
 @endsection
 
 @section('js-after')
@@ -91,8 +92,7 @@
                     url: "{{ route('admin.marcaInsumos.index') }}",
                     type: 'GET',
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
@@ -110,7 +110,8 @@
             });
         });
         @if (Session::has('success'))
-            <script>
+            <
+            script >
                 toastr.success("{{ Session::get('success') }}");
     </script>
     @endif

@@ -39,55 +39,62 @@
                         <div class="col-sm-9">
                             <h1>Listado de Tipos de Servicios</h1>
                         </div>
-                        <div class="col-sm-3">
-                            <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tiposervicios.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de servicios</a>
-                        </div>
+                        @can('ingresar servicios')
+                            <div class="col-sm-3">
+                                <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tiposervicios.create') }}"
+                                    style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
+                                    servicios</a>
+                            </div>
+                        @endcan
+
                     </div>
                 </div>
                 <div class="table-responsive">
-                <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Opciones</th>
-                        </tr>
-                    </thead>
-                </table>
+                    <table
+                        class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
+                        id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 
     <!-- <div class="table-responsive">
-        <table
-            class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
-            id="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($tiposervicios as $tipos)
+            <table
+                class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
+                id="table">
+                <thead>
                     <tr>
-                        <th>{{ $tipos->id }}</th>
-                        <td>{{ $tipos->nombre }}</td>
-                        <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $tipos->id }})"><span
-                                    class="material-symbols-outlined">delete</span></button>
-                            <a id="editTipos"
-                                class="btn btn-outline-warning" href="{{ route('admin.tiposervicios.edit', ['id' => "$tipos->id"]) }}"
-                                role="button"><span class="material-symbols-outlined">edit</span></a>
-                        </td>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Opciones</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div> -->
+                </thead>
+                <tbody>
+                    @foreach ($tiposervicios as $tipos)
+    <tr>
+                            <th>{{ $tipos->id }}</th>
+                            <td>{{ $tipos->nombre }}</td>
+                            <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $tipos->id }})"><span
+                                        class="material-symbols-outlined">delete</span></button>
+                                <a id="editTipos"
+                                    class="btn btn-outline-warning" href="{{ route('admin.tiposervicios.edit', ['id' => "$tipos->id"]) }}"
+                                    role="button"><span class="material-symbols-outlined">edit</span></a>
+                            </td>
+                        </tr>
+    @endforeach
+                </tbody>
+            </table>
+        </div> -->
 @endsection
 @section('js-after')
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
@@ -96,88 +103,89 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script>
         @if (Session::has('success'))
+            <
+            script >
+                toastr.success("{{ Session::get('success') }}");
+    </script>
+    @endif
+    @if (Session::has('error'))
         <script>
-            toastr.success("{{ Session::get('success') }}");
+            toastr.error("{{ Session::get('error') }}");
         </script>
-        @endif
-        @if (Session::has('error'))
-            <script>
-                toastr.error("{{ Session::get('error') }}");
-            </script>
-        @endif
-        $(document).ready(function() {
-            var table = $("#table").DataTable({
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
-                },
-                responsive: true,
-                processing: true,
-                serveSide: true,
-                searching: true,
-                pageLength: 10,
-                ajax: {
-                    url: "{{ route('admin.tiposervicios.index') }}",
-                    type: 'GET',
-                },
-                columns: [
-                    {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
-                    },
-                    {
-                        data: 'nombre',
-                        name: 'nombre'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                    }
-                ]
-            });
-        });
+    @endif
+    $(document).ready(function() {
+    var table = $("#table").DataTable({
+    language: {
+    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+    },
+    responsive: true,
+    processing: true,
+    serveSide: true,
+    searching: true,
+    pageLength: 10,
+    ajax: {
+    url: "{{ route('admin.tiposervicios.index') }}",
+    type: 'GET',
+    },
+    columns: [
+    {
+    data: 'DT_RowIndex',
+    name: 'DT_RowIndex'
+    },
+    {
+    data: 'nombre',
+    name: 'nombre'
+    },
+    {
+    data: 'action',
+    name: 'action',
+    orderable: false,
+    searchable: false,
+    }
+    ]
+    });
+    });
 
-        function deleted(id_get) {
+    function deleted(id_get) {
 
-            Swal.fire({
-                title: '¿Eliminar tipo de servicio?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
+    Swal.fire({
+    title: '¿Eliminar tipo de servicio?',
+    text: "¿Estás seguro? no podrás revertir la acción!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, borrar',
+    cancelButtonText: 'Cancelar'
+    }).then((result) => {
 
-                if (result.isConfirmed) {
-                    axios.post("{{ route('admin.tiposervicios.delete') }}", {
-                            id: id_get
-                        })
-                        .then(function(response) {
+    if (result.isConfirmed) {
+    axios.post("{{ route('admin.tiposervicios.delete') }}", {
+    id: id_get
+    })
+    .then(function(response) {
 
-                            toastr.success('Tipo de servicio eliminado correctamente!')
+    toastr.success('Tipo de servicio eliminado correctamente!')
 
-                        })
-                        .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar')
-                        })
-                        .finally(function() {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Tipo de servicio eliminado correctamente!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
+    })
+    .catch(function(error) {
+    toastr.error('La acción no se pudo realizar')
+    })
+    .finally(function() {
+    Swal.fire({
+    icon: 'success',
+    title: 'Tipo de servicio eliminado correctamente!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+    setTimeout(() => {
+    location.reload();
+    }, 1500);
 
-                        });
-                }
-            });
+    });
+    }
+    });
 
-        }
+    }
     </script>
 @endsection

@@ -163,7 +163,7 @@ class UserController extends Controller
             'rut'  => 'required|string|max:10',
             'email'  => 'required|string',
             'telefono' => 'required|digits:9',
-            'roles' => 'required|array|min:1'
+            'role' => 'required'
         ];
         $attributes = [
             'nombre' => 'Nombre',
@@ -171,6 +171,7 @@ class UserController extends Controller
             'rut' => 'Rut',
             'email' => 'Correo',
             'telefono' => 'Teléfono',
+            'role' => 'Rol',
         ];
         $message = [
             'required' => ':attribute es obligatorio.',
@@ -194,13 +195,10 @@ class UserController extends Controller
                 $user->phone = $request->telefono;
                 $user->save();
                 db::commit();
-                $user->assignRole($request->roles);
+                $user->assignRole($request->role);
                 $admins = User::role('Admin')->get();
 
-                $roleText = "";
-                foreach ($request->roles as $role) {
-                    $roleText .= $role;
-                }
+                $roleText = $request->role;
                 foreach ($admins as $admin) {
                     $admin->notify(new GeneralNotificationForUsers('Usuario Nuevo Agregado', 'El Administrador ' . auth()->user()->name . ' ha creado un nuevo usuario: ' . $user->name . ' - ' . $user->rut . '- Rol: ' . $roleText . '.', route('admin.usuarios.index')));
                 }
@@ -216,24 +214,18 @@ class UserController extends Controller
     }
     public function update_roles(Request $request)
     {
-        $rules=['roles' => 'required|array|min:1'];
-        $attribute = ['roles'=>'Rol'];
-        $message = ['required', 'Debe haber al menos 1 rol'];
+        $rules=['role' => 'required'];
+        $attribute = ['role'=>'Rol'];
+        $message = ['required', 'Debe seleccionar un rol'];
         $validator = Validator::make($request->all(), $rules, $message,$attribute);
         if($validator->passes()){
             $user = User::find($request->id);
-            $user->syncRoles($request->roles);
+            $user->syncRoles($request->role);
             $admins = User::role('Admin')->get();
     
     
-            $mensajeRoles = "";
-            for ($i = 0; $i < sizeof($request->roles); $i++) {
-                if ($i == sizeof($request->roles) - 1) {
-                    $mensajeRoles .= $request->roles[$i];
-                } else {
-                    $mensajeRoles .= $request->roles[$i] . ",";
-                }
-            }
+            $mensajeRoles = $request->role;
+            
             $mensajeAdmin = 'El Administrador ' . auth()->user()->name . ' ha modificado los roles del usuario ' . $user->name . ', nuevos roles: ' . $mensajeRoles;
             $mensajeUsuario = 'Te han cambiado los roles a los siguientes: ' . $mensajeRoles;
             foreach ($admins as $admin) {

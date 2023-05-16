@@ -42,17 +42,14 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
+                <div class="card-header border-0 p-0 mb-4">
 
-                    <div class="row">
-                        <div class="col-sm-10">
+                    <div class="d-flex justify-content-between">
                             <h1>Listado de Usuarios</h1>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-primary mr-auto shadow-sm" href="{{ route('admin.usuarios.add') }}"
+                            <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}"
                                 role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
                                 Usuario</a>
-                        </div>
+
                     </div>
 
                 </div>

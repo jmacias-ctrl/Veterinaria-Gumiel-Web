@@ -64,7 +64,7 @@
                             @foreach ($user->nombre_roles as $rol)
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[]"
+                                        <input class="form-check-input" type="radio" name="role"
                                             value="{{ $rol }}" checked>
                                         <label class="form-check-label" for="">
                                             {{ $rol }}
@@ -75,7 +75,7 @@
                             @foreach ($roles as $rol)
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[]"
+                                        <input class="form-check-input" type="radio" name="role"
                                             value="{{ $rol->name }}">
                                         <label class="form-check-label">
                                             {{ $rol->name }}

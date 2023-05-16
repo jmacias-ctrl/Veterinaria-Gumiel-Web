@@ -123,7 +123,7 @@
                             @foreach ($roles as $rol)
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[{{ $rol->id }}]"
+                                        <input class="form-check-input" type="radio" name="role"
                                             value="{{ $rol->name }}" @if (old('roles[' . $rol->id . ']') == $rol->name) checked @endif>
                                         <label class="form-check-label" for="">
                                             {{ $rol->name }}

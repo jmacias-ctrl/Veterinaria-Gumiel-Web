@@ -41,15 +41,13 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
                             <h1>Listado de Servicios</h1>
-                        </div>
-                        <div class="col-sm-3">
+                            @can('ingresar servicios')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.servicio.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Servicio</a>
-                        </div>
+                            style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Servicio</a>
+                            @endcan
                     </div>
                 </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">

@@ -41,15 +41,13 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <h1>Listado de Insumos Médicos</h1>
-                        </div>
-                        <div class="col-sm-3">
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h1>Listado de Insumos Médicos</h1>
+                        @can('ingresar insumos medicos')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}"
                                 style="background-color:#19A448; border-color:#19A448;" role="button">Agregar insumo</a>
-                        </div>
+                        @endcan
                     </div>
                 </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">
@@ -72,17 +70,17 @@
 
 
     <!-- <tbody>
-                            @foreach ($insumos_medicos as $insumos)
+                                    @foreach ($insumos_medicos as $insumos)
     <tr>
-                                    <td>{{ $insumos->id }}</td>
-                                    <td>{{ $insumos->nombre }}</td>
-                                    <td>{{ $insumos->marcaInsumos->nombre }}</td>
-                                    <td>{{ $insumos->Tipoinsumos->nombre }}</td>
-                                    <td>{{ $insumos->stock }}</td>
-                                    
-                                </tr>
+                                            <td>{{ $insumos->id }}</td>
+                                            <td>{{ $insumos->nombre }}</td>
+                                            <td>{{ $insumos->marcaInsumos->nombre }}</td>
+                                            <td>{{ $insumos->Tipoinsumos->nombre }}</td>
+                                            <td>{{ $insumos->stock }}</td>
+                                            
+                                        </tr>
     @endforeach
-                        </tbody> -->
+                                </tbody> -->
 @endsection
 
 @section('js-after')

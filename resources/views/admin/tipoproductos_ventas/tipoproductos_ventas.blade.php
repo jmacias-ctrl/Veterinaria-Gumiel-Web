@@ -19,9 +19,8 @@
                     <a href="{{ route('admin') }}" style="color:black;">
                     @elseif(auth()->user()->hasRole('Veterinario'))
                         <a href="{{ route('veterinario') }}">
-                        
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
+                        @elseif (auth()->user()->hasRole('Inventario'))
+                            <a href="{{ route('inventario') }}">
                 @endif
                 Inicio</a>
             </li>
@@ -33,34 +32,34 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <h1>Listado de Tipos de Producto</h1>
-                        </div>
-                        <div class="col-sm-3">
-                            <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoproductos_ventas.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de Producto</a>
-                        </div>
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h1>Listado de Tipos de Producto</h1>
+                        @can('ingresar productos')
+                            <a class="btn btn-primary ms-5 boton-aceptar"
+                                href="{{ route('admin.tipoproductos_ventas.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
+                                Producto</a>
+                        @endcan
+
                     </div>
                 </div>
                 <div class="table-responsive">
-                <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Opciones</th>
-                        </tr>
-                    </thead>
-                </table>
+                    <table
+                        class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
+                        id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-
-    
-
-    
 @endsection
 @section('js-after')
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
@@ -69,88 +68,89 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script>
         @if (Session::has('success'))
+            <
+            script >
+                toastr.success("{{ Session::get('success') }}");
+    </script>
+    @endif
+    @if (Session::has('error'))
         <script>
-            toastr.success("{{ Session::get('success') }}");
+            toastr.error("{{ Session::get('error') }}");
         </script>
-        @endif
-        @if (Session::has('error'))
-            <script>
-                toastr.error("{{ Session::get('error') }}");
-            </script>
-        @endif
-        $(document).ready(function() {
-            var table = $("#table").DataTable({
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
-                },
-                responsive: true,
-                processing: true,
-                serveSide: true,
-                searching: true,
-                pageLength: 10,
-                ajax: {
-                    url: "{{ route('admin.tipoproductos_ventas.index') }}",
-                    type: 'GET',
-                },
-                columns: [
-                    {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
-                    },
-                    {
-                        data: 'nombre',
-                        name: 'nombre'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                    }
-                ]
-            });
-        });
+    @endif
+    $(document).ready(function() {
+    var table = $("#table").DataTable({
+    language: {
+    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+    },
+    responsive: true,
+    processing: true,
+    serveSide: true,
+    searching: true,
+    pageLength: 10,
+    ajax: {
+    url: "{{ route('admin.tipoproductos_ventas.index') }}",
+    type: 'GET',
+    },
+    columns: [
+    {
+    data: 'DT_RowIndex',
+    name: 'DT_RowIndex'
+    },
+    {
+    data: 'nombre',
+    name: 'nombre'
+    },
+    {
+    data: 'action',
+    name: 'action',
+    orderable: false,
+    searchable: false,
+    }
+    ]
+    });
+    });
 
-        function deleted(id_get) {
+    function deleted(id_get) {
 
-            Swal.fire({
-                title: '¿Eliminar tipo de Producto?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
+    Swal.fire({
+    title: '¿Eliminar tipo de Producto?',
+    text: "¿Estás seguro? no podrás revertir la acción!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, borrar',
+    cancelButtonText: 'Cancelar'
+    }).then((result) => {
 
-                if (result.isConfirmed) {
-                    axios.post("{{ route('admin.tipoproductos_ventas.delete') }}", {
-                            id: id_get
-                        })
-                        .then(function(response) {
+    if (result.isConfirmed) {
+    axios.post("{{ route('admin.tipoproductos_ventas.delete') }}", {
+    id: id_get
+    })
+    .then(function(response) {
 
-                            toastr.success('Tipo de Producto eliminado correctamente!')
+    toastr.success('Tipo de Producto eliminado correctamente!')
 
-                        })
-                        .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar')
-                        })
-                        .finally(function() {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Tipo de producto eliminado correctamente!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
+    })
+    .catch(function(error) {
+    toastr.error('La acción no se pudo realizar')
+    })
+    .finally(function() {
+    Swal.fire({
+    icon: 'success',
+    title: 'Tipo de producto eliminado correctamente!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+    setTimeout(() => {
+    location.reload();
+    }, 1500);
 
-                        });
-                }
-            });
+    });
+    }
+    });
 
-        }
+    }
     </script>
 @endsection

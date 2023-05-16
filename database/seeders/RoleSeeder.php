@@ -18,6 +18,16 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name'=>'acceder panel']);
 
+        Permission::create(['name'=>'ver usuario']);
+        Permission::create(['name'=>'ingresar usuario']);
+        Permission::create(['name'=>'eliminar usuario']);
+        Permission::create(['name'=>'asignar roles usuario']);
+        
+        Permission::create(['name'=>'ver roles']);
+        Permission::create(['name'=>'ingresar roles']);
+        Permission::create(['name'=>'modificar roles']);
+        Permission::create(['name'=>'eliminar roles']);
+
         Permission::create(['name'=>'ver productos']);
         Permission::create(['name'=>'ingresar productos']);
         Permission::create(['name'=>'modificar productos']);
@@ -37,7 +47,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name'=>'modificar citas']);
         Permission::create(['name'=>'eliminar citas']);
 
-        Role::create(['name'=>'Admin'])->syncPermissions(['acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos','ver servicios','ingresar servicios','modificar servicios', 'eliminar servicios', 'ver insumos medicos', 'ingresar insumos medicos', 'modificar insumos medicos', 'eliminar insumos medicos']);
+        Role::create(['name'=>'Admin'])->syncPermissions(['ver usuario','ingresar usuario','eliminar usuario','asignar roles usuario','acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos','ver servicios','ingresar servicios','modificar servicios', 'eliminar servicios', 'ver insumos medicos', 'ingresar insumos medicos', 'modificar insumos medicos', 'eliminar insumos medicos']);
         Role::create(['name'=>'Veterinario'])->syncPermissions(['acceder panel']);
         Role::create(['name'=>'Peluquero'])->syncPermissions(['acceder panel']);
         Role::create(['name'=>'Inventario'])->syncPermissions(['acceder panel']);

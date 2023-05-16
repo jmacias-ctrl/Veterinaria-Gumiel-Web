@@ -306,7 +306,8 @@
 
                     <a class="h3 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ url()->full() }}">
                         <div class="d-flex justify-content-center align-items-center">
-                            @yield('header-title') @yield('breadcrumbs')
+                            <p class="font-weight-bold" text-center> @yield('header-title')</p>
+                            @yield('breadcrumbs')
                         </div>
                     </a>
                 </div>

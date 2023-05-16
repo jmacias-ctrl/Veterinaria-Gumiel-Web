@@ -41,16 +41,13 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <h1>Listado de Productos</h1>
-                        </div>
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h1>Listado de Productos</h1>
                         @can('ingresar productos')
-                            <div class="col-sm-3">
-                                <a class="btn btn-primary mr-auto" href="{{ route('productos.crear') }}" role="button"
-                                    style="background-color:#19A448; border-color:#19A448;">Ingresar Producto</a>
-                            </div>
+                            <div class="float-right"><a class="btn btn-primary mr-auto float-right"
+                                    href="{{ route('productos.crear') }}" role="button"
+                                    style="background-color:#19A448; border-color:#19A448;">Ingresar Producto</a></div>
                         @endcan
                     </div>
                 </div>

@@ -35,14 +35,10 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
                             <h1>Listado de Marca de Productos</h1>
-                        </div>
-                        <div class="col-sm-3">
                             <a class="btn btn-primary ms-5" href="{{ route('admin.marcaproductos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
-                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">

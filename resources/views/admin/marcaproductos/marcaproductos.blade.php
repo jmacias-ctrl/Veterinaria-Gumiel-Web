@@ -4,6 +4,12 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <style>
+            .dataTables_filter,
+            .dataTables_info {
+                display: none;
+            }
+        </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -101,6 +107,9 @@
                     }
                 ]
                 
+            });
+            $('#myInput').on('keyup', function() {
+                $('#table').dataTable().fnFilter(this.value);
             });
         });
 

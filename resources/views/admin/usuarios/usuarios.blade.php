@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .dataTables_filter,
+        .dataTables_info {
+            display: none;
+        }
+    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -45,10 +51,10 @@
                 <div class="card-header border-0 p-0 mb-4">
 
                     <div class="d-flex justify-content-between">
-                            <h1>Listado de Usuarios</h1>
-                            <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}"
-                                role="button" style="background-color:#19A448; border-color:#19A448;">Ingresar
-                                Usuario</a>
+                        <h1>Listado de Usuarios</h1>
+                        <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button"
+                            style="background-color:#19A448; border-color:#19A448;">Ingresar
+                            Usuario</a>
 
                     </div>
 
@@ -199,6 +205,9 @@
                     }
                 ]
             });
+        });
+        $('#myInput').on('keyup', function() {
+            $('#table').dataTable().fnFilter(this.value);
         });
 
         function deleted(id_get) {

@@ -248,14 +248,16 @@
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.tipoproductos_ventas.*')) active @endif" href="{{ route('admin.tipoproductos_ventas.index') }}"
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoproductos_ventas.*')) active @endif"
+                                                href="{{ route('admin.tipoproductos_ventas.index') }}"
                                                 id="link-dropdown">Tipo Productos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.tiposervicios.*')) active @endif" href="{{ route('admin.tiposervicios.index') }}"
-                                                id="link-dropdown">Tipos Servicios</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tiposervicios.*')) active @endif"
+                                                href="{{ route('admin.tiposervicios.index') }}" id="link-dropdown">Tipos
+                                                Servicios</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
@@ -319,7 +321,9 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
-                            <input class="form-control" placeholder="Buscar" type="text">
+                            <input class="form-control"
+                                    placeholder="Buscar" type="text" id="myInput" aria-controls="table">
+
                         </div>
                     </div>
                 </form>

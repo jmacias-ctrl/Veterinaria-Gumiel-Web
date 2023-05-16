@@ -4,6 +4,12 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        .dataTables_filter,
+        .dataTables_info {
+            display: none;
+        }
+    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -37,11 +43,11 @@
             <div class="card shadow p-4">
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
-                            <h1>Listado de Tipo de Insumos</h1>
+                        <h1>Listado de Tipo de Insumos</h1>
                         @can('ingresar insumos medicos')
-                                <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoinsumos.create') }}"
-                                    style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
-                                    insumo</a>
+                            <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoinsumos.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
+                                insumo</a>
                         @endcan
 
                     </div>
@@ -69,92 +75,93 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-    <script>
-        @if (Session::has('success'))
-            <
-            script >
-                toastr.success("{{ Session::get('success') }}");
-    </script>
+    @if (Session::has('success'))
+        <script>
+            toastr.success("{{ Session::get('success') }}");
+        </script>
     @endif
     @if (Session::has('error'))
         <script>
             toastr.error("{{ Session::get('error') }}");
         </script>
     @endif
-    $(document).ready(function() {
-    var table = $("#table").DataTable({
-    language: {
-    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
-    },
-    responsive: true,
-    processing: true,
-    serverSide: true,
-    searching: true,
-    pageLength: 10,
-    ajax: {
-    url: "{{ route('admin.tipoinsumos.index') }}",
-    type: 'GET',
-    },
-    columns: [
-    {
-    data: 'DT_RowIndex',
-    name: 'DT_RowIndex'
-    },
-    {
-    data: 'nombre',
-    name: 'nombre'
-    },
-    {
-    data: 'action',
-    name: 'action',
-    orderable: false,
-    searchable: false,
-    }
-    ]
+    <script>
+        $(document).ready(function() {
+            var table = $("#table").DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+                },
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                searching: true,
+                pageLength: 10,
+                ajax: {
+                    url: "{{ route('admin.tipoinsumos.index') }}",
+                    type: 'GET',
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'nombre',
+                        name: 'nombre'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                    }
+                ]
 
-    });
-    });
+            });
+            $('#myInput').on('keyup', function() {
+                $('#table').dataTable().fnFilter(this.value);
+            });
+        });
 
-    function deleted(id_get) {
+        function deleted(id_get) {
 
-    Swal.fire({
-    title: '¿Eliminar tipo de insumo?',
-    text: "¿Estás seguro? no podrás revertir la acción!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, borrar',
-    cancelButtonText: 'Cancelar'
-    }).then((result) => {
+            Swal.fire({
+                title: '¿Eliminar tipo de insumo?',
+                text: "¿Estás seguro? no podrás revertir la acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, borrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
 
-    if (result.isConfirmed) {
-    axios.post("{{ route('admin.tipoinsumos.delete') }}", {
-    id: id_get
-    })
-    .then(function(response) {
+                if (result.isConfirmed) {
+                    axios.post("{{ route('admin.tipoinsumos.delete') }}", {
+                            id: id_get
+                        })
+                        .then(function(response) {
 
-    toastr.success('Tipo de insumo eliminado correctamente!')
+                            toastr.success('Tipo de insumo eliminado correctamente!')
 
-    })
-    .catch(function(error) {
-    toastr.error('La acción no se pudo realizar')
-    })
-    .finally(function() {
-    Swal.fire({
-    icon: 'success',
-    title: 'Tipo de insumo eliminado correctamente!',
-    showConfirmButton: false,
-    timer: 1500
-    })
-    setTimeout(() => {
-    location.reload();
-    }, 1500);
+                        })
+                        .catch(function(error) {
+                            toastr.error('La acción no se pudo realizar')
+                        })
+                        .finally(function() {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Tipo de insumo eliminado correctamente!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500);
 
-    });
-    }
-    });
+                        });
+                }
+            });
 
-    }
+        }
     </script>
 @endsection

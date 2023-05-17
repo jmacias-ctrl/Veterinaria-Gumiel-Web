@@ -147,6 +147,9 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/horario/edit/{id}',[App\Http\Controllers\HorariosController::class,'edit']);
     Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
+//Rutas funcionarios
+Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
+    
 
     Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
     Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
@@ -155,6 +158,16 @@ Route::group(['middleware' => ['role:Admin']], function () {
     // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
+
+Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
+    Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
+    Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
+    //Rutas pacientes
+    Route::resource('/pacientes','App\Http\Controllers\PacientesController');
+    
+});
+
+
 
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function(){
@@ -172,6 +185,7 @@ Route::group(['middleware' => ['role:Inventario']], function () {
     Route::get('/inicio/inventario', function(){
         return view('admin.home');
     })->name('inventario');
+
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
     Route::post('inventario/punto_de_venta/venta',[App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
@@ -198,3 +212,14 @@ Route::post('/marca',[MarcasController::class,'store'])->name('marcas');
 Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
 Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
 Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');
+
+
+
+
+Route::middleware('auth')->group(function(){
+    Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
+    Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');
+
+    //JSON
+    Route::get('/tiposervicios/{tiposervicio}/funcionarios',[App\Http\Controllers\Api\tiposerviciosController::class, 'funcionarios']);
+});

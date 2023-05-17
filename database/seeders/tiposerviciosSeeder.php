@@ -15,11 +15,13 @@ class tiposerviciosSeeder extends Seeder
     public function run()
     {
         tiposervicios::create([
-            'nombre' => 'Peluquería'
+            'nombre' => 'Peluquería',
+
         ]);
         
         tiposervicios::create([
-            'nombre' => 'Atención medica'
+            'nombre' => 'Atención medica',
+
         ]);
 
     }

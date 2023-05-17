@@ -70,16 +70,16 @@
                                     <a class="nav-link" href="{{ route('inicio') }}">Inicio<span class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Nosotros">Nosotros</a>
+                                    <a class="nav-link" href="{{ route('nosotros') }}">Nosotros</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Agendar">Agenda tu hora</a>
+                                    <a class="nav-link" href="{{ route('verCalendario') }}">Agenda tu hora</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('shop.shop') }}">Tienda</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Contactanos">Contáctanos</a>
+                                    <a class="nav-link" href="#contact">Contáctanos</a>
                                 </li>
                             </ul>
                             <li class="nav-item dropdown">

@@ -4,10 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
-    @yield('css-before')
-    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link href="{{ asset('img/brand/favicon.png') }}" rel="icon" type="image/png">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -17,8 +13,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
@@ -36,16 +32,6 @@
     <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
     <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script>
 
-    <!-- Icons -->
-    <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
-    <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
-
-    <!-- CSS Files -->
-    <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
     @yield('css-before')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -62,7 +48,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('inicio') }}"><img src="{{ asset('image/logo2.jpg') }}"
-                        style="width:250px;" /></a>
+                style="width:250px;" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -193,32 +179,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-
-@yield('js-before')
-<!--   Core   -->
-<script src="{{ asset('js/plugins/jquery/dist/jquery.min.js') }}"></script>
-<script src="{{ asset('js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-<!--   Optional JS   -->
-<script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
-<script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>
-@yield('scripts')
-<!--   Argon JS   -->
-<script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
-<script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
-    toastr.options.positionClass = 'toast-bottom-right';
-</script>
-<script>
-    window.TrackJS &&
-        TrackJS.install({
-            token: "ee6fab19c5a04ac1a32a645abde4613a",
-            application: "argon-dashboard-free"
-        });
-</script>
-
-@yield('js-after')
 </body>
+@yield('js-after')
+
 </html>

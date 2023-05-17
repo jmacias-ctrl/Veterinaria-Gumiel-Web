@@ -22,6 +22,10 @@ class CreateUsersTable extends Migration
             $table->integer('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->unsignedBigInteger('tiposervicio_id')->nullable();
+            $table->foreign('tiposervicio_id')->references('id')->on('tiposervicios');
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -60,6 +60,6 @@ class User extends Authenticatable
 
     public function tiposervicio()
     {
-        return $this->belongsToMany(tiposervicios::class);
+        return $this->belongsTo(tiposervicios::class);
     }
 }

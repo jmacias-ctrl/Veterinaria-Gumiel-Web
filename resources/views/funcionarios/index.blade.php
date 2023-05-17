@@ -56,7 +56,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Correo</th>
-                        <th scope="col">Rol</th>
+                        <th scope="col">Tipo servicio asociado</th>
                         <th scope="col">Acciones</th>
                     </tr>       
                 </thead> 
@@ -66,7 +66,8 @@
                     <th scope="row">{{ $funcionario->id }}</th>
                     <td>{{ $funcionario->name }}</td>
                     <td>{{ $funcionario->email }}</td>
-                    <td>{{ $funcionario->nombre_rol }}</td>
+                    <td>{{ $funcionario->tiposervicio_id }}</td> 
+
                     <td>
                         <form action="{{ url('/funcionarios/'.$funcionario->id) }}" method="POST">
                             @csrf

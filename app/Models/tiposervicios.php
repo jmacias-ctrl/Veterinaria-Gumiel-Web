@@ -12,6 +12,6 @@ class tiposervicios extends Model
     protected $fillable = ['nombre'];
 
     public function users(){
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
 }

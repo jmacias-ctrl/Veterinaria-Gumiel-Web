@@ -26,8 +26,9 @@ class FuncionariosController extends Controller
     
     public function index(Request $request)
     {
+        $tiposervicios = tiposervicios::all();
         $funcionarios = User::Funcionario()->paginate(5);
-        return view('funcionarios.index' , compact('funcionarios'));
+        return view('funcionarios.index' , compact('funcionarios','tiposervicios'));
     }
 
 
@@ -46,7 +47,8 @@ class FuncionariosController extends Controller
             'rut'  => 'required|string|max:10|unique:users',
             'email'  => 'required|string|unique:users',
             'phone' => 'required|digits:9',
-            'role' => 'required'
+            'role' => 'required',
+            'tiposervicio_id' => 'required'
         ];
         $message = [
             'required' => ':attribute es obligatorio.',
@@ -60,12 +62,11 @@ class FuncionariosController extends Controller
         $this->validate($request, $rules, $message);
     
 
-        $user = User::create(
-            $request->only('name','rut','email','phone') + ['role' => $request->role] +
+        User::create(
+            $request->only('name','rut','email','phone','tiposervicio_id') + ['role' => $request->role] +
            ['password' => bcrypt(substr($request->rut, 0, 8))]              
         )->assignRole($request->role);
     
-        $user->tiposervicio()->attach($request->input('tiposervicios'));
         
 
         $notification = 'El funcionario se a registrado correctamente ';
@@ -97,7 +98,8 @@ class FuncionariosController extends Controller
             'rut'  => 'required|string|max:10|unique:users,rut,'.$id,
             'email'  => 'required|string|unique:users,email,'.$id,
             'phone' => 'required|digits:9',
-            'role' => 'required'
+            'role' => 'required',
+            'tiposervicio_id' => 'required'
         ];
         $message = [
             'required' => ':attribute es obligatorio.',
@@ -109,7 +111,7 @@ class FuncionariosController extends Controller
         $this->validate($request, $rules, $message);
         $user = User::Funcionario()->findOrFail($id);
 
-        $data =   $request->only('name','rut','email','phone','role');
+        $data =   $request->only('name','rut','email','phone','role','tiposervicio_id');
 
         $password = substr($request->rut, 0, 8);
         

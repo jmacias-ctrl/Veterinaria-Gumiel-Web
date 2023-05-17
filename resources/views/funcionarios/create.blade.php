@@ -78,14 +78,6 @@
                     <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
-                    <label for="tiposervicios">Tipo Servicios</label>
-                    <select name="tiposervicios[]" id="tiposervicios" class="form-control selectpicker" data-style="btn-white" title="Seleccionar Tipo servicio" required>
-                        @foreach ($tiposervicios as $tipo)
-                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="rut">Rut</label>
                     <input type="text" name="rut" class="form-control" value="{{ old('rut') }}">
                 </div>
@@ -102,6 +94,15 @@
                 </div>
                 
                 <h5 class='my-4'>La contraseña sera por defecto el rut sin el digito verificador</h5>
+
+                <div class="form-group">
+                    <label for="tiposervicio_id">Tipo Servicios</label>
+                    <select name="tiposervicio_id" id="tiposervicio_id" class="form-control selectpicker" data-style="btn-white" title="Seleccionar Tipo servicio" required>
+                        @foreach ($tiposervicios as $tipo)
+                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <h5 class="mt-4">Roles</h5>
                     @foreach ($roles as $rol)

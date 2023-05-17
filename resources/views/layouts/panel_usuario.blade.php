@@ -160,53 +160,56 @@
                                     <a class="nav-link  @if (Route::current()->getName() == 'peluquero') active @endif "
                                         href="{{ route('peluquero') }}">
                                     @elseif (auth()->user()->hasRole('Inventario'))
-                                        <a  class="nav-link @if(Route::current()->getName()=='inventario') active @endif"  href="{{ route('inventario') }}">
+                                        <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
+                                            href="{{ route('inventario') }}">
                                         @elseif (auth()->user()->hasRole('Cliente'))
-                                            <a  class="nav-link @if(Route::current()->getName()=='clientte') active @endif"  href="{{ route('inventario') }}">
+                                            <a class="nav-link @if (Route::current()->getName() == 'clientte') active @endif"
+                                                href="{{ route('inventario') }}">
                         @endif
                         <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
                     </li>
                     @hasrole('Admin')
-                    @if (Route::currentRouteName() == "admin.usuarios.index") <li class="nav-item  active">
-                        @else<li class="nav-item"> @endif
-                            <a class="nav-link collapse-links" data-toggle="collapse" href="#usuarioCollapse"
-                                role="button" aria-expanded="false" aria-controls="usuarioCollapse">
-                                <i class="ni ni-circle-08 text-green"></i> Gestion Usuarios
-                            </a>
-                            <div class="collapse" id="usuarioCollapse">
-                                <div class="card card-body" id="dropdown">
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.usuarios.*')) active @endif" href="{{ route('admin.usuarios.index') }}"
-                                                id="link-dropdown">Usuarios</a>
-                                        </li>
-                                    </ul>
-                                    <ul class="navbar-nav">
-                                    <li class="nav-item active">
-                                        <a class="nav-link ms-3 @if(request()->routeIs('funcionarios.*')) active @endif" href="{{ route('funcionarios.index') }}">
-                                        Funcionarios</a>
+                        @if (Route::currentRouteName() == 'admin.usuarios.index')
+                            <li class="nav-item  active">
+                            @else
+                            <li class="nav-item">
+                        @endif
+                        <a class="nav-link collapse-links" data-toggle="collapse" href="#usuarioCollapse" role="button"
+                            aria-expanded="false" aria-controls="usuarioCollapse">
+                            <i class="ni ni-circle-08 text-green"></i> Gestion Usuarios
+                        </a>
+                        <div class="collapse" id="usuarioCollapse">
+                            <div class="card card-body" id="dropdown">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('admin.usuarios.*')) active @endif"
+                                            href="{{ route('admin.usuarios.index') }}" id="link-dropdown">Usuarios</a>
                                     </li>
-                                    </ul>
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3" @if(request()->routeIs('admin.roles.*')) active @endif href="{{ route('admin.roles.index') }}"
-                                                id="link-dropdown">Roles</a>
-                                        </li>
-                                    </ul>
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('admin.horario.*')) active @endif" href="{{ route('admin.horario.index') }}"
-                                                id="link-dropdown">Horarios</a>
-                                        </li>
-                                    </ul>
-                                    
-                                </div>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item active">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('funcionarios.*')) active @endif"
+                                            href="{{ route('funcionarios.index') }}">
+                                            Funcionarios</a>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3" @if (request()->routeIs('admin.roles.*')) active @endif
+                                            href="{{ route('admin.roles.index') }}" id="link-dropdown">Roles</a>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
+                                            href="{{ route('admin.horario.index') }}" id="link-dropdown">Horarios</a>
+                                    </li>
+                                </ul>
+
                             </div>
                         </div>
-                        </li>
                     @endhasrole
-                    
                     @can('ver servicios')
                         <li class="nav-item">
                             <a class="nav-link @if (request()->routeIs('admin.servicio.*')) active @endif"
@@ -218,12 +221,14 @@
 
                     @can('ver citasvet')
                         <li class="nav-item">
-                            <a class="nav-link @if(request()->routeIs('/agendar-horas/create')) active @endif" href="{{ route('agendar-horas.create') }}">
+                            <a class="nav-link @if (request()->routeIs('/agendar-horas/create')) active @endif"
+                                href="{{ route('agendar-horas.create') }}">
                                 <i class="ni ni-atom text-green "></i> Reservar cita
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(request()->routeIs('/miscitas')) active @endif" href="{{ route('Agendar') }}">
+                            <a class="nav-link @if (request()->routeIs('/miscitas')) active @endif"
+                                href="{{ route('Agendar') }}">
                                 <i class="ni ni-atom text-green "></i> Mis citas
                             </a>
                         </li>
@@ -247,7 +252,8 @@
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.insumos_medicos.*')) active @endif"
                                                 href="{{ route('admin.insumos_medicos.index') }}"
-                                                id="link-dropdown">Insumos Medicos</a>
+                                                id="link-dropdown">Insumos
+                                                Medicos</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -266,14 +272,16 @@
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaproductos.*')) active @endif"
                                                 href="{{ route('admin.marcaproductos.index') }}"
-                                                id="link-dropdown">Marcas Productos</a>
+                                                id="link-dropdown">Marcas
+                                                Productos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoproductos_ventas.*')) active @endif"
                                                 href="{{ route('admin.tipoproductos_ventas.index') }}"
-                                                id="link-dropdown">Tipo Productos</a>
+                                                id="link-dropdown">Tipo
+                                                Productos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
@@ -300,8 +308,9 @@
 
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if(request()->routeIs('landing.*')) active @endif" href="{{ route('landing.ubication.edit') }}"
-                                                id="link-dropdown">Landing Page</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('landing.*')) active @endif"
+                                                href="{{ route('landing.ubication.edit') }}" id="link-dropdown">Landing
+                                                Page</a>
                                         </li>
                                     </ul>
 
@@ -317,30 +326,32 @@
                             </a>
                         </li>
                     @endhasrole
-                        @can('ver gestionvet')
-                            <li class="nav-item active">
-                                <a class="nav-link  @if(request()->routeIs('admin.horariofuncionarios.*')) active @endif" href="{{ route('admin.horariofuncionarios.edit') }}">
+                    @can('ver gestionvet')
+                        <li class="nav-item active">
+                            <a class="nav-link  @if (request()->routeIs('admin.horariofuncionarios.*')) active @endif"
+                                href="{{ route('admin.horariofuncionarios.edit') }}">
                                 <i class="ni ni-calendar-grid-58 text-green"></i> Horario Funcionarios</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link  @if(request()->routeIs('pacientes.*')) active @endif" href="{{ route('pacientes.index') }}">
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link  @if (request()->routeIs('pacientes.*')) active @endif"
+                                href="{{ route('pacientes.index') }}">
                                 <i class="ni ni-archive-2 text-green "></i>Mis Pacientes</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link  @if(request()->routeIs('miscitas.*')) active @endif" href="">
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link  @if (request()->routeIs('miscitas.*')) active @endif" href="">
                                 <i class="	fas fa-calendar-check text-green "></i>Mis Citas</a>
-                            </li>
-                        @endcan  
+                        </li>
+                    @endcan
                     @can('ver citas')
-                        
-                    @endcan   
-                            
-                        
+                    @endcan
+
                 </ul>
-                <!-- Divider -->
-                <hr class="my-3">
             </div>
-        </div>
+
+            </li>
+            <!-- Divider -->
+            <hr class="my-3">
+
     </nav>
     <div class="main-content">
         <!-- Navbar -->
@@ -366,8 +377,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
-                            <input class="form-control"
-                                    placeholder="Buscar" type="text" id="myInput" aria-controls="table">
+                            <input class="form-control" placeholder="Buscar" type="text" id="myInput"
+                                aria-controls="table">
 
                         </div>
                     </div>
@@ -453,17 +464,17 @@
                         </a>
                     </div>
                 </li>
-            </div>
-            <script src="{{ asset('js/horarios.js') }}" defer></script>
-        </nav>
-        <!-- End Navbar -->
-        <!-- Header -->
-        <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-            <div class="container-fluid">
-                @yield('breadcrumbs')
-                @can('ver estadisticas')
+        </div>
+        <script src="{{ asset('js/horarios.js') }}" defer></script>
+    </nav>
+    <!-- End Navbar -->
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+        <div class="container-fluid">
+            @yield('breadcrumbs')
+            @can('ver estadisticas')
                 <div class="header-body">
-                
+
                     <!-- Card stats -->
                     <div class="row">
                         <div class="col-xl-3 col-lg-6">
@@ -552,19 +563,19 @@
                         </div>
                     </div>
                 </div>
-                  
-                
+
+
             </div>
-             @endcan 
-            <script src="{{ asset('js/horarios.js') }}" defer></script>
-        </div>
+        @endcan
         <script src="{{ asset('js/horarios.js') }}" defer></script>
     </div>
-    </nav>
-    <div class="container-fluid mt--7">
-        @yield('content')
-        <!-- Footer -->
-    </div>
+    <script src="{{ asset('js/horarios.js') }}" defer></script>
+</div>
+</nav>
+<div class="container-fluid mt--7">
+    @yield('content')
+    <!-- Footer -->
+</div>
 </div>
 @yield('js-before')
 <!--   Core   -->

@@ -93,7 +93,7 @@ Route::group(['middleware'=>['role:Admin']], function(){
     Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
 });
 
-Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], function(){
+Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente|Inventario']], function(){
     Route::get('notification/getUpdate', [App\Http\Controllers\UserController::class, 'get_notifications_count'])->name('users.notification.updateNotificationCount');
     Route::get('notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
     Route::post('notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');

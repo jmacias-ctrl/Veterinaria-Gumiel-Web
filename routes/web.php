@@ -88,22 +88,9 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
     Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update');
 });
 
-Route::group(['middleware'=>['can:ver landing page']], function(){
-
-    Route::get('edit_landingpage', [\App\Http\Controllers\LandingPageController::class, 'index_landingpage_mantenedor'])->name('admin.marcaproductos.index');
-
-    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
-    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
-    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
-
-    Route::get('landingpage/edit', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage'])->name('user.landingpage.modify');
-
-    // Route::get('edit_landingpage/create', [\App\Http\Controllers\LandingPageController::class, 'create'])->name('admin.marcaproductos.create')->middleware(['permission:ingresar productos']);
-    // Route::post('edit_landingpage/delete', [\App\Http\Controllers\LandingPageController::class, 'delete'])->name('admin.marcaproductos.delete')->middleware(['permission:eliminar productos']);
-    // Route::post('edit_landingpage/store', [\App\Http\Controllers\LandingPageController::class, 'store'])->name('admin.marcaproductos.store')->middleware(['permission:ingresar productos']);
-    // Route::get('edit_landingpage/edit', [\App\Http\Controllers\LandingPageController::class, 'edit'])->name('admin.marcaproductos.edit')->middleware(['permission:modificar productos']);
-    // Route::post('edit_landingpage/update', [\App\Http\Controllers\LandingPageController::class, 'update'])->name('admin.marcaproductos.update')->middleware(['permission:modificar productos']);
-
+Route::group(['middleware'=>['role:Admin']], function(){
+    Route::get('landingpage/edit/aboutUs', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_aboutUs'])->name('admin.landingpage_aboutUs.modify');
+    Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
 });
 
 Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], function(){
@@ -115,8 +102,6 @@ Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], funct
     Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
-
-
 
 Route::group(['middleware'=>['can:ver servicios']], function(){
    
@@ -163,7 +148,12 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
 
-    Route::get('/landing-edit', [\App\Http\Controllers\whereYouCanFind::class, 'edit'])->name('landing-edit');
+    Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
+    Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
+
+    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
+    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
+    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 
 Route::group(['middleware' => ['role:Veterinario']], function () {

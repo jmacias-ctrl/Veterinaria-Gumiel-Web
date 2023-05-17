@@ -257,6 +257,7 @@ class UserController extends Controller
     {
         return view('users.modify_perfil_usuario');
     }
+    
     public function update_user_profile(Request $request)
     {
 

@@ -2,12 +2,12 @@
   <section class="d-flex justify-content-center align-items-center p-4">
     <div class="container bg-darkgreen rounded-50 w-50 p-4">
       <div class="imagen-check">
-        <img class="float-right" src="{{ asset('images/doc-check.png') }}">
+        <img style="width:25%; opacity:1;" class="float-right" src="{{ asset('images/doc-check.png') }}">
       </div>
       <div>
-        <h2 class="text-white">Agendar horas</h2>
+        <h2 class="text-white">Agenda tu hora!</h2>
         <p class="lead text-white">
-          Puedes solicitar tu hora con el veterinario o a servicios de peluquería.
+        ¿Tu mascota necesita una consulta veterinaria o un corte de pelo? ¡Estás en el lugar correcto! Puedes solicitar una hora con nuestros expertos de manera fácil y rápida. Simplemente haz clic en el botón "Agendar horas"
         </p>
         <div class="">
           <a href="#" class="btn btn-success btn-lg">Agendar hora</a>

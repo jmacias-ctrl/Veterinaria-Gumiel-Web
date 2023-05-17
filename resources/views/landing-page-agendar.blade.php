@@ -10,7 +10,7 @@
         ¿Tu mascota necesita una consulta veterinaria o un corte de pelo? ¡Estás en el lugar correcto! Puedes solicitar una hora con nuestros expertos de manera fácil y rápida. Simplemente haz clic en el botón "Agendar horas"
         </p>
         <div class="">
-          <a href="#" class="btn btn-success btn-lg">Agendar hora</a>
+          <a href="{{route('agendar-horas.create')}}" class="btn btn-success btn-lg">Agendar hora</a>
         </div>
       </div>
     </div>

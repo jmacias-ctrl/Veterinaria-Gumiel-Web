@@ -23,25 +23,24 @@ use App\Notifications\UsuarioRemovidoNotificacion;
 
 class FuncionariosController extends Controller
 {
-    
+
     public function index(Request $request)
     {
         $tiposervicios = tiposervicios::all();
         $funcionarios = User::Funcionario()->paginate(5);
-        return view('funcionarios.index' , compact('funcionarios','tiposervicios'));
+        return view('funcionarios.index', compact('funcionarios', 'tiposervicios'));
     }
 
 
     public function create()
     {
-        $tiposervicios= tiposervicios::all();
+        $tiposervicios = tiposervicios::all();
         $roles = Role::whereIn('name', ['Veterinario', 'Peluquero'])->get();
-        return view('funcionarios.create',compact('roles','tiposervicios'));
+        return view('funcionarios.create', compact('roles', 'tiposervicios'));
     }
 
     public function store(Request $request)
     {
-        dd($request->all());
         $rules = [
             'name' => 'required|string',
             'rut'  => 'required|string|max:10|unique:users',
@@ -58,16 +57,19 @@ class FuncionariosController extends Controller
             'unique' => ':attribute ya existe en la base de datos'
         ];
 
-        
-        $this->validate($request, $rules, $message);
-    
 
-        User::create(
-            $request->only('name','rut','email','phone','tiposervicio_id') + ['role' => $request->role] +
-           ['password' => bcrypt(substr($request->rut, 0, 8))]              
-        )->assignRole($request->role);
-    
-        
+        $this->validate($request, $rules, $message);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->rut = $request->rut;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->tiposervicio_id = $request->tiposervicio_id;
+        $user->password = bcrypt($request->rut);
+        $user->assignRole($request->role);
+        $user->save();
+
 
         $notification = 'El funcionario se a registrado correctamente ';
         return redirect('/funcionarios')->with(compact('notification'));
@@ -83,7 +85,7 @@ class FuncionariosController extends Controller
         //
     }
 
-    
+
     public function edit($id)
     {
         $roles = Role::whereIn('name', ['Veterinario', 'Peluquero'])->get();
@@ -95,8 +97,8 @@ class FuncionariosController extends Controller
     {
         $rules = [
             'name' => 'required|string',
-            'rut'  => 'required|string|max:10|unique:users,rut,'.$id,
-            'email'  => 'required|string|unique:users,email,'.$id,
+            'rut'  => 'required|string|max:10|unique:users,rut,' . $id,
+            'email'  => 'required|string|unique:users,email,' . $id,
             'phone' => 'required|digits:9',
             'role' => 'required',
             'tiposervicio_id' => 'required'
@@ -111,14 +113,14 @@ class FuncionariosController extends Controller
         $this->validate($request, $rules, $message);
         $user = User::Funcionario()->findOrFail($id);
 
-        $data =   $request->only('name','rut','email','phone','role','tiposervicio_id');
+        $data =   $request->only('name', 'rut', 'email', 'phone', 'role', 'tiposervicio_id');
 
         $password = substr($request->rut, 0, 8);
-        
 
-        if($password)
+
+        if ($password)
             $data['password'] = bcrypt($password);
-        
+
         $user->fill($data);
         $user->save();
 

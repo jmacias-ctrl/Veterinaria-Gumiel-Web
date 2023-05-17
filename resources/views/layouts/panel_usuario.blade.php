@@ -16,7 +16,6 @@
     <!-- Icons -->
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
-    <link href="/assets-old/vendor/nucleo/css/nucleo.css" rel="stylesheet">
     <!-- CSS Files -->
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -38,7 +37,6 @@
             color: #2E7646;
         }
     </style>
-    @yield('styles')
 </head>
 @php
     $userNotification = sizeof(Auth::user()->unreadNotifications);
@@ -162,9 +160,6 @@
                                     @elseif (auth()->user()->hasRole('Inventario'))
                                         <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
                                             href="{{ route('inventario') }}">
-                                        @elseif (auth()->user()->hasRole('Cliente'))
-                                            <a class="nav-link @if (Route::current()->getName() == 'clientte') active @endif"
-                                                href="{{ route('inventario') }}">
                         @endif
                         <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
@@ -188,13 +183,6 @@
                                     </li>
                                 </ul>
                                 <ul class="navbar-nav">
-                                    <li class="nav-item active">
-                                        <a class="nav-link ms-3 @if (request()->routeIs('funcionarios.*')) active @endif"
-                                            href="{{ route('funcionarios.index') }}">
-                                            Funcionarios</a>
-                                    </li>
-                                </ul>
-                                <ul class="navbar-nav">
                                     <li class="nav-item">
                                         <a class="nav-link ms-3" @if (request()->routeIs('admin.roles.*')) active @endif
                                             href="{{ route('admin.roles.index') }}" id="link-dropdown">Roles</a>
@@ -203,12 +191,18 @@
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
                                         <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
+                                            href="{{ url('funcionarios') }}" id="link-dropdown">Funcionario</a>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
                                             href="{{ route('admin.horario.index') }}" id="link-dropdown">Horarios</a>
                                     </li>
                                 </ul>
-
                             </div>
                         </div>
+                        </li>
                     @endhasrole
                     @can('ver servicios')
                         <li class="nav-item">
@@ -218,7 +212,6 @@
                             </a>
                         </li>
                     @endcan
-
                     @can('ver citasvet')
                         <li class="nav-item">
                             <a class="nav-link @if (request()->routeIs('/agendar-horas/create')) active @endif"
@@ -233,7 +226,6 @@
                             </a>
                         </li>
                     @endcan
-
                     @can('ver productos')
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#productosCollapse"
@@ -252,8 +244,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.insumos_medicos.*')) active @endif"
                                                 href="{{ route('admin.insumos_medicos.index') }}"
-                                                id="link-dropdown">Insumos
-                                                Medicos</a>
+                                                id="link-dropdown">Insumos Medicos</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -272,16 +263,14 @@
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaproductos.*')) active @endif"
                                                 href="{{ route('admin.marcaproductos.index') }}"
-                                                id="link-dropdown">Marcas
-                                                Productos</a>
+                                                id="link-dropdown">Marcas Productos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoproductos_ventas.*')) active @endif"
                                                 href="{{ route('admin.tipoproductos_ventas.index') }}"
-                                                id="link-dropdown">Tipo
-                                                Productos</a>
+                                                id="link-dropdown">Tipo Productos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
@@ -305,15 +294,11 @@
                                                 Insumos Medicos</a>
                                         </li>
                                     </ul>
-
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('landing.*')) active @endif"
-                                                href="{{ route('landing.ubication.edit') }}" id="link-dropdown">Landing
-                                                Page</a>
+                                            <a class="nav-link ms-3 " href="#" id="link-dropdown">Landing Page</a>
                                         </li>
                                     </ul>
-
                                 </div>
                             </div>
                         </li>
@@ -342,16 +327,11 @@
                                 <i class="	fas fa-calendar-check text-green "></i>Mis Citas</a>
                         </li>
                     @endcan
-                    @can('ver citas')
-                    @endcan
-
                 </ul>
+                <!-- Divider -->
+                <hr class="my-3">
             </div>
-
-            </li>
-            <!-- Divider -->
-            <hr class="my-3">
-
+        </div>
     </nav>
     <div class="main-content">
         <!-- Navbar -->
@@ -377,8 +357,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
-                            <input class="form-control" placeholder="Buscar" type="text" id="myInput"
-                                aria-controls="table">
+                            <input class="form-control"
+                                    placeholder="Buscar" type="text" id="myInput" aria-controls="table">
 
                         </div>
                     </div>
@@ -471,24 +451,20 @@
     <!-- Header -->
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
         <div class="container-fluid">
-            @yield('breadcrumbs')
-            @can('ver estadisticas')
-                <div class="header-body">
-
-                    <!-- Card stats -->
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-6">
-                            <div class="card card-stats mb-4 mb-xl-0">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                                            <span class="h2 font-weight-bold mb-0">350,897</span>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                                <i class="fas fa-chart-bar"></i>
-                                            </div>
+            <div class="header-body">
+                <!-- Card stats -->
+                <div class="row">
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                                        <span class="h2 font-weight-bold mb-0">350,897</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                            <i class="fas fa-chart-bar"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -563,31 +539,23 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-        @endcan
+        </div>
         <script src="{{ asset('js/horarios.js') }}" defer></script>
     </div>
-    <script src="{{ asset('js/horarios.js') }}" defer></script>
-</div>
-</nav>
-<div class="container-fluid mt--7">
-    @yield('content')
-    <!-- Footer -->
-</div>
+    </nav>
+    <div class="container-fluid mt--7">
+        @yield('content')
+        <!-- Footer -->
+    </div>
 </div>
 @yield('js-before')
 <!--   Core   -->
 <script src="{{ asset('js/plugins/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-
 <!--   Optional JS   -->
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>
-
-@yield('scripts')
-
 <!--   Argon JS   -->
 <script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
 <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>

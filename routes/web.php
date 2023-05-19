@@ -199,5 +199,6 @@ Route::middleware('auth')->group(function(){
     Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');
 
     //JSON
-    Route::get('/tiposervicios/{tiposervicio}/funcionarios',[App\Http\Controllers\Api\tiposerviciosController::class, 'funcionarios']);
+    Route::get('/obtener-usuarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
+    Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
 });

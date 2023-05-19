@@ -74,16 +74,19 @@
             <form action="{{ url('/pacientes') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="name">Tipo de servicio</label>
-                    <select name="" id="" class="form-control">
+                    <label for="tiposervicio">Tipo de servicio</label>
+                    <select name="tiposervicio_id" id="tiposervicio" style="color: gray;" class="form-select">
+                        <option selected disabled>Selecciona un tipo de servicio</option>
                         @foreach ($tiposervicios as $tiposervicio )
                             <option value="{{$tiposervicio->id}}">{{$tiposervicio->nombre}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="rut">Funcionario</label>
-                    <select name="" id="" class="form-control"></select>
+                    <label for="funcionario">Funcionario</label>
+                    <select name="funcionario_id" style="color: gray;" id="funcionario" class="form-select">
+                        <option selected disabled >Selecciona un funcionario</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="email">Fecha</label>
@@ -113,4 +116,30 @@
 
 @section('scripts')
 <script src="{{ asset('/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#tiposervicio').change(function() {
+            var tiposervicio_id = $(this).val();
+
+            // Realizar una solicitud AJAX al servidor
+            $.ajax({
+                url: '/obtener-usuarios',
+                type: 'GET',
+                data: { tiposervicio_id: tiposervicio_id },
+                success: function(response) {
+                    // Limpiar el segundo select
+                    console.log(response)
+                    $('#funcionario').empty();
+
+                    // Agregar las opciones de usuario al segundo select
+                    response.forEach(function(users) {
+                        $('#funcionario').append('<option value="' + users.id + '">' + users.name + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
 @endsection

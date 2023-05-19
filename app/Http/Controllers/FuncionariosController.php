@@ -143,4 +143,9 @@ class FuncionariosController extends Controller
         $notification = "El funcionario $funcionarioname se elimino correctamente";
         return redirect('/funcionarios')->with(compact('notification'));
     }
+
+    public function funcionarios(tiposervicios $tiposervicio_id){
+        $tiposervicio = tiposervicios::all('id')->findOrFail($tiposervicio_id);
+        return $tiposervicio->users;
+    }
 }

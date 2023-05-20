@@ -94,7 +94,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                         </div>
-                        <input class="form-control datepicker" placeholder="Seleccionar fecha" type="text" value="{{date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
+                        <input class="form-control datepicker" id="date" placeholder="Seleccionar fecha" type="text" value="{{date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
                         data-date-start-date="{{date('Y-m-d')}}" data-date-end-date="+30d">
                     </div>
                 </div>
@@ -115,8 +115,9 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="{{ asset('/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+
 
 <script>
     $(document).ready(function() {
@@ -140,6 +141,27 @@
                 }
             });
         });
+
+        $('#myForm').submit(function(event) {
+        event.preventDefault(); // Evitar el envío del formulario
+
+        var funcionario_id = $('#funcionario').val();
+        var date = $('#date').val();
+
+        // Realizar una solicitud AJAX para obtener las horas médicas
+        $.ajax({
+            url: '/horariofuncionarios/horas?date=${date}&funcionario_id=${funcionario_id}',
+            type: 'GET',
+            data: { funcionario_id: funcionario_id, date: date },
+            success: function(response) {
+                // Manipular los datos de las horas médicas recibidas
+                console.log(response);
+                // Realizar las acciones necesarias con los datos de las horas médicas
+            }
+        });
     });
+});
+  
+
 </script>
 @endsection

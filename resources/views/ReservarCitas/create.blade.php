@@ -2,8 +2,7 @@
 <title>Agendar Hora - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <style>
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
@@ -71,40 +70,76 @@
                 @endforeach
             @endif
 
-            <form action="{{ url('/pacientes') }}" method="POST">
+            <form action="{{ url('/agendar-horas') }}" method="POST" id="myForm" name="myForm">
                 @csrf
-                <div class="form-group">
-                    <label for="tiposervicio">Tipo de servicio</label>
-                    <select name="tiposervicio_id" id="tiposervicio" style="color: gray;" class="form-select">
-                        <option selected disabled>Selecciona un tipo de servicio</option>
-                        @foreach ($tiposervicios as $tiposervicio )
-                            <option value="{{$tiposervicio->id}}">{{$tiposervicio->nombre}}</option>
-                        @endforeach
-                    </select>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="tiposervicio">Tipo de servicio</label>
+                        <select name="tiposervicio_id" id="tiposervicio" style="color: gray;" class="form-select">
+                            <option selected disabled>Selecciona un tipo de servicio</option>
+                            @foreach ($tiposervicios as $tiposervicio )
+                                <option value="{{$tiposervicio->id}}">{{$tiposervicio->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="funcionario">Funcionario</label>
+                        <select name="funcionario_id" style="color: gray;" id="funcionario" class="form-select" required>
+                            <option selected disabled >Selecciona un funcionario</option>
+                        </select>
+                    </div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="funcionario">Funcionario</label>
-                    <select name="funcionario_id" style="color: gray;" id="funcionario" class="form-select">
-                        <option selected disabled >Selecciona un funcionario</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="email">Fecha</label>
+                    <label for="date">Fecha</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                         </div>
-                        <input class="form-control datepicker" id="date" placeholder="Seleccionar fecha" type="text" value="{{date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
+                        <input class="form-control datepicker" id="date" name="scheduled_date" placeholder="Seleccionar fecha" type="text" value="{{date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
                         data-date-start-date="{{date('Y-m-d')}}" data-date-end-date="+30d">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Hora de atención</label>
-                    <input type="number" name="phone" class="form-control" value="{{ old('phone') }}"> 
+                    <label for="hours">Hora de atención</label>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="m-3" id="titleMorning" ></h4>
+                                <div id="hoursMorning">
+                                    <mark>
+                                        <small class="text-warning">
+                                            Selecciona un funcionario y una fecha para ver las horas.
+                                        </small>
+                                    </mark>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="m-3" id="titleAfternoon" ></h4>
+                                <div id="hoursAfternoon"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Tipo de consulta</label>
-                    <input type="number" name="phone" class="form-control" value="{{ old('phone') }}"> 
+                    <label>Tipo de consulta</label>
+                    <div class="custom-control custom-radio mt-3 mb-3">
+                        <input type="radio" id="type1" name="type" class="custom-control-input" value="consulta">
+                        <label class="custom-control-label" for="type1" >Consulta</label>
+                    </div>
+                    <div class="custom-control custom-radio mb-3">
+                        <input type="radio" id="type2" name="type" class="custom-control-input" value="consulta_vacuna">
+                        <label class="custom-control-label" for="type2">Consulta + vacunas</label>
+                    </div>
+                    <div class="custom-control custom-radio mb-5">
+                        <input type="radio" id="type3" name="type" class="custom-control-input" value="cirugia">
+                        <label class="custom-control-label" for="type3">Cirugía</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Síntomas</label>
+                    <textarea name="description" id="description" type="text" class="form-control" rows="5" placeholder="Descripción breve de los síntomas de su mascota..." required></textarea>
                 </div>
               
                 <br>
@@ -119,49 +154,6 @@
 <script src="{{ asset('/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 
 
-<script>
-    $(document).ready(function() {
-        $('#tiposervicio').change(function() {
-            var tiposervicio_id = $(this).val();
-
-            // Realizar una solicitud AJAX al servidor
-            $.ajax({
-                url: '/obtener-usuarios',
-                type: 'GET',
-                data: { tiposervicio_id: tiposervicio_id },
-                success: function(response) {
-                    // Limpiar el segundo select
-                    console.log(response)
-                    $('#funcionario').empty();
-
-                    // Agregar las opciones de usuario al segundo select
-                    response.forEach(function(users) {
-                        $('#funcionario').append('<option value="' + users.id + '">' + users.name + '</option>');
-                    });
-                }
-            });
-        });
-
-        $('#myForm').submit(function(event) {
-        event.preventDefault(); // Evitar el envío del formulario
-
-        var funcionario_id = $('#funcionario').val();
-        var date = $('#date').val();
-
-        // Realizar una solicitud AJAX para obtener las horas médicas
-        $.ajax({
-            url: '/horariofuncionarios/horas?date=${date}&funcionario_id=${funcionario_id}',
-            type: 'GET',
-            data: { funcionario_id: funcionario_id, date: date },
-            success: function(response) {
-                // Manipular los datos de las horas médicas recibidas
-                console.log(response);
-                // Realizar las acciones necesarias con los datos de las horas médicas
-            }
-        });
-    });
-});
-  
-
+<script src="{{asset('/js/ReservarCitas/create.js')}}">
 </script>
 @endsection

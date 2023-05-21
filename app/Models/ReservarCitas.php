@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ReservarCitas extends Model
+{
+    use HasFactory;
+    protected $fillable = [
+        'scheduled_date',
+        'sheduled_time',
+        'type',
+        'description',
+        'funcionario_id',
+        'paciente_id',
+        'tiposervicio_id'
+    ];
+}

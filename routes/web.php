@@ -196,9 +196,10 @@ Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-d
 
 Route::middleware('auth')->group(function(){
     Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
-    Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');
+    Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
+    Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');
 
     //JSON
-    Route::get('/obtener-usuarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
+    Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
     Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
 });

@@ -10,8 +10,12 @@ use App\Models\efectivo;
 use App\Models\transferencia;
 use App\Models\tarjeta;
 use App\Models\items_comprados;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use DataTables;
 use Illuminate\Support\Str;
+use App\Notifications\StockProductoInventario;
 
 class PointSaleController extends Controller
 {
@@ -49,6 +53,7 @@ class PointSaleController extends Controller
         $hora = Carbon::now()->format('h:i:s A');
         $nuevaVenta  = new trazabilidad_venta_presencial();
         $nuevaVenta->id_venta = Str::random(10);
+        $nuevaVenta->metodo_pago = $request->metodoPago;
         $nuevaVenta->nombre_cliente = $request->nombreCliente;
         $nuevaVenta->id_operador = auth()->user()->id;
         $nuevaVenta->save();
@@ -65,6 +70,17 @@ class PointSaleController extends Controller
 
             $producto = productos_ventas::find($item->id);
             $producto->stock = $producto->stock - $item->quantity;
+            if($producto->stock<=0){
+                $users = User::role('Inventario')->get();
+                foreach($users as $user){
+                    $user->notify(new StockProductoInventario($producto, true));
+                }   
+            }else if($producto->stock<$producto->min_stock){
+                $users = User::role('Inventario')->get();
+                foreach($users as $user){
+                    $user->notify(new StockProductoInventario($producto, false));
+                }   
+            }
             $producto->save();
         }
 
@@ -126,5 +142,43 @@ class PointSaleController extends Controller
     {
         \Cart::session(auth()->user()->id)->clear();
         return response()->json(['success' => true], 200);
+    }
+    public function mostrar_ventas(Request $request){
+        if($request->ajax()){
+            $data = db::table('trazabilidad_venta_presencials')
+            ->join('items_comprados','items_comprados.id_venta','=','trazabilidad_venta_presencials.id')
+            ->select('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'nombre_cliente', db::raw('sum(items_comprados.monto*items_comprados.cantidad) as monto'), db::raw('"presencial" as venta'))
+            ->groupBy('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'nombre_cliente', 'venta')
+            ->get();
+            foreach($data as $item){
+                $item->monto = '$'.number_format($item->monto, 0, ',', '.');
+            }
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action','inventario.ventas.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+        return view('inventario.ventas.index');
+    }
+
+    public function detalle_venta(Request $request){
+        $venta = trazabilidad_venta_presencial::find($request->id);
+        $detalle_metodo = null;
+        $venta->hora = Carbon::parse($venta->created_at)->format('d-m-Y');
+        $venta->fecha = Carbon::parse($venta->created_at)->format('h:i:s A');
+        if($venta->metodo_pago=="efectivo"){
+            $detalle_metodo = efectivo::where('id_operacion', '=', $venta->id)->first();
+        }else if($venta->metodo_pago=="tarjeta"){
+            $detalle_metodo = tarjeta::where('id_operacion', '=', $venta->id)->first();
+        }else{
+            $detalle_metodo = transferencia::where('id_operacion', '=', $venta->id)->first();
+        }
+        $itemsComprado = db::table('items_comprados')->join('productos_ventas', 'items_comprados.id_producto', '=', 'productos_ventas.id')->where('id_venta', '=', $venta->id)->select('items_comprados.id', 'productos_ventas.nombre', 'items_comprados.cantidad', 'items_comprados.monto')->get();
+        $montoFinal = 0;
+        foreach($itemsComprado as $item){
+            $montoFinal = $montoFinal + ($item->monto*$item->cantidad);
+        }
+        return response()->json(['success' => true,'itemsComprado'=>$itemsComprado, 'montoFinal'=>$montoFinal, 'venta'=>$venta, 'detalle_metodo'=>$detalle_metodo], 200);
     }
 }

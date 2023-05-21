@@ -159,6 +159,8 @@ Route::group(['middleware' => ['role:Inventario']], function () {
     Route::get('/inicio/inventario', function(){
         return view('admin.home');
     })->name('inventario');
+    Route::get('inventario/detalle_venta',[App\Http\Controllers\PointSaleController::class, 'detalle_venta'])->name('ventas.detalle');
+    Route::get('inventario/ventas',[App\Http\Controllers\PointSaleController::class, 'mostrar_ventas'])->name('ventas.index');
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
     Route::post('inventario/punto_de_venta/venta',[App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');

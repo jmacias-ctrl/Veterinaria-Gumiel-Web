@@ -321,8 +321,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
-                            <input class="form-control"
-                                    placeholder="Buscar" type="text" id="myInput" aria-controls="table">
+                            <input class="form-control" placeholder="Buscar" type="text" id="myInput"
+                                aria-controls="table">
 
                         </div>
                     </div>
@@ -574,7 +574,7 @@
             }).catch(err => {
                 console.error(err);
             });
-        }, 1500);
+        }, 2500);
     }
 </script>
 @yield('js-after')

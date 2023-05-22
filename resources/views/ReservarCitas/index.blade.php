@@ -1,0 +1,131 @@
+@extends('layouts.panel_usuario')
+<title>Gestion Pacientes - Veterinaria Gumiel</title>
+@section('css-before')
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+@endsection
+@section('js-before')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@endsection
+@section('header-title')
+    Gestion Pacientes
+@endsection
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                @if (auth()->user()->hasRole('Admin'))
+                    <a href="{{ route('admin') }}" style="color:black;">
+                    @elseif(auth()->user()->hasRole('Veterinario'))
+                        <a href="{{ route('veterinario') }}">
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a href="{{ route('peluquero') }}">
+                            @elseif (auth()->user()->hasRole('Inventario'))
+                                <a href="{{ route('inventario') }}">
+                @endif
+                Inicio</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Pacientes</li>
+    </nav>
+@endsection
+@section('content')
+    {{-- Breadcrumb  --}}
+    <div class="card shadow">
+        <div class="card-header border-0">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0">Mis Citas</h3>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (session('notification'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('notification') }}
+                </div>
+            @endif
+
+            <div class="nav-wrapper">
+                <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" 
+                        href="#mis-citas" role="tab" aria-selected="true">
+                        <i class="ni ni-calendar-grid-58 mr-2"></i>Mis citas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0"  data-toggle="tab" 
+                        href="#citas-pendientes" role="tab" aria-selected="false">
+                        <i class="ni ni-bell-55 mr-2"></i>Citas pendientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" data-toggle="tab" 
+                        href="#historial" role="tab" aria-selected="false">
+                        <i class="ni ni-folder-17 mr-2"></i>Historial</a>
+                    </li>
+                </ul>
+            </div>
+                
+        </div>
+        <div class="card shadow">
+            <div class="card">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="mis-citas" role="tabpanel">
+                        @include('ReservarCitas.confirmed-cita')
+                    </div>
+                    <div class="tab-pane fade" id="citas-pendientes" role="tabpanel">
+                        @include('ReservarCitas.pending-cita')
+                    </div>
+                    <div class="tab-pane fade" id="historial" role="tabpanel" >
+                        @include('ReservarCitas.old-cita')
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Tipo Servicio</th>
+                        <th scope="col">Funcionario</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>       
+                </thead> 
+            <tbody>
+                @foreach ($confirmedCita as $cita )
+                <tr>
+                    <th scope="row">
+                        {{ $cita->id }}
+                    </th>
+                    <td>{{ $cita->description }}</td>
+                    <td>{{ $cita->tiposervicio->nombre }}</td>
+                    <td>{{ $cita->funcionario->name }}</td>
+                    <td>{{ $cita->scheduled_date }}</td>
+                    <td>{{ $cita->sheduled_time }}</td>
+                    <td>{{ $cita->type }}</td>
+                    <td>{{ $cita->status }}</td>
+                    <td>
+                        <form action="{{ url('/miscitas/'.$cita->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Cancelar cita">Cancelar cita</button>  
+
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+            </table>
+        </div>
+        
+    </div>
+
+@endsection

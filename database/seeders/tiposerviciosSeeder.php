@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\tiposervicios;
+use App\Models\User;
 
 class tiposerviciosSeeder extends Seeder
 {
@@ -25,4 +26,5 @@ class tiposerviciosSeeder extends Seeder
         ]);
 
     }
+   
 }

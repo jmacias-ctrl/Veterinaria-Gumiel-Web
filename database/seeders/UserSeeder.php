@@ -23,12 +23,14 @@ class UserSeeder extends Seeder
             'rut' => '11111111-1',
             'email' => 'veterinario@vetgumiel.cl',
             'password' => bcrypt('asdf123'),
+            'tiposervicio_id' => '2'
         ])->assignRole('Veterinario');
         User::create([
             'name' => 'Peluquero Demo',
             'rut' => '22222222-2',
             'email' => 'peluquero@vetgumiel.cl',
             'password' => bcrypt('asdf123'),
+            'tiposervicio_id' => '1'
         ])->assignRole('Peluquero');
         User::create([
             'name' => 'Cliente Demo',

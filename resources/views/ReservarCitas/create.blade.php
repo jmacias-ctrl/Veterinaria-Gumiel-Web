@@ -2,8 +2,7 @@
 <title>Agendar Hora - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <style>
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
@@ -62,6 +61,15 @@
             </div>
         </div>
         <div class="card-body">
+
+        
+            @if (session('notification'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('notification') }}
+                </div>
+            @endif
+        
+            
             @if ($errors->any())
                 @foreach ($errors->all() as $error)
                     <div class="alert alert-danger" role="alert">
@@ -71,37 +79,105 @@
                 @endforeach
             @endif
 
-            <form action="{{ url('/pacientes') }}" method="POST">
+            <form action="{{ url('/agendar-horas') }}" method="POST">
                 @csrf
-                <div class="form-group">
-                    <label for="name">Tipo de servicio</label>
-                    <select name="" id="" class="form-control">
-                        @foreach ($tiposervicios as $tiposervicio )
-                            <option value="{{$tiposervicio->id}}">{{$tiposervicio->nombre}}</option>
-                        @endforeach
-                    </select>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="tiposervicio">Tipo de servicio</label>
+                        <select name="tiposervicio_id" id="tiposervicio" style="color: gray;" class="form-select">
+                            <option selected disabled>Selecciona un tipo de servicio</option>
+                            @foreach ($tiposervicios as $tiposervicio )
+                                <option value="{{$tiposervicio->id}}"
+                                @if(old('tiposervicio_id') == $tiposervicio->id) selected @endif
+                                >{{$tiposervicio->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="funcionario">Funcionario</label>
+                        <select name="funcionario_id" style="color: gray;" id="funcionario" class="form-select" required>
+                            <option selected disabled >Selecciona un funcionario</option>
+                            @foreach ($funcionarios as $funcionario )
+                                <option value="{{$funcionario->id}}"
+                                @if(old('funcionario_id') == $funcionario->id) selected @endif
+                                >{{$funcionario->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="rut">Funcionario</label>
-                    <select name="" id="" class="form-control"></select>
-                </div>
-                <div class="form-group">
-                    <label for="email">Fecha</label>
+                    <label for="date">Fecha</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                         </div>
-                        <input class="form-control datepicker" placeholder="Seleccionar fecha" type="text" value="{{date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
+                        <input class="form-control datepicker" id="date" name="scheduled_date" placeholder="Seleccionar fecha"  value="{{old ('scheduled_date'), date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
                         data-date-start-date="{{date('Y-m-d')}}" data-date-end-date="+30d">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Hora de atención</label>
-                    <input type="number" name="phone" class="form-control" value="{{ old('phone') }}"> 
+                    <label for="hours">Hora de atención</label>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="m-3" id="titleMorning" ></h4>
+                                <div id="hoursMorning">
+                                    @if ($intervals)
+                                    <h4 class="m-3">En la mañana</h4>
+                                        @foreach ($intervals['morning'] as $key=>$interval)
+                                            <div class="custom-control custom-radio mb-3">
+                                                <input type="radio" id="intervalMorning{{ $key }}" name="sheduled_time" value="{{$interval['start']}}" class="custom-control-input" >
+                                                <label class="custom-control-label" for="intervalMorning{{ $key }}">{{ $interval['start'] }} - {{$interval['end']}}</label>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <mark>
+                                            <small class="text-warning">
+                                                Selecciona un funcionario y una fecha para ver las horas.
+                                            </small>
+                                        </mark>
+                                    @endif
+                                    
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="m-3" id="titleAfternoon" ></h4>
+                                <div id="hoursAfternoon">
+                                    @if ($intervals)
+                                    <h4 class="m-3">En la tarde</h4>
+                                        @foreach ($intervals['afternoon'] as $key=>$interval)
+                                        <div class="custom-control custom-radio mb-3">
+                                            <input type="radio" id="intervalAfternoon{{ $key }}" name="sheduled_time" value="{{$interval['start']}}" class="custom-control-input" >
+                                            <label class="custom-control-label" for="intervalAfternoon{{ $key }}">{{ $interval['start'] }} - {{$interval['end']}}</label>
+                                        </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="phone">Tipo de consulta</label>
-                    <input type="number" name="phone" class="form-control" value="{{ old('phone') }}"> 
+                    <label>Tipo de consulta</label>
+                    <div class="custom-control custom-radio mt-3 mb-3">
+                        <input type="radio" id="type1" name="type" class="custom-control-input" @if (old('type') == 'consulta') checked @endif value="consulta">
+                        <label class="custom-control-label" for="type1" >Consulta</label>
+                    </div>
+                    <div class="custom-control custom-radio mb-3">
+                        <input type="radio" id="type2" name="type" class="custom-control-input" @if (old('type') == 'consulta_vacuna') checked @endif value="consulta_vacuna">
+                        <label class="custom-control-label" for="type2">Consulta + vacunas</label>
+                    </div>
+                    <div class="custom-control custom-radio mb-5">
+                        <input type="radio" id="type3" name="type" class="custom-control-input" @if (old('type') == 'cirugia') checked @endif value="cirugia">
+                        <label class="custom-control-label" for="type3">Cirugía</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Síntomas</label>
+                    <textarea name="description" id="description" type="text" class="form-control" rows="5" placeholder="Descripción breve de los síntomas de su mascota..." required></textarea>
                 </div>
               
                 <br>
@@ -112,5 +188,10 @@
 @endsection
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="{{ asset('/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+
+
+<script src="{{asset('/js/ReservarCitas/create.js')}}">
+</script>
 @endsection

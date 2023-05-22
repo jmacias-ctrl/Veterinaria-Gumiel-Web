@@ -7,6 +7,12 @@ use App\Models\productos_ventas;
 use App\Models\Marcaproducto;
 use App\Models\tipoproductos_ventas;
 use DataTables;
+use App\Models\trazabilidad_venta_presencial;
+use App\Models\efectivo;
+use App\Models\transferencia;
+use App\Models\tarjeta;
+use App\Models\items_comprados;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -223,4 +229,5 @@ class ProductosVentaController extends Controller
 
         return response()->json(['success' => true], 200);
     }
+
 }

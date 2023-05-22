@@ -3,7 +3,7 @@
 {{ $producto->nombre }} - Veterinaria Gumiel
 @endsection
 @section('content')
-<div class="container" style="margin-top: 80px">
+<div class="container" style="margin-top: 30px">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Inicio</a></li>
@@ -53,7 +53,7 @@
                                                 </button>
                                             </div>   
                                             <div style="margin: 0 10px 0 0;">
-                                                <a style=" height:40px;" class="btn btn-success" class="tooltip-test" title="checkout" href="/checkout">Comprar</a>
+                                                <a style=" height:40px;" class="btn btn-success" class="tooltip-test" title="checkout" href="/shop">Volver a Tienda</a>
                                             </div>   
                                         </div>  
                                                  
@@ -70,3 +70,11 @@
     
   
 @endsection
+<style>
+    body{
+        background:url("/image/fondo-tienda.png");
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:400px;
+    }
+</style>

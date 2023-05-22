@@ -31,6 +31,15 @@
     <link rel="stylesheet" type="text/css" href="fullCalendar4/packages/timegrid/main.css">
     <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
     <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
+    
+
+  
+    
+    
+    <!-- Icons -->
+    <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
+    <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
 
     @yield('css-before')
     <!-- Styles -->
@@ -179,6 +188,9 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    
+
 </body>
 @yield('js-after')
 

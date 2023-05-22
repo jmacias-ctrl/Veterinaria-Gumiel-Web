@@ -7,7 +7,7 @@ use App\Models\productos_ventas;
 class CartController extends Controller
 {
     public function shop()
-    {
+    {   
         $products = productos_ventas::all();
         return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
     }

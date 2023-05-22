@@ -7,6 +7,7 @@ use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
 use App\Http\Controllers\LandingPageController;
 use app\Http\Controllers\CartController;
+use app\Http\Controllers\CompraController;
 
 /*
 |--------------------------------------------------------------------------
@@ -148,10 +149,18 @@ Route::group(['middleware' => ['role:Peluquero']], function () {
         return view('admin.home');
     })->name('peluquero');
 });
+// Route::group(['middleware' => ['role:Invitado']], function () {
+//     Route::get('/', function(){
+//         return view('home');
+//     })->name('inventario');add_user
+// });
 Route::group(['middleware' => ['role:Inventario']], function () {
     Route::get('/inicio/inventario', function(){
         return view('admin.home');
     })->name('inventario');
+
+
+
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
     Route::get('inventario/punto_de_venta/remove',[App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
@@ -165,6 +174,15 @@ Route::get('shop/show/{id}', [\App\Http\Controllers\CartController::class, 'show
 Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])->name('shop.cart.update');
 Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
 Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');   
+
+
+
+Route::get('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente']);
+Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login');
+
+// Route::any('/checkout',[\App\Http\Controllers\TransbankController::class, 'checkout'])->name('webpay');
+// Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class,'checkout']);
+
 
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');

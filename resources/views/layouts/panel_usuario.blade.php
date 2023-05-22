@@ -240,11 +240,19 @@
                                                 href="{{ route('productos.index') }}" id="link-dropdown">Productos</a>
                                         </li>
                                     </ul>
+                                    
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.insumos_medicos.*')) active @endif"
                                                 href="{{ route('admin.insumos_medicos.index') }}"
                                                 id="link-dropdown">Insumos Medicos</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.medicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.medicamentos_vacunas.index') }}"
+                                                id="link-dropdown">Medicamentos</a>
                                         </li>
                                     </ul>
                                 </div>

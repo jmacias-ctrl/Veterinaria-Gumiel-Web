@@ -23,7 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call(class:InsumosmedicosSeeder::class);
         $this->call(class:tiposerviciosSeeder::class);
         $this->call(class:ServicioSeeder::class);
-       
+        $this->call(class:marcamedicamentos_vacunasSeeder::class);
+        $this->call(class:tipoproductos_ventasSeeder::class);
+        $this->call(class:tipomedicamentos_vacunasSeeder::class);
+        $this->call(class:medicamentos_vacunasSeeder::class);
         $this->call(class:whereYouCanFindSeeder::class);
     }
 }

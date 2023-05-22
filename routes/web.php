@@ -93,7 +93,30 @@ Route::group(['middleware'=>['role:Admin']], function(){
     Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
 });
 
-Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente|Inventario']], function(){
+
+Route::group(['middleware'=>['can:ver medicamentos vacunas']], function(){
+    Route::get('medicamentos_vacunas', [App\Http\Controllers\medicamentos_vacunasController::class, 'index_medicamentos_vacunas'])->name('admin.medicamentos_vacunas.index');
+    Route::get('medicamentos_vacunas/create', [App\Http\Controllers\medicamentos_vacunasController::class, 'create'])->name('admin.medicamentos_vacunas.create');
+    Route::get('medicamentos_vacunas/edit/{id}', [App\Http\Controllers\medicamentos_vacunasController::class, 'edit'])->name('admin.medicamentos_vacunas.edit');
+    Route::post('medicamentos_vacunas/update', [App\Http\Controllers\medicamentos_vacunasController::class, 'update'])->name('admin.medicamentos_vacunas.update');
+    Route::post('medicamentos_vacunas/store', [App\Http\Controllers\medicamentos_vacunasController::class, 'store'])->name('admin.medicamentos_vacunas.store');
+    Route::post('medicamentos_vacunas/delete', [App\Http\Controllers\medicamentos_vacunasController::class, 'delete'])->name(('admin.medicamentos_vacunas.delete'));
+
+    Route::get('tipo_medicamentos_vacunas', [\App\Http\Controllers\Tipomedicamentos_vacunasController::class, 'index_tipo'])->name('admin.tipoimedicamentos_vacunas.index');
+    Route::get('tipo_medicamentos_vacunas/create', [\App\Http\Controllers\Tipomedicamentos_vacunasController::class, 'create'])->name('admin.tipomedicamentos_vacunas.create');
+    Route::post('tipo_medicamentos_vacunas/store', [\App\Http\Controllers\Tipomedicamentos_vacunasController::class, 'store_tipo'])->name('admin.tipomedicamentos_vacunas.store');
+    Route::get('tipo_medicamentos_vacunas/edit', [\App\Http\Controllers\Tipomedicamentos_vacunasController::class, 'edit'])->name('admin.tipomedicamentos_vacunas.edit');
+    Route::post('tipo_medicamentos_vacunas/delete', [\App\Http\Controllers\Tipoimedicamentos_vacunasController::class, 'delete'])->name('admin.tipomedicamentos_vacunas.delete');
+    Route::post('tipo_medicamentos_vacunas/update', [\App\Http\Controllers\Tipomedicamentos_vacunasController::class, 'update'])->name('admin.tipomedicamentos_vacunas.update');
+
+    Route::get('admin/marcamedicamentos_vacunas', [\App\Http\Controllers\medicamentos_vacunasController::class, 'index_marca'])->name('admin.marcamedicamentos_vacunas.index');
+    Route::get('admin/marcamedicamentos_vacunas/create', [\App\Http\Controllers\medicamentos_vacunasController::class, 'create'])->name('admin.marcamedicamentos_vacunas.create');
+    Route::post('admin/marcamedicamentos_vacunas/delete', [\App\Http\Controllers\medicamentos_vacunasoController::class, 'delete'])->name('admin.marcamedicamentos_vacunas.delete');
+    Route::post('admin/marcamedicamentos_vacunas/store', [\App\Http\Controllers\medicamentos_vacunasController::class, 'store'])->name('admin.marcamedicamentos_vacunas.store');
+    Route::get('admin/marcamedicamentos_vacunas/edit', [\App\Http\Controllers\medicamentos_vacunasController::class, 'edit'])->name('admin.marcamedicamentos_vacunas.edit');
+    Route::post('admin/marcamedicamentos_vacunas/update', [\App\Http\Controllers\medicamentos_vacunasController::class, 'update'])->name('admin.marcamedicamentos_vacunas.update');
+});
+Route::group(['middleware'=>['auth']], function(){
     Route::get('notification/getUpdate', [App\Http\Controllers\UserController::class, 'get_notifications_count'])->name('users.notification.updateNotificationCount');
     Route::get('notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
     Route::post('notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');
@@ -159,16 +182,7 @@ Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
     // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 
-Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
-    Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
-    Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
-    //Rutas pacientes
-    Route::resource('/pacientes','App\Http\Controllers\PacientesController');
-    
-});
-
-
-
+Route::get('/lector-codigos-barras', 'BarcodeController@scan')->name('barcode.scan');
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function(){
         return view('admin.home');

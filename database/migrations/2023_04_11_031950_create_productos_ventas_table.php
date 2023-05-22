@@ -22,12 +22,13 @@ class CreateProductosVentasTable extends Migration
             $table->unsignedBigInteger('id_tipo');
             $table->integer('stock');
             $table->integer('min_stock')->nullable();
-            $table->enum('producto_enfocado', ['gato', 'perro', 'ambos']);
+            $table->unsignedBigInteger('producto_enfocado');
             $table->integer('precio');
             $table->string('imagen_path');
             $table->timestamps();
 
             $table->foreign('id_marca')->references('id')->on('marcaproductos');
+            $table->foreign('producto_enfocado')->references('id')->on('especies');
             $table->foreign('id_tipo')->references('id')->on('tipoproductos_ventas');
         });
     }

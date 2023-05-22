@@ -304,6 +304,26 @@
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipomedicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.tipomedicamentos_vacunas.index') }}" id="link-dropdown">Tipos
+                                                Medicamentos</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcamedicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.marcamedicamentos_vacunas.index') }}" id="link-dropdown">Marca
+                                            Medicamentos</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.especies.*')) active @endif"
+                                                href="{{ route('admin.especies.index') }}" id="link-dropdown">Especies</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
                                             <a class="nav-link ms-3 " href="#" id="link-dropdown">Landing Page</a>
                                         </li>
                                     </ul>

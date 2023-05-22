@@ -17,13 +17,13 @@ class medicamentos_vacunasSeeder extends Seeder
             'nombre'=>'Vacunas',
             'id_marca'=>1,
             'id_tipo'=>1,
-            'medicamentos_enfocados'=>'perros',
+            'medicamentos_enfocados'=>2,
             'mililitros'=>250,
             'stock'=>50,
         ]);
         Medicamentos_vacunas::create([
             'nombre'=>'Medicamentos',
-            'medicamentos_enfocados'=>'gatos',
+            'medicamentos_enfocados'=>1,
             'gramos'=>350,
             'stock'=>50,
             'id_marca'=>2,

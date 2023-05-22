@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Tipo Medicamentos </title>
+<title>Gestion Especies - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -10,18 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .dataTables_filter,
-        .dataTables_info {
-            display: none;
-        }
-    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Tipo de Medicamentos
+    Gestion de Especies
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -38,7 +32,7 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Tipo Medicamentos</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Especies</li>
     </nav>
 @endsection
 @section('content')
@@ -49,30 +43,26 @@
             <div class="card shadow p-4">
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
-                        <h1>Listado de Tipo de Medicamentos</h1>
-
-                        <a class="btn btn-primary ms-5 boton-aceptar"
-                            href="{{ route('admin.tipomedicamentos_vacunas.create') }}"
-                            style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
-                            medicamento</a>
+                        <h1>Listado de Especies</h1>
+                        @can('ingresar insumos medicos')
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.especies.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Especie</a>
+                        @endcan
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table
-                        class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
-                        id="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Opciones</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+                <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('js-after')
@@ -89,16 +79,6 @@
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    @if (Session::has('success'))
-        <script>
-            toastr.success("{{ Session::get('success') }}");
-        </script>
-    @endif
-    @if (Session::has('error'))
-        <script>
-            toastr.error("{{ Session::get('error') }}");
-        </script>
-    @endif
     <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
@@ -117,7 +97,7 @@
                     },
                 },
                 ajax: {
-                    url: "{{ route('admin.tipomedicamentos_vacunas.index') }}",
+                    url: "{{ route('admin.especies.index') }}",
                     type: 'GET',
                 },
                 columns: [{
@@ -135,30 +115,30 @@
                         searchable: false,
                     }
                 ]
-
             });
         });
 
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar tipo de medicamento?',
+                title: '¿Eliminar Especie?',
                 text: "¿Estás seguro? no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar',
+                confirmButtonText: 'Si, eliminar',
                 cancelButtonText: 'Cancelar'
+
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    axios.post("{{ route('admin.tipomedicamentos_vacunas.delete') }}", {
+                    axios.post("{{ route('admin.especies.delete') }}", {
                             id: id_get
                         })
                         .then(function(response) {
 
-                            toastr.success('Tipo de medicamento eliminado correctamente!')
+                            toastr.success('Especie eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -167,7 +147,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Tipo de medicamento eliminado correctamente!',
+                                title: 'Especie eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

@@ -1,27 +1,14 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Tipo Medicamentos </title>
+<title>Marcas de Innsumos Medico - Veterinaria Gumiel</title>
 @section('css-before')
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .dataTables_filter,
-        .dataTables_info {
-            display: none;
-        }
-    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Tipo de Medicamentos
+    Gestion de Marca Insumos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -38,23 +25,20 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Tipo Medicamentos</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Marca Medicamentos</li>
     </nav>
 @endsection
 @section('content')
     {{-- Breadcrumb  --}}
-
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
                 <div class="card-header border-0 p-0 mb-4">
-                    <div class="d-flex justify-content-between">
-                        <h1>Listado de Tipo de Medicamentos</h1>
 
-                        <a class="btn btn-primary ms-5 boton-aceptar"
-                            href="{{ route('admin.tipomedicamentos_vacunas.create') }}"
-                            style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
-                            medicamento</a>
+                    <div class="d-flex justify-content-between">
+                        <h1>Listado de Marca de Medicamentos</h1>
+                        <a class="btn btn-primary ms-5" href="{{ route('admin.marcamedicamentos_vacunas.create') }}"
+                            style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -76,19 +60,10 @@
 @endsection
 
 @section('js-after')
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.bootstrap4.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     @if (Session::has('success'))
         <script>
             toastr.success("{{ Session::get('success') }}");
@@ -102,22 +77,16 @@
     <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
                 },
                 responsive: true,
-                "language": {
-                    "search": "Buscar:",
-                    "zeroRecords": "No se encontraron datos",
-                    "infoEmpty": "No hay datos para mostrar",
-                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
-                    "paginate": {
-                        "previous": "<",
-                        "next": ">",
-                    },
-                },
+                processing: true,
+                searching: true,
+                serverSide: true,
+                pageLength: 10,
                 ajax: {
-                    url: "{{ route('admin.tipomedicamentos_vacunas.index') }}",
+                    url: "{{ route('admin.marcamedicamentos_vacunas.index') }}",
                     type: 'GET',
                 },
                 columns: [{
@@ -135,14 +104,13 @@
                         searchable: false,
                     }
                 ]
-
             });
         });
 
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar tipo de medicamento?',
+                title: '¿Eliminar Marca de Medicamento?',
                 text: "¿Estás seguro? no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -153,12 +121,12 @@
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    axios.post("{{ route('admin.tipomedicamentos_vacunas.delete') }}", {
+                    axios.post("{{ route('admin.marcamedicamentos_vacunas.delete') }}", {
                             id: id_get
                         })
                         .then(function(response) {
 
-                            toastr.success('Tipo de medicamento eliminado correctamente!')
+                            toastr.success('Marca eliminada correctamente!')
 
                         })
                         .catch(function(error) {
@@ -167,7 +135,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Tipo de medicamento eliminado correctamente!',
+                                title: 'Marca eliminada correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

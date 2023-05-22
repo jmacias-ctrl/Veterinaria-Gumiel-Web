@@ -46,12 +46,14 @@
             <div class="card shadow p-4">
             <form action="{{ route('admin.medicamentos_vacunas.update') }}" method="POST">
             @csrf
+            <input type="hidden" name="id" value="{{$medicamentos->id}}">
             <div class="row mt-3">
                 <div class="col">
-                    <input type="hidden" name="id" value="{{ $medicamentos->id }}">
-                    <label for="nombre"class="form-label">Nombre Medicamento</label>
-                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                        value="{{ $medicamentos->nombre }}" id="nombre" checked>
+                    <label for="nombre" class="form-label">Nombre medicamento</label>
+                    <input type="text" id="nombre" name="nombre"
+                        class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. "
+                        aria-label="Nombre" value="{{$medicamentos->nombre}}" required>
+
                     @error('nombre')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                     @enderror
@@ -59,58 +61,61 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="nombre" class="form-label">Marca</label>
-                    <select class="form-select @error('marca') is-invalid @enderror" aria-label="Default select example"
-                        name="marca" id="marca">
-                        @foreach ($marcasMedicamento as $marca)
-                            @if ($marca->id == $medicamentos->id_marca)
-                                <option selected type="unsignedBigInteger" id="id_marca" name="marca"
-                                    value="{{ $marca->id }}">{{ $marca->nombre }}</option>
-                            @else
-                                <option type="unsignedBigInteger" id="id_marca" name="marca" value="{{ $marca->id }}">
-                                    {{ $marca->nombre }}</option>
-                            @endif
+                    <label for="marca" class="form-label">Marca</label>
+                    <select class="form-select @error('marca') is-invalid @enderror"
+                        aria-label="Default select example" name="marca" id="marca">
+                        @foreach ($marcasMedicamentos as $marca)
+                            <option type="unsignedBigInteger" value="{{ $marca->id }}" @if ($medicamentos->id_marca=$marca->id) selected @endif>
+                                {{ $marca->nombre }}</option>
                         @endforeach
                     </select>
                     @error('marca')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                     @enderror
                 </div>
-
             </div>
             <div class="row mt-3">
                 <div class="col">
-                <label for="id_tipo" class="form-label">Tipo insumo</label>
-                <select class="form-select @error('id_tipo') is-invalid @enderror" name="id_tipo" for="id_tipo">
-                    <option disabled>Selecciona una opción</option>
-                    @foreach ($tipomedicamentos as $tipos)
-                        @if ($tipos->id == $medicamentos->id_tipo)
-                            <option selected type="unsignedBigInteger" id="id_tipo" name="id_tipo"
-                                value="{{ $tipos->id }}">{{ $tipos->nombre }}</option>
-                        @else
-                            <option type="unsignedBigInteger" id="id_tipo" name="id_tipo" value="{{ $tipos->id }}">
-                                {{ $tipos->nombre }}</option>
-                        @endif
-                    @endforeach
-
-                </select>
-                @error('id_tipo')
-                    <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                @enderror
+                    <label for="marca" class="form-label">Tipo</label>
+                    <select class="form-select @error('id_tipo') is-invalid @enderror"
+                        aria-label="Default select example" name="id_tipo" id="id_tipo">
+                        <option selected disabled>Selecciona un Tipo</option>
+                        @foreach ($tipomedicamentos as $tipo)
+                            <option type="unsignedBigInteger" value="{{ $tipo->id }}" @if($medicamentos->id_tipo=$tipo->id) selected @endif>
+                                {{ $tipo->nombre }}</option>
+                        @endforeach
+                    </select>
+                    @error('id_tipo')
+                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                    @enderror
                 </div>
             </div>
-                
-            
+            <div class="row mt-3">
+                <div class="form-group">
+                    <label for="medicamento_enfocado">Medicamento enfocado:</label>
+                    <select class="form-select @error('medicamento_enfocado') is-invalid @enderror"
+                        aria-label="Default select example" id="medicamento_enfocado" name="medicamento_enfocado"
+                        required>
+                        @foreach ($especies as $especie)
+                            <option value="{{ $especie->id }}"
+                                @if ($medicamentos->medicamentos_enfocados == $especie->id) selected @endif>
+                                {{ $especie->nombre }}</option>
+                        @endforeach
+                    </select>
+                    @error('medicamento_enfocado')
+                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                    @enderror
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="stock" class="form-label">Stock</label>
-                    <input type="int" class="form-control  @error('stock') is-invalid @enderror" name="stock" value="{{ $medicamentos->stock }}"
-                        id="stock" checked>
-                        @error('stock')
-                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                        @enderror
+                    <label for="stock" class="form-label @error('stock') is-invalid @enderror">Stock</label>
+                    <input type="integer" class="form-control" id="stock" name="stock"
+                        placeholder="ej. 21" maxlength="11" minlength="1" value="{{$medicamentos->stock}}">
+                    @error('stock')
+                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                    @enderror
                 </div>
-                
             </div>
             <div class="container">
                 <br>

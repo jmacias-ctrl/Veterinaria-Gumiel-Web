@@ -15,4 +15,7 @@ class medicamentos_vacunas extends Model
     public function marca_medicamentos_vacunas(){
         return $this->belongsTo('App\Models\marca_medicamentos_vacunas','id_marca','id');
     }
+    public function especies(){
+        return $this->belongsTo('App\Models\Especie','medicamentos_enfocados','id');
+    }
 }

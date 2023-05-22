@@ -17,4 +17,17 @@ class ReservarCitas extends Model
         'paciente_id',
         'tiposervicio_id'
     ];
+
+    public function tiposervicio(){
+        return $this->belongsTo(tiposervicios::class);
+    }
+
+    public function funcionario(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function paciente(){
+        return $this->belongsTo(User::class);
+    }
+
 }

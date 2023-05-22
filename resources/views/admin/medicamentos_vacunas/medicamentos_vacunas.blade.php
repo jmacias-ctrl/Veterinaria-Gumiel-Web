@@ -53,8 +53,11 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Tipo</th>
+                            <th scope="col">Medicamentos Enfocados</th>
+                            <th scope="col">Mililitros</th>
+                            <th scope="col">Gramos</th>
                             <th scope="col">Stock</th>
-                            <th scope="col">Opciones</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -105,6 +108,18 @@
                     {
                         data: 'id_tipo',
                         name: 'id_tipo'
+                    },
+                    {
+                        data: 'medicamentos_enfocados',
+                        name: 'medicamentos_enfocados'
+                    },
+                    {
+                        data: 'mililitros',
+                        name: 'mililitros'
+                    },
+                    {
+                        data: 'gramos',
+                        name: 'gramos'
                     },
                     {
                         data: 'stock',

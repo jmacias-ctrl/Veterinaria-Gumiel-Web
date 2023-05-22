@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TipoMedicamento extends Model
 {
     use HasFactory;
-    protected $table = "tipomedicamentos_vacunas";
+    protected $table = "tipo_medicamentos_vacunas";
     protected $fillable = ['nombre'];
   }

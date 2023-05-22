@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\medicamentos_vacunas;
+use App\Models\TipoMedicamento;
+use App\Models\marca_medicamentos_vacunas;
+use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 class medicamentos_vacunasController extends Controller
 {
     public function index_medicamentos_vacunas(Request $request)
     {
+        
         if ($request->ajax()) {
-            $data = medicamentos_vacunas::with('marcamedicamentos_vacunas','tipomedicamentos_vacunas')->get()->map(function($medicamentos_vacunas){
-                $medicamentos_vacunas->id_marca = $medicamentos_vacunas->marcamedicamentos_vacunas->nombre;
-                $medicamentos_vacunas->id_tipo = $medicamentos_vacunas->tipomedicamentos_vacunas->nombre;
+            $data = medicamentos_vacunas::with('marca_medicamentos_vacunas','tipo_medicamentos_vacunas')->get()->map(function($medicamentos_vacunas){
+                $medicamentos_vacunas->id_marca = $medicamentos_vacunas->marca_medicamentos_vacunas->nombre;
+                $medicamentos_vacunas->id_tipo = $medicamentos_vacunas->tipo_medicamentos_vacunas->nombre;
                 return $medicamentos_vacunas;
             });
             return Datatables::of($data)
@@ -20,15 +26,14 @@ class medicamentos_vacunasController extends Controller
             ->rawColumns(['action'])
             ->toJson();
         }
-        $medicamentos_vacunas = medicamentos_vacunas::with('tipomedicamentos_vacunas', 'marcamedicamentos_vacunas')->get();
-        return view('admin.medicamentos_vacunas.medicamentos', compact('medicamentos_vacunas'));
+        return view('admin.medicamentos_vacunas.medicamentos_vacunas');
     }
 
     public function create()
     {
-        $tipomedicamentos_vacunas = Tipomedicamentos_vacunas::all();
-        $marcasmedicamentos_vacunas = Marcamedicamentos_vacunas::all();
-        return view('admin.medicamentos_vacunas.create', compact('tipomedicamentos_vacunas', 'marcasmedicamentos_vacunas'));
+        $tipomedicamentos  = TipoMedicamento::all();
+        $marcasMedicamentos  = marca_medicamentos_vacunas::all();
+        return view('admin.medicamentos_vacunas.create', compact('tipomedicamentos', 'marcasMedicamentos'));
     }
 
     public function store(Request $request)
@@ -51,8 +56,8 @@ class medicamentos_vacunasController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules, $message, $attribute);
         if ($validator->passes()) {
-            $tipomedicamentos_vacunas = Tipomedicamentos_vacunas::all();
-            $medicamentos_vacunass = new medicamentos_vacunas;
+            $tipomedicamentos_vacunas = TipoMedicamento::all();
+            $medicamentos_vacunas = new medicamentos_vacunas();
             $medicamentos_vacunas->nombre = $request->input('nombre');
             $medicamentos_vacunas->id_marca = $request->input('marca');
             $medicamentos_vacunas->id_tipo = $request->input('id_tipo');
@@ -73,10 +78,10 @@ class medicamentos_vacunasController extends Controller
 
     public function edit(Request $request)
     {
-        $medicamentos_vacunas = medicamentos_vacunas::find($request->id);
-        $tipomedicamentos_vacunas = Tipomedicamentos_vacunas::all();
-        $marcasmedicamentos_vacunas = Marcamedicamentos_vacunas::all();
-        return view('admin.medicamentos_vacunas.edit', compact('medicamentos_vacunas', 'tipomedicamentos_vacunas', 'marcasmedicamentos_vacunas'));
+        $medicamentos = medicamentos_vacunas::find($request->id);
+        $tipomedicamentos = TipoMedicamento::all();
+        $marcasMedicamento = marca_medicamentos_vacunas::all();
+        return view('admin.medicamentos_vacunas.edit', compact('medicamentos', 'tipomedicamentos', 'marcasMedicamento'));
     }
 
     public function update(Request $request)
@@ -98,7 +103,7 @@ class medicamentos_vacunasController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules, $message, $attribute);
         if ($validator->passes()) {
-            $tipomedicamentos_vacunas = Tipomedicamentos_vacunas::all();
+            $tipomedicamentos_vacunas = TipoMedicamento::all();
             $medicamentos_vacunas = medicamentos_vacunas::find($request->id);
             $medicamentos_vacunas->nombre = $request->input('nombre');
             $medicamentos_vacunas->id_marca = $request->input('marca');

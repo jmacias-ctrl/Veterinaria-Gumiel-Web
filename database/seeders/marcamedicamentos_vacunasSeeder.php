@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use App\Models\marca_medicamentos_vacunas;
 class marcamedicamentos_vacunasSeeder extends Seeder
 {
     /**
@@ -13,15 +13,15 @@ class marcamedicamentos_vacunasSeeder extends Seeder
      */
     public function run()
     {
-        MarcaInsumo::create([
+        marca_medicamentos_vacunas::create([
             'nombre' => '.'
         ]);
         
-        MarcaInsumo::create([
+        marca_medicamentos_vacunas::create([
             'nombre' => '.'
         ]);
 
-        MarcaInsumo::create([
+        marca_medicamentos_vacunas::create([
             'nombre' => 'L.'
         ]);
     }

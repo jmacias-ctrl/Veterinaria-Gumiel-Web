@@ -9,10 +9,10 @@ class medicamentos_vacunas extends Model
 {
     use HasFactory;
 
-    public function Tipomedicamentos_vacunas(){
-        return $this->belongsTo('App\Models\Tipomedicamentos_vacunas','id_tipo','id');
+    public function tipo_medicamentos_vacunas(){
+        return $this->belongsTo('App\Models\TipoMedicamento','id_tipo','id');
     }
-    public function marcamedicamentos_vacunas(){
-        return $this->belongsTo('App\Models\Marcamedicamentos_vacunas','id_marca','id');
+    public function marca_medicamentos_vacunas(){
+        return $this->belongsTo('App\Models\marca_medicamentos_vacunas','id_marca','id');
     }
 }

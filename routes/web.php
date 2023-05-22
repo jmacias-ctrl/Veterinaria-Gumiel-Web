@@ -87,8 +87,8 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
 });
 
 Route::group(['middleware'=>['can:ver medicamentos vacunas']], function(){
-    Route::get('medicamentos_vacunas', [App\Http\Controllers\medicamentos_vacunassController::class, 'index_insumos'])->name('admin.medicamentos_vacunas.index');
-    Route::get('medicamentos_vacunas/create', [App\Http\Controllers\Mmedicamentos_vacunasController::class, 'create'])->name('admin.medicamentos_vacunas.create');
+    Route::get('medicamentos_vacunas', [App\Http\Controllers\medicamentos_vacunasController::class, 'index_medicamentos_vacunas'])->name('admin.medicamentos_vacunas.index');
+    Route::get('medicamentos_vacunas/create', [App\Http\Controllers\medicamentos_vacunasController::class, 'create'])->name('admin.medicamentos_vacunas.create');
     Route::get('medicamentos_vacunas/edit/{id}', [App\Http\Controllers\medicamentos_vacunasController::class, 'edit'])->name('admin.medicamentos_vacunas.edit');
     Route::post('medicamentos_vacunas/update', [App\Http\Controllers\medicamentos_vacunasController::class, 'update'])->name('admin.medicamentos_vacunas.update');
     Route::post('medicamentos_vacunas/store', [App\Http\Controllers\medicamentos_vacunasController::class, 'store'])->name('admin.medicamentos_vacunas.store');

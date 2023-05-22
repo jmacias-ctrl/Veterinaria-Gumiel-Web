@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use App\Models\TipoMedicamento;
 class tipomedicamentos_vacunasSeeder extends Seeder
 {
     /**
@@ -13,11 +13,11 @@ class tipomedicamentos_vacunasSeeder extends Seeder
      */
     public function run()
     {
-        Tipomedicamentos_vacunas::create([
+        TipoMedicamento::create([
             'nombre' => 'Perro'
         ]);
         
-        Tipomedicamentos_vacunas::create([
+        TipoMedicamento::create([
             'nombre' => 'Gato'
         ]);
 

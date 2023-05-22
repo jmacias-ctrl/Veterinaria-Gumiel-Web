@@ -44,7 +44,9 @@ class LandingPageController extends Controller
 
     public function update_landingpage_ubication(Request $request)
     {
+        
         $rules = (new \App\Models\WhereYouCanFind())->rules;
+        // dd($rules);
         $attributes = (new \App\Models\WhereYouCanFind())->attributes;
         $message = (new \App\Models\WhereYouCanFind())->message;
 
@@ -53,16 +55,16 @@ class LandingPageController extends Controller
         if ($validator->passes()) {
             
             try {
-                $landingMaps = whereyoucanfind::find(0);
+                $landingMaps = whereyoucanfind::find(1);
                 $landingMaps->direccion = $request->direccion;
                 $landingMaps->telefono = $request->telefono;
                 $landingMaps->horarios = $request->horarios;
-                $landingMaps->whatsapp = $request->wsp;
+                $landingMaps->whatsapp = $request->whatsapp;
                 $landingMaps->facebook = $request->facebook;
                 $landingMaps->instagram = $request->instagram;
                 $landingMaps->save();
                 db::commit();
-                return redirect()->route('landingpage.index')->with('success', 'Tus datos fueron modificado exitosamente');
+                return redirect()->route('landing.ubication.edit')->with('success', 'Tus datos fueron modificado exitosamente');
             } catch (QueryException $exception) {
                 DB::rollBack();
                 toastr()->error('Oops! Something went wrong!', 'Oops!');

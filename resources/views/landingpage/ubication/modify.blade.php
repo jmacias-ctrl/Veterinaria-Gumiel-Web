@@ -88,7 +88,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                     <div class="col">
                         <label for="horarios" class="form-label">Horarios</label>
 
-                        <textarea class="form-control @error('horarios') is-invalid @enderror" id="wsp" name="horarios" placeholder="insta_link" rows="3" required>{{ $landingMaps->horarios }}</textarea>
+                        <textarea class="form-control @error('horarios') is-invalid @enderror" id="horarios" name="horarios" placeholder="insta_link" rows="3" required>{{ $landingMaps->horarios }}</textarea>
 
                         @error('horarios')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -101,7 +101,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                     <div class="col">
                         <label for="wsp" class="form-label">Whatsapp</label>
 
-                        <input type="text" class="form-control @error('wsp') is-invalid @enderror" id="wsp" name="wsp" placeholder="wsp_link" value="{{ $landingMaps->whatsapp }}" required>
+                        <input type="text" class="form-control @error('wsp') is-invalid @enderror" id="whatsapp" name="whatsapp" placeholder="wsp_link" value="{{ $landingMaps->whatsapp }}" required>
 
                         @error('wsp')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>

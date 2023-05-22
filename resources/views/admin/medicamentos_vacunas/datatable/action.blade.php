@@ -3,7 +3,7 @@
                                     class="material-symbols-outlined">delete</span></button>
                             <a id="editMedicamentos"
                                 class="btn btn-outline-warning"
-                                href="{{ route('admin.Medicamentos.edit', ['id' => "$id"]) }}"
+                                href="{{ route('admin.medicamentos_vacunas.edit', ['id' => "$id"]) }}"
                                 role="button"><span class="material-symbols-outlined">edit</span></a>
 
     </td>

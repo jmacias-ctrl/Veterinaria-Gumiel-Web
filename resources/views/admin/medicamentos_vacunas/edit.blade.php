@@ -30,12 +30,12 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.medicamentos.index')}}" style="color:black;">Medicamento</a> </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.medicamentos_vacunas.index')}}" style="color:black;">Medicamento</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Medicamento</li>
     </nav>
 @endsection
 @section('back-arrow')
-    <a href="{{ route('admin.medicamentos.index') }}"> <span class="material-symbols-outlined"
+    <a href="{{ route('admin.medicamentos_vacunas.index') }}"> <span class="material-symbols-outlined"
             style="font-size:40px; color:white;">
             arrow_back
         </span> </a>
@@ -44,7 +44,7 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-            <form action="{{ route('admin.medicamentos.update') }}" method="POST">
+            <form action="{{ route('admin.medicamentos_vacunas.update') }}" method="POST">
             @csrf
             <div class="row mt-3">
                 <div class="col">

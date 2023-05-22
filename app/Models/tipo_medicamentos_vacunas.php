@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MarcaMedicamento extends Model
+class TipoMedicamento extends Model
 {
     use HasFactory;
-}
+    protected $table = "tipomedicamentos_vacunas";
+    protected $fillable = ['nombre'];
+  }

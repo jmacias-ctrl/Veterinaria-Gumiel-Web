@@ -1,7 +1,6 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Medicamentos - Veterinaria Gumiel</title>
+<title>Marcas de Innsumos Medico - Veterinaria Gumiel</title>
 @section('css-before')
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
@@ -9,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Medicamentos
+    Gestion de Marca Insumos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -26,22 +25,21 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Medicamentos</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Marca productos</li>
     </nav>
 @endsection
 @section('content')
     {{-- Breadcrumb  --}}
-
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
                 <div class="card-header border-0">
                     <div class="row">
                         <div class="col-sm-9">
-                            <h1>Listado de Medicamentos</h1>
+                            <h1>Listado de Marca de Insumos</h1>
                         </div>
                         <div class="col-sm-3">
-                            <a class="btn btn-primary ms-5" href="{{ route('admin.medicamentos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Medicamento</a>
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
                         </div>
                     </div>
                 </div>
@@ -51,9 +49,6 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Marca</th>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">Stock</th>
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
@@ -62,11 +57,18 @@
             </div>
         </div>
     </div>
+    
+    
+            <!-- <tbody>
+                @foreach ($marcaInsumo as $marca)
+                    <tr>
+                        <th>{{ $marca->id }}</th>
+                        <td>{{ $marca->nombre }}</td>
+                        
+                    </tr>
+                @endforeach
+            </tbody> -->
 
-    
-   
-    
-         
 @endsection
 
 @section('js-after')
@@ -82,11 +84,11 @@
                 },
                 responsive: true,
                 processing: true,
-                serverSide: true,
                 searching: true,
+                serverSide: true,
                 pageLength: 10,
                 ajax: {
-                    url: "{{ route('admin.medicamentos.index') }}",
+                    url: "{{ route('admin.marcaInsumos.index') }}",
                     type: 'GET',
                 },
                 columns: [
@@ -99,18 +101,6 @@
                         name: 'nombre'
                     },
                     {
-                        data: 'id_marca',
-                        name: 'id_marca'
-                    },
-                    {
-                        data: 'id_tipo',
-                        name: 'id_tipo'
-                    },
-                    {
-                        data: 'stock',
-                        name: 'stock'
-                    },
-                    {
                         data: 'action',
                         name: 'action',
                         orderable: false,
@@ -119,48 +109,56 @@
                 ]
             });
         });
+        @if (Session::has('success'))
+            <script>
+                toastr.success("{{ Session::get('success') }}");
+    </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            toastr.error("{{ Session::get('error') }}");
+        </script>
+    @endif
+    function deleted(id_get) {
 
-        function deleted(id_get) {
+    Swal.fire({
+    title: '¿Eliminar Marca de Insumo Medico?',
+    text: "¿Estás seguro? no podrás revertir la acción!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, borrar',
+    cancelButtonText: 'Cancelar'
+    }).then((result) => {
 
-            Swal.fire({
-                title: '¿Eliminar Medicamento?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar',
-                cancelButtonText: 'Cancelar'
+    if (result.isConfirmed) {
+    axios.post("{{ route('admin.marcaInsumos.delete') }}", {
+    id: id_get
+    })
+    .then(function(response) {
 
-            }).then((result) => {
+    toastr.success('Marca eliminada correctamente!')
 
-                if (result.isConfirmed) {
-                    axios.post("{{ route('admin.medicamentos.delete') }}", {
-                            id: id_get
-                        })
-                        .then(function(response) {
+    })
+    .catch(function(error) {
+    toastr.error('La acción no se pudo realizar')
+    })
+    .finally(function() {
+    Swal.fire({
+    icon: 'success',
+    title: 'Marca eliminada correctamente!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+    setTimeout(() => {
+    location.reload();
+    }, 1500);
 
-                            toastr.success('Medicamento eliminado correctamente!')
+    });
+    }
+    });
 
-                        })
-                        .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar')
-                        })
-                        .finally(function() {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Medicamento eliminado correctamente!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
-
-                        });
-                }
-            });
-
-        }
+    }
     </script>
 @endsection

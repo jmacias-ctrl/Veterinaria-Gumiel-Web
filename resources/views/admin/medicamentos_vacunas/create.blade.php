@@ -17,13 +17,13 @@
         </style>
 @endsection
 @section('back-arrow')
-    <a href="{{ route('admin.insumos_medicos.index') }}"> <span class="material-symbols-outlined"
+    <a href="{{ route('admin.medicamentos_vacunas.index') }}"> <span class="material-symbols-outlined"
             style="font-size:40px; color:white;">
             arrow_back
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Insumo Médico
+    Crear Medicamento
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -44,7 +44,7 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.insumos_medicos.index')}}" style="color:black;">Medicamentos</a> </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.medicamentos_vacunas.index')}}" style="color:black;">Medicamentos</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Medicamento</li>
     </nav>
 @endsection
@@ -52,7 +52,7 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-            <form action="{{ route('admin.medicamentos.store') }}" method="POST">
+            <form action="{{ route('admin.medicamentos_vacunas.store') }}" method="POST">
             @csrf
             <div id="RoleWindow">
                 <h5 class="mt-4">Informacion del Medicamento</h5>
@@ -120,7 +120,7 @@
                         <div class="col">
                             <input class="btn btn-primary" id="btn-submit"
                                 style="background-color:#19A448; border-color:#19A448;" type="submit"
-                                value="Agregar Insumo">
+                                value="Agregar Medicamento">
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Agregar Nuevo Insumo Medico',
+                    title: 'Agregar Nuevo Medicamento',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,

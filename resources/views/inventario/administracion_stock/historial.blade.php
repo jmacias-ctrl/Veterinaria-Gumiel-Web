@@ -50,8 +50,15 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Administracion de Inventario</li>
+            <li class="breadcrumb-item" aria-current="page" style="color:white;"><a href="{{ route('administracion_inventario.index') }}" style="color:black;">Administracion de Inventario </a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Historial</li>
     </nav>
+@endsection
+@section('back-arrow')
+    <a href="{{ route('administracion_inventario.index') }}"> <span class="material-symbols-outlined"
+            style="font-size:40px; color:white;">
+            arrow_back
+        </span> </a>
 @endsection
 @section('content')
     {{-- Breadcrumb  --}}
@@ -67,7 +74,7 @@
                 @elseif ($cant_productos['low_stock'] > 0)
                     <p class="fs-5 text fw-bold text-danger">{{ $cant_productos['low_stock'] }} sin stock</p>
                 @else
-                    <p class="fs-6 text fw-bold text-success">No hay productos en peligro de stock</p>
+                    <p class="fs-5 text fw-bold text-success">No hay productos en peligro de stock</p>
                 @endif
             </div>
         </div>
@@ -100,23 +107,14 @@
     </div>
     <div class="card shadow p-4">
         <div class="btn-group align-self-center shadow" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-success active buttonChangeTable" id="productosButton">Productos</button>
+            <button type="button" class="btn btn-success active buttonChangeTable" id="allButton">Todo</button>
+            <button type="button" class="btn btn-success buttonChangeTable" id="productosButton">Productos</button>
             <button type="button" class="btn btn-success buttonChangeTable" id="insumosButton">Insumos Medicos</button>
             <button type="button" class="btn btn-success buttonChangeTable" id="medicinasButton">Medicinas</button>
         </div>
 
         <div class="card-header">
-            <div class="d-flex justify-content-between align-items-end">
-                <h2 id="selected-table">Productos</h2>
-                <div class="btn-group shadow mt-3" role="group" aria-label="Basic example">
-                    <a id="historial" class="btn btn-outline-success btn-sm" href="{{route('administracion_inventario.historial')}}" role="button"><span
-                            class="material-symbols-outlined">history</span></a>
-                    <button id="barcodeScanner" class="btn btn-outline-success btn-sm" role="button"><span
-                            class="material-symbols-outlined">barcode_scanner</span></button>
-                    <a id="proveedoresBtn" class="btn btn-outline-success btn-sm" href="#" role="button"><span
-                            class="material-symbols-outlined">local_shipping</span></a>
-                </div>
-            </div>
+            <h2 id="selected-table">Historial</h2>
 
         </div>
         <div class="card-body">
@@ -128,8 +126,12 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Stock</th>
+                            <th scope="col">Nombre Item</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Accion</th>
+                            <th scope="col">Stock a Agregar/Restar</th>
+                            <th scope="col">Proveedor</th>
+                            <th scope="col">Costo</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -138,7 +140,6 @@
         </div>
     </div>
 @endsection
-@include('inventario.administracion_stock.modal.adminProduct')
 @include('inventario.administracion_stock.modal.viewProduct')
 <!-- Modal -->
 @section('js-after')
@@ -176,7 +177,7 @@
                     },
                 },
                 ajax: {
-                    url: "{{ route('administracion_inventario.index') }}",
+                    url: "{{ route('administracion_inventario.historial') }}",
                     type: 'GET',
                     data: {
                         'value': value,
@@ -191,8 +192,24 @@
                         name: 'nombre'
                     },
                     {
+                        data: 'tipo_item',
+                        name: 'tipo_item'
+                    },
+                    {
+                        data: 'accion',
+                        name: 'accion'
+                    },
+                    {
                         data: 'stock',
                         name: 'stock'
+                    },
+                    {
+                        data: 'nombre_proveedor',
+                        name: 'nombre_proveedor'
+                    },
+                    {
+                        data: 'costo',
+                        name: 'costo'
                     },
                     {
                         data: 'action',
@@ -201,18 +218,11 @@
                         searchable: false,
                     }
                 ],
-                "createdRow": function(row, data, dataIndex) {
-                    if (data['stock'] == '0') {
-                        $(row).addClass('text-danger');
-                    } else if (parseInt(data['stock']) < 10) {
-                        $(row).addClass('text-warning');
-                    }
-                }
             });
         }
         var shownTable = "productosButton";
         $(document).ready(function() {
-            var table = setTable(table, "productos");
+            var table = setTable(table, "all");
             $("#loading-table").addClass('d-none');
             $(".buttonChangeTable").on("click", function() {
                 var getId = $(this).attr("id");
@@ -221,6 +231,7 @@
                 $("#productosButton").removeClass('active');
                 $("#insumosButton").removeClass('active');
                 $("#medicinasButton").removeClass('active');
+                $("#allButton").removeClass('active');
                 $(this).addClass('active');
 
                 $("#tableDiv").addClass("d-none");
@@ -229,15 +240,19 @@
                 switch (getId) {
                     case "productosButton":
                         table = setTable(table, "productos");
-                        $("#selected-table").html('Productos');
+                        $("#selected-table").html('Historial: Productos');
                         break;
                     case "insumosButton":
                         table = setTable(table, "insumos");
-                        $("#selected-table").html('Insumos Medicos');
+                        $("#selected-table").html('Historial: Insumos Medicos');
                         break;
                     case "medicinasButton":
                         table = setTable(table, "medicinas");
-                        $("#selected-table").html('Medicinas');
+                        $("#selected-table").html('Historial: Medicinas');
+                        break;
+                    case "allButton":
+                        table = setTable(table, "all");
+                        $("#selected-table").html('Historial');
                         break;
                 }
                 setTimeout(() => {
@@ -247,59 +262,6 @@
 
                 $('#myInput').val("");
 
-            });
-            $("#adminOption").on("change", function() {
-                $("#nuevoProveedorDiv").addClass('d-none');
-
-                $("#costoDiv").removeClass('d-none');
-                $("#proveedorId").removeClass('d-none');
-                $("#adjuntarFactura").removeClass('d-none');
-                $("#checkStock").removeClass('d-none');
-                $("#info").removeClass('d-none');
-                
-                $("#costoStockAgregado").prop('required', false);
-                $("#proveedor").prop('required', false);
-                $("#factura").prop('required', false);
-                $("#nuevoProveedor").prop('required', false);
-
-                var option = $(this).val();
-                console.log(option);
-                if (option == "Agregar") {
-                    $("#checkStock").addClass('d-none');
-
-                    $("#costoStockAgregado").prop('required', true);
-                    $("#proveedor").prop('required', true);
-                    $("#factura").prop('required', true);
-                    var valueP = $("#proveedor").val();
-                    if (valueP == "new") {
-                        $("#nuevoProveedorDiv").removeClass('d-none');
-                        $("#nuevoProveedor").prop('required', true);
-                    } else {
-                        $("#nuevoProveedorDiv").addClass('d-none');
-                        $("#nuevoProveedor").prop('required', false);
-                    }
-                } else {
-                    $("#costoDiv").addClass('d-none');
-                    $("#proveedorId").addClass('d-none');
-                    $("#adjuntarFactura").addClass('d-none');
-                    console.log(shownTable);
-                    if(shownTable != "productosButton"){
-                        $("#checkStock").addClass('d-none');
-                        $("#info").addClass('d-none');
-                    }
-                    
-
-                }
-            });
-            $("#proveedor").on("change", function() {
-                var value = $("#proveedor").val();
-                if (value == "new") {
-                    $("#nuevoProveedorDiv").removeClass('d-none');
-                    $("#nuevoProveedor").prop('required', true);
-                } else {
-                    $("#nuevoProveedorDiv").addClass('d-none');
-                    $("#nuevoProveedor").prop('required', false);
-                }
             });
         });
         $('#myInput').on('keyup', function() {
@@ -366,47 +328,6 @@
                 $('#viewProductModal').modal('show')
             }, 100);
 
-        }
-
-        function admin_product(id, tipo_item) {
-            $("#newStock").val("");
-            $("#costoStockAgregado").val("");
-            $("#proveedor").val($("#proveedor option:first").val());
-            $("#checkStockComprados").prop('checked', false);
-            if(shownTable!="productosButton"){
-                $("#checkStock").addClass('d-none');
-                $("#info").addClass('d-none');
-            }
-            
-            $("#factura").val("");
-            $('#adminProductoModal').modal('show')
-            
-            axios.get("{{ route('administracion_inventario.verItem') }}", {
-                    params: {
-                        id: id,
-                        tipo: tipo_item,
-                    }
-                })
-                .then(function(response) {
-                    $("#id_item").val(response.data.itemGet['id']);
-                    $("#tipo_item").val(response.data.tipo_item);
-                    $("#nombre_item").html(response.data.itemGet['nombre']);
-                    $("#statusStock").html(response.data.itemGet['stock'] + " unidades");
-                    if (parseInt(response.data.itemGet['stock']) <= 0) {
-                        $("#statusStock").addClass('text-danger');
-                    } else {
-                        $("#statusStock").removeClass('text-danger');
-                    }
-                })
-                .catch(function(error) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: `No se pudo obtener informacion del producto`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                });
         }
     </script>
 @endsection

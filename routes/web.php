@@ -95,6 +95,10 @@ Route::group(['middleware'=>['role:Admin']], function(){
 
 Route::group(['middleware'=>['can:acceso administracion de stock']], function(){
     Route::get('administracion-stock', [App\Http\Controllers\AdministracionInventario::class, 'index'])->name('administracion_inventario.index');
+    Route::get('administracion-stock/historial', [App\Http\Controllers\AdministracionInventario::class, 'historial_admin'])->name('administracion_inventario.historial');
+    Route::post('administracion-stock/realizar_admin', [App\Http\Controllers\AdministracionInventario::class, 'admin_item'])->name('administracion_inventario.realizar_admin');
+    Route::get('administracion-stock/ver_item', [App\Http\Controllers\AdministracionInventario::class, 'ver_item'])->name('administracion_inventario.verItem');
+    Route::get('administracion-stock/descargar_factura', [App\Http\Controllers\AdministracionInventario::class, 'descargar_factura'])->name('administracion_inventario.descargarFactura');
 });
 
 Route::group(['middleware'=>['can:ver medicamentos vacunas']], function(){

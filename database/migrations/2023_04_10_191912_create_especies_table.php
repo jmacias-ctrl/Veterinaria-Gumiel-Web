@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMedicamentosVacunasTable extends Migration
+class CreateEspeciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateMedicamentosVacunasTable extends Migration
      */
     public function up()
     {
-        Schema::create('medicamentos_vacunas', function (Blueprint $table) {
+        Schema::create('especies', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('marca');
-            $table->enum('medicamentos_enfocados', ['perros','gatos']);
-            $table->integer('mililitros')->nullable();
-            $table->integer('gramos')->nullable();
-            $table->integer('stock');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateMedicamentosVacunasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medicamentos_vacunas');
+        Schema::dropIfExists('especies');
     }
 }

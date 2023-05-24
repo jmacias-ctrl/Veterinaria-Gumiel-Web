@@ -161,7 +161,7 @@ class PointSaleController extends Controller
         }
         return view('inventario.ventas.index');
     }
-
+ 
     public function detalle_venta(Request $request){
         $venta = trazabilidad_venta_presencial::find($request->id);
         $detalle_metodo = null;

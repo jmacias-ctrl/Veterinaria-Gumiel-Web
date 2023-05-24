@@ -35,7 +35,7 @@ class ProductosVentaSeeder extends Seeder
             'slug'=>'Colonia-Health-Amarilla-150',
             'min_stock'=>'5',
             'stock' => '18',
-            'producto_enfocado' => 'perro',
+            'producto_enfocado' => 2,
             'precio' => 3499,
             'imagen_path' => 'colonia-amarilla.png'
         ]);
@@ -47,7 +47,7 @@ class ProductosVentaSeeder extends Seeder
             'slug'=>'Arnes-Cuerpo-Perro-S',
             'min_stock'=>'5',
             'stock' => '30',
-            'producto_enfocado' => 'perro',
+            'producto_enfocado' => 2,
             'precio' => 5999,
             'imagen_path' => 'arnes-perro.png'
         ]);
@@ -59,7 +59,7 @@ class ProductosVentaSeeder extends Seeder
             'id_tipo' => 1,
             'min_stock'=>'5',
             'stock' => '30',
-            'producto_enfocado' => 'perro',
+            'producto_enfocado' => 2,
             'precio' => 6499,
             'imagen_path' => 'correa-automatica.png'
         ]);
@@ -71,7 +71,7 @@ class ProductosVentaSeeder extends Seeder
             'id_tipo' => 1, 
             'min_stock'=>'5',
             'stock' => '20',
-            'producto_enfocado' => 'perro',
+            'producto_enfocado' => 2,
             'precio' => 34990,
             'imagen_path' => 'seresto-collar.png'
         ]);

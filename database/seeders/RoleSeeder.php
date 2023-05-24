@@ -42,9 +42,21 @@ class RoleSeeder extends Seeder
         Permission::create(['name'=>'modificar insumos medicos']);
         Permission::create(['name'=>'eliminar insumos medicos']);
 
+        Permission::create(['name'=>'ver especies']);
+        Permission::create(['name'=>'ingresar especies']);
+        Permission::create(['name'=>'modificar especies']);
+        Permission::create(['name'=>'eliminar especies']);
+
+        Permission::create(['name'=>'ver medicamentos vacunas']);
+        Permission::create(['name'=>'ingresar medicamentos vacunas']);
+        Permission::create(['name'=>'modificar medicamentos vacunas']);
+        Permission::create(['name'=>'eliminar medicamentos vacunas']);
+
+
         Permission::create(['name'=>'ver citas']);
         Permission::create(['name'=>'modificar citas']);
         Permission::create(['name'=>'eliminar citas']);
+        
 
         Permission::create(['name'=>'ver gestionvet']);
 
@@ -52,10 +64,12 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name'=>'ver citasvet']);
 
-        Role::create(['name'=>'Admin'])->syncPermissions(['acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos','ver servicios','ingresar servicios','modificar servicios', 'eliminar servicios', 'ver insumos medicos', 'ingresar insumos medicos', 'modificar insumos medicos', 'eliminar insumos medicos','ver estadisticas']);
+        Permission::create(['name'=>'acceso administracion de stock']);
+
+        Role::create(['name'=>'Admin'])->syncPermissions(['ver especies','ingresar especies', 'modificar especies', 'eliminar especies','ver medicamentos vacunas','ingresar medicamentos vacunas', 'modificar medicamentos vacunas', 'eliminar medicamentos vacunas','acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos','ver servicios','ingresar servicios','modificar servicios', 'eliminar servicios', 'ver insumos medicos', 'ingresar insumos medicos', 'modificar insumos medicos', 'eliminar insumos medicos','ver estadisticas']);
         Role::create(['name'=>'Veterinario'])->syncPermissions(['acceder panel', 'ver gestionvet','ver estadisticas']);
         Role::create(['name'=>'Peluquero'])->syncPermissions(['acceder panel','ver gestionvet','ver estadisticas']);
-        Role::create(['name'=>'Inventario'])->syncPermissions(['acceder panel','ver estadisticas']);
+        Role::create(['name'=>'Inventario'])->syncPermissions(['acceder panel','ver estadisticas', 'acceso administracion de stock']);
         Role::create(['name'=>'Cliente'])->syncPermissions(['acceder panel','ver citasvet']);
         Role::create(['name'=>'RolePrueba1'])->syncPermissions(['acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos']);
         Role::create(['name'=>'RolePrueba2'])->syncPermissions(['acceder panel','ver servicios', 'modificar servicios', 'eliminar servicios', 'ingresar servicios']);

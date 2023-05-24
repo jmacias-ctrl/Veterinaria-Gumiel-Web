@@ -240,11 +240,19 @@
                                                 href="{{ route('productos.index') }}" id="link-dropdown">Productos</a>
                                         </li>
                                     </ul>
+
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.insumos_medicos.*')) active @endif"
                                                 href="{{ route('admin.insumos_medicos.index') }}"
                                                 id="link-dropdown">Insumos Medicos</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.medicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.medicamentos_vacunas.index') }}"
+                                                id="link-dropdown">Medicamentos</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -296,6 +304,29 @@
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipomedicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.tipomedicamentos_vacunas.index') }}"
+                                                id="link-dropdown">Tipos
+                                                Medicamentos</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcamedicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.marcamedicamentos_vacunas.index') }}"
+                                                id="link-dropdown">Marca
+                                                Medicamentos</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.especies.*')) active @endif"
+                                                href="{{ route('admin.especies.index') }}"
+                                                id="link-dropdown">Especies</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
                                             <a class="nav-link ms-3 " href="#" id="link-dropdown">Landing Page</a>
                                         </li>
                                     </ul>
@@ -311,6 +342,14 @@
                             </a>
                         </li>
                     @endhasrole
+                    @can('acceso administracion de stock')
+                        <li class="nav-item active">
+                            <a class="nav-link @if (request()->routeIs('administracion_inventario.*')) active @endif"
+                                href="{{ route('administracion_inventario.index') }}">
+                                <i class="ni ni-bullet-list-67 text-green"></i> Administracion de Inventario
+                            </a>
+                        </li>
+                    @endcan
                     @can('ver gestionvet')
                         <li class="nav-item active">
                             <a class="nav-link  @if (request()->routeIs('admin.horariofuncionarios.*')) active @endif"

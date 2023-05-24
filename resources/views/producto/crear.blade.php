@@ -56,14 +56,14 @@
                     @csrf
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
-                            <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+                            <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre" name="nombre" value="{{ old('nombre') }}" placeholder="Ej. Colonia para Perritas Aroma Berries 160 ml." required>
                             @error('nombre')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="nombre">Slug:</label>
-                            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}" required>
+                            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}" placeholder="Ej. correa-perros-pequeño" required>
                             @error('slug')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
@@ -82,7 +82,7 @@
                         </div>
                         <div class="form-group">
                             <label for="descripcion">Descripción:</label>
-                            <textarea class="form-control @error('descripcion') is-invalid @enderror" id="descripcion" name="descripcion"  required>{{ old('descripcion') }}</textarea>
+                            <textarea class="form-control @error('descripcion') is-invalid @enderror" id="descripcion" name="descripcion" placeholder="Describa el producto en detalle o en resumen" required>{{ old('descripcion') }}</textarea>
                             @error('descripcion')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
@@ -101,14 +101,14 @@
                         </div>
                         <div class="form-group">
                             <label for="stock">Stock:</label>
-                            <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock" value="{{ old('stock') }}"  required>
+                            <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock" name="stock" value="{{ old('stock') }}" placeholder="Ej. 5 un" required>
                             @error('stock')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="stock">Minimo Stock:</label>
-                            <input type="number" class="form-control @error('min_stock') is-invalid @enderror" id="min_stock" name="min_stock" value="{{ old('stock') }}"  required>
+                            <input type="number" class="form-control @error('min_stock') is-invalid @enderror" id="min_stock" name="min_stock" value="{{ old('min_stock') }}" placeholder="Ej. 2 un" required>
                             @error('min_stock')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
@@ -117,10 +117,10 @@
                             <label for="producto_enfocado">Producto enfocado:</label>
                             <select class="form-select @error('producto_enfocado') is-invalid @enderror" aria-label="Default select example" id="producto_enfocado" name="producto_enfocado"
                                 required>
-                                <option @if(old('producto_enfocado'))selected @endif disabled>Seleccione una opcion</option>
-                                <option value="gato" @if( old('producto_enfocado')=='gato') selected @endif>Gato</option>
-                                <option value="perro" @if( old('producto_enfocado')=='perro') selected @endif>Perro</option>
-                                <option value="ambos" @if( old('producto_enfocado')=='ambos') selected @endif>Ambos</option>
+                                <option @if(old('producto_enfocado')) selected @endif disabled>Seleccione una Marca</option>
+                                @foreach ($especies as $especie)
+                                    <option value="{{ $especie->id }}" @if( old('producto_enfocado')==$especie->id) selected @endif>{{ $especie->nombre }}</option>
+                                @endforeach
                             </select>
                             @error('producto_enfocado')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="form-group">
                             <label for="precio">Precio:</label>
-                            <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio" name="precio" value="{{ old('precio') }}"  required>
+                            <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio" name="precio" value="{{ old('precio') }}" placeholder="Ej. 3200" required>
                             @error('precio')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror

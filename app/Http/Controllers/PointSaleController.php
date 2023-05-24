@@ -71,14 +71,18 @@ class PointSaleController extends Controller
             $producto = productos_ventas::find($item->id);
             $producto->stock = $producto->stock - $item->quantity;
             if($producto->stock<=0){
-                $users = User::role('Inventario')->get();
+                $users = User::all();
                 foreach($users as $user){
-                    $user->notify(new StockProductoInventario($producto, true));
+                    if($user->can('acceso administracion de stock')){
+                        $user->notify(new StockProductoInventario($producto, true));
+                    }
                 }   
             }else if($producto->stock<$producto->min_stock){
-                $users = User::role('Inventario')->get();
+                $users = User::all();
                 foreach($users as $user){
-                    $user->notify(new StockProductoInventario($producto, false));
+                    if($user->can('acceso administracion de stock')){
+                        $user->notify(new StockProductoInventario($producto, false));
+                    }
                 }   
             }
             $producto->save();

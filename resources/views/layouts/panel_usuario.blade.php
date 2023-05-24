@@ -334,14 +334,22 @@
                             </div>
                         </li>
                     @endhasrole
-                    @hasrole('Inventario')
+                    @can('acceso punto de venta')
                         <li class="nav-item active">
                             <a class="nav-link @if (request()->routeIs('point_sale.*')) active @endif"
                                 href="{{ route('point_sale.index') }}">
                                 <i class="ni ni-cart text-green"></i> Punto de Venta
                             </a>
                         </li>
-                    @endhasrole
+                    @endcan
+                    @can('acceso ventas')
+                        <li class="nav-item active">
+                            <a class="nav-link @if (request()->routeIs('ventas.*')) active @endif"
+                                href="{{ route('ventas.index') }}">
+                                <i class="ni ni-money-coins text-green"></i> Ventas
+                            </a>
+                        </li>
+                    @endcan
                     @can('acceso administracion de stock')
                         <li class="nav-item active">
                             <a class="nav-link @if (request()->routeIs('administracion_inventario.*')) active @endif"

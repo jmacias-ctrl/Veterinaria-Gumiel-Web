@@ -31,7 +31,7 @@ Route::get('/nosotros', function () {
 // Route::get('/welcome', 'LandingPageController@index');
 // Route::get('/landing', 'LandingPageController@index')->middleware('web');
 
-Route::get('/',[LandingPageController::class,'index'])->name('inicio');
+Route::get('/', [LandingPageController::class, 'index'])->name('inicio');
 Route::post('/contactanos', [landingPageController::class, "store"])->name('contactanos.store');
 
 Route::get('/verCalendario', function () {
@@ -40,7 +40,7 @@ Route::get('/verCalendario', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware'=>['can:ver productos']], function(){
+Route::group(['middleware' => ['can:ver productos']], function () {
     Route::get('marca_productos', [\App\Http\Controllers\MarcaproductoController::class, 'index_marca'])->name('admin.marcaproductos.index');
     Route::get('marca_productos/create', [\App\Http\Controllers\MarcaproductoController::class, 'create'])->name('admin.marcaproductos.create')->middleware(['permission:ingresar productos']);
     Route::post('marca_productos/delete', [\App\Http\Controllers\MarcaproductoController::class, 'delete'])->name('admin.marcaproductos.delete')->middleware(['permission:eliminar productos']);
@@ -53,7 +53,7 @@ Route::group(['middleware'=>['can:ver productos']], function(){
     Route::post('productos/store', [App\Http\Controllers\ProductosVentaController::class, 'store'])->name('productos.store')->middleware(['permission:ingresar productos']);
     Route::get('productos/create', [App\Http\Controllers\ProductosVentaController::class, 'create'])->name('productos.crear')->middleware(['permission:ingresar productos']);
     Route::post('productos/update', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.update')->middleware(['permission:modificar productos']);
-    Route::get('productos/{id}/edit',[App\Http\Controllers\ProductosVentaController::class, 'edit'])->name('productos.edit')->middleware(['permission:modificar productos']);
+    Route::get('productos/{id}/edit', [App\Http\Controllers\ProductosVentaController::class, 'edit'])->name('productos.edit')->middleware(['permission:modificar productos']);
 
     Route::get('tipoproductos_ventas', [\App\Http\Controllers\tipoproductos_ventasController::class, 'index'])->name('admin.tipoproductos_ventas.index');
     Route::get('tipoproductos_ventas/create', [\App\Http\Controllers\tipoproductos_ventasController::class, 'create'])->name('admin.tipoproductos_ventas.create');
@@ -63,7 +63,7 @@ Route::group(['middleware'=>['can:ver productos']], function(){
     Route::post('tipoproductos_ventas/update', [\App\Http\Controllers\tipoproductos_ventasController::class, 'update'])->name('admin.tipoproductos_ventas.update');
 });
 
-Route::group(['middleware'=>['can:ver insumos medicos']], function(){
+Route::group(['middleware' => ['can:ver insumos medicos']], function () {
     Route::get('insumos_medicos', [App\Http\Controllers\InsumosMedicosController::class, 'index_insumos'])->name('admin.insumos_medicos.index');
     Route::get('insumos_medicos/create', [App\Http\Controllers\InsumosMedicosController::class, 'create'])->name('admin.insumos_medicos.create');
     Route::get('insumos_medicos/edit/{id}', [App\Http\Controllers\InsumosMedicosController::class, 'edit'])->name('admin.insumos_medicos.edit');
@@ -88,12 +88,12 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
     Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update');
 });
 
-Route::group(['middleware'=>['role:Admin']], function(){
+Route::group(['middleware' => ['role:Admin']], function () {
     Route::get('landingpage/edit/aboutUs', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_aboutUs'])->name('admin.landingpage_aboutUs.modify');
     Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
 });
 
-Route::group(['middleware'=>['can:acceso administracion de stock']], function(){
+Route::group(['middleware' => ['can:acceso administracion de stock']], function () {
     Route::get('administracion-stock', [App\Http\Controllers\AdministracionInventario::class, 'index'])->name('administracion_inventario.index');
     Route::get('administracion-stock/historial', [App\Http\Controllers\AdministracionInventario::class, 'historial_admin'])->name('administracion_inventario.historial');
     Route::post('administracion-stock/realizar_admin', [App\Http\Controllers\AdministracionInventario::class, 'admin_item'])->name('administracion_inventario.realizar_admin');
@@ -101,7 +101,7 @@ Route::group(['middleware'=>['can:acceso administracion de stock']], function(){
     Route::get('administracion-stock/descargar_factura', [App\Http\Controllers\AdministracionInventario::class, 'descargar_factura'])->name('administracion_inventario.descargarFactura');
 });
 
-Route::group(['middleware'=>['can:ver medicamentos vacunas']], function(){
+Route::group(['middleware' => ['can:ver medicamentos vacunas']], function () {
     Route::get('medicamentos_vacunas', [App\Http\Controllers\medicamentos_vacunasController::class, 'index_medicamentos_vacunas'])->name('admin.medicamentos_vacunas.index');
     Route::get('medicamentos_vacunas/create', [App\Http\Controllers\medicamentos_vacunasController::class, 'create'])->name('admin.medicamentos_vacunas.create');
     Route::get('medicamentos_vacunas/edit/{id}', [App\Http\Controllers\medicamentos_vacunasController::class, 'edit'])->name('admin.medicamentos_vacunas.edit');
@@ -124,7 +124,7 @@ Route::group(['middleware'=>['can:ver medicamentos vacunas']], function(){
     Route::post('admin/marcamedicamentos_vacunas/update', [\App\Http\Controllers\MarcaMedicamentoController::class, 'update'])->name('admin.marcamedicamentos_vacunas.update');
 });
 
-Route::group(['middleware'=>['can:ver especies']], function(){
+Route::group(['middleware' => ['can:ver especies']], function () {
     Route::get('especies', [App\Http\Controllers\EspecieController::class, 'index'])->name('admin.especies.index');
     Route::get('especies/create', [App\Http\Controllers\EspecieController::class, 'create'])->name('admin.especies.create');
     Route::get('especies/edit/{id}', [App\Http\Controllers\EspecieController::class, 'edit'])->name('admin.especies.edit');
@@ -133,18 +133,18 @@ Route::group(['middleware'=>['can:ver especies']], function(){
     Route::post('especies/delete', [App\Http\Controllers\EspecieController::class, 'delete'])->name(('admin.especies.delete'));
 });
 
-Route::group(['middleware'=>['auth']], function(){
+Route::group(['middleware' => ['auth']], function () {
     Route::get('notification/getUpdate', [App\Http\Controllers\UserController::class, 'get_notifications_count'])->name('users.notification.updateNotificationCount');
     Route::get('notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
     Route::post('notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');
-    
+
     Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
     Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 
-Route::group(['middleware'=>['can:ver servicios']], function(){
-   
+Route::group(['middleware' => ['can:ver servicios']], function () {
+
     Route::get('servicio', [\App\Http\Controllers\ServicioController::class, 'index'])->name('admin.servicio');
     Route::get('servicio/create', [\App\Http\Controllers\ServicioController::class, 'create'])->name('admin.servicio.create');
     Route::post('servicio/store', [\App\Http\Controllers\ServicioController::class, 'store'])->name('admin.servicio.store');
@@ -170,7 +170,7 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('usuarios/roles/update', [App\Http\Controllers\UserController::class, 'update_roles'])->name('admin.usuarios.update.roles')->middleware(['role:Admin']);
 
     Route::get('/inicio/administrador', [\App\Http\Controllers\HorarioController::class, 'index'])->name('admin');
-    
+
     Route::get('roles', [App\Http\Controllers\UserController::class, 'index_roles'])->name('admin.roles.index')->middleware(['role:Admin']);
     Route::get('roles/add', [App\Http\Controllers\UserController::class, 'add_rol'])->name('admin.roles.add')->middleware(['role:Admin']);
     Route::post('roles/store', [App\Http\Controllers\UserController::class, 'store_rol'])->name('admin.roles.store')->middleware(['role:Admin']);
@@ -180,16 +180,16 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::get('roles/permission/{id}', [App\Http\Controllers\UserController::class, 'modify_permissions_role'])->name('admin.roles.permission')->middleware(['role:Admin']);
     Route::post('roles/permission/update', [App\Http\Controllers\UserController::class, 'update_permissions_role'])->name('admin.role.update.permissions')->middleware(['role:Admin']);
 
-    Route::get('horario',[App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
-    Route::post('horario/store',[App\Http\Controllers\HorariosController::class, 'store'])->name('admin.horario.store');
-    Route::get('admin/horario/add',[App\Http\Controllers\HorariosController::class, 'add'])->name('admin.horario.add');
-    Route::get('admin/horario/show',[App\Http\Controllers\HorariosController::class, 'show']);
-    Route::post('admin/horario/edit/{id}',[App\Http\Controllers\HorariosController::class,'edit']);
-    Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
-    Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
-//Rutas funcionarios
-Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
-    
+    Route::get('horario', [App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
+    Route::post('horario/store', [App\Http\Controllers\HorariosController::class, 'store'])->name('admin.horario.store');
+    Route::get('admin/horario/add', [App\Http\Controllers\HorariosController::class, 'add'])->name('admin.horario.add');
+    Route::get('admin/horario/show', [App\Http\Controllers\HorariosController::class, 'show']);
+    Route::post('admin/horario/edit/{id}', [App\Http\Controllers\HorariosController::class, 'edit']);
+    Route::post('admin/horario/delete/{id}', [App\Http\Controllers\HorariosController::class, 'delete']);
+    Route::post('admin/horario/actualizar/{horarios}', [App\Http\Controllers\HorariosController::class, 'update']);
+    //Rutas funcionarios
+    Route::resource('/funcionarios', 'App\Http\Controllers\FuncionariosController');
+
 
     Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
     Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
@@ -201,57 +201,58 @@ Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
 
 Route::get('/lector-codigos-barras', 'BarcodeController@scan')->name('barcode.scan');
 Route::group(['middleware' => ['role:Veterinario']], function () {
-    Route::get('/inicio/veterinario', function(){
+    Route::get('/inicio/veterinario', function () {
         return view('admin.home');
     })->name('veterinario');
 });
 
 Route::group(['middleware' => ['role:Peluquero']], function () {
-    Route::get('/inicio/peluquero', function(){
+    Route::get('/inicio/peluquero', function () {
         return view('admin.home');
     })->name('peluquero');
 });
+Route::get('/inicio/inventario', function () {
+    return view('admin.home');
+})->middleware('role:Inventario')->name('inventario');
 
-Route::group(['middleware' => ['role:Inventario']], function () {
-    Route::get('/inicio/inventario', function(){
-        return view('admin.home');
-    })->name('inventario');
-    Route::get('inventario/detalle_venta',[App\Http\Controllers\PointSaleController::class, 'detalle_venta'])->name('ventas.detalle');
-    Route::get('inventario/ventas',[App\Http\Controllers\PointSaleController::class, 'mostrar_ventas'])->name('ventas.index');
-    Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
-    Route::post('inventario/punto_de_venta/venta',[App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
-    Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
-    Route::get('inventario/punto_de_venta/update',[App\Http\Controllers\PointSaleController::class, 'update_product'])->name('point_sale.updateProduct');
-    Route::get('inventario/punto_de_venta/clear',[App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');
-    Route::get('inventario/punto_de_venta/remove',[App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
+Route::group(['middleware' => ['can:acceso punto de venta']], function () {
+    Route::get('inventario/punto_de_venta', [App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
+    Route::post('inventario/punto_de_venta/venta', [App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
+    Route::get('inventario/punto_de_venta/add', [App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
+    Route::get('inventario/punto_de_venta/update', [App\Http\Controllers\PointSaleController::class, 'update_product'])->name('point_sale.updateProduct');
+    Route::get('inventario/punto_de_venta/clear', [App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');
+    Route::get('inventario/punto_de_venta/remove', [App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
 });
-
+Route::group(['middleware' => ['can:acceso ventas']], function () {
+    Route::get('inventario/detalle_venta', [App\Http\Controllers\PointSaleController::class, 'detalle_venta'])->name('ventas.detalle');
+    Route::get('inventario/ventas', [App\Http\Controllers\PointSaleController::class, 'mostrar_ventas'])->name('ventas.index');
+});
 Route::get('/shop', [\App\Http\Controllers\CartController::class, 'shop'])->name('shop.shop');
 Route::get('shop/cart', [\App\Http\Controllers\CartController::class, 'cart'])->name('shop.cart.index');
 Route::post('/add', [\App\Http\Controllers\CartController::class, 'add'])->name('shop.cart.store');
 Route::get('shop/show/{id}', [\App\Http\Controllers\CartController::class, 'show'])->name('shop.show');
 Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])->name('shop.cart.update');
 Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
-Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');   
+Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');
 
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
 });
 Auth::routes();
-Route::get('/marca',[MarcasController::class,'index'])->name('marcas');
-Route::post('/marca',[MarcasController::class,'store'])->name('marcas');
+Route::get('/marca', [MarcasController::class, 'index'])->name('marcas');
+Route::post('/marca', [MarcasController::class, 'store'])->name('marcas');
 
-Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
-Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
-Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');
-
-
+Route::get('/marca/{id}', [MarcasController::class, 'show'])->name('marcas-edit');
+Route::patch('/marca/{id}', [MarcasController::class, 'update'])->name('marcas-update');
+Route::delete('/marca/{id}', [MarcasController::class, 'destroy'])->name('marcas-destroy');
 
 
-Route::middleware('auth')->group(function(){
-    Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
-    Route::post('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/agendar-horas/create', [App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
+    Route::post('/miscitas', [App\Http\Controllers\ReservarCitasController::class, 'store'])->name('Agendar');
 
     //JSON
-    Route::get('/tiposervicios/{tiposervicio}/funcionarios',[App\Http\Controllers\Api\tiposerviciosController::class, 'funcionarios']);
+    Route::get('/tiposervicios/{tiposervicio}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'funcionarios']);
 });

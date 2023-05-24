@@ -157,6 +157,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        var columns = [0, 1, 2, 3, 4, 5, 6];
         function setTable(table, value) {
             table = $("#table").DataTable({
                 "language": {
@@ -166,6 +167,7 @@
                 "lengthChange": false,
                 responsive: true,
                 serverSide: true,
+                dom: 'Bfrtip',
                 "language": {
                     "search": "Buscar:",
                     "zeroRecords": "No se encontraron datos",
@@ -175,6 +177,54 @@
                         "previous": "<",
                         "next": ">",
                     },
+                },
+                buttons: {
+                    buttons: [{
+                            extend: 'copyHtml5',
+                            text: '<i class="fa fa-copy"></i>',
+                            className: 'btn  btn-secondary mb-2',
+                            titleAttr: 'Copiar',
+                            exportOptions: {
+                                columns: columns
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            text: '<i class="fas fa-file-excel"></i>',
+                            titleAttr: 'Exportar a Excel',
+                            className: 'btn  btn-success mb-2',
+                            exportOptions: {
+                                columns: columns
+                            }
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            text: '<i class="fa fa-file-csv"></i>',
+                            titleAttr: 'Exportar a CSV',
+                            className: 'btn  btn-info mb-2',
+                            exportOptions: {
+                                columns: columns
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: '<i class="fas fa-file-pdf"></i>',
+                            titleAttr: 'Exportar a PDF',
+                            className: 'btn btn-danger mb-2',
+                            exportOptions: {
+                                columns: columns
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            text: '<i style="color:white" class="fas fa-print"></i>',
+                            titleAttr: 'Imprimir',
+                            className: 'btn btn-warning mb-2',
+                            exportOptions: {
+                                columns: columns
+                            }
+                        }
+                    ]
                 },
                 ajax: {
                     url: "{{ route('administracion_inventario.historial') }}",

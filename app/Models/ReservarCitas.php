@@ -30,4 +30,7 @@ class ReservarCitas extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function cancellation(){
+        return $this->hasOne(CancelledCitas::class);
+    }
 }

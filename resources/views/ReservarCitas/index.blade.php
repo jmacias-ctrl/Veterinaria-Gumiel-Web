@@ -59,9 +59,9 @@
                         <i class="ni ni-bell-55 mr-2"></i>Citas pendientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mb-sm-3 mb-md-0" data-toggle="tab" 
+                        <a class="nav-link mb-sm-3 mb-md-0 " data-toggle="tab" 
                         href="#historial" role="tab" aria-selected="false">
-                        <i class="ni ni-folder-17 mr-2"></i>Historial</a>
+                        <i class="ni ni-folder-17 mr-2 "></i>Historial</a> 
                     </li>
                 </ul>
             </div>
@@ -83,48 +83,6 @@
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table align-items-center table-flush">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Tipo Servicio</th>
-                        <th scope="col">Funcionario</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Hora</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Acciones</th>
-                    </tr>       
-                </thead> 
-            <tbody>
-                @foreach ($confirmedCita as $cita )
-                <tr>
-                    <th scope="row">
-                        {{ $cita->id }}
-                    </th>
-                    <td>{{ $cita->description }}</td>
-                    <td>{{ $cita->tiposervicio->nombre }}</td>
-                    <td>{{ $cita->funcionario->name }}</td>
-                    <td>{{ $cita->scheduled_date }}</td>
-                    <td>{{ $cita->sheduled_time }}</td>
-                    <td>{{ $cita->type }}</td>
-                    <td>{{ $cita->status }}</td>
-                    <td>
-                        <form action="{{ url('/miscitas/'.$cita->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-
-                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Cancelar cita">Cancelar cita</button>  
-
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-            </table>
-        </div>
         
     </div>
 

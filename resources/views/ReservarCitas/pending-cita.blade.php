@@ -26,11 +26,10 @@
                     <td>{{ $cita->type }}</td>
 
                     <td>
-                        <form action="{{ url('/miscitas/'.$cita->id) }}" method="POST">
+                        <form action="{{ url('/miscitas/'.$cita->id.'/cancel') }}" method="POST">
                             @csrf
-                            @method('DELETE')
 
-                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Cancelar cita">Cancelar cita</button>  
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Cancelar cita">Cancelar</button>  
 
                         </form>
                     </td>

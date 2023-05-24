@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\HorarioFuncionarioServiceInterface;
+use App\Models\CancelledCitas;
 use App\Models\ReservarCitas;
 use App\Models\tiposervicios;
-use App\Services\HorarioFuncionarioService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Validator;
 class ReservarCitasController extends Controller
 {
     public function index(){
-        $confirmedCita = ReservarCitas::
-            where('status','Confirmada')->
-            where('paciente_id', auth()->id())->get();
+        $confirmedCita = ReservarCitas::all()
+            ->where('status','Confirmada')
+            ->where('paciente_id', auth()->id());
 
         $pendingCita = ReservarCitas::all()
             ->where('status','Reservada')
@@ -110,4 +110,32 @@ class ReservarCitasController extends Controller
         $notification = 'La cita se ha realizado correctamente.';
         return back()->with(compact('notification'));
     } 
+
+    public function cancel(ReservarCitas $ReservarCita, Request $request){
+
+        if($request->has('justification')){
+            $cancellation = new CancelledCitas();
+            $cancellation->justification = $request->input('justification');
+            $cancellation->cancelled_by_id = auth()->id();
+
+            $ReservarCita->cancellation()->save($cancellation);
+        }
+        
+        $ReservarCita->status = 'Cancelada';
+        $ReservarCita->save();
+        $notification = 'La cita se ha cancelado correctamente.';
+        
+        return redirect('/miscitas')->with(compact('notification'));
+    }
+
+    public function formCancel(ReservarCitas $ReservarCita){
+        if($ReservarCita->status == 'Confirmada'){
+            return view('ReservarCitas.cancel', compact('ReservarCita'));
+        }
+        return redirect('/miscitas');
+    }
+
+    public function show(ReservarCitas $ReservarCita){
+        return view('ReservarCitas.show' , compact('ReservarCita'));
+    }
 }

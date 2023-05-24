@@ -198,6 +198,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
     Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
     Route::get('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');
+    Route::get('/miscitas/{ReservarCita}',[App\Http\Controllers\ReservarCitasController::class, 'show']);
+    Route::post('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'cancel']);
+    Route::get('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'formCancel']);
 
     //JSON
     Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);

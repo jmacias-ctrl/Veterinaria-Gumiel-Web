@@ -85,7 +85,6 @@ Route::group(['middleware' => ['can:ver insumos medicos']], function () {
     Route::post('admin/marcaInsumos/store', [\App\Http\Controllers\MarcaInsumoController::class, 'store'])->name('admin.marcaInsumos.store');
     Route::get('admin/marcaInsumos/edit', [\App\Http\Controllers\MarcaInsumoController::class, 'edit'])->name('admin.marcaInsumos.edit');
     Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update');
-    Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update');
 });
 
 Route::group(['middleware' => ['role:Admin']], function () {
@@ -215,6 +214,15 @@ Route::get('/inicio/inventario', function () {
     return view('admin.home');
 })->middleware('role:Inventario')->name('inventario');
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('proveedores', [\App\Http\Controllers\ProveedoresController::class, 'index'])->name('proveedores.index')->middleware('can:ver proveedores');
+    Route::get('proveedores/create', [\App\Http\Controllers\ProveedoresController::class, 'create'])->name('proveedores.create')->middleware('can:ingresar proveedores');
+    Route::post('proveedores/delete', [\App\Http\Controllers\ProveedoresController::class, 'delete'])->name('proveedores.delete')->middleware('can:eliminar proveedores');
+    Route::post('proveedores/store', [\App\Http\Controllers\ProveedoresController::class, 'store'])->name('proveedores.store')->middleware('can:ingresar proveedores');
+    Route::get('proveedores/edit', [\App\Http\Controllers\ProveedoresController::class, 'edit'])->name('proveedores.edit')->middleware('can:modificar proveedores');
+    Route::post('proveedores/update', [\App\Http\Controllers\ProveedoresController::class, 'update'])->name('proveedores.update')->middleware('can:modificar proveedores');
+});
+
 Route::group(['middleware' => ['can:acceso punto de venta']], function () {
     Route::get('inventario/punto_de_venta', [App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
     Route::post('inventario/punto_de_venta/venta', [App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
@@ -238,6 +246,7 @@ Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->n
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
 });
+
 Auth::routes();
 Route::get('/marca', [MarcasController::class, 'index'])->name('marcas');
 Route::post('/marca', [MarcasController::class, 'store'])->name('marcas');

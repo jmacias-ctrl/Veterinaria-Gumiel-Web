@@ -113,7 +113,7 @@
                             class="material-symbols-outlined">history</span></a>
                     <button id="barcodeScanner" class="btn btn-outline-success btn-sm" role="button"><span
                             class="material-symbols-outlined">barcode_scanner</span></button>
-                    <a id="proveedoresBtn" class="btn btn-outline-success btn-sm" href="#" role="button"><span
+                    <a id="proveedoresBtn" class="btn btn-outline-success btn-sm" href="{{route('proveedores.index')}}" role="button"><span
                             class="material-symbols-outlined">local_shipping</span></a>
                 </div>
             </div>

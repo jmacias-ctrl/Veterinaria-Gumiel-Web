@@ -16,6 +16,7 @@ class CreateMedicamentosVacunas extends Migration
         Schema::create('medicamentos_vacunas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('codigo')->unique()->nullable();
             $table->unsignedBigInteger('id_marca');
             $table->unsignedBigInteger('id_tipo');
             $table->unsignedBigInteger('medicamentos_enfocados');

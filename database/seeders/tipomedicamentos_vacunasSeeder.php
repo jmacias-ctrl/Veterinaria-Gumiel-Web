@@ -14,13 +14,15 @@ class tipomedicamentos_vacunasSeeder extends Seeder
     public function run()
     {
         TipoMedicamento::create([
-            'nombre' => 'Perro'
+            'nombre' => 'Vacuna'
         ]);
         
         TipoMedicamento::create([
-            'nombre' => 'Gato'
+            'nombre' => 'Pastillas'
         ]);
-
+        TipoMedicamento::create([
+            'nombre' => 'Via Oral'
+        ]);
         
     }
 }

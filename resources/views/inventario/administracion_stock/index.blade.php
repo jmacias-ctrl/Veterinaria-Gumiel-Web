@@ -109,12 +109,13 @@
             <div class="d-flex justify-content-between align-items-end">
                 <h2 id="selected-table">Productos</h2>
                 <div class="btn-group shadow mt-3" role="group" aria-label="Basic example">
-                    <a id="historial" class="btn btn-outline-success btn-sm" href="{{route('administracion_inventario.historial')}}" role="button"><span
+                    <a id="historial" class="btn btn-outline-success btn-sm"
+                        href="{{ route('administracion_inventario.historial') }}" role="button"><span
                             class="material-symbols-outlined">history</span></a>
                     <button id="barcodeScanner" class="btn btn-outline-success btn-sm" role="button"><span
                             class="material-symbols-outlined">barcode_scanner</span></button>
-                    <a id="proveedoresBtn" class="btn btn-outline-success btn-sm" href="{{route('proveedores.index')}}" role="button"><span
-                            class="material-symbols-outlined">local_shipping</span></a>
+                    <a id="proveedoresBtn" class="btn btn-outline-success btn-sm" href="{{ route('proveedores.index') }}"
+                        role="button"><span class="material-symbols-outlined">local_shipping</span></a>
                 </div>
             </div>
 
@@ -145,6 +146,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/barcodes/JsBarcode.code128.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
@@ -155,6 +158,26 @@
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @if (Session::has('successAdmin'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{Session::get("successAdmin")}}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
+    @if (Session::has('failed'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: '{{Session::get("failed")}}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
     <script>
         function setTable(table, value) {
             table = $("#table").DataTable({
@@ -212,6 +235,7 @@
         }
         var shownTable = "productosButton";
         $(document).ready(function() {
+
             var table = setTable(table, "productos");
             $("#loading-table").addClass('d-none');
             $(".buttonChangeTable").on("click", function() {
@@ -256,7 +280,7 @@
                 $("#adjuntarFactura").removeClass('d-none');
                 $("#checkStock").removeClass('d-none');
                 $("#info").removeClass('d-none');
-                
+
                 $("#costoStockAgregado").prop('required', false);
                 $("#proveedor").prop('required', false);
                 $("#factura").prop('required', false);
@@ -283,11 +307,11 @@
                     $("#proveedorId").addClass('d-none');
                     $("#adjuntarFactura").addClass('d-none');
                     console.log(shownTable);
-                    if(shownTable != "productosButton"){
+                    if (shownTable != "productosButton") {
                         $("#checkStock").addClass('d-none');
                         $("#info").addClass('d-none');
                     }
-                    
+
 
                 }
             });
@@ -322,7 +346,8 @@
                     $("#descripcionDiv").addClass("d-flex");
                     $('#precioDiv').addClass("d-flex");
                     $('#enfocadoDiv').addClass("d-flex");
-
+                    $("#barcode").JsBarcode(response.data
+                        .itemGet['codigo']);
                     $('#nombre').html(response.data
                         .itemGet['nombre']);
                     if (response.data.tipo_item == "producto") {
@@ -373,14 +398,14 @@
             $("#costoStockAgregado").val("");
             $("#proveedor").val($("#proveedor option:first").val());
             $("#checkStockComprados").prop('checked', false);
-            if(shownTable!="productosButton"){
+            if (shownTable != "productosButton") {
                 $("#checkStock").addClass('d-none');
                 $("#info").addClass('d-none');
             }
-            
+
             $("#factura").val("");
             $('#adminProductoModal').modal('show')
-            
+
             axios.get("{{ route('administracion_inventario.verItem') }}", {
                     params: {
                         id: id,

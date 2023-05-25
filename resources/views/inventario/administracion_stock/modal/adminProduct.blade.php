@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{route('administracion_inventario.realizar_admin')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('administracion_inventario.realizar_admin')}}" method="POST" id="adminForm" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="id_item" id="id_item">
@@ -47,14 +47,14 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">$</span>
                                 </div>
-                                <input type="integer" class="form-control" id="costoStockAgregado"
+                                <input type="number" class="form-control" id="costoStockAgregado"
                                     name="costoStockAgregado" required>
                             </div>
                         </div>
                         <div class="form-group col-md-6" id="proveedorId">
                             <label for="proveedor">Proveedor</label>
                             <select class="form-control" id="proveedor" name="proveedor" required>
-                                <option selected>Seleccione un Proveedor</option>
+                                <option value="">Seleccione un Proveedor</option>
                                 <option value="new">Crear nuevo Proveedor</option>
                                 @foreach ($proveedores as $item)
                                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-success">Realizar</button>
+                    <button type="submit" class="btn btn-success" id="btn-submit">Realizar</button>
                 </div>
             </form>
         </div>

@@ -56,6 +56,16 @@
                     @csrf
                     <input type="hidden" name="id" value="{{ $producto->id }}">
                     <div class="form-group">
+                        <label for="codigo" class="form-label">Codigo</label>
+                        <input type="text" id="codigo" name="codigo"
+                            class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
+                            aria-label="codigo" value="{{ $producto->codigo }}" required>
+
+                        @error('codigo')
+                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="nombre">Nombre:</label>
                         <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre"
                             name="nombre" value="{{ $producto->nombre }}"

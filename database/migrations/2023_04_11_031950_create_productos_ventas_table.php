@@ -16,6 +16,7 @@ class CreateProductosVentasTable extends Migration
         Schema::create('productos_ventas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('codigo')->unique()->nullable();
             $table->unsignedBigInteger('id_marca');
             $table->text('descripcion');
             $table->string('slug')->nullable();

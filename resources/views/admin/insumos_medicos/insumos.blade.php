@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .dataTables_filter,
+        .dataTables_info {
+            display: none;
+        }
+        .barcode{
+        }
+    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -54,6 +62,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Codigo</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Tipo</th>
@@ -65,22 +74,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-    <!-- <tbody>
-                                    @foreach ($insumos_medicos as $insumos)
-    <tr>
-                                            <td>{{ $insumos->id }}</td>
-                                            <td>{{ $insumos->nombre }}</td>
-                                            <td>{{ $insumos->marcaInsumos->nombre }}</td>
-                                            <td>{{ $insumos->Tipoinsumos->nombre }}</td>
-                                            <td>{{ $insumos->stock }}</td>
-                                            
-                                        </tr>
-    @endforeach
-                                </tbody> -->
 @endsection
 
 @section('js-after')
@@ -88,6 +81,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.bootstrap4.min.js"></script>
@@ -97,9 +91,19 @@
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @if (Session::has('success'))
+        <script>
+            toastr.success("{{ Session::get('success') }}");
+        </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            toastr.error("{{ Session::get('error') }}");
+        </script>
+    @endif
     <script>
         $(document).ready(function() {
-            let columns = [0, 1, 2, 3, 4, 5, 6];
+            let columns = [0, 1, 2, 3, 4];
             var table = $("#table").DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
@@ -173,6 +177,10 @@
                         name: 'DT_RowIndex'
                     },
                     {
+                        data: 'codigo',
+                        name: 'codigo'
+                    },
+                    {
                         data: 'nombre',
                         name: 'nombre'
                     },
@@ -194,7 +202,14 @@
                         orderable: false,
                         searchable: false,
                     }
-                ]
+                ],
+
+            });
+            table.on('draw.dt', function() {
+                JsBarcode('.barcode').init();
+            });
+            $('#myInput').on('keyup', function() {
+                $('#table').dataTable().fnFilter(this.value);
             });
         });
 

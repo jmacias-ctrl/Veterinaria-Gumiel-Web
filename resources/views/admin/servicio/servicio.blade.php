@@ -98,7 +98,7 @@
     @endif
     <script>
         $(document).ready(function() {
-            let columns = [0, 1, 2, 3, 4, 5, 6];
+            let columns = [0, 1, 2, 3];
             var table = $("#table").DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"

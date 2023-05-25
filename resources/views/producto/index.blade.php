@@ -66,6 +66,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Codigo</th>
                             <th>Nombre</th>
                             <th>Slug</th>
                             <th>Marca</th>
@@ -171,11 +172,16 @@
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
+                    }, 
+                    {
+                        data: 'codigo',
+                        name: 'codigo'
                     },
                     {
                         data: 'nombre',
                         name: 'nombre'
                     },
+
                     {
                         data: 'slug',
                         name: 'slug'

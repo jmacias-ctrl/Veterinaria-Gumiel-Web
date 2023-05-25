@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductosVentaController extends Controller
 {
@@ -66,6 +67,7 @@ class ProductosVentaController extends Controller
     {
         $rules = ([
             'nombre' => 'required',
+            'codigo'=> 'string|required|unique:App\Models\productos_ventas,codigo',
             'marca' => 'required',
             'slug'=>'required',
             'descripcion' => 'required',
@@ -79,6 +81,7 @@ class ProductosVentaController extends Controller
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'codigo'=>'Codigo',
             'slug'=>'Slug',
             'descripcion' => 'Descripcion',
             'min_stock'=>'Minimo Stock',
@@ -91,7 +94,8 @@ class ProductosVentaController extends Controller
         $message = ([
             'required' => ':attribute es obligatorio.',
             'integer' => ':attribute no es un numero, ingrese nuevamente',
-            'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg'
+            'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg',
+            'unique'=> ':attribute ya se encuentra registrado'
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
@@ -100,6 +104,7 @@ class ProductosVentaController extends Controller
             // Crea una instancia de la clase productos_ventas y asigna los valores
             $producto = new productos_ventas();
             $producto->nombre = $request->input('nombre');
+            $producto->codigo = $request->input('codigo');
             $producto->id_marca = $request->input('marca');
             $producto->descripcion = $request->input('descripcion');
             $producto->slug = $request->input('slug');
@@ -163,6 +168,11 @@ class ProductosVentaController extends Controller
     {
         $rules = ([
             'nombre' => 'required',
+            'codigo'=> [
+                'string',
+                'required',
+                Rule::unique('productos_ventas', 'codigo')->ignore($request->id),
+            ],
             'marca' => 'required',
             'slug'=>'required',
             'descripcion' => 'required',
@@ -175,6 +185,7 @@ class ProductosVentaController extends Controller
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'codigo' => 'Codigo',
             'slug'=>'Slug',
             'descripcion' => 'Descripcion',
             'min_stock'=>'Minimo Stock',
@@ -186,6 +197,7 @@ class ProductosVentaController extends Controller
         $message = ([
             'required' => ':attribute es obligatorio.',
             'integer' => ':attribute no es un numero, ingrese nuevamente',
+            'unique'=> ':attribute ya se encuentra registrado',
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {

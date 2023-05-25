@@ -79,7 +79,7 @@ class AdministracionInventario extends Controller
     {
         
         if ($request->ajax()) {
-            $data = trazabilidad_inventario::with(['productos_ventas', 'medicamentos_vacunas', 'insumos_medicos', 'proveedores']);
+            $data = trazabilidad_inventario::with(['productos_ventas', 'medicamentos_vacunas', 'insumos_medicos', 'proveedores'])->orderBy('created_at', 'desc');
             if($request->value=="productos"){
                 $data = $data->whereNotNull("id_producto")->get();
             }else if($request->value=="insumos"){
@@ -214,7 +214,8 @@ class AdministracionInventario extends Controller
 
 
             $trazabilidad->save();
-            return redirect()->route('administracion_inventario.index');
+            return redirect()->route('administracion_inventario.index')->with('successAdmin', 'La administracion de stock del item '.$item->nombre.' se ha realizado de manera satisfactoria');
         }
+        return back()->with('failed', 'No se ha podido realizar la administracion de stock del item');
     }
 }

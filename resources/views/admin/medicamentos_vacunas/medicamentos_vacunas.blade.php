@@ -58,6 +58,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Codigo</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Tipo</th>
@@ -162,6 +163,10 @@
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'codigo',
+                        name: 'codigo'
                     },
                     {
                         data: 'nombre',

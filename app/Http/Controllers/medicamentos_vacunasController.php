@@ -8,6 +8,7 @@ use App\Models\TipoMedicamento;
 use App\Models\marca_medicamentos_vacunas;
 use App\Models\Especie;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use DataTables;
 
 class medicamentos_vacunasController extends Controller
@@ -50,12 +51,14 @@ class medicamentos_vacunasController extends Controller
         $rules = [
             'nombre' => 'required|string',
             'marca' => 'required',
+            'codigo'=> 'string|required|unique:App\Models\medicamentos_vacunas,codigo',
             'id_tipo' => 'required',
             'stock' => 'required|integer',
             'medicamento_enfocado'=> 'required'
         ];
         $attribute = [
             'nombre' => 'Nombre',
+            'codigo'=> 'Codigo',
             'marca' => 'Marca',
             'id_tipo' => 'Tipo',
             'stock' => 'Stock',
@@ -102,6 +105,11 @@ class medicamentos_vacunasController extends Controller
         $rules = [
             'nombre' => 'required|string',
             'marca' => 'required',
+            'codigo'=> [
+                'string',
+                'required',
+                Rule::unique('medicamentos_vacunas', 'codigo')->ignore($request->id),
+            ],
             'id_tipo' => 'required',
             'stock' => 'required',
             'medicamento_enfocado'=> 'required'

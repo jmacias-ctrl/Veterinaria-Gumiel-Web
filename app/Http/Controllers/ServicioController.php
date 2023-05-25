@@ -18,6 +18,7 @@ class ServicioController extends Controller
     if ($request->ajax()) {
         $data = servicios::with('tiposervicios')->get()->map(function($servicio){
             $servicio->id_tipo = $servicio->tiposervicios->nombre;
+            $servicio->precio = '$'.number_format($servicio->precio, 0, ',', '.');
             return $servicio;
         });
         return Datatables::of($data)

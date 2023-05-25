@@ -49,6 +49,18 @@
             <input type="hidden" name="id" value="{{$medicamentos->id}}">
             <div class="row mt-3">
                 <div class="col">
+                    <label for="nomcodigobre" class="form-label">Codigo</label>
+                    <input type="text" id="codigo" name="codigo"
+                        class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
+                        aria-label="codigo" value="{{$medicamentos->codigo}}" required>
+
+                    @error('codigo')
+                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                    @enderror
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
                     <label for="nombre" class="form-label">Nombre medicamento</label>
                     <input type="text" id="nombre" name="nombre"
                         class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. "

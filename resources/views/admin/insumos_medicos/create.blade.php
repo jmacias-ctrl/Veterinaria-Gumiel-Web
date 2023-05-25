@@ -58,10 +58,22 @@
                 <h5 class="mt-4">Informacion del Insumo</h5>
                 <div class="row mt-3">
                     <div class="col">
-                        <label for="nombre" class="form-label">Nombre insumo</label>
+                        <label for="nomcodigobre" class="form-label">Codigo</label>
+                        <input type="text" id="codigo" name="codigo"
+                            class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
+                            aria-label="codigo" value="{{old('codigo')}}" required>
+
+                        @error('codigo')
+                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" id="nombre" name="nombre"
                             class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Agujas"
-                            aria-label="Nombre" required>
+                            aria-label="Nombre" value="{{old('nombre')}}" required>
 
                         @error('nombre')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -75,7 +87,7 @@
                             name="marca" id="marca">
                             <option selected disabled>Selecciona una opcion</option>
                             @foreach ($marcasInsumos as $marca)
-                                <option type="unsignedBigInteger" value="{{ $marca->id }}">
+                                <option type="unsignedBigInteger" @if(old('marca')==$marca->id) selected @endif value="{{ $marca->id }}">
                                     {{ $marca->nombre }}</option>
                             @endforeach
                         </select>
@@ -95,7 +107,7 @@
                         <div class="col">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="id_tipo" id="id_tipo"
-                                    value="{{ $tipos->id }}">
+                                    value="{{ $tipos->id }}" @if(old('id_tipo')==$tipos->id) checked @endif>
                                 <label class="form-check-label" name="id_tipo" for="id_tipo">
                                     {{ $tipos->nombre }}
                                 </label>
@@ -108,7 +120,7 @@
                     <div class="col">
                         <label for="stock" class="form-label @error('stock') is-invalid @enderror">Stock</label>
                         <input type="integer" class="form-control" id="stock" name="stock" placeholder="ej. 21"
-                            maxlength="11" minlength="1">
+                            maxlength="11" minlength="1" value="{{old('stock')}}">
                         @error('stock')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror

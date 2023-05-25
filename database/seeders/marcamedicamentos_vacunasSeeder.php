@@ -14,15 +14,21 @@ class marcamedicamentos_vacunasSeeder extends Seeder
     public function run()
     {
         marca_medicamentos_vacunas::create([
-            'nombre' => '.'
+            'nombre' => 'Avianvet'
         ]);
         
         marca_medicamentos_vacunas::create([
-            'nombre' => '.'
+            'nombre' => 'Bioibérica'
         ]);
 
         marca_medicamentos_vacunas::create([
-            'nombre' => 'L.'
+            'nombre' => 'Advance'
+        ]);
+        marca_medicamentos_vacunas::create([
+            'nombre' => 'Cenavisa'
+        ]);
+        marca_medicamentos_vacunas::create([
+            'nombre' => 'Catalysis'
         ]);
     }
 }

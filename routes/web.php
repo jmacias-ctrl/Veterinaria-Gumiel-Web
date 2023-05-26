@@ -92,6 +92,11 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
 });
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('control-servicios', [App\Http\Controllers\ControlServicioController::class, 'index'])->name('control_servicios.index');
+    Route::post('control-servicios/pagar', [App\Http\Controllers\ControlServicioController::class, 'pagar_reserva'])->name('control_servicios.pagar');
+});
+
 Route::group(['middleware' => ['can:acceso administracion de stock']], function () {
     Route::get('administracion-stock', [App\Http\Controllers\AdministracionInventario::class, 'index'])->name('administracion_inventario.index');
     Route::get('administracion-stock/historial', [App\Http\Controllers\AdministracionInventario::class, 'historial_admin'])->name('administracion_inventario.historial');

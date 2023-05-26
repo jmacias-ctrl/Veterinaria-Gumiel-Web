@@ -59,17 +59,23 @@ class AdministracionInventario extends Controller
             $data->id_marca = $data->marcaproductos->nombre;
             $data->id_tipo = $data->tipoproductos_ventas->nombre;
             $data->producto_enfocado = $data->especies->nombre;
+            $ultimo_stock_reposicion = db::table('trazabilidad_inventarios')->join('proveedores','trazabilidad_inventarios.id_proveedor','=','proveedores.id')->where('id_producto','=',$data->id)->select('trazabilidad_inventarios.id', 'id_producto', 'proveedores.nombre', 'costo', 'trazabilidad_inventarios.stock')->orderBy('trazabilidad_inventarios.created_at', 'desc')->first();
+            $low_cost_provider = db::table('trazabilidad_inventarios')->join('proveedores','trazabilidad_inventarios.id_proveedor','=','proveedores.id')->where('id_producto','=',$data->id)->select('trazabilidad_inventarios.id', 'id_producto', 'proveedores.nombre', 'costo')->orderBy('trazabilidad_inventarios.costo', 'asc')->first();
         } else if ($request->tipo == "insumo" || $request->tipo == "Insumo Medico") {
             $data = insumos_medicos::with('marcainsumos', 'tipoinsumos')->find($request->id);
             $data->id_marca = $data->marcainsumos->nombre;
             $data->id_tipo = $data->tipoinsumos->nombre;
+            $ultimo_stock_reposicion = db::table('trazabilidad_inventarios')->join('proveedores','trazabilidad_inventarios.id_proveedor','=','proveedores.id')->where('id_insumo','=',$data->id)->select('trazabilidad_inventarios.id', 'id_insumo', 'proveedores.nombre', 'costo', 'trazabilidad_inventarios.stock')->orderBy('trazabilidad_inventarios.created_at', 'desc')->first();
+            $low_cost_provider = db::table('trazabilidad_inventarios')->join('proveedores','trazabilidad_inventarios.id_proveedor','=','proveedores.id')->where('id_insumo','=',$data->id)->select('trazabilidad_inventarios.id', 'id_insumo', 'proveedores.nombre', 'costo')->orderBy('trazabilidad_inventarios.costo', 'asc')->first();
         } else {
             $data = medicamentos_vacunas::with('marca_medicamentos_vacunas', 'tipo_medicamentos_vacunas', 'especies')->find($request->id);
             $data->id_marca = $data->marca_medicamentos_vacunas->nombre;
             $data->medicamentos_enfocados = $data->especies->nombre;
             $data->id_tipo = $data->tipo_medicamentos_vacunas->nombre;
+            $ultimo_stock_reposicion = db::table('trazabilidad_inventarios')->join('proveedores','trazabilidad_inventarios.id_proveedor','=','proveedores.id')->where('id_medicina','=',$data->id)->select('trazabilidad_inventarios.id', 'id_medicina', 'proveedores.nombre', 'costo', 'trazabilidad_inventarios.stock')->orderBy('trazabilidad_inventarios.created_at', 'desc')->first();
+            $low_cost_provider = db::table('trazabilidad_inventarios')->join('proveedores','trazabilidad_inventarios.id_proveedor','=','proveedores.id')->where('id_medicina','=',$data->id)->select('trazabilidad_inventarios.id', 'id_medicina', 'proveedores.nombre', 'costo')->orderBy('trazabilidad_inventarios.costo', 'asc')->first();
         }
-        return response()->json(['success' => true, 'itemGet' => $data, 'tipo_item' => $request->tipo], 200);
+        return response()->json(['success' => true, 'itemGet' => $data, 'tipo_item' => $request->tipo, 'providerLowCost'=>$low_cost_provider, 'lastStockRenew'=>$ultimo_stock_reposicion], 200);
     }
     public function descargar_factura(Request $request){
         $trazabilidad = trazabilidad_inventario::find($request->id);
@@ -214,8 +220,8 @@ class AdministracionInventario extends Controller
 
 
             $trazabilidad->save();
-            return redirect()->route('administracion_inventario.index')->with('successAdmin', 'La administracion de stock del item '.$item->nombre.' se ha realizado de manera satisfactoria');
+            return redirect()->route('administracion_inventario.index')->with('successAdmin', 'La reposicion de stock del item "'.$item->nombre.'" se ha realizado de manera satisfactoria');
         }
-        return back()->with('failed', 'No se ha podido realizar la administracion de stock del item');
+        return back()->with('failed', 'No se ha podido realizar la reposicion de stock del item');
     }
 }

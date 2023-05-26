@@ -376,7 +376,30 @@
                     }
 
                     $('#stock').html(response.data.itemGet["stock"]);
+                    console.log(response.data.providerLowCost);
+                    if(response.data.providerLowCost!=null){
+                        $("#proveedorLow").html(response.data.providerLowCost['nombre']);
+                        $("#costoLow").html(new Intl.NumberFormat('es-CL', {
+                            currency: 'CLP',
+                            style: 'currency'
+                        }).format(response.data.providerLowCost['costo'])+" x un");
+                    }else{
+                        $("#proveedorLow").html('ninguno');
+                        $("#costoLow").html('');
+                    }
 
+                    if(response.data.lastStockRenew!=null){
+                        $("#proveedorUlt").html(response.data.lastStockRenew['nombre']);
+                        $("#costoUlt").html(new Intl.NumberFormat('es-CL', {
+                            currency: 'CLP',
+                            style: 'currency'
+                        }).format(response.data.providerLowCost['costo'])+" x un");
+                        $("#stockUlt").html(response.data.lastStockRenew['stock']+" un");
+                    }else{
+                        $("#proveedorUlt").html('ninguno');
+                        $("#costoUlt").html('');
+                        $("#stockUlt").html('');
+                    }
                 })
                 .catch(function(error) {
                     Swal.fire({
@@ -393,7 +416,7 @@
 
         }
 
-        function admin_product(id, tipo_item) {
+        function admin_product(id, tipo_item, stock) {
             $("#newStock").val("");
             $("#costoStockAgregado").val("");
             $("#proveedor").val($("#proveedor option:first").val());

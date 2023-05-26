@@ -41,12 +41,44 @@
                             <p class="font-weight-bold">Precio:&nbsp</p>
                             <p id="precio">$2.000</p>
                         </div>
+                        <hr class="mx-0 my-1 p-0"
+                            style="border: none;
+                        height: 1px;
+                        /* Set the hr color */
+                        color: #333;  /* old IE */
+                        background-color: #333;">
+                        <div class="d-block" id="ultimaReposicionDiv">
+                            <p class="font-weight-bold">Ultima Reposicion:&nbsp</p>
+                            <div class="row justify-content-center align-items-center g-2">
+                                <div class="col">
+                                    <p id="proveedorUlt">ProveedorX</p>
+                                </div>
+                                <div class="col">
+                                    <p id="costoUlt">$2.000</p>
+                                </div>
+                                <div class="col">
+                                    <p id="stockUlt">10 un</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="d-block" id="proveedorMenorCostoDiv">
+                            <p class="font-weight-bold">Proveedor de menor costo:&nbsp</p>
+                            <div class="row justify-content-center align-items-center g-2">
+                                <div class="col">
+                                    <p id="proveedorLow">ProveedorX</p>
+                                </div>
+                                <div class="col">
+                                    <p id="costoLow">$2.000</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col">
                         <img src="/image/productos/colonia-amarilla.png" class="img-thumbnail" alt="..."
                             id="imagen_item">
-                        <div class="align-self-center">
-                            <img id="barcode" class="align-self-center" style="width:150px" />
+                        <div class="d-flex justify-content-center">
+                            <img id="barcode"style="width:150px" />
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Nombre del Producto</th>
+                            <th scope="col">Nombre del Servicio</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Precio Unitario</th>
                             <th scope="col">Precio Total</th>

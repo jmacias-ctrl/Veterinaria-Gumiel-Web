@@ -17,7 +17,8 @@ class CreateTrazabilidadVentaPresencialsTable extends Migration
             $table->id();
             $table->string('id_venta');
             $table->string('nombre_cliente');
-            $table->enum('metodo_pago', ['transferencia', 'efectivo', 'tarjeta']);
+            $table->dateTime('fecha_compra')->nullable();
+            $table->enum('metodo_pago', ['transferencia', 'efectivo', 'tarjeta', 'online']);
             $table->unsignedBigInteger('id_operador');
             $table->timestamps();
             

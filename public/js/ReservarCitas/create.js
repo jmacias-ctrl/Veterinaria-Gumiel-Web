@@ -21,6 +21,7 @@ $(function(){
    $titleAfternoon = $('#titleAfternoon');
    $hoursAfternoon = $('#hoursAfternoon');
 
+
    $tiposervicio.change(()=>{
         const tiposervicioId = $tiposervicio.val();
         const url = `/obtener-usuarios/${tiposervicioId}/funcionarios`;
@@ -39,6 +40,18 @@ function onFuncionariosLoaded(funcionarios){
     });
     $funcionario.html(htmlOptions);
     loadHours();
+
+    const tipoServicioNombre = $tiposervicio.find('option:selected').text();
+    if (tipoServicioNombre === 'Atención medica') {
+        $('#tipoConsulta').show();
+        $('#tamMascota').hide();
+    } else if (tipoServicioNombre === 'Peluquería') {
+        $('#tipoConsulta').hide();
+        $('#tamMascota').show();
+    } else {
+        $('#tipoConsulta').hide();
+        $('#tamMascota').hide();
+    }
 }  
 
 function loadHours(){
@@ -82,6 +95,7 @@ function displayHours(data){
     $titleAfternoon.html(titleAfternoon);
 }
 
+
 function getRadioIntervaloHTML(intervalo){
     const text = `${intervalo.start}-${intervalo.end}`;
     return `<div class="custom-control custom-radio mb-3">
@@ -89,3 +103,6 @@ function getRadioIntervaloHTML(intervalo){
             <label class="custom-control-label" for="interval${iRadio++}">${text}</label>
             </div>`;
 }
+
+
+

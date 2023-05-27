@@ -53,9 +53,16 @@
                 <dd>
                     <strong>Hora de atención:</strong> {{ $ReservarCita->sheduled_time }}
                 </dd>
+                @if (auth()->user()->hasRole('Cliente') || auth()->user()->hasRole('Admin'))
                 <dd>
                     <strong>Funcionario:</strong> {{ $ReservarCita->funcionario->name }}
                 </dd>
+                @endif
+                @if (auth()->user()->hasRole('Veterinario')|| auth()->user()->hasRole('Peluquero') || auth()->user()->hasRole('Admin'))
+                <dd>
+                    <strong>Paciente:</strong> {{ $ReservarCita->paciente->name }}
+                </dd>
+                @endif
                 <dd>
                     <strong>Tipo de servicio:</strong> {{ $ReservarCita->tiposervicio->nombre }}
                 </dd>
@@ -75,30 +82,31 @@
                 </dd>
             </ul>
 
-            <div class="alert bg-light text-primery">
-                <h3>Detalles de la cancelación</h3>
-                @if ($ReservarCita->cancellation)
-                <ul>
-                    <li>
-                        <strong>Fecha de la cancelación:</strong>
-                        {{ $ReservarCita->cancellation->created_at }}
-                    </li>
-                    <li>
-                        <strong>La cita fue cancelada por:</strong>
-                        {{ $ReservarCita->cancellation->cancelled_by->name }}
-                    </li>
-                    <li>
-                        <strong>Motivo de la cancelación:</strong>
-                        {{ $ReservarCita->cancellation->justification }}
-                    </li>
-                </ul>
-                @else
-                <ul>
-                    <li>La cita fue cancelada antes de su confirmación.</li>
-                </ul>
-                @endif
-            </div>
-
+            @if($ReservarCita->status == 'Cancelada')
+                <div class="alert bg-light text-primery">
+                    <h3>Detalles de la cancelación</h3>
+                    @if ($ReservarCita->cancellation)
+                    <ul>
+                        <li>
+                            <strong>Fecha de la cancelación:</strong>
+                            {{ $ReservarCita->cancellation->created_at }}
+                        </li>
+                        <li>
+                            <strong>La cita fue cancelada por:</strong>
+                            {{ $ReservarCita->cancellation->cancelled_by->name }}
+                        </li>
+                        <li>
+                            <strong>Motivo de la cancelación:</strong>
+                            {{ $ReservarCita->cancellation->justification }}
+                        </li>
+                    </ul>
+                    @else
+                    <ul>
+                        <li>La cita fue cancelada antes de su confirmación.</li>
+                    </ul>
+                    @endif
+                </div>
+            @endif
         </div>
                 
         

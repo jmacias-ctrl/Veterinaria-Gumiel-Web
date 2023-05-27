@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Pacientes - Veterinaria Gumiel</title>
+<title>Gestión citas - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet"
@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion Pacientes
+    Gestion citas
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">

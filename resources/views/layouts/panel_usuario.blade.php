@@ -208,6 +208,11 @@
                                 <i class="ni ni-atom text-green "></i> Servicios
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link @if(request()->routeIs('/miscitas')) active @endif" href="{{ route('Agendar') }}">
+                                <i class="ni ni-archive-2 text-green "></i> Citas médicas
+                            </a>
+                        </li>
                     @endcan
 
                     @can('ver citasvet')
@@ -298,14 +303,14 @@
                         @can('ver gestionvet')
                             <li class="nav-item active">
                                 <a class="nav-link  @if(request()->routeIs('admin.horariofuncionarios.*')) active @endif" href="{{ route('admin.horariofuncionarios.edit') }}">
-                                <i class="ni ni-calendar-grid-58 text-green"></i> Horario Funcionarios</a>
+                                <i class="ni ni-calendar-grid-58 text-green"></i> Mi Horario</a>
                             </li>
                             <li class="nav-item active">
                                 <a class="nav-link  @if(request()->routeIs('pacientes.*')) active @endif" href="{{ route('pacientes.index') }}">
                                 <i class="ni ni-archive-2 text-green "></i>Mis Pacientes</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link  @if(request()->routeIs('miscitas.*')) active @endif" href="">
+                                <a class="nav-link  @if(request()->routeIs('miscitas.*')) active @endif" href="/miscitas">
                                 <i class="	fas fa-calendar-check text-green "></i>Mis Citas</a>
                             </li>
                         @endcan  

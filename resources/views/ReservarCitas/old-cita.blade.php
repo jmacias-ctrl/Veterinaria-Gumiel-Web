@@ -19,7 +19,7 @@
                     <td>{{ $cita->scheduled_date }}</td>
                     <td>{{ $cita->status }}</td>
                     <td>
-                        <a href="{{ url('/miscitas/'.$cita->id) }}" class="btn btn-outline-info btn-sm"> Ver</a>
+                        <a href="{{ url('/miscitas/'.$cita->id) }}" class="btn btn-outline-primary btn-sm"> Ver</a>
                     </td>
                 </tr>
                 @endforeach

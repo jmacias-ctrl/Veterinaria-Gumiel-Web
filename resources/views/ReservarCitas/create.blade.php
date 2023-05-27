@@ -22,7 +22,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Paciente
+    Agendar Hora
 @endsection
 @section('breadcrumbs')
 <nav aria-label="breadcrumb">
@@ -87,7 +87,7 @@
                         <select name="tiposervicio_id" id="tiposervicio" style="color: gray;" class="form-select">
                             <option selected disabled>Selecciona un tipo de servicio</option>
                             @foreach ($tiposervicios as $tiposervicio )
-                                <option value="{{$tiposervicio->id}}"
+                                <option value="{{$tiposervicio->id}}" data-consulta="{{$tiposervicio->tipoConsulta}}"
                                 @if(old('tiposervicio_id') == $tiposervicio->id) selected @endif
                                 >{{$tiposervicio->nombre}}</option>
                             @endforeach
@@ -158,8 +158,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group">
+                <div id="tipoConsulta" class="form-group" style="display: none;">
                     <label>Tipo de consulta</label>
                     <div class="custom-control custom-radio mt-3 mb-3">
                         <input type="radio" id="type1" name="type" class="custom-control-input" @if (old('type') == 'consulta') checked @endif value="consulta">
@@ -175,9 +174,25 @@
                     </div>
                 </div>
 
+                <div id="tamMascota" class="form-group" style="display: none;">
+                    <label>Tamaño mascota</label>
+                    <div class="custom-control custom-radio mt-3 mb-3">
+                        <input type="radio" id="tam1" name="type" class="custom-control-input" @if (old('type') == 'grande') checked @endif value="grande">
+                        <label class="custom-control-label" for="tam1" >Grande</label>
+                    </div>
+                    <div class="custom-control custom-radio mb-3">
+                        <input type="radio" id="tam2" name="type" class="custom-control-input" @if (old('type') == 'mediano') checked @endif value="mediano">
+                        <label class="custom-control-label" for="tam2">Mediano</label>
+                    </div>
+                    <div class="custom-control custom-radio mb-5">
+                        <input type="radio" id="tam3" name="type" class="custom-control-input" @if (old('type') == 'pequeño') checked @endif value="pequeño">
+                        <label class="custom-control-label" for="tam3">Pequeño</label>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="description">Síntomas</label>
-                    <textarea name="description" id="description" type="text" class="form-control" rows="5" placeholder="Descripción breve de los síntomas de su mascota..." required></textarea>
+                    <textarea name="description" id="description" type="text" class="form-control" rows="5" placeholder="Agregar una descripción breve..." required></textarea>
                 </div>
               
                 <br>

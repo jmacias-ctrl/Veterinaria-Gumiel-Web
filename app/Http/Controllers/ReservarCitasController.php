@@ -6,27 +6,80 @@ use App\Interfaces\HorarioFuncionarioServiceInterface;
 use App\Models\CancelledCitas;
 use App\Models\ReservarCitas;
 use App\Models\tiposervicios;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
+
 
 class ReservarCitasController extends Controller
 {
-    public function index(){
-        $confirmedCita = ReservarCitas::all()
-            ->where('status','Confirmada')
-            ->where('paciente_id', auth()->id());
-
-        $pendingCita = ReservarCitas::all()
-            ->where('status','Reservada')
-            ->where('paciente_id', auth()->id());
-
-        $oldCita = ReservarCitas::all()
-            ->whereIn('status', ['Atendida', 'Cancelada'])
-            ->where('paciente_id', auth()->id());
-        
-        return view('ReservarCitas.index',compact('confirmedCita','pendingCita','oldCita'));
+    public function index()
+    {
+        $user = auth()->user();
+        $confirmedCita = null;
+        $pendingCita = null;
+        $oldCita = null;
+    
+        if($user->hasRole('Admin')){
+            // Admin
+            $confirmedCita = ReservarCitas::where('status', 'Confirmada')
+                ->get();
+    
+            $pendingCita = ReservarCitas::where('status', 'Reservada')
+                ->get();
+    
+            $oldCita = ReservarCitas::whereIn('status', ['Atendida', 'Cancelada'])
+                ->get();
+    
+        } elseif ($user->hasRole('Veterinario')) {
+            // Veterinario
+            $confirmedCita = ReservarCitas::where('status', 'Confirmada')
+                ->where('funcionario_id', $user->id)
+                ->get();
+    
+            $pendingCita = ReservarCitas::where('status', 'Reservada')
+                ->where('funcionario_id', $user->id)
+                ->get();
+    
+            $oldCita = ReservarCitas::whereIn('status', ['Atendida', 'Cancelada'])
+                ->where('funcionario_id', $user->id)
+                ->get();
+    
+        } elseif ($user->hasRole('Peluquero')) {
+            // Peluquero
+            $confirmedCita = ReservarCitas::where('status', 'Confirmada')
+                ->where('funcionario_id', $user->id)
+                ->get();
+    
+            $pendingCita = ReservarCitas::where('status', 'Reservada')
+                ->where('funcionario_id', $user->id)
+                ->get();
+    
+            $oldCita = ReservarCitas::whereIn('status', ['Atendida', 'Cancelada'])
+                ->where('funcionario_id', $user->id)
+                ->get();
+    
+        } elseif ($user->hasRole('Cliente')) {
+            // Cliente
+            $confirmedCita = ReservarCitas::where('status', 'Confirmada')
+                ->where('paciente_id', $user->id)
+                ->get();
+    
+            $pendingCita = ReservarCitas::where('status', 'Reservada')
+                ->where('paciente_id', $user->id)
+                ->get();
+    
+            $oldCita = ReservarCitas::whereIn('status', ['Atendida', 'Cancelada'])
+                ->where('paciente_id', $user->id)
+                ->get();
+        }
+    
+        return view('ReservarCitas.index', compact('confirmedCita', 'pendingCita', 'oldCita'));
     }
+    
+    
 
     public function create(HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface)
     {

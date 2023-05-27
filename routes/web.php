@@ -175,12 +175,12 @@ Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])-
 Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
 Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');   
 
-
-
-Route::get('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente']);
+Route::any('shop/resumen-compra', [\App\Http\Controllers\CompraController::class, 'resumen_compra'])->name('shop.resumen-compra');  
+Route::any('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente']);
 Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login');
+Route::get('shop/finish/{status_finish}',[\App\Http\Controllers\CompraController::class, 'finish'])->name('finish');
+Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class, 'checkout'])->name('webpayplus');
 
-// Route::any('/checkout',[\App\Http\Controllers\TransbankController::class, 'checkout'])->name('webpay');
 // Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class,'checkout']);
 
 

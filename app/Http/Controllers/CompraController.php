@@ -10,6 +10,8 @@ use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Transbank\Webpay\WebpayPlus\Transaction;
+
 
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -35,7 +37,31 @@ class CompraController extends Controller
         return view('shop.checkout.login')->withTitle('GUMIEL TIENDA | CHECKOUT');
     }
 
- 
+    public function resumen_compra(Request $request){
+        $cartCollection = \Cart::getContent();
+        foreach($cartCollection as $item){
+            $item['stock']=productos_ventas::find($item->id)->stock;
+            
+        }
+        $response = (new Transaction)->status($request->token);
+        $compra=Compra::find($response->buyOrder);
+        $compra->token=$request->token;
+        $compra->status=$response->status;
+        $compra->save();
+        return view('shop.checkout.resumen-compra')->with(['response'=>$response])->with(['cartCollection' => $cartCollection]);
+
+    }
+
+    public function finish($status_finish){
+        if (!$status_finish) {
+            \Cart::clear();
+            return redirect()->route('shop.shop');
+        } else {
+            return redirect()->route('shop.checkout.checkout');
+        }
+        
+
+    }
     /**
      * Store a newly created resource in storage.
      *

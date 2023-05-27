@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-{{ $producto->nombre }} - Veterinaria Gumiel
+{{ $producto->nombre }} | Veterinaria Gumiel
 @endsection
 @section('content')
 <div class="container" style="margin-top: 30px">
@@ -76,5 +76,6 @@
         background-repeat: repeat;
         background-attachment: fixed;
         background-size:400px;
+        backdrop-filter:blur(1px);
     }
 </style>

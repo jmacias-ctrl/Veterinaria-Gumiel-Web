@@ -1,298 +1,152 @@
-@extends('layouts.app')
+@extends('layouts.appshop')
+@section('title')
+CHECKOUT | Veterinaria Gumiel
+@endsection
+@section('js-before')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@endsection
 @section('content')
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<script>
-
-    $(function(){
-            $('#registro_invitado').click(function(){
-                $('#reg_invitado').toggle();
-            
-            });
-        });
-    
-    </script>
-{{dd(Auth::user())}}
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="/shop">Tienda</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="/shop/cart">Carrito</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Resumen de Compra</li>
-        </ol>
-    </nav>
-
-    
-    <div class="row justify-content-center">
-        <h4 style="margin-bottom:20px;">Resumen de Compra</h4>
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <table class="table table-secondary shadow">
-                            <thead>
-                                <tr class="table-active border-0">
-                                    <th scope="col" colspan="2" class="col-lg-10 border-0">Detalle</th>
-                                    <th scope="col" class="col-lg-2 border-0">Precio</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($cartCollection as $item)
-                                    <tr>
-                                        <td style="border-bottom:0;"><img src="/image/productos/{{ $item->attributes->image }}" style="max-height: 50px; margin:auto;"></td>
-                                        <td style="border-bottom:0;"><h5>{{$item->name}}</h5><small>cantidad: {{$item->quantity}}</small></td>
-                                        <td style="vertical-align:middle; border-bottom:0;">${{number_format($item->price, 0, ',', '.')}}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+    <div class="container pt-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 p-0 pr-lg-1">
+                <nav aria-label="breadcrumb" >
+                    <ol class="m-0 breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+                    </ol>
+                </nav>
+                <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">
+                    <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
+                        <h1 class="font-weight-bold m-0"><i class="bi bi-wallet2 mr-3"></i>Metodo de pago</h1>
+                        <div class="font-weight-bold m-0">
+                            <h5 class="m-0">Hola {{Auth::user()->name}}</h5>
+                        </div>
                     </div>
-                    <div class="col-lg-4">
-                    @if (!Auth::check())
-                        <div class="shadow border-0 mb-3" style="background-color:#cbccce">
-                            <div class="card-body p-4">
-                                <div class="d-grid gap-3 mb-3 pr-5 pl-5">    
-                                    <a class="btn btn-success" class="tooltip-test" href="{{ route('login') }}">Ir a Iniciar Sesion</a>
-                                </div>
-                                <div class="d-grid gap-3 mb-0 pr-5 pl-5">    
-                                    <button type="submit" id="registro_invitado" name="registro_invitado" class="btn btn-success" >Registrate como Invitado</button>
-                                </div>
-                            </div> 
-                            <div id="reg_invitado" style="display:none;">
-                                <hr style="margin:0 24px 0 24px;">
-                                <div class="card-body p-4">
-                                    <div class="text-center text-muted mb-4">
-                                        <h4>Registro Invitado</h4>
-                                    </div>
-
-<!-- INICIO formulario de ingreso de invitados -->
-
-                                    <form id="forminvitado">
-                                        @csrf
-                                        <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span style="width:50px; justify-content: center;" class="input-group-text"><i class="ni ni-single-02"></i></span>
-                                                </div>
-                                                <input id="name" type="text"
-                                                class="pl-2 form-control @error('name') is-invalid @enderror" name="name"
-                                                value="{{ old('name') }}" required autocomplete="name" autofocus
-                                                placeholder="Juan Perez">
-                                            </div>
-                                            @error('name')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span style="width:50px; justify-content: center;" class="input-group-text"><i class="ni ni-badge"></i></span>
-                                                </div>
-                                                <input type="text" class="pl-2 form-control @error('rut') is-invalid @enderror" id="rut"
-                                                name="rut" placeholder="Ej. 12345678-9" value="{{ old('rut') }}" required>
-                                            </div>
-                                            @error('rut')
-                                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                            @enderror
-                                        </div>
-                                
-                                        <div class="form-group row">
-                                                <div class="input-group">
-                                                    <div style="width:50px; justify-content: center;" class="input-group-text">+56</div>
-                                                    <input type="number" class="pl-2 form-control @error('telefono') is-invalid @enderror"
-                                                        id="telefono" name="telefono" placeholder="954231232" maxlength="9" minlength="9"
-                                                        value="{{ old('telefono') }}" >
-                                                </div>
-                                            
-                                            @error('telefono')
-                                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span style="width:50px; justify-content: center;" class="input-group-text"><i class="ni ni-email-83"></i></span>
-                                                </div>
-                                                <input id="email" type="email" placeholder="juan.perez@gmail.com"
-                                                    class="pl-2 form-control @error('email') is-invalid @enderror" name="email"
-                                                    value="{{ old('email') }}" required autocomplete="email">
-                                            </div>    
-                                            @error('email')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span style="width:50px; justify-content: center;" class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                                </div>
-                                                <input id="password" type="password" placeholder="Ingresar nueva contraseña"
-                                                class="pl-2 form-control @error('password') is-invalid @enderror" name="password"
-                                                required autocomplete="new-password">
-                                            </div>
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    
-                                        <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span style="width:50px; justify-content: center;" class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                                </div>
-                                                <input id="password_confirm" placeholder="Confirmar nueva contraseña" type="password" class="pl-2 form-control" name="password_confirmation" required autocomplete="new-password">
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-success mt-4">Registrarse</button>
-                                        </div>
-                                    </form>
-
-<!-- FIN formulario de ingreso de invitados -->
-
+                </div>
+                <div class="bg-white shadow d-flex justify-content-between pr-5 pl-5 pt-3 pb-3" style="border-radius: 15px;">
+                    <div style="margin:auto 0;">
+                        <input type="radio" name="Tipo" onchange="toggleButton(this)"  id="webpayplus" value="webpayplus">
+                        <span>Webpay plus</span>
+                    </div>
+                    <div class="d-flex">
+                        <img style="max-height:40px;" src="/image/logo-web-pay-plus.png">
+                        <div id="loading" hidden class="mt-auto mb-auto ">
+                            <div class="d-flex justify-content-center w-8 mt-auto mb-auto ml-3">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
                         </div>
-                    @endif
-                        <div class="shadow border-0 mb-3" style="background-color:#cbccce">
-                            <div class="card-body p-5">
-                                <div style="text-align:end;" class="form-group">  
-                                <a style="margin-right:10px" href="/shop">Volver a Tienda</a>
-                                </div>
-                                <div class="text-center text-muted mb-3">
-                                    <h5>Sumario Compra</h5>
-                                </div>
-                                <div><hr class="mt-0 mb-3"></div>
-                                <div class="form-group">
-                                    <div class="row ">
-                                        <div class="col-lg-5">
-                                            <h6>SubTotal:</h6>
-                                        </div>
-                                        <div class="col-lg-7">
-                                            <h6>${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h6>
-                                        </div>
-                                        
-                                        <div class="col-lg-5">
-                                            <h6>Total:</h6>
-                                        </div>
-                                        <div class="col-lg-7">
-                                            <h6>${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h6>
-                                        </div>
-                                       
-
-                                    </div> 
-                                    <div><hr class="mt-2 mb-4"></div>
-                                    <div class="text-center text-muted mb-3">
-                                    <h5>Metodo de Pago</h5>
-                                </div>
-                                <input type="radio" name="seleccionar" onchange="radioChange(this);" id="pago" value="webpayplus">webpay plus<br>
-
-                                    <form id="url_check" name="url_check" method="post" action="Inserta aquí la url entregada">
-                                        
-                                        <input type="submit" hidden class="btn btn-success mt-4" value="Ir a pagar" />
-                                    </form>
-                                </div>
-                            </div>
+                        <div id="check" hidden class="w-8 mt-auto mb-auto ml-3">
+                            <span style="color:#19A448"><i class="fa-2x bi bi-check-lg"></i></span>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-5 p-0 pl-lg-1">
+                <div class="row bg-white shadow m-0">
+                    <h2 class="m-0 p-2 pr-4 pl-4  font-weight-normal" style="border-bottom-width: 3px;">
+                        <i class="bi bi-cart-check mr-2" style="font-size:30px;"></i>
+                        Mis Productos ( {{\Cart::getTotalQuantity()}} )
+                    </h2>
+                
+                    @foreach($cartCollection as $item)
+                        <div class="row m-0 pt-3 pb-3 pr-4 pl-4" style="border-bottom-width: 2px;">
+                            <div class="p-0 col-3 m-auto" >
+                                <div style="position: relative;">
+                                    <img style="max-height:80px;" src="/image/productos/{{ $item->attributes->image }}">
+                                    <div class="bg-dark w-7 top-0 h-7 d-flex" style="position: absolute; border-radius:50px; text-align:center;">
+                                        <span style="margin:auto;  color:white;">{{ $item->quantity }}</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-9 p-0" >
+                                <h3 class="overflow-ellipsis" style=" white-space: nowrap; overflow: hidden;">
+                                    {{$item->name;}}
+                                </h3>
+                                <spam>precio: ${{number_format($item->price, 0, ',', '.')}}</spam><br>
+                                <spam>subtotal: ${{number_format(\Cart::get($item->id)->getPriceSum(), 0, ',', '.')}}</spam>
+                            </div>
+                        </div>
+                    @endforeach
+                
+                    <div class="row m-0 pr-5 pl-5 pt-4 pb-4">
+                        <div class="d-flex justify-content-between pb-4" style="border-bottom-width: 2px;">
+                            <h3 class="font-weight-normal m-0">SubTotal :</h3>
+                            <h3 class="font-weight-normal m-0">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h3>
+                        </div>
+                        <div class="d-flex justify-content-between pt-4">
+                            <h3 class="m-0">Total a pagar:</h3>
+                            <h3 class="m-0">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h3>
+                        </div>
+                    </div>
+                    <div class="pb-5 pr-5 pl-5">
+                        <form id="form" action="" method="POST">
+                            {{csrf_field()}}
+                            <input type="submit" id="submitButton" value="Ir a pagar" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
+         
 
-<script>
-    function checkByDefault(){
-        document.getElementById("pago").checked = false;        
-    }window.load = checkByDefault();
-    
-    function radioChange( that ){ 
-        alert(that.value);
-        $.ajax({
-            type:'POST',
-            url:'/'+that.value, 
-            data:{
+                    
+<!-- pruebasssss -->
 
-                '_token': $('input[name=_token]').val()
-            },
-            success:function(data) {
-                $('#token_check').val(data.token);
-                var url = document.forms['url_check'];
-                url.action = data.url+"?token_ws="+data.token;
-                url.submit();
-                
-                alert(data.url);
-                alert(data.token);
-            }
-        });
-    }
-</script>
       
 
 
-<!-- <script> 
-// function radioChange( that ){
-//     let val = that.value;
-//     if( that.id != '' ){
-//         let nombre = document.getElementById('Nombre').value;
-//         alert( that.id);
-//     }else{
-//         alert( val ); 
-//     }
-// }
-// </script>-->
 
 
-
-<script>//scriptt de login invitado
-
-    document.getElementById("registro_invitado").disabled = true; 
-    $('#forminvitado').submit(function(e){
-        e.preventDefault();
-
-        var name=$('#name').val();
-        var email=$('#email').val();
-        var password=$('#password').val();
-        var password_confirmation=$('#password_confirmation').val();
-        
-        alert("paso a ajax");
-
-
-        $.ajax({
-            url: "{{ route('register') }}",
-            type: "POST",
-            dataType: 'JSON',
-            data:{
-                name: name,
-                email: email,
-                password: password,
-                password_confirmation:password_confirmation,
-                _token: '{{csrf_token()}}'
-            },
-            success:function(response){
-                if(response){
-                    alert("PASSSO");
-                    $('#form_invitado')[0].reset(0);
-                }
-            },
-            error: function () {
-                alert("ERRORRRRR");
-            }
-        });
-        
-    });
-    
-
-
+<!-- fin pruebasssssss -->
+<script>
+    function unselect() {
+        document.getElementById('submitButton').disabled = true;
+        document.querySelectorAll('[name=Tipo]').forEach((x) => x.checked = false);
+    }window.load = unselect();
 
 </script>
+
 @endsection
+
+<script>
+
+    function toggleButton(that){
+        document.getElementById("loading").hidden = false;
+        var pago = document.getElementById('webpayplus').checked;
+        if (pago) {
+            
+            axios.post("/"+that.value)
+            .then(function(response){
+
+                document.getElementById("loading").hidden = true;
+                document.getElementById("check").hidden = false;
+                document.getElementById('submitButton').disabled = false;
+                document.forms['form'].action = response.data.url+"?token_ws="+response.data.token;
+            })
+            .catch(error=>console.log(error));            
+        } else {
+            document.getElementById('submitButton').disabled = true;
+        }
+    }
+
+    </script>
+
+<style>
+body{
+    background:url("/image/fondo-tienda.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size:400px;
+    backdrop-filter:blur(1px);
+        }
+</style>

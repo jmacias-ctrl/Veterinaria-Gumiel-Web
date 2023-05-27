@@ -8,6 +8,8 @@ use Transbank\Webpay\WebpayPlus\Transaction;
 use App\Http\Controllers\CompraController;
 use App\Models\Compra;
 use App\Models\productos_ventas;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class TransbankController extends Controller
@@ -20,17 +22,21 @@ class TransbankController extends Controller
             );    
         }else{
             Webpayplus::configureForTesting();
+            
         }
     }
 
-    public function checkout(Request $request){
+    public function checkout(){
         $nueva_compra=new Compra();
+        $nueva_compra->id_cliente=Auth::user()->id;
         $nueva_compra->buy_order=rand();
         $nueva_compra->session_id=rand();
         $nueva_compra->total=\Cart::getTotal();
+        $nueva_compra->status="INITIALIZED";
         $nueva_compra->save();
+        
         $resp=self::start_web_pay_plus_transaction($nueva_compra);
-        return response()->json(array('url'=> $resp->getUrl(),'token'=> $resp->getToken()), 200);
+        return response()->json(['url'=> $resp->getUrl(),'token'=> $resp->getToken()], 200);
 
     }
 
@@ -48,16 +54,17 @@ class TransbankController extends Controller
         }
         $token = $_GET['token_ws'] ?? $_POST['token_ws'] ?? null;
         if (!$token) {
-            $status_err="-6";
-            return view('/shop/checkout/status_rechazo',compact('status_err'));
+            $status="-6";
+            return redirect()->route('shop.resumen-compra',compact('token'));
+        }else{
+            $response = (new Transaction)->commit($token);
         }
-        $response = (new Transaction)->commit($token); // ó cualquiera de los métodos detallados en el ejemplo anterior del método create.
-        
         if ($response->isApproved()) {
-        return "aprobadassss"; 
+            return redirect()->route('shop.resumen-compra',compact('token'));    
+
         } else {
-            $status_err=$response->getResponseCode();
-            return view('/shop/checkout/status_rechazo',compact('status_err'));    
+            
+            return redirect()->route('shop.resumen-compra',compact('token'));    
         }
 
     }

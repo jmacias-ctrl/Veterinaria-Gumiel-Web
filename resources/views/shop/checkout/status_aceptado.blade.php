@@ -42,3 +42,69 @@ Numero de Cuotas :-------------: {{$response->getInstallmentsNumber()}} <br>
    
     </script>
 @endsection
+
+
+<!-- @extends('layouts.appshop')
+
+@section('content')
+<?php
+// $status_err
+?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+
+                
+
+        var texto;
+        switch (<?php //echo $status_err; ?>) {
+            case -1:
+                texto="Error en el ingreso de datos de la Transacción.";
+                break;
+            case -2:
+                texto="Se produjo fallo al procesar la transacción, este mensaje de rechazo se encuentra relacionado a parámetros de la tarjeta y/o su cuenta asociada.";
+                break;
+            case -3:
+                texto="Error en Transacción.";
+                break;
+            case -4:
+                texto="Rechazada por parte del emisor.";
+                break;
+            case -5:
+                texto="Transacción con riesgo de posible fraude.";
+                break;
+            case -6:
+                texto="Transacción con flujo de pago anormal.";
+                break;
+        }
+
+        Swal.fire({
+            title: 'Rechazado',
+            text: texto,
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Reintentar',
+            cancelButtonText: 'Volver a la Tienda',
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                location.href="{{ route('shop.checkout.checkout') }}";
+            }else{
+                location.href="{{ route('shop.shop') }}";
+            }
+        });
+
+        
+   
+    </script>
+@endsection
+<style>
+html{
+    background:url("/image/fondo-tienda.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size:400px;
+    backdrop-filter:blur(1px);
+        }
+</style> -->

@@ -3,7 +3,7 @@
 {{ $producto->nombre }} - Veterinaria Gumiel
 @endsection
 @section('content')
-<div class="container" style="margin-top: 80px">
+<div class="container" style="margin-top: 30px">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Inicio</a></li>
@@ -13,11 +13,9 @@
         </nav>
         <div class="row justify-content-center">
             <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-12">
                         <h4>Producto</h4>
-                        <div class="row" >
-                            <div class="col-lg-4" style="padding:0;">
+                        <div class="row"  style="margin:0; background-color:white;">
+                            <div class="col-lg-4">
                                 <img src="/image/productos/{{ $producto->imagen_path }}"
                                             class="card-img-top mx-auto"
                                             style="height: 300px; width: 300px; "
@@ -44,19 +42,20 @@
                                         <input type="hidden" value="{{ $producto->precio }}" id="price" name="price">
                                         <input type="hidden" value="{{ $producto->imagen_path }}" id="img" name="img">
                                         <input type="hidden" value="{{ $producto->nombre }}" id="slug" name="slug">
-                                        <div style="display:inline-block;">
-                                        <input type="number" class="form-control form-control-sm" value="1"
-                                               id="quantity" name="quantity" style="width: 80px; height:40px; margin: 10px;" min="1" max="{{ $producto->stock }}">
-                                               </div>   
-                                               <div style="display:inline-block;"> 
-                                                <button style="margin: 10px; height:38px;" class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
-                                                    <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+                                        <div style="display:flex;">
+                                            <div style="margin: 0 10px 0 0;">
+                                                <input type="number" class="form-control form-control-sm" value="1"
+                                                id="quantity" name="quantity" style="width: 80px; height:40px;" min="1" max="{{ $producto->stock }}">
+                                            </div>   
+                                            <div style="margin: 0 10px 0 0;"> 
+                                                <button style=" height:40px;" class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                                        <i class="fa fa-shopping-cart"></i> Agregar al Carrito
                                                 </button>
-                                                </div>   
-                                               <div style="display:inline-block;">
-                                                <a style="margin: 10px; height:38px;" class="btn btn-success" class="tooltip-test" title="checkout" href="/checkout">Comprar</a>
-                                                </div>   
-                                               
+                                            </div>   
+                                            <div style="margin: 0 10px 0 0;">
+                                                <a style=" height:40px;" class="btn btn-success" class="tooltip-test" title="checkout" href="/shop">Volver a Tienda</a>
+                                            </div>   
+                                        </div>  
                                                  
                                         
                                     </form>
@@ -71,3 +70,11 @@
     
   
 @endsection
+<style>
+    body{
+        background:url("/image/fondo-tienda.png");
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:400px;
+    }
+</style>

@@ -3,21 +3,42 @@
 Tienda - Veterinaria Gumiel
 @endsection
 @section('content')
-    <div class="container" style="margin-top: 80px">
+
+<div class="container" style="margin-top: 20px">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Inicio</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Tienda</li>
             </ol>
         </nav>
+
+
+        @if(session()->has('success_msg'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session()->get('success_msg') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        @endif
+        @if(session()->has('alert_msg'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ session()->get('alert_msg') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        @endif
+        
+        
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-7" style="margin-bottom: 20px">
                         <h4>Productos</h4>
                     </div>
                 </div>
-                <hr>
+                
                 <div class="row">
                     @foreach($products as $pro)
                         <div class="col-lg-3">
@@ -30,7 +51,7 @@ Tienda - Veterinaria Gumiel
                                         
                                 <div class="card-body">
                                 <p>{{ $pro->marca }}</p>
-                                    <a href="{{ route('shop.show' ,['id'=>$pro->id]) }}"><h6 class="card-title">{{ $pro->nombre }}</h6></a>
+                                    <h6 class="card-title">{{ $pro->nombre }}</h6>
                                     <form action="{{ route('shop.cart.store') }}" method="POST">
                                     <div style="display:flex;">
                                         <p>$ {{ $pro->precio }}</p>
@@ -50,7 +71,7 @@ Tienda - Veterinaria Gumiel
                                                 <button style="margin: 0 auto;" class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
                                                     <i class="fa fa-shopping-cart"></i> Agregar al Carrito
                                                 </button>
-                                                <a style="margin: 6px auto;" class="btn btn-success" class="tooltip-test" title="checkout" href="/checkout">Comprar</a>
+                                                <a style="margin: 6px auto;" class="btn btn-success" class="tooltip-test" title="checkout" href="{{ route('shop.show' ,['id'=>$pro->id]) }}">Detalles</a>
                                                 
                                             </div>
                                         </div>
@@ -65,3 +86,11 @@ Tienda - Veterinaria Gumiel
         </div>
     </div>
 @endsection
+<style>
+    body{
+        background:url("/image/fondo-tienda.png");
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:400px;
+    }
+</style>

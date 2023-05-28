@@ -9,6 +9,7 @@ use App\Http\Controllers\LandingPageController;
 use app\Http\Controllers\CartController;
 use App\Mail\ConfirmacionHora;
 use Illuminate\Support\Facades\Mail;
+use app\Http\Controllers\CompraController;
 
 /*
 |--------------------------------------------------------------------------
@@ -257,6 +258,15 @@ Route::get('shop/show/{id}', [\App\Http\Controllers\CartController::class, 'show
 Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])->name('shop.cart.update');
 Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
 Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');
+
+
+
+Route::get('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente']);
+Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login');
+
+// Route::any('/checkout',[\App\Http\Controllers\TransbankController::class, 'checkout'])->name('webpay');
+// Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class,'checkout']);
+
 
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');

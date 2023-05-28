@@ -153,7 +153,9 @@ Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
     
 
     Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
+
     Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
+    Route::post('/landing/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage'])->name('landing.update');
 
 
     // Route::post('/generar-comprobante', 'ComprobanteController@generarComprobante');

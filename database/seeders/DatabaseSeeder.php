@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
         // \App\Models\User::factory(10)->create();
@@ -24,7 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(class:InsumosmedicosSeeder::class);
         $this->call(class:HorariosFuncionariosTableSeeder::class);
         $this->call(class:ServicioSeeder::class);
-       
         $this->call(class:whereYouCanFindSeeder::class);
+        
+        $this->call(class:landingpageSeeder::class);
     }
 }

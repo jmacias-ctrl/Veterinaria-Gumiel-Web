@@ -70,6 +70,20 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  @php
+    $services_names = ['Servicio A', 'Servicio B', 'Servicio C', 'Servicio D', 'Servicio E'];
+    $services_quantity = [10, 15, 8, 12, 20];
+
+    $sales_weekly = [100, 200, 150, 300];
+    $sales_monthly = [5000, 7000, 4500, 6000, 8000, 5500];
+    $sales_annual = [10000, 12000, 15000, 18000];
+
+    $sales_last_month = 15000;
+    $sales_current_month = 18000;
+  @endphp
+
+
   <script>
     // Código JavaScript para generar los gráficos con Chart.js y los datos del controlador
 
@@ -78,10 +92,10 @@
     var serviciosMasVendidosChart = new Chart(serviciosMasVendidosCtx, {
       type: 'bar',
       data: {
-        labels: ['Servicio A', 'Servicio B', 'Servicio C', 'Servicio D', 'Servicio E'],
+        labels: <?php echo json_encode($services_names); ?>,
         datasets: [{
           label: 'Cantidad',
-          data: [10, 15, 8, 12, 20],
+          data: <?php echo json_encode($services_quantity); ?>,
           backgroundColor: 'rgba(75, 192, 192, 0.5)', // Color de fondo de las barras
           borderColor: 'rgba(75, 192, 192, 1)', // Color del borde de las barras
           borderWidth: 1 // Ancho del borde de las barras
@@ -97,10 +111,10 @@
     var serviciosMenosVendidosChart = new Chart(serviciosMenosVendidosCtx, {
       type: 'bar',
       data: {
-        labels: ['Servicio A', 'Servicio B', 'Servicio C', 'Servicio D', 'Servicio E'],
+        labels: <?php echo json_encode($services_names); ?>,
         datasets: [{
           label: 'Cantidad',
-          data: [10, 15, 8, 12, 20],
+          data: <?php echo json_encode($services_quantity); ?>,
           backgroundColor: 'rgba(75, 192, 192, 0.5)', // Color de fondo de las barras
           borderColor: 'rgba(75, 192, 192, 1)', // Color del borde de las barras
           borderWidth: 1 // Ancho del borde de las barras
@@ -119,7 +133,7 @@
         labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'], // Etiquetas para el eje X
         datasets: [{
           label: 'Ventas semanales',
-          data: [100, 200, 150, 300], // Datos de ventas para cada semana
+          data: <?php echo json_encode($sales_weekly); ?>, // Datos de ventas para cada semana
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
@@ -139,7 +153,7 @@
         labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'], // Etiquetas para el eje X
         datasets: [{
           label: 'Ventas mensuales',
-          data: [5000, 7000, 4500, 6000, 8000, 5500], // Datos de ventas para cada mes
+          data: <?php echo json_encode($sales_monthly); ?>, // Datos de ventas para cada mes
           backgroundColor: 'rgba(54, 162, 235, 0.5)',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 1
@@ -159,7 +173,7 @@
         labels: ['2018', '2019', '2020', '2021'], // Etiquetas para el eje X
         datasets: [{
           label: 'Ventas anuales',
-          data: [10000, 12000, 15000, 18000], // Datos de ventas para cada año
+          data: <?php echo json_encode($sales_annual); ?>, // Datos de ventas para cada año
           backgroundColor: 'rgba(75, 192, 192, 0.5)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 1
@@ -179,7 +193,7 @@
         labels: ['Mes anterior', 'Mes actual'], // Etiquetas para el eje X
         datasets: [{
           label: 'Ventas',
-          data: [15000, 18000], // Datos de ventas para el mes anterior y el mes actual
+          data: [<?php echo json_encode($sales_last_month); ?>, <?php echo json_encode($sales_current_month); ?>], // Datos de ventas para el mes anterior y el mes actual
           backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(54, 162, 235, 0.5)'],
           borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
           borderWidth: 1

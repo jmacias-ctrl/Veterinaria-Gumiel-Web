@@ -8,3 +8,12 @@
     color: #2E7646;
     text-decoration: none;
 }
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff !important;
+    background-color: #2E7646 !important;
+}
+
+.nav-pills .nav-link {
+    color: #2E7646 !important;
+}

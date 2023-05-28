@@ -22,7 +22,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Paciente
+    Agendar Hora
 @endsection
 @section('breadcrumbs')
 <nav aria-label="breadcrumb">
@@ -87,7 +87,7 @@
                         <select name="tiposervicio_id" id="tiposervicio" style="color: gray;" class="form-select">
                             <option selected disabled>Selecciona un tipo de servicio</option>
                             @foreach ($tiposervicios as $tiposervicio )
-                                <option value="{{$tiposervicio->id}}"
+                                <option value="{{$tiposervicio->id}}" data-consulta="{{$tiposervicio->tipoConsulta}}"
                                 @if(old('tiposervicio_id') == $tiposervicio->id) selected @endif
                                 >{{$tiposervicio->nombre}}</option>
                             @endforeach
@@ -159,25 +159,35 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div id="tipoConsulta" class="form-group" style="display: none;">
+                
                     <label>Tipo de consulta</label>
-                    <div class="custom-control custom-radio mt-3 mb-3">
-                        <input type="radio" id="type1" name="type" class="custom-control-input" @if (old('type') == 'consulta') checked @endif value="consulta">
-                        <label class="custom-control-label" for="type1" >Consulta</label>
-                    </div>
-                    <div class="custom-control custom-radio mb-3">
-                        <input type="radio" id="type2" name="type" class="custom-control-input" @if (old('type') == 'consulta_vacuna') checked @endif value="consulta_vacuna">
-                        <label class="custom-control-label" for="type2">Consulta + vacunas</label>
-                    </div>
-                    <div class="custom-control custom-radio mb-5">
-                        <input type="radio" id="type3" name="type" class="custom-control-input" @if (old('type') == 'cirugia') checked @endif value="cirugia">
-                        <label class="custom-control-label" for="type3">Cirugía</label>
-                    </div>
+                    @foreach ( $tipoconsulta_tam as $tipoconsulta )
+                        @if ($tipoconsulta->tiposervicios->nombre == 'Atención medica')
+                            <div class="custom-control custom-radio mt-3 mb-3">
+                                <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->nombre }}">                    
+                                <label class="custom-control-label" for="{{ $tipoconsulta -> id}}" >{{ $tipoconsulta->nombre }}</label> 
+                            </div> 
+                        @endif
+                        
+                    @endforeach
+                </div>
+
+                <div id="tamMascota" class="form-group" style="display: none;">
+                    <label>Tamaño mascota</label>
+                    @foreach ( $tipoconsulta_tam as $tipoconsulta )
+                        @if ($tipoconsulta->tiposervicios->nombre == 'Peluquería')
+                        <div class="custom-control custom-radio mt-3 mb-3">
+                        <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->nombre }}">                    
+                                <label class="custom-control-label" for="{{ $tipoconsulta -> id}}" >{{ $tipoconsulta->nombre }}</label> 
+                        </div>
+                        @endif
+                    @endforeach
                 </div>
 
                 <div class="form-group">
                     <label for="description">Síntomas</label>
-                    <textarea name="description" id="description" type="text" class="form-control" rows="5" placeholder="Descripción breve de los síntomas de su mascota..." required></textarea>
+                    <textarea name="description" id="description" type="text" class="form-control" rows="5" placeholder="Agregar una descripción breve..." required></textarea>
                 </div>
               
                 <br>

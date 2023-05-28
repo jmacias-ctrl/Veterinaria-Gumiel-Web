@@ -7,6 +7,8 @@ use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
 use App\Http\Controllers\LandingPageController;
 use app\Http\Controllers\CartController;
+use App\Mail\ConfirmacionHora;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,7 +164,15 @@ Route::group(['middleware' => ['can:ver servicios']], function () {
     Route::get('tiposervicios/edit', [\App\Http\Controllers\tiposerviciosController::class, 'edit'])->name('admin.tiposervicios.edit');
     Route::post('tiposervicios/delete', [\App\Http\Controllers\tiposerviciosController::class, 'delete'])->name('admin.tiposervicios.delete');
     Route::post('tiposervicios/update', [\App\Http\Controllers\tiposerviciosController::class, 'update'])->name('admin.tiposervicios.update');
+
+    Route::get('tipoconsulta_tamanio', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'index'])->name('admin.tipoconsulta_tamanio.index');
+    Route::get('tipo_insumos/create', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'create'])->name('admin.tipoconsulta_tamanio.create');
+    Route::post('tipo_insumos/store', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'store'])->name('admin.tipoconsulta_tamanio.store');
+    Route::get('tipo_insumos/edit', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'edit'])->name('admin.tipoconsulta_tamanio.edit');
+    Route::post('tipo_insumos/delete', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'delete'])->name('admin.tipoconsulta_tamanio.delete');
+    Route::post('tipo_insumos/update', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'update'])->name('admin.tipoconsulta_tamanio.update');
 });
+
 
 Route::group(['middleware' => ['role:Admin']], function () {
 
@@ -267,8 +277,16 @@ Route::middleware('auth')->group(function(){
     Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
     Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
     Route::get('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');
+    Route::get('/miscitas/{ReservarCita}',[App\Http\Controllers\ReservarCitasController::class, 'show']);
+    Route::post('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'cancel']);
+    Route::get('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'formCancel']);
+    Route::post('/miscitas/{ReservarCita}/confirm',[App\Http\Controllers\ReservarCitasController::class, 'confirm']);
 
     //JSON
     Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
     Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
+});
+
+Route ::get('horas', function(){
+    return view('emails.confirm_horas');
 });

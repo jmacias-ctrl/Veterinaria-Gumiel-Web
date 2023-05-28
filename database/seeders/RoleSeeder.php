@@ -61,6 +61,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name'=>'modificar citas']);
         Permission::create(['name'=>'eliminar citas']);
         
+        Permission::create(['name'=>'modificar landing page']);
 
         Permission::create(['name'=>'ver gestionvet']);
 

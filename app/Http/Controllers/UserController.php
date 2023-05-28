@@ -107,6 +107,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
             $role = Role::create(['name' => $request->nombre]);
+            $role->syncPermissions($request->permisos);
+            $role->givePermissionTo('acceder panel');
             $admins = User::role('Admin')->get();
             foreach ($admins as $admin) {
                 $admin->notify(new GeneralNotificationForUsers('Rol nuevo agregado', 'El Administrador ' . auth()->user()->name . ' ha agregado el rol: ' . $role->name . '.', route('admin.roles.index')));
@@ -142,6 +144,8 @@ class UserController extends Controller
         $oldName = $rol->name;
         $rol->name = $request->nombre;
         $rol->save();
+        $rol->syncPermissions($request->permisos);
+        $rol->givePermissionTo('acceder panel');
         $admins = User::role('Admin')->get();
         foreach ($admins as $admin) {
             $admin->notify(new GeneralNotificationForUsers('Rol Modificado', 'El Administrador ' . auth()->user()->name . ' ha modificado el rol: ' . $oldName . ' por ' . $rol->name . '.', route('admin.roles.index')));
@@ -152,7 +156,8 @@ class UserController extends Controller
     public function modify_rol($id)
     {
         $rol = Role::find($id);
-        return view('admin.roles.modify_role', compact('rol'));
+        $permissions = $rol->permissions->pluck('name');
+        return view('admin.roles.modify_role', compact('rol','permissions'));
     }
 
     public function store_user(Request $request)
@@ -356,20 +361,5 @@ class UserController extends Controller
             }
         }
         return back()->withErrors($validator)->withInput();
-    }
-
-    public function modify_permissions_role($id)
-    {
-        $role = Role::find($id);
-        $permissions = $role->permissions->pluck('name');
-        return view('admin.roles.modifiy_role_permissions', compact('role', 'permissions'));
-    }
-
-    public function update_permissions_role(Request $request)
-    {
-        $role = Role::find($request->id);
-        $role->syncPermissions($request->permisos);
-        $role->givePermissionTo('acceder panel');
-        return redirect()->route('admin.roles.index')->with('success', 'Se ha agregado permisos al rol ' . $role->name);
     }
 }

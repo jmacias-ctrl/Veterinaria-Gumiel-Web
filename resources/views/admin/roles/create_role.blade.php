@@ -55,6 +55,8 @@
                             @enderror
                         </div>
                         <hr class="my-3">
+                        @include('admin.roles.permissions')
+                        <hr class="my-3">
                         <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol"
                             style="background-color:#19A448; border-color:#19A448;">
                 </form>

@@ -344,7 +344,6 @@
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 " href="#" id="link-dropdown">Landing Page</a>
                                             <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
                                                 id="link-dropdown">Landing Page</a>
                                         </li>

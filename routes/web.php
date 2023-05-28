@@ -193,8 +193,7 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::get('roles/modify/{id}', [App\Http\Controllers\UserController::class, 'modify_rol'])->name('admin.roles.modify')->middleware(['role:Admin']);
     Route::post('roles/update', [App\Http\Controllers\UserController::class, 'update_rol'])->name('admin.roles.update')->middleware(['role:Admin']);
     Route::post('roles/delete', [App\Http\Controllers\UserController::class, 'delete_rol'])->name('admin.roles.delete')->middleware(['role:Admin']);
-    Route::get('roles/permission/{id}', [App\Http\Controllers\UserController::class, 'modify_permissions_role'])->name('admin.roles.permission')->middleware(['role:Admin']);
-    Route::post('roles/permission/update', [App\Http\Controllers\UserController::class, 'update_permissions_role'])->name('admin.role.update.permissions')->middleware(['role:Admin']);
+   
 
     Route::get('horario', [App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
     Route::post('horario/store', [App\Http\Controllers\HorariosController::class, 'store'])->name('admin.horario.store');

@@ -222,7 +222,13 @@ Route::group(['middleware' => ['role:Admin']], function () {
     // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
-
+Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
+    Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
+    Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
+    //Rutas pacientes
+    Route::resource('/pacientes','App\Http\Controllers\PacientesController');
+    
+});
 Route::get('/lector-codigos-barras', 'BarcodeController@scan')->name('barcode.scan');
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function () {

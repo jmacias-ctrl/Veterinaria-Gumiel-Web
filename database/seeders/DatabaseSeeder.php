@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(class:InsumosmedicosSeeder::class);
         $this->call(class:HorariosFuncionariosTableSeeder::class);
         $this->call(class:ServicioSeeder::class);
+        $this->call(class:TipoConsulta_TamaniosSeeder::class);
+        $this->call(class:ReservarCitasSeeder::class);
     }
 }

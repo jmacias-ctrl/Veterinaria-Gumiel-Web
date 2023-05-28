@@ -32,5 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(class:medicamentos_vacunasSeeder::class);
         $this->call(class:whereYouCanFindSeeder::class);
         $this->call(class:landingpageSeeder::class);
+        $this->call(class:TipoConsulta_TamaniosSeeder::class);
+        $this->call(class:ReservarCitasSeeder::class);
     }
 }

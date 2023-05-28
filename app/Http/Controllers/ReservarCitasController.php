@@ -9,7 +9,7 @@ use App\Mail\CancelarHoraDespuesConfirm;
 use App\Mail\ConfirmacionHora;
 use App\Models\CancelledCitas;
 use App\Models\ReservarCitas;
-use App\Models\tipo_consulta_tamanio;
+use App\Models\tipo_consulta_tamanios;
 use App\Models\tiposervicios;
 use App\Models\User;
 use Carbon\Carbon;
@@ -90,7 +90,7 @@ class ReservarCitasController extends Controller
     public function create(HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface)
     {
         $tiposervicios = tiposervicios::all();
-        $tipoconsulta_tam = tipo_consulta_tamanio::all();
+        $tipoconsulta_tam = tipo_consulta_tamanios::all();
 
         $tiposervicioId = old('tiposervicio_id');
         if($tiposervicioId){

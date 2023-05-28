@@ -211,12 +211,15 @@
                                 <i class="ni ni-atom text-green "></i> Servicios
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link @if(request()->routeIs('/miscitas')) active @endif" href="{{ route('Agendar') }}">
-                                <i class="ni ni-archive-2 text-green "></i> Citas médicas
-                            </a>
-                        </li>
                     @endcan
+                    @can('ver proveedores')
+                    <li class="nav-item">
+                        <a class="nav-link @if (request()->routeIs('proveedores.*')) active @endif"
+                            href="{{ route('proveedores.index') }}">
+                            <i class="ni ni-delivery-fast text-green "></i> Proveedores
+                        </a>
+                    </li>
+                @endcan
                     @can('ver citasvet')
                         <li class="nav-item">
                             <a class="nav-link @if (request()->routeIs('/agendar-horas/create')) active @endif"
@@ -332,20 +335,24 @@
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 " href="{{ route('admin.tipoconsulta_tamanio.index') }}" 
-                                            id="link-dropdown">Tipo de consulta/Tamaño</a>
+                                            <a class="nav-link ms-3 "
+                                                href="{{ route('admin.tipoconsulta_tamanio.index') }}"
+                                                id="link-dropdown">Tipo de consulta/Tamaño</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 " href="#" id="link-dropdown">Landing Page</a>
-                                            <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}" id="link-dropdown">Landing Page</a>
+                                            <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
+                                                id="link-dropdown">Landing Page</a>
                                         </li>
                                     </ul>
 
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 " href="{{ route('trazabilidad-ventas-y-servicios') }}" id="link-dropdown">Trazabilidad</a>
+                                            <a class="nav-link ms-3 "
+                                                href="{{ route('trazabilidad-ventas-y-servicios') }}"
+                                                id="link-dropdown">Trazabilidad</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -377,16 +384,18 @@
                         </li>
                     @endcan
                     @can('ver gestionvet')
-                            <li class="nav-item active">
-                                <a class="nav-link  @if(request()->routeIs('admin.horariofuncionarios.*')) active @endif" href="{{ route('admin.horariofuncionarios.edit') }}">
+                        <li class="nav-item active">
+                            <a class="nav-link  @if (request()->routeIs('admin.horariofuncionarios.*')) active @endif"
+                                href="{{ route('admin.horariofuncionarios.edit') }}">
                                 <i class="ni ni-calendar-grid-58 text-green"></i> Mi Horario</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link  @if(request()->routeIs('pacientes.*')) active @endif" href="{{ route('pacientes.index') }}">
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link  @if (request()->routeIs('pacientes.*')) active @endif"
+                                href="{{ route('pacientes.index') }}">
                                 <i class="ni ni-archive-2 text-green "></i>Mis Pacientes</a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link  @if(request()->routeIs('miscitas.*')) active @endif" href="/miscitas">
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link  @if (request()->routeIs('miscitas.*')) active @endif" href="/miscitas">
                                 <i class="	fas fa-calendar-check text-green "></i>Mis Citas</a>
                         </li>
                     @endcan

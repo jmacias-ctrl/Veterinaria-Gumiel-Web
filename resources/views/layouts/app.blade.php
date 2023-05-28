@@ -87,9 +87,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('shop.shop') }}">Tienda</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#contact">Contáctanos</a>
-                                </li>
                             </ul>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -150,7 +147,7 @@
                                             {{ __('Panel de Peluquero') }}
                                         </a>
                                     @endhasrole
-                                    @hasrole('Invetario')
+                                    @hasrole('Inventario')
                                         <a class="dropdown-item" href="{{ route('inventario') }}">
                                             {{ __('Panel de Inventario') }}
                                         </a>

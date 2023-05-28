@@ -413,15 +413,15 @@
             <div class="container-fluid">
                 <!-- Brand -->
 
-                @yield('back-arrow')
+               
                 <div class="row">
-
-                    <a class="h3 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ url()->full() }}">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <p class="font-weight-bold" text-center> @yield('header-title')</p>
-                            @yield('breadcrumbs')
-                        </div>
-                    </a>
+                    <div class="d-flex align-items-center">
+                        @yield('back-arrow')
+                        <a class="h3 ml-2 mt-3 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ url()->full() }}">
+                                <p class="font-weight-bold" text-center> @yield('header-title')</p>
+                        </a>
+                    </div>
+                    
                 </div>
 
                 <!-- Form -->
@@ -523,8 +523,11 @@
     </nav>
     <!-- End Navbar -->
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 @cannot('ver estadisticas')
+        
+    @endcannot">
         <div class="container-fluid">
+            @yield('breadcrumbs')
             @can('ver estadisticas')
             <div class="header-body">
                 <!-- Card stats -->

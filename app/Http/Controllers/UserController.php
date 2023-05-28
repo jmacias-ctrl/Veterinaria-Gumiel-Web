@@ -181,6 +181,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
             try {
+                dd($request->roles);
                 db::beginTransaction();
                 $user = new User;
                 $name = $request->nombre . " " . $request->apellido;

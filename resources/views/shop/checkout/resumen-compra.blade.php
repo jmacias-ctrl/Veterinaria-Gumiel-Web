@@ -6,6 +6,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
+
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -82,7 +83,11 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 <span class="m-0">Fecha de Expiración:</span>
                                 <span id="fecha_targeta" class="m-0"></span>
                             </div>
-                            <div><h2 class="mt-5 pl-3 pr-3 font-weight-normal">Detalles de Compra</h2></div>
+                            <div><h2 class="mt-5 pl-3 pr-3 font-weight-normal">Detalles de Cliente</h2></div>
+                            <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
+                                <span class="m-0">Tipo Cliente:</span>
+                                <span class="m-0">{{Auth::user()->roles[0]->name}}</span>
+                            </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
                                 <span class="m-0">Nombre Cliente:</span>
                                 <span class="m-0">{{Auth::user()->name}}</span>

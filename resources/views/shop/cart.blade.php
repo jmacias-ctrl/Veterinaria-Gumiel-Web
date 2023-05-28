@@ -97,7 +97,7 @@ CARRITO | Veterinaria Gumiel
                     </div>
                     <div>
                         @if (!Auth::check())
-                            <form action="{{ route('shop.checkout.login')}}" method="POST">
+                            <form action="{{ route('shop.checkout.login')}}" method="get">
                                 {{csrf_field()}}
                                 <input type="submit" id="btn-login" value="Ir a comprar login" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
                             </form>
@@ -111,7 +111,7 @@ CARRITO | Veterinaria Gumiel
                         
                     </div>
                     <div>
-                        <form class="m-0" action="{{route('shop.cart.clear')}}" method="POST">
+                        <form class="m-0" action="/shop/checkout/registro_invitado" method="POST">
                             {{csrf_field()}}
                             <button class="btn btn-block btn-link font-weight-bold a-dec">Borrar Carrito</button>
                         </form>

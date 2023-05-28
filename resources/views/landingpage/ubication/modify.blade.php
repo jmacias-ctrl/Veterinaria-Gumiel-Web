@@ -88,7 +88,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                     <div class="col">
                         <label for="horarios" class="form-label">Horarios</label>
 
-                        <textarea class="form-control @error('horarios') is-invalid @enderror" id="wsp" name="horarios" placeholder="insta_link" rows="3" required>{{ $landingMaps->horarios }}</textarea>
+                        <textarea class="form-control @error('horarios') is-invalid @enderror" id="horarios" name="horarios" placeholder="insta_link" rows="3" required>{{ $landingMaps->horarios }}</textarea>
 
                         @error('horarios')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -101,7 +101,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                     <div class="col">
                         <label for="wsp" class="form-label">Whatsapp</label>
 
-                        <input type="text" class="form-control @error('wsp') is-invalid @enderror" id="wsp" name="wsp" placeholder="wsp_link" value="{{ $landingMaps->whatsapp }}" required>
+                        <input type="text" class="form-control @error('wsp') is-invalid @enderror" id="whatsapp" name="whatsapp" placeholder="wsp_link" value="{{ $landingMaps->whatsapp }}" required>
 
                         @error('wsp')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -142,9 +142,8 @@ Modificacion del Perfil {{ Auth::user()->name }}
 
             </form>
 
-            <form action="{{ route('landing.ubication.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('landing.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <!-- <input type="hidden" name="id" value="{{ Auth::user()->id }}"> -->
 
                 <h4 class="mt-4">Informacion de Nosotros</h4>
                 <hr>
@@ -153,7 +152,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                     <div class="col">
                         <label for="nosotros" class="form-label">Nosotros</label>
 
-                        <textarea class="form-control @error('nosotros') is-invalid @enderror" id="nosotros" name="nosotros" placeholder="nosotros" rows="20" required>{{ $landingMaps->horarios }}</textarea>
+                        <textarea class="form-control @error('nosotros') is-invalid @enderror" id="nosotros" name="nosotros" placeholder="nosotros" rows="20" required>{{ $landingpage_config->aboutUs }}</textarea>
 
                         @error('nosotros')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -167,6 +166,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                 </div>
 
             </form>
+            
         </div>
     </div>
 </div>

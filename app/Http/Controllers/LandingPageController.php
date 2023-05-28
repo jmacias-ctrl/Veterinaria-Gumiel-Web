@@ -20,6 +20,7 @@ use App\Notifications\GeneralNotificationForUsers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Models\whereyoucanfind;
+use App\Models\landingpage_config;
 use Exception;
 
 class LandingPageController extends Controller
@@ -32,19 +33,32 @@ class LandingPageController extends Controller
 
     public function modify_landingpage_ubication()
     {
+        // $landingMaps = \App\Models\whereYouCanFind::first();
+
+        // return view('landingpage.ubication.modify', ['landingMaps' => $landingMaps]);
+
         $landingMaps = \App\Models\whereYouCanFind::first();
-        return view('landingpage.ubication.modify', ['landingMaps' => $landingMaps]);
+        $landingpageconfig = \App\Models\landingpage_config::first();
+
+        $data = [
+            'landingMaps' => $landingMaps,
+            'landingpage_config' => $landingpageconfig
+        ];
+
+        return view('landingpage.ubication.modify', $data);
     }
 
-    public function modify_landingpage_aboutUs()
-    {
-        $landingMaps = \App\Models\whereYouCanFind::first();
-        return view('landingpage.aboutUs.modify', ['landingMaps' => $landingMaps]);
-    }
+    // public function modify_landingpage_aboutUs()
+    // {
+    //     $landingMaps = \App\Models\whereYouCanFind::first();
+    //     return view('landingpage.aboutUs.modify', ['landingMaps' => $landingMaps]);
+    // }
 
     public function update_landingpage_ubication(Request $request)
     {
+        
         $rules = (new \App\Models\WhereYouCanFind())->rules;
+        // dd($rules);
         $attributes = (new \App\Models\WhereYouCanFind())->attributes;
         $message = (new \App\Models\WhereYouCanFind())->message;
 
@@ -53,16 +67,43 @@ class LandingPageController extends Controller
         if ($validator->passes()) {
             
             try {
-                $landingMaps = whereyoucanfind::find(0);
+                $landingMaps = whereyoucanfind::find(1);
                 $landingMaps->direccion = $request->direccion;
                 $landingMaps->telefono = $request->telefono;
                 $landingMaps->horarios = $request->horarios;
-                $landingMaps->whatsapp = $request->wsp;
+                $landingMaps->whatsapp = $request->whatsapp;
                 $landingMaps->facebook = $request->facebook;
                 $landingMaps->instagram = $request->instagram;
                 $landingMaps->save();
                 db::commit();
-                return redirect()->route('landingpage.index')->with('success', 'Tus datos fueron modificado exitosamente');
+                return redirect()->route('landing.ubication.edit')->with('success', 'Tus datos fueron modificado exitosamente');
+            } catch (QueryException $exception) {
+                DB::rollBack();
+                toastr()->error('Oops! Something went wrong!', 'Oops!');
+                return back()->withInput();
+            }
+
+        }
+        return back()->withErrors($validator)->withInput();
+    }
+
+    public function update_landingpage(Request $request)
+    {
+        
+        $rules = (new \App\Models\landingpage_config())->rules;
+        $attributes = (new \App\Models\landingpage_config())->attributes;
+        $message = (new \App\Models\landingpage_config())->message;
+
+        $validator = Validator::make($request->all(), $rules, $message, $attributes);
+
+        if ($validator->passes()) {
+            
+            try {
+                $landingMaps = landingpage_config::find(1);
+                $landingMaps->aboutUs = $request->aboutUs;
+                $landingMaps->save();
+                db::commit();
+                return redirect()->route('landing.ubication.edit')->with('success', 'Tus datos fueron modificado exitosamente');
             } catch (QueryException $exception) {
                 DB::rollBack();
                 toastr()->error('Oops! Something went wrong!', 'Oops!');

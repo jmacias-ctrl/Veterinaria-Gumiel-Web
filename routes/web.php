@@ -6,6 +6,7 @@ use App\Http\Controllers\InsumosMedicosController;
 use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\ComprobanteController;
 use app\Http\Controllers\CartController;
 use App\Mail\ConfirmacionHora;
 use Illuminate\Support\Facades\Mail;
@@ -207,7 +208,15 @@ Route::group(['middleware' => ['role:Admin']], function () {
 
 
     Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
+
     Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
+    Route::post('/landing/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage'])->name('landing.update');
+
+
+    // Route::post('/generar-comprobante', 'ComprobanteController@generarComprobante');
+    Route::get('/generar-comprobante', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comprobante');
+
+    Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabiliadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
 
     // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
     // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');

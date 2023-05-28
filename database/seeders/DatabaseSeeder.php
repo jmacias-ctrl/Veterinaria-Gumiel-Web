@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
         // \App\Models\User::factory(10)->create();
@@ -30,6 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call(class:tipomedicamentos_vacunasSeeder::class);
         $this->call(class:medicamentos_vacunasSeeder::class);
         $this->call(class:whereYouCanFindSeeder::class);
-        
+        $this->call(class:landingpageSeeder::class);
     }
 }

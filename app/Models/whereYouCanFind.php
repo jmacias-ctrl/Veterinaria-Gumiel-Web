@@ -17,7 +17,9 @@ class WhereYouCanFind extends Model
         'horarios', 
         'instagram', 
         'facebook', 
-        'whatsapp'
+        'whatsapp',
+
+        // 'aboutUs'
     ];
 
     public $rules = [
@@ -26,7 +28,9 @@ class WhereYouCanFind extends Model
         'horarios' => 'required|string',
         'instagram' => 'required|string',
         'facebook' => 'required|string',
-        'whatsapp' => 'required|string'
+        'whatsapp' => 'required|string',
+
+        // 'aboutUs' => 'required|string'
     ];
 
     public $attributes = [
@@ -35,7 +39,9 @@ class WhereYouCanFind extends Model
         'horarios' => 'Horarios',
         'instagram' => 'Instagram',
         'facebook' => 'Facebook',
-        'whatsapp' => 'Whatsapp'
+        'whatsapp' => 'Whatsapp',
+
+        // 'aboutUs' => 'AboutUs'
     ];
 
     public $message = [
@@ -44,6 +50,8 @@ class WhereYouCanFind extends Model
         'digits' => ':attribute invalido, :attribute debe ser :digits dígitos',
         'max' => ':attribute invalido, debe ser máximo :max',
         'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg',
-        'confirmed' => ':attribute no coinciden'
+        'confirmed' => ':attribute no coinciden',
+
+        // 'aboutUs' => 'AboutUs'
     ];
 }

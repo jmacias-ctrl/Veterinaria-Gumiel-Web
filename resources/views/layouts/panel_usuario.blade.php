@@ -37,6 +37,7 @@
             color: #2E7646;
         }
     </style>
+    @yield('styles')
 </head>
 @php
     $userNotification = sizeof(Auth::user()->unreadNotifications);
@@ -160,6 +161,9 @@
                                     @elseif (auth()->user()->hasRole('Inventario'))
                                         <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
                                             href="{{ route('inventario') }}">
+                                        @elseif (auth()->user()->hasRole('Cliente'))
+                                            <a class="nav-link @if (Route::current()->getName() == 'cliente') active @endif"
+                                                href="{{ route('inventario') }}">
                         @endif
                         <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
@@ -213,23 +217,21 @@
                         </li>
                     @endcan
                     @can('ver proveedores')
-                    <li class="nav-item">
-                        <a class="nav-link @if (request()->routeIs('proveedores.*')) active @endif"
-                            href="{{ route('proveedores.index') }}">
-                            <i class="ni ni-delivery-fast text-green "></i> Proveedores
-                        </a>
-                    </li>
-                @endcan
+                        <li class="nav-item">
+                            <a class="nav-link @if (request()->routeIs('proveedores.*')) active @endif"
+                                href="{{ route('proveedores.index') }}">
+                                <i class="ni ni-delivery-fast text-green "></i> Proveedores
+                            </a>
+                        </li>
+                    @endcan
                     @can('ver citasvet')
                         <li class="nav-item">
-                            <a class="nav-link @if (request()->routeIs('/agendar-horas/create')) active @endif"
-                                href="{{ route('agendar-horas.create') }}">
+                            <a class="nav-link @if(request()->routeIs('/agendar-horas/create')) active @endif" href="{{ route('agendar-horas.create') }}">
                                 <i class="ni ni-atom text-green "></i> Reservar cita
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if (request()->routeIs('/miscitas')) active @endif"
-                                href="{{ route('Agendar') }}">
+                            <a class="nav-link @if(request()->routeIs('/miscitas')) active @endif" href="{{ route('Agendar') }}">
                                 <i class="ni ni-atom text-green "></i> Mis citas
                             </a>
                         </li>
@@ -523,6 +525,7 @@
     <!-- Header -->
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
         <div class="container-fluid">
+            @can('ver estadisticas')
             <div class="header-body">
                 <!-- Card stats -->
                 <div class="row">
@@ -613,6 +616,7 @@
                 </div>
             </div>
         </div>
+        @endcan 
         <script src="{{ asset('js/horarios.js') }}" defer></script>
     </div>
     </nav>
@@ -628,6 +632,7 @@
 <!--   Optional JS   -->
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>
+@yield('scripts')
 <!--   Argon JS   -->
 <script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
 <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>

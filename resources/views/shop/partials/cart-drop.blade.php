@@ -38,7 +38,7 @@
         <a class="btn btn-dark btn-sm btn-block" href="{{ route('shop.cart.index') }}">
             CARRITO <i class="fa fa-arrow-right"></i>
         </a>
-        <a class="btn btn-dark btn-sm btn-block" href="">
+        <a class="btn btn-dark btn-sm btn-block" href="{{ route('shop.checkout.checkout') }}">
             COMPRAR <i class="fa fa-arrow-right"></i>
         </a>
     </div>

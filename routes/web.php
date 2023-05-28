@@ -6,8 +6,8 @@ use App\Http\Controllers\InsumosMedicosController;
 use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
 use App\Http\Controllers\LandingPageController;
-use App\Http\Controllers\ComprobanteController;
 use app\Http\Controllers\CartController;
+use app\Http\Controllers\CompraController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,23 +23,21 @@ use app\Http\Controllers\CartController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
-
-Route::get('/nosotros', function () {
-    return view('nosotros');
-})->name('nosotros');
-
 // Route::get('/', 'LandingPageController@index');
 // Route::get('/welcome', 'LandingPageController@index');
 // Route::get('/landing', 'LandingPageController@index')->middleware('web');
 
 Route::get('/',[LandingPageController::class,'index'])->name('inicio');
-Route::post('/contactanos', [landingPageController::class, "store"])->name('contactanos.store');
+
+
 
 Route::get('/verCalendario', function () {
     return view('verCalendario');
-})->name("verCalendario")->middleware('web');
+})->middleware('web');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 
 Route::group(['middleware'=>['can:ver productos']], function(){
     Route::get('marca_productos', [\App\Http\Controllers\MarcaproductoController::class, 'index_marca'])->name('admin.marcaproductos.index');
@@ -55,13 +53,6 @@ Route::group(['middleware'=>['can:ver productos']], function(){
     Route::get('productos/create', [App\Http\Controllers\ProductosVentaController::class, 'create'])->name('productos.crear')->middleware(['permission:ingresar productos']);
     Route::post('productos/update', [App\Http\Controllers\ProductosVentaController::class, 'update'])->name('productos.update')->middleware(['permission:modificar productos']);
     Route::get('productos/{producto}/edit',[App\Http\Controllers\ProductosVentaController::class, 'edit'])->name('productos.edit')->middleware(['permission:modificar productos']);
-
-    Route::get('tipoproductos_ventas', [\App\Http\Controllers\tipoproductos_ventasController::class, 'index'])->name('admin.tipoproductos_ventas.index');
-    Route::get('tipoproductos_ventas/create', [\App\Http\Controllers\tipoproductos_ventasController::class, 'create'])->name('admin.tipoproductos_ventas.create');
-    Route::post('tipoproductos_ventas/store', [\App\Http\Controllers\tipoproductos_ventasController::class, 'store'])->name('admin.tipoproductos_ventas.store');
-    Route::get('tipoproductos_ventas/edit', [\App\Http\Controllers\tipoproductos_ventasController::class, 'edit'])->name('admin.tipoproductos_ventas.edit');
-    Route::post('tipoproductos_ventas/delete', [\App\Http\Controllers\tipoproductos_ventasController::class, 'delete'])->name('admin.tipoproductos_ventas.delete');
-    Route::post('tipoproductos_ventas/update', [\App\Http\Controllers\tipoproductos_ventasController::class, 'update'])->name('admin.tipoproductos_ventas.update');
 });
 
 Route::group(['middleware'=>['can:ver insumos medicos']], function(){
@@ -89,12 +80,7 @@ Route::group(['middleware'=>['can:ver insumos medicos']], function(){
     Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update');
 });
 
-Route::group(['middleware'=>['role:Admin']], function(){
-    Route::get('landingpage/edit/aboutUs', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_aboutUs'])->name('admin.landingpage_aboutUs.modify');
-    Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
-});
-
-Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente|Inventario']], function(){
+Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente']], function(){
     Route::get('notification/getUpdate', [App\Http\Controllers\UserController::class, 'get_notifications_count'])->name('users.notification.updateNotificationCount');
     Route::get('notification', [App\Http\Controllers\UserController::class, 'get_notifications'])->name('users.notification.index');
     Route::post('notification/delete', [App\Http\Controllers\UserController::class, 'delete_notification'])->name('users.notification.delete');
@@ -103,6 +89,8 @@ Route::group(['middleware'=>['role:Admin|Veterinario|Peluquero|Cliente|Inventari
     Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
     Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
+
+
 
 Route::group(['middleware'=>['can:ver servicios']], function(){
    
@@ -148,61 +136,36 @@ Route::group(['middleware' => ['role:Admin']], function () {
     Route::post('admin/horario/edit/{id}',[App\Http\Controllers\HorariosController::class,'edit']);
     Route::post('admin/horario/delete/{id}',[App\Http\Controllers\HorariosController::class,'delete']);
     Route::post('admin/horario/actualizar/{horarios}',[App\Http\Controllers\HorariosController::class,'update']);
-//Rutas funcionarios
-Route::resource('/funcionarios','App\Http\Controllers\FuncionariosController');
-    
 
-    Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
-
-    Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
-    Route::post('/landing/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage'])->name('landing.update');
-
-
-    // Route::post('/generar-comprobante', 'ComprobanteController@generarComprobante');
-    Route::get('/generar-comprobante', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comprobante');
-
-    Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabiliadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
-
-    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
-    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
-    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
-
-Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
-    Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
-    Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
-    //Rutas pacientes
-    Route::resource('/pacientes','App\Http\Controllers\PacientesController');
-    
-});
-
-
 
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function(){
         return view('admin.home');
     })->name('veterinario');
 });
-
 Route::group(['middleware' => ['role:Peluquero']], function () {
     Route::get('/inicio/peluquero', function(){
         return view('admin.home');
     })->name('peluquero');
 });
-
+// Route::group(['middleware' => ['role:Invitado']], function () {
+//     Route::get('/', function(){
+//         return view('home');
+//     })->name('inventario');add_user
+// });
 Route::group(['middleware' => ['role:Inventario']], function () {
     Route::get('/inicio/inventario', function(){
         return view('admin.home');
     })->name('inventario');
-    Route::get('inventario/detalle_venta',[App\Http\Controllers\PointSaleController::class, 'detalle_venta'])->name('ventas.detalle');
-    Route::get('inventario/ventas',[App\Http\Controllers\PointSaleController::class, 'mostrar_ventas'])->name('ventas.index');
+
+
+
     Route::get('inventario/punto_de_venta',[App\Http\Controllers\PointSaleController::class, 'index'])->name('point_sale.index');
-    Route::post('inventario/punto_de_venta/venta',[App\Http\Controllers\PointSaleController::class, 'venta'])->name('point_sale.venta');
     Route::get('inventario/punto_de_venta/add',[App\Http\Controllers\PointSaleController::class, 'add_product'])->name('point_sale.addProduct');
-    Route::get('inventario/punto_de_venta/update',[App\Http\Controllers\PointSaleController::class, 'update_product'])->name('point_sale.updateProduct');
-    Route::get('inventario/punto_de_venta/clear',[App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');
     Route::get('inventario/punto_de_venta/remove',[App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
 });
+
 
 Route::get('/shop', [\App\Http\Controllers\CartController::class, 'shop'])->name('shop.shop');
 Route::get('shop/cart', [\App\Http\Controllers\CartController::class, 'cart'])->name('shop.cart.index');
@@ -211,6 +174,15 @@ Route::get('shop/show/{id}', [\App\Http\Controllers\CartController::class, 'show
 Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])->name('shop.cart.update');
 Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
 Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');   
+
+
+
+Route::get('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente']);
+Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login');
+
+// Route::any('/checkout',[\App\Http\Controllers\TransbankController::class, 'checkout'])->name('webpay');
+// Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class,'checkout']);
+
 
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
@@ -222,16 +194,3 @@ Route::post('/marca',[MarcasController::class,'store'])->name('marcas');
 Route::get('/marca/{id}',[MarcasController::class,'show'])->name('marcas-edit');
 Route::patch('/marca/{id}',[MarcasController::class,'update'])->name('marcas-update');
 Route::delete('/marca/{id}',[MarcasController::class,'destroy'])->name('marcas-destroy');
-
-
-
-
-Route::middleware('auth')->group(function(){
-    Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
-    Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
-    Route::get('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');
-
-    //JSON
-    Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
-    Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
-});

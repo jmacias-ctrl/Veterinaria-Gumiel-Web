@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\HorarioFuncionarioServiceInterface;
+use App\Mail\AproximacionHora;
+use App\Mail\CancelarHora;
+use App\Mail\CancelarHoraDespuesConfirm;
+use App\Mail\ConfirmacionHora;
 use App\Models\CancelledCitas;
 use App\Models\ReservarCitas;
+use App\Models\tipo_consulta_tamanio;
 use App\Models\tiposervicios;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -84,6 +90,7 @@ class ReservarCitasController extends Controller
     public function create(HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface)
     {
         $tiposervicios = tiposervicios::all();
+        $tipoconsulta_tam = tipo_consulta_tamanio::all();
 
         $tiposervicioId = old('tiposervicio_id');
         if($tiposervicioId){
@@ -102,7 +109,7 @@ class ReservarCitasController extends Controller
             $intervals = null;
         }
 
-        return view('ReservarCitas.create', compact('tiposervicios','funcionarios', 'intervals'));
+        return view('ReservarCitas.create', compact('tiposervicios','funcionarios', 'intervals', 'tipoconsulta_tam'));
     }
 
     public function store(Request $request, HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface){
@@ -166,15 +173,32 @@ class ReservarCitasController extends Controller
 
     public function cancel(ReservarCitas $ReservarCita, Request $request){
 
+        $user = auth()->user();
         if($request->has('justification')){
+            
             $cancellation = new CancelledCitas();
             $cancellation->justification = $request->input('justification');
             $cancellation->cancelled_by_id = auth()->id();
-
             $ReservarCita->cancellation()->save($cancellation);
         }
-        
+
+        if($ReservarCita->status == 'Confirmada'){
+            $correo = new CancelarHoraDespuesConfirm($ReservarCita);
+            if($user->hasRole('Veterinario') || $user->hasRole('Peluquero')){
+            Mail::to($ReservarCita->paciente->email)->send($correo); 
+            } elseif($user->hasRole('Cliente')){
+            Mail::to($ReservarCita->funcionario->email)->send($correo); 
+            }
+        }else{
+            $correo = new CancelarHora($ReservarCita);
+            if($user->hasRole('Veterinario') || $user->hasRole('Peluquero')){
+                Mail::to($ReservarCita->paciente->email)->send($correo); 
+                } elseif($user->hasRole('Cliente')){
+                Mail::to($ReservarCita->funcionario->email)->send($correo); 
+                }
+        }  
         $ReservarCita->status = 'Cancelada';
+
         $ReservarCita->save();
         $notification = 'La cita se ha cancelado correctamente.';
         
@@ -182,6 +206,7 @@ class ReservarCitasController extends Controller
     }
 
     public function formCancel(ReservarCitas $ReservarCita){
+
         if($ReservarCita->status == 'Confirmada'){
             return view('ReservarCitas.cancel', compact('ReservarCita'));
         }
@@ -190,5 +215,34 @@ class ReservarCitasController extends Controller
 
     public function show(ReservarCitas $ReservarCita){
         return view('ReservarCitas.show' , compact('ReservarCita'));
+    }
+
+    public function enviarRecordatorioDiaAntes()
+    {
+        $today = Carbon::today();
+        $tomorrow = $today->copy()->addDay();
+
+        $citas = ReservarCitas::whereDate('scheduled_date', $tomorrow)->get();
+
+        foreach ($citas as $cita) {
+            $user = $cita->paciente;
+            $correo = new AproximacionHora($cita);
+            Mail::to($user->email)->send($correo);
+        }
+        
+    }
+
+    public function confirm(ReservarCitas $ReservarCita){
+        
+        $ReservarCita->status = 'Confirmada';
+        $correo = new ConfirmacionHora($ReservarCita);
+        $ReservarCita->save();
+
+        Mail::to($ReservarCita->paciente->email)->send($correo);
+
+        
+        $notification = 'La cita se ha confirmado correctamente.';
+        
+        return redirect('/miscitas')->with(compact('notification'));
     }
 }

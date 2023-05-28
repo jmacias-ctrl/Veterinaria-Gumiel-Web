@@ -158,36 +158,31 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="tipoConsulta" class="form-group" style="display: none;">
+                
                     <label>Tipo de consulta</label>
-                    <div class="custom-control custom-radio mt-3 mb-3">
-                        <input type="radio" id="type1" name="type" class="custom-control-input" @if (old('type') == 'consulta') checked @endif value="consulta">
-                        <label class="custom-control-label" for="type1" >Consulta</label>
-                    </div>
-                    <div class="custom-control custom-radio mb-3">
-                        <input type="radio" id="type2" name="type" class="custom-control-input" @if (old('type') == 'consulta_vacuna') checked @endif value="consulta_vacuna">
-                        <label class="custom-control-label" for="type2">Consulta + vacunas</label>
-                    </div>
-                    <div class="custom-control custom-radio mb-5">
-                        <input type="radio" id="type3" name="type" class="custom-control-input" @if (old('type') == 'cirugia') checked @endif value="cirugia">
-                        <label class="custom-control-label" for="type3">Cirugía</label>
-                    </div>
+                    @foreach ( $tipoconsulta_tam as $tipoconsulta )
+                        @if ($tipoconsulta->tiposervicios->nombre == 'Atención medica')
+                            <div class="custom-control custom-radio mt-3 mb-3">
+                                <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->nombre }}">                    
+                                <label class="custom-control-label" for="{{ $tipoconsulta -> id}}" >{{ $tipoconsulta->nombre }}</label> 
+                            </div> 
+                        @endif
+                        
+                    @endforeach
                 </div>
 
                 <div id="tamMascota" class="form-group" style="display: none;">
                     <label>Tamaño mascota</label>
-                    <div class="custom-control custom-radio mt-3 mb-3">
-                        <input type="radio" id="tam1" name="type" class="custom-control-input" @if (old('type') == 'grande') checked @endif value="grande">
-                        <label class="custom-control-label" for="tam1" >Grande</label>
-                    </div>
-                    <div class="custom-control custom-radio mb-3">
-                        <input type="radio" id="tam2" name="type" class="custom-control-input" @if (old('type') == 'mediano') checked @endif value="mediano">
-                        <label class="custom-control-label" for="tam2">Mediano</label>
-                    </div>
-                    <div class="custom-control custom-radio mb-5">
-                        <input type="radio" id="tam3" name="type" class="custom-control-input" @if (old('type') == 'pequeño') checked @endif value="pequeño">
-                        <label class="custom-control-label" for="tam3">Pequeño</label>
-                    </div>
+                    @foreach ( $tipoconsulta_tam as $tipoconsulta )
+                        @if ($tipoconsulta->tiposervicios->nombre == 'Peluquería')
+                        <div class="custom-control custom-radio mt-3 mb-3">
+                        <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->nombre }}">                    
+                                <label class="custom-control-label" for="{{ $tipoconsulta -> id}}" >{{ $tipoconsulta->nombre }}</label> 
+                        </div>
+                        @endif
+                    @endforeach
                 </div>
 
                 <div class="form-group">

@@ -51,10 +51,22 @@
                     {{ session('notification') }}
                 </div>
             @endif
-
-            <p>Se cancelara tu cita reservada con el funcionario <b>{{$ReservarCita->funcionario->name}}</b>
-            (tipo de servicio <b>{{$ReservarCita->tiposervicio->nombre}}</b> ) 
-            para el día <b>{{$ReservarCita->scheduled_date}}</b>.</p>
+            @if (auth()->user()->hasRole('Cliente'))
+                <p>Se cancelara tu cita reservada con el funcionario <b>{{$ReservarCita->funcionario->name}}</b>
+                (tipo de servicio <b>{{$ReservarCita->tiposervicio->nombre}}</b> ) 
+                para el día <b>{{$ReservarCita->scheduled_date}}</b>.</p>
+            @elseif (auth()->user()->hasRole('Veterinario') || auth()->user()->hasRole('Peluquero')  )
+                <p>Se cancelara la cita reservada para el paciente <b>{{$ReservarCita->paciente->name}}</b>
+                (tipo de servicio <b>{{$ReservarCita->tiposervicio->nombre}}</b> ) 
+                para el día <b>{{$ReservarCita->scheduled_date}}</b>
+                y la hora <b>{{$ReservarCita->sheduled_time}}</b>.</p>
+            @elseif (auth()->user()->hasRole('Admin') )
+                <p>Se cancelara la cita reservada del paciente <b>{{$ReservarCita->paciente->name}}</b>
+                que será atendido por el funcionario<b>{{$ReservarCita->funcionario->name}}</b>
+                (tipo de servicio <b>{{$ReservarCita->tiposervicio->nombre}}</b> ) 
+                para el día <b>{{$ReservarCita->scheduled_date}}</b>
+                y la hora <b>{{$ReservarCita->sheduled_time}}</b>.</p>
+            @endif
 
             <form action="{{ url('/miscitas/'.$ReservarCita->id.'/cancel') }}" method="POST">
                 @csrf

@@ -31,12 +31,12 @@
     <link rel="stylesheet" type="text/css" href="fullCalendar4/packages/timegrid/main.css">
     <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
     <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-  
-    
-    
+
+
+
+
     <!-- Icons -->
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
@@ -57,7 +57,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('inicio') }}"><img src="{{ asset('image/logo2.jpg') }}"
-                style="width:250px;" /></a>
+                        style="width:250px;" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -76,34 +76,38 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="{{ route('inicio') }}">Inicio<span class="sr-only">(current)</span></a>
+                                    <a class="nav-link" href="{{ route('inicio') }}">Inicio<span
+                                            class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('nosotros') }}">Nosotros</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('agendar-horas.create')}}">Agenda tu hora</a>
+                                    <a class="nav-link" href="{{ route('agendar-horas.create') }}">Agenda tu hora</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('shop.shop') }}">Tienda</a>
                                 </li>
                             </ul>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="badge badge-pill badge-dark">
-                                        <i class="fa fa-shopping-cart"></i> {{ \Cart::getTotalQuantity() }}
-                                    </span>
-                                </a>
+                            @if (request()->routeIs('shop.*'))
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <span class="badge badge-pill badge-dark">
+                                            <i class="fa fa-shopping-cart"></i> {{ \Cart::getTotalQuantity() }}
+                                        </span>
+                                    </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
-                                    style="width: 450px; padding: 0px; border-color: #9DA0A2">
-                                    <ul class="list-group" style="margin: 20px;">
-                                        @include('shop.partials.cart-drop')
-                                    </ul>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
+                                        style="width: 450px; padding: 0px; border-color: #9DA0A2">
+                                        <ul class="list-group" style="margin: 20px;">
+                                            @include('shop.partials.cart-drop')
+                                        </ul>
+                                    </div>
 
-                                </div>
-                            </li>
+                                </li>
+                            @endif
                         </div>
                         @guest
                             @if (Route::has('login'))
@@ -118,9 +122,8 @@
                                 </li>
                             @endif
                         @else
-                            
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                <a id="navbarDropdown" class="nav-link" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @if (isset(Auth::user()->image))
                                         <img src="{{ asset('storage') . '/' . Auth::user()->image }}" alt=""
@@ -186,7 +189,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    
+
 
 </body>
 @yield('js-after')

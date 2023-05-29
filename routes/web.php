@@ -168,11 +168,7 @@ Route::group(['middleware' => ['can:ver servicios']], function () {
     Route::post('tiposervicios/update', [\App\Http\Controllers\tiposerviciosController::class, 'update'])->name('admin.tiposervicios.update');
 
     Route::get('tipoconsulta_tamanio', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'index'])->name('admin.tipoconsulta_tamanio.index');
-    Route::get('tipo_insumos/create', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'create'])->name('admin.tipoconsulta_tamanio.create');
-    Route::post('tipo_insumos/store', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'store'])->name('admin.tipoconsulta_tamanio.store');
-    Route::get('tipo_insumos/edit', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'edit'])->name('admin.tipoconsulta_tamanio.edit');
-    Route::post('tipo_insumos/delete', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'delete'])->name('admin.tipoconsulta_tamanio.delete');
-    Route::post('tipo_insumos/update', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'update'])->name('admin.tipoconsulta_tamanio.update');
+   
 });
 
 

@@ -1,15 +1,21 @@
 @extends('layouts.panel_usuario')
 <title>Gestion Tipo Servicios - Veterinaria Gumiel</title>
 @section('css-before')
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <style>
-            .dataTables_filter,
-            .dataTables_info {
-                display: none;
-            }
-        </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .dataTables_filter,
+        .dataTables_info {
+            display: none;
+        }
+    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -71,42 +77,21 @@
             </div>
         </div>
     </div>
-
-
-
-    <!-- <div class="table-responsive">
-                        <table
-                            class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
-                            id="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tiposervicios as $tipos)
-    <tr>
-                                        <th>{{ $tipos->id }}</th>
-                                        <td>{{ $tipos->nombre }}</td>
-                                        <td><button type="button" class="btn btn-outline-danger" onclick="deleted({{ $tipos->id }})"><span
-                                                    class="material-symbols-outlined">delete</span></button>
-                                            <a id="editTipos"
-                                                class="btn btn-outline-warning" href="{{ route('admin.tiposervicios.edit', ['id' => "$tipos->id"]) }}"
-                                                role="button"><span class="material-symbols-outlined">edit</span></a>
-                                        </td>
-                                    </tr>
-    @endforeach
-                            </tbody>
-                        </table>
-                    </div> -->
 @endsection
 @section('js-after')
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     @if (Session::has('success'))
         <script>
             toastr.success("{{ Session::get('success') }}");
@@ -120,14 +105,20 @@
     <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 },
                 responsive: true,
-                processing: true,
-                serveSide: true,
-                searching: true,
-                pageLength: 10,
+                "language": {
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron datos",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
+                    "paginate": {
+                        "previous": "<",
+                        "next": ">",
+                    },
+                },
                 ajax: {
                     url: "{{ route('admin.tiposervicios.index') }}",
                     type: 'GET',

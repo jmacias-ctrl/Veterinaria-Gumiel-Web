@@ -15,6 +15,7 @@
         .dataTables_info {
             display: none;
         }
+
         .swal2-container {
             z-index: 10000;
         }
@@ -24,7 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Punto de Pago Servicios
+    Punto de Reserva/Pagos de Servicios
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -52,7 +53,7 @@
             <div class="card shadow p-4">
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
-                        <h1>Punto de Pago - Servicios Reservados</h1>
+                        <h1>Punto de Reserva/Pago de Servicios</h1>
                     </div>
                 </div>
                 @if (session()->get('success'))
@@ -78,6 +79,7 @@
     </div>
 @endsection
 @include('control_servicio.modal.pagoVenta_Modal')
+@include('control_servicio.modal.comprobante')
 @section('js-after')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
@@ -106,10 +108,16 @@
         }
         $(document).ready(function() {
             var table = $("#table").DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                },
+
+                searching: true,
                 responsive: true,
                 "language": {
                     "search": "Buscar:",
-                    "zeroRecords": "No se encontraron datos",
+                    "lengthMenu": "Mostrar _MENU_ reservas por pagina",
+                    "zeroRecords": "No se encontraron reservas sin pagar",
                     "infoEmpty": "No hay datos para mostrar",
                     "info": "Mostrando del _START_ al _END_, de un total de _TOTAL_ entradas",
                     "paginate": {
@@ -165,6 +173,7 @@
                 var nombreCliente = $('#nombreCliente').val();
                 var numOperacion = $('#numOperacion').val();
                 var banco = $('#banco').val();
+                var id_reserva = $('#id').val();
                 if (metodoPago == 'efectivo' && efectivo < total) {
                     Swal.fire({
                         position: 'center',
@@ -191,6 +200,7 @@
                         console.log(banco);
                         console.log(numOperacion);
                         axios.post("{{ route('control_servicios.pagar') }}", {
+                                id: id_reserva,
                                 metodoPago: metodoPago,
                                 banco: banco,
                                 montoEfectivo: efectivo,
@@ -221,26 +231,24 @@
                                         currency: 'CLP',
                                         style: 'currency'
                                     }).format(response.data.montoFinal));
-                                $('#productosVendidos').empty();
-                                $.map(response.data.servicioPagado, function(elementOrValue,
-                                    indexOrKey) {
-                                    var productMoney = new Intl.NumberFormat('es-CL', {
-                                        currency: 'CLP',
-                                        style: 'currency'
-                                    }).format(elementOrValue.price)
-                                    var total = elementOrValue.price * elementOrValue
-                                        .quantity;
-                                    var TotalFormat = new Intl.NumberFormat('es-CL', {
-                                        currency: 'CLP',
-                                        style: 'currency'
-                                    }).format(total)
-                                    $("#productosVendidos").append(`
+                                $('#servicioPagado').empty();
+                                var productMoney = new Intl.NumberFormat('es-CL', {
+                                    currency: 'CLP',
+                                    style: 'currency'
+                                }).format(response.data.servicioPagado["price"])
+                                var total = response.data.servicioPagado["price"] * response
+                                    .data.servicioPagado["quantity"];
+                                var TotalFormat = new Intl.NumberFormat('es-CL', {
+                                    currency: 'CLP',
+                                    style: 'currency'
+                                }).format(total)
+                                $("#productosVendidos").append(`
             
                                     <tr> 
                                         
-                                        <th> ${indexOrKey}</th>                     
-                                        <td class="text-wrap">${elementOrValue.name}</td>
-                                        <th>${elementOrValue.quantity}</th>
+                                        <th> 1 </th>                     
+                                        <td class="text-wrap">${response.data.servicioPagado["name"]}</td>
+                                        <th>${response.data.servicioPagado["quantity"]}</th>
                                         <td>${productMoney}</td>
                                         <td>${TotalFormat}</td>
                                     </tr>
@@ -248,10 +256,6 @@
                             
                                     
                                 `);
-
-
-
-                                });
 
                                 $('#comprobanteModal').modal('show')
                                 console.log(response);

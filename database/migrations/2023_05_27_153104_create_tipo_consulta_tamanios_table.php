@@ -17,7 +17,7 @@ class CreateTipoConsultaTamaniosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->integer('duracion');
-        
+            $table->integer('precio');
             $table->unsignedBigInteger('tiposervicio_id');
             $table->foreign('tiposervicio_id')->references('id')->on('tiposervicios')->onDelete('cascade');
 

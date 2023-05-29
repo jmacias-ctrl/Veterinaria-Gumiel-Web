@@ -33,6 +33,10 @@ class CreateReservarCitasTable extends Migration
             $table->unsignedBigInteger('tiposervicio_id');
             $table->foreign('tiposervicio_id')->references('id')->on('tiposervicios')->onDelete('cascade');
 
+            //tiposervicio
+            $table->unsignedBigInteger('id_servicio');
+            $table->foreign('id_servicio')->references('id')->on('servicios')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

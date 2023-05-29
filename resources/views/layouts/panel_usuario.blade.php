@@ -337,13 +337,6 @@
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 "
-                                                href="{{ route('admin.tipoconsulta_tamanio.index') }}"
-                                                id="link-dropdown">Tipo de consulta/Tamaño</a>
-                                        </li>
-                                    </ul>
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
                                             <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
                                                 id="link-dropdown">Landing Page</a>
                                         </li>
@@ -365,6 +358,14 @@
                             <a class="nav-link @if (request()->routeIs('point_sale.*')) active @endif"
                                 href="{{ route('point_sale.index') }}">
                                 <i class="ni ni-cart text-green"></i> Punto de Venta
+                            </a>
+                        </li>
+                    @endcan
+                    @can('acceso punto de venta')
+                        <li class="nav-item active">
+                            <a class="nav-link @if (request()->routeIs('control-servicios.*')) active @endif"
+                                href="{{ route('control_servicios.index') }}">
+                                <i class="ni ni-cart text-green"></i>Punto de Reserva/Pago Servicios
                             </a>
                         </li>
                     @endcan

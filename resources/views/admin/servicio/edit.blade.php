@@ -87,6 +87,16 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="duracion" class="form-label">Duracion</label>
+                            <input type="int" class="form-control @error('duracion') is-invalid @enderror" name="duracion"
+                                value="{{ $servicio->duracion }}" id="duracion" checked>
+                            @error('duracion')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="container">
                     <br>
                     <input name="" id="btn-submit" class="btn btn-primary"
@@ -107,7 +117,7 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Modificar Tipo de Servicio',
+                    title: 'Modificar Servicio',
                     text: "¿Estás seguro de que todos los datos estan correctos?",
                     icon: 'warning',
                     showCancelButton: true,

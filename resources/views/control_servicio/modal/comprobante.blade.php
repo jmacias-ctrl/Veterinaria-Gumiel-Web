@@ -41,9 +41,9 @@
                 </table>
                 <hr>
                 
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center d-none">
                     
-                    <form class="form-inline">
+                    <form class="form-inline d-none">
                         <label for="email_cliente" class="form-label mr-4">Enviar comprobante por correo</label>
                         <div class="form-group mb-2">
                             <input type="email" class="form-control" id="email_cliente" name="email_cliente"

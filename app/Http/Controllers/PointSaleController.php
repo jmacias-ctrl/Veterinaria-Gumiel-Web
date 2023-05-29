@@ -185,7 +185,14 @@ class PointSaleController extends Controller
         }else{
             $detalle_metodo = transferencia::where('id_operacion', '=', $venta->id)->first();
         }
-        $itemsComprado = db::table('items_comprados')->join('productos_ventas', 'items_comprados.id_producto', '=', 'productos_ventas.id')->where('id_venta', '=', $venta->id)->select('items_comprados.id', 'productos_ventas.nombre', 'items_comprados.cantidad', 'items_comprados.monto')->get();
+        $itemsComprado =items_comprados::with('productos_ventas','servicios')->where('id_venta', '=',$venta->id)->get()->map(function($item){
+            if($item->tipo_item=="servicio"){
+                $item->nombre = $item->servicios->nombre;
+            }else{
+                $item->nombre = $item->productos_ventas->nombre;
+            }
+            return $item;
+        });
         $montoFinal = 0;
         foreach($itemsComprado as $item){
             $montoFinal = $montoFinal + ($item->monto*$item->cantidad);

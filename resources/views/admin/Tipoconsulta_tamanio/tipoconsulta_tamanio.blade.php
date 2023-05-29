@@ -35,32 +35,35 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <h1>Listado de Tipo de consulta/Tamaño</h1>
-                        </div>
-                        <div class="col-sm-3">
-                            <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoconsulta_tamanio.create') }}" style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
-                        </div>
+                <div class="card-header border-0  p-0 mb-4">
+                    <div class="d-flex justify-content-between">
+                        <h1>Gestion de Servicios</h1>
+                        @can('ingresar servicios')
+                            <a class="btn btn-primary ms-5 boton-aceptar"
+                                href="{{ route('admin.tipoconsulta_tamanio.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
+                        @endcan
                     </div>
                 </div>
                 <div class="table-responsive">
-                <table class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm" id="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Duración(minutos)</th>
-                            <th scope="col">Tipo servicio</th>
-                            <th scope="col">Opciones</th>
-                        </tr>
-                    </thead>
-                </table>
+                    <table
+                        class="datatable display responsive nowrap table-sm table table-hover table-striped table-bordered w-100 shadow-sm"
+                        id="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Duración(minutos)</th>
+                                <th scope="col">Tipo servicio</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endsection
 
 @section('js-after')
@@ -68,18 +71,17 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
-    <script>
-        @if (Session::has('success'))
+    @if (Session::has('success'))
         <script>
             toastr.success("{{ Session::get('success') }}");
         </script>
-        @endif
-        @if (Session::has('error'))
-            <script>
-                toastr.error("{{ Session::get('error') }}");
-            </script>
-        @endif
+    @endif
+    @if (Session::has('error'))
+        <script>
+            toastr.error("{{ Session::get('error') }}");
+        </script>
+    @endif
+    <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
                 language: {
@@ -94,8 +96,7 @@
                     url: "{{ route('admin.tipoconsulta_tamanio.index') }}",
                     type: 'GET',
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
@@ -108,6 +109,10 @@
                         name: 'duracion'
                     },
                     {
+                        data: 'precio',
+                        name: 'precio'
+                    },
+                    {
                         data: 'tiposervicio_id',
                         name: 'tiposervicio_id'
                     },
@@ -118,14 +123,14 @@
                         searchable: false,
                     }
                 ]
-                
+
             });
         });
 
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar tipo de consulta/Tamaño?',
+                title: '¿Eliminar Servicio?',
                 text: "¿Estás seguro? no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -141,7 +146,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Tipo de consulta/Tamaño eliminado correctamente!')
+                            toastr.success('Servicio eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -150,7 +155,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Tipo de consulta/Tamaño eliminado correctamente!',
+                                title: 'Servicio eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

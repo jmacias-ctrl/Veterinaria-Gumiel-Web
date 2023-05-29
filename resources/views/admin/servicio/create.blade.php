@@ -92,7 +92,15 @@
                             @enderror
                         </div>
                     </div>
-
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="marca" class="form-label">Duracion</label>
+                            <input type="text" class="form-control @error('duracion') is-invalid @enderror" id="duracion" name="duracion" placeholder="" required>
+                            @error('duracion')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="row mt-3">
 
                     </div>

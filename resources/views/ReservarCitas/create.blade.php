@@ -165,7 +165,7 @@
                     @foreach ( $tipoconsulta_tam as $tipoconsulta )
                         @if ($tipoconsulta->tiposervicios->nombre == 'Atención medica')
                             <div class="custom-control custom-radio mt-3 mb-3">
-                                <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->nombre }}">                    
+                                <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->id }}">                    
                                 <label class="custom-control-label" for="{{ $tipoconsulta -> id}}" >{{ $tipoconsulta->nombre }}</label> 
                             </div> 
                         @endif
@@ -178,7 +178,7 @@
                     @foreach ( $tipoconsulta_tam as $tipoconsulta )
                         @if ($tipoconsulta->tiposervicios->nombre == 'Peluquería')
                         <div class="custom-control custom-radio mt-3 mb-3">
-                        <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->nombre }}">                    
+                        <input type="radio" id="{{ $tipoconsulta -> id}}" name="type" class="custom-control-input" value="{{ $tipoconsulta->id }}">                    
                                 <label class="custom-control-label" for="{{ $tipoconsulta -> id}}" >{{ $tipoconsulta->nombre }}</label> 
                         </div>
                         @endif

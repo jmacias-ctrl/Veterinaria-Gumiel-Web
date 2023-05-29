@@ -22,6 +22,7 @@ class ReservarCitasSeeder extends Seeder
             'funcionario_id'=> 1,
             'paciente_id'=>3,
             'tiposervicio_id'=>2,
+            'id_servicio'=>1,
             'status'=>'Reservada'
         ]);
 
@@ -33,6 +34,7 @@ class ReservarCitasSeeder extends Seeder
             'funcionario_id'=> 2,
             'paciente_id'=>3,
             'tiposervicio_id'=>1,
+            'id_servicio'=>4,
             'status'=>'Confirmada'
         ]);
     }

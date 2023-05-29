@@ -24,7 +24,7 @@ class ControlServicioController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = db::table('reservar_citas')->join('users', 'reservar_citas.paciente_id', '=', 'users.id')->join('servicios', 'reservar_citas.tiposervicio_id', '=', 'servicios.id')->select('reservar_citas.id', 'users.name', 'servicios.nombre', 'reservar_citas.status', 'servicios.precio', 'reservar_citas.pagado')->get()->map(function ($item) {
+            $data = db::table('reservar_citas')->join('users', 'reservar_citas.paciente_id', '=', 'users.id')->join('servicios', 'reservar_citas.tiposervicio_id', '=', 'servicios.id')->select('reservar_citas.id', 'users.name', 'servicios.nombre', 'reservar_citas.status', 'servicios.precio', 'reservar_citas.pagado')->where('pagado', '=', false)->get()->map(function ($item) {
                 $item->monto = $item->precio;
                 $item->precio = '$' . number_format($item->precio, 0, ',', '.');
                 if ($item->pagado == "1") {
@@ -47,6 +47,11 @@ class ControlServicioController extends Controller
         $fecha = Carbon::now();
         $fecha_t = $fecha->toDateString();
         $hora = $fecha->format('h:i:s');
+
+        $reserva = ReservarCitas::find($request->id);
+        $id_servicio = $reserva->id_servicio;
+        $servicio = servicios::find($id_servicio);
+
         $nuevaVenta  = new trazabilidad_venta_presencial();
         $nuevaVenta->id_venta = Str::random(10);
         $nuevaVenta->metodo_pago = $request->metodoPago;
@@ -57,13 +62,12 @@ class ControlServicioController extends Controller
         $montoFinal = 0;
         $metodoPagoEscogido = null;
 
-        $reserva = ReservarCitas::find($request->id);
-        $servicio = servicios::find($request->tiposervicio_id);
+        
 
         $itemComprado =  new items_comprados();
         $itemComprado->monto = $servicio->precio;
         $itemComprado->cantidad = 1;
-        $itemComprado->id_reserva = $request->id;
+        $itemComprado->id_servicio = $servicio->id;
         $itemComprado->id_venta = $nuevaVenta->id;
         $itemComprado->tipo_item = "servicio";
         $itemComprado->save();
@@ -95,6 +99,8 @@ class ControlServicioController extends Controller
                 $metodoPagoEscogido = $tarjeta;
                 break;
         }
+        $reserva->pagado = true;
+        $reserva->save();
         $showItemBought['name'] = $servicio->nombre;
         $showItemBought['price'] = $servicio->precio;
         $showItemBought['quantity'] = 1;

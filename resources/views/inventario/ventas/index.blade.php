@@ -116,12 +116,6 @@
                     moment($('#max').val(), 'DD-MM-YYYY', true).unix() :
                     null;
                 var date = moment( data[3], 'DD-MM-YYYY', true ).unix();
-                console.log("Date: " + date);
-                console.log("Max: " + max);
-                console.log("Min: " + min);
-                console.log("Min Nan: " + min === "NaN");
-                console.log("directo_min: " + $('#max').val())
-                console.log("directo_min: " + $('#min').val())
                 if (
                     (min === null && max === null) ||
                     (min === null && date <= max) ||

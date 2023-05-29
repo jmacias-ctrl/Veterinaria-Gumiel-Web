@@ -11,6 +11,6 @@ class servicios extends Model
     protected $fillable = ['id','nombre','precio','tipo','opciones'];
     protected $table = "servicios";
     public function tiposervicios(){
-        return $this->belongsTo('App\Models\tiposervicios','id_tipo','id');
+        return $this->belongsTo('App\Models\tiposervicios','tiposervicio_id','id');
     }
 }

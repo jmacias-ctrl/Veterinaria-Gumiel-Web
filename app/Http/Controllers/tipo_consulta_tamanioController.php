@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\tipo_consulta_tamanio;
+use App\Models\tipo_consulta_tamanios;
 use App\Models\tiposervicios;
 use Illuminate\Http\Request;
 use DataTables;
@@ -13,8 +13,9 @@ class tipo_consulta_tamanioController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $data = tipo_consulta_tamanio::with('tiposervicios')->get()->map(function($tipoconsulta_tam){
+            $data = tipo_consulta_tamanios::with('tiposervicios')->get()->map(function($tipoconsulta_tam){
                 $tipoconsulta_tam->tiposervicio_id = $tipoconsulta_tam->tiposervicios->nombre;
+                $tipoconsulta_tam->precio = '$'.number_format($tipoconsulta_tam->precio, 0, ',', '.');
                 return $tipoconsulta_tam;
             });
             return Datatables::of($data)
@@ -23,7 +24,7 @@ class tipo_consulta_tamanioController extends Controller
                 ->rawColumns(['action'])
                 ->toJson();
         }
-        $tipoconsultas_tam = tipo_consulta_tamanio::with('tiposervicios')->get();
+        $tipoconsultas_tam = tipo_consulta_tamanios::with('tiposervicios')->get();
         return view('admin.Tipoconsulta_tamanio.tipoconsulta_tamanio', compact('tipoconsultas_tam'));
     }
 
@@ -49,7 +50,7 @@ class tipo_consulta_tamanioController extends Controller
         
         if ($validator->passes()) {
             $tiposervicios = tiposervicios::all();
-            $tipoconsulta_tam = new tipo_consulta_tamanio();
+            $tipoconsulta_tam = new tipo_consulta_tamanios();
             $tipoconsulta_tam->nombre = $request->input('nombre');
             $tipoconsulta_tam->duracion = $request->input('duracion');
             $tipoconsulta_tam->tiposervicio_id = $request->input('tiposervicio_id');
@@ -62,14 +63,14 @@ class tipo_consulta_tamanioController extends Controller
 
     public function delete(Request $request)
     {
-        $tipoconsulta_tam = tipo_consulta_tamanio::find($request->id);
+        $tipoconsulta_tam = tipo_consulta_tamanios::find($request->id);
         $tipoconsulta_tam->delete();
         return response()->json(['success' => true], 200);
     }
 
     public function edit(Request $request)
     {
-        $tipoconsulta_tam = tipo_consulta_tamanio::find($request->id);
+        $tipoconsulta_tam = tipo_consulta_tamanios::find($request->id);
         $tiposervicios = tiposervicios::all();
         return view('admin.tipoconsulta_tamanio.edit', compact('tipoconsulta_tam', 'tiposervicios'));
     }
@@ -90,7 +91,7 @@ class tipo_consulta_tamanioController extends Controller
         
         if ($validator->passes()) {
             $tiposervicios = tiposervicios::all();
-            $tipoconsulta_tam = tipo_consulta_tamanio::find($request->id);
+            $tipoconsulta_tam = tipo_consulta_tamanios::find($request->id);
             $tipoconsulta_tam->nombre = $request->input('nombre');
             $tipoconsulta_tam->duracion = $request->input('duracion');
             $tipoconsulta_tam->tiposervicio_id = $request->input('tiposervicio_id');

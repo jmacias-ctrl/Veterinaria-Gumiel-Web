@@ -63,6 +63,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Tipo</th>
                             <th scope="col">Precio</th>
+                            <th scope="col">Duracion</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -182,6 +183,10 @@
                     {
                         data: 'precio',
                         name: 'precio'
+                    },
+                    {
+                        data: 'duracion',
+                        name: 'duracion'
                     },
                     {
                         data: 'action',

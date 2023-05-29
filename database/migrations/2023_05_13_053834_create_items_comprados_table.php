@@ -16,7 +16,7 @@ class CreateItemsCompradosTable extends Migration
         Schema::create('items_comprados', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_producto')->nullable();
-            $table->unsignedBigInteger('id_reserva')->nullable();
+            $table->unsignedBigInteger('id_servicio')->nullable();
             $table->unsignedBigInteger('id_venta');
             $table->enum('tipo_item', ['producto', 'servicio']);
             $table->integer('monto');
@@ -24,7 +24,7 @@ class CreateItemsCompradosTable extends Migration
             $table->timestamps();
 
             $table->foreign('id_producto')->references('id')->on('productos_ventas');
-            $table->foreign('id_reserva')->references('id')->on('reservar_citas');
+            $table->foreign('id_servicio')->references('id')->on('servicios');
             $table->foreign('id_venta')->references('id')->on('trazabilidad_venta_presencials');
         });
     }

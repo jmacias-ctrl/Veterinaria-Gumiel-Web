@@ -78,6 +78,7 @@ class RoleSeeder extends Seeder
         Role::create(['name'=>'Peluquero'])->syncPermissions(['acceder panel','ver gestionvet','ver estadisticas']);
         Role::create(['name'=>'Inventario'])->syncPermissions(['ver proveedores','ingresar proveedores','modificar proveedores','eliminar proveedores','acceso punto de venta','acceso ventas','acceder panel','ver estadisticas', 'acceso administracion de stock']);
         Role::create(['name'=>'Cliente'])->syncPermissions(['acceder panel','ver citasvet']);
+        Role::create(['name'=>'Invitado']);
         Role::create(['name'=>'RolePrueba1'])->syncPermissions(['acceder panel','ver productos', 'modificar productos', 'eliminar productos', 'ingresar productos']);
         Role::create(['name'=>'RolePrueba2'])->syncPermissions(['acceder panel','ver servicios', 'modificar servicios', 'eliminar servicios', 'ingresar servicios']);
 

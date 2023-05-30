@@ -5,12 +5,12 @@ Tienda - Veterinaria Gumiel
 @section('content')
 
 <div class="container" style="margin-top: 20px">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Tienda</li>
-            </ol>
-        </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tienda</li>
+        </ol>
+    </nav>
 
 
         @if(session()->has('success_msg'))
@@ -86,11 +86,13 @@ Tienda - Veterinaria Gumiel
         </div>
     </div>
 @endsection
+
 <style>
     body{
         background:url("/image/fondo-tienda.png");
         background-repeat: repeat;
         background-attachment: fixed;
         background-size:400px;
+        backdrop-filter:blur(1px);
     }
 </style>

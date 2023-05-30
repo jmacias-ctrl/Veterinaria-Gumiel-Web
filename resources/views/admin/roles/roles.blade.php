@@ -51,9 +51,11 @@
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Roles</h1>
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.roles.add') }}" role="button"
-                            style="background-color:#19A448; border-color:#19A448;">Ingresar
-                            Rol</a>
+                        @can('ingresar roles')
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.roles.add') }}" role="button"
+                                style="background-color:#19A448; border-color:#19A448;">Ingresar
+                                Rol</a>
+                        @endcan
                     </div>
                 </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">

@@ -160,7 +160,7 @@
                         <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
                     </li>
-                    @hasrole('Admin')
+                    @can('ver usuario')
                         @if (Route::currentRouteName() == 'admin.usuarios.index')
                             <li class="nav-item  active">
                             @else
@@ -193,7 +193,7 @@
                             </div>
                         </div>
                         </li>
-                    @endhasrole
+                        @endcan
                     @can('ver servicios')
                         <li class="nav-item">
                             <a class="nav-link @if (request()->routeIs('admin.servicio.*')) active @endif"
@@ -255,14 +255,15 @@
                             </div>
                         </li>
                     @endcan
-                    @hasrole('Admin')
+                    @canany(['ver productos','ver servicios','ver insumos medicos','ver medicamentos','ver especies','modificar landing page'])
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#mantenedoresCollapse"
                                 role="button" aria-expanded="false" aria-controls="mantenedoresCollapse">
                                 <i class="ni ni-settings text-green"></i> Mantenedores
                             </a>
-                            <div class="collapse" id="mantenedoresCollapse">
+                            <div class="collapse" id="mantenedoresCollapse">                     
                                 <div class="card card-body" id="dropdown">
+                                    @can('ver productos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaproductos.*')) active @endif"
@@ -270,6 +271,8 @@
                                                 id="link-dropdown">Marcas Productos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver productos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoproductos_ventas.*')) active @endif"
@@ -277,6 +280,8 @@
                                                 id="link-dropdown">Tipo Productos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver servicios')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tiposervicios.*')) active @endif"
@@ -284,6 +289,8 @@
                                                 Servicios</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver insumos medicos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaInsumos.*')) active @endif"
@@ -291,6 +298,8 @@
                                                 Insumos Médicos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver insumos medicos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoinsumos.*')) active @endif"
@@ -298,6 +307,8 @@
                                                 Insumos Médicos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver medicamentos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipomedicamentos_vacunas.*')) active @endif"
@@ -306,6 +317,8 @@
                                                 Medicamentos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver medicamentos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcamedicamentos_vacunas.*')) active @endif"
@@ -314,6 +327,8 @@
                                                 Medicamentos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver especies')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.especies.*')) active @endif"
@@ -321,16 +336,19 @@
                                                 id="link-dropdown">Especies</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('modificar landing page')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
                                                 id="link-dropdown">Landing Page</a>
                                         </li>
                                     </ul>
+                                    @endcan
                                 </div>
                             </div>
                         </li>
-                    @endhasrole
+                    @endcanany 
                     @can('acceso punto de venta')
                         <li class="nav-item active">
                             <a class="nav-link @if (request()->routeIs('point_sale.*')) active @endif"

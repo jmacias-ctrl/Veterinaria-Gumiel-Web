@@ -52,10 +52,11 @@
 
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Usuarios</h1>
-                        <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button"
-                            style="background-color:#19A448; border-color:#19A448;">Ingresar
-                            Usuario</a>
-
+                        @can('ingresar usuarios')
+                            <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button"
+                                style="background-color:#19A448; border-color:#19A448;">Ingresar
+                                Usuario</a>
+                        @endcan
                     </div>
 
                 </div>

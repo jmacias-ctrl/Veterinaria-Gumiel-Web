@@ -50,11 +50,12 @@
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Tipo de Medicamentos</h1>
-
-                        <a class="btn btn-primary ms-5 boton-aceptar"
-                            href="{{ route('admin.tipomedicamentos_vacunas.create') }}"
-                            style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
-                            medicamento</a>
+                        @can('ingresar medicamentos vacunas')
+                            <a class="btn btn-primary ms-5 boton-aceptar"
+                                href="{{ route('admin.tipomedicamentos_vacunas.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
+                                medicamento</a>
+                        @endcan
                     </div>
                 </div>
                 <div class="table-responsive">

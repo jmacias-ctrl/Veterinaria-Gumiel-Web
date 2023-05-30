@@ -44,7 +44,7 @@
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Especies</h1>
-                        @can('ingresar insumos medicos')
+                        @can('ingresar especies')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.especies.create') }}"
                                 style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Especie</a>
                         @endcan

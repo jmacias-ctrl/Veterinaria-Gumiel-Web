@@ -50,8 +50,11 @@
 
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Marca de Medicamentos</h1>
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.marcamedicamentos_vacunas.create') }}"
-                            style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
+                        @can('ingresar medicamentos vacunas')
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.marcamedicamentos_vacunas.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
+                        @endcan
+
                     </div>
                 </div>
                 <div class="table-responsive">

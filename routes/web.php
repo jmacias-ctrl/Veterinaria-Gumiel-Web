@@ -170,12 +170,12 @@ Route::group(['middleware' => ['auth','can:ver servicios']], function () {
     Route::get('tipoconsulta_tamanio', [\App\Http\Controllers\tipo_consulta_tamanioController::class, 'index'])->name('admin.tipoconsulta_tamanio.index');
    
 });
-Route::group(['middleware' => ['auth','can:ver usuarios']], function () {
-    Route::get('usuarios', [App\Http\Controllers\UserController::class, 'index'])->name('admin.usuarios.index')->middleware(['can:ver usuarios']);
-    Route::post('usuarios/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('admin.usuarios.delete')->middleware(['can:eliminar usuarios']);
+Route::group(['middleware' => ['auth','can:ver usuario']], function () {
+    Route::get('usuarios', [App\Http\Controllers\UserController::class, 'index'])->name('admin.usuarios.index')->middleware(['can:ver usuario']);
+    Route::post('usuarios/delete', [App\Http\Controllers\UserController::class, 'delete'])->name('admin.usuarios.delete')->middleware(['can:eliminar usuario']);
     Route::get('usuarios/roles/{id}', [App\Http\Controllers\UserController::class, 'modify_roles'])->name('admin.usuarios.roles')->middleware(['can:asignar roles usuario']);
-    Route::get('usuarios/add', [App\Http\Controllers\UserController::class, 'add_user'])->name('admin.usuarios.add')->middleware(['can:ingresar usuarios']);
-    Route::post('usuarios/store', [App\Http\Controllers\UserController::class, 'store_user'])->name('admin.usuarios.store')->middleware(['can:ingresar usuarios']);
+    Route::get('usuarios/add', [App\Http\Controllers\UserController::class, 'add_user'])->name('admin.usuarios.add')->middleware(['can:ingresar usuario']);
+    Route::post('usuarios/store', [App\Http\Controllers\UserController::class, 'store_user'])->name('admin.usuarios.store')->middleware(['can:ingresar usuario']);
     Route::post('usuarios/roles/update', [App\Http\Controllers\UserController::class, 'update_roles'])->name('admin.usuarios.update.roles')->middleware(['can:asignar roles usuario']);
 });
 Route::group(['middleware' => ['auth','can:ver roles']], function () {

@@ -52,7 +52,7 @@
 
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Usuarios</h1>
-                        @can('ingresar usuarios')
+                        @can('ingresar usuario')
                             <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button"
                                 style="background-color:#19A448; border-color:#19A448;">Ingresar
                                 Usuario</a>

@@ -294,11 +294,16 @@
                         $("#efectivo").addClass('d-none');
                         $("#vuelto").addClass('d-none');
                         $("#id_operacion").html('Num Operacion: ' + response.data.detalle_metodo['num_operacion'])
-                    } else {
+                    } else if(response.data.venta['metodo_pago']=="transferencia"){
                         $("#efectivo").addClass('d-none');
                         $("#vuelto").addClass('d-none');
                         $("#id_operacion").html('Num Operacion: ' + response.data.detalle_metodo['num_operacion'])
                         $("#Banco").html('Banco: ' + response.data.detalle_metodo['banco'])
+                    }else{
+                        $("#efectivo").addClass('d-none');
+                        $("#vuelto").addClass('d-none');
+                        $("#id_operacion").addClass('d-none')
+                        $("#Banco").addClass('d-none')
                     }
                     $.map(response.data.itemsComprado, function(elementOrValue,
                         indexOrKey) {

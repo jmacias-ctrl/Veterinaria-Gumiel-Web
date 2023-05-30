@@ -7,11 +7,15 @@ use App\Http\Requests\StoreCompraRequest;
 use App\Http\Requests\UpdateCompraRequest;
 use App\Models\productos_ventas;
 use Spatie\Permission\Models\Role;
+use App\Models\trazabilidad_venta_presencial;
+use App\Models\items_comprados;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Transbank\Webpay\WebpayPlus\Transaction;
-
+use Carbon\Carbon;
+use App\Notifications\StockProductoInventario;
 
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -35,9 +39,39 @@ class CompraController extends Controller
 
     public function resumen_compra(Request $request){
         $cartCollection = \Cart::getContent();
+        $trazabilidad = new trazabilidad_venta_presencial();
+        $trazabilidad->id_venta = Str::random(10);
+        $trazabilidad->metodo_pago = 'online';
+        $trazabilidad->nombre_cliente = "compra online";
+        $trazabilidad->fecha_compra = Carbon::now()->toDateString();
+        $trazabilidad->save();
         foreach($cartCollection as $item){
             $item['stock']=productos_ventas::find($item->id)->stock;
-            
+            $newItem = new items_comprados();
+            $newItem->monto = $item->price;
+            $newItem->cantidad = $item->quantity;
+            $newItem->id_producto = $item->id;
+            $newItem->id_venta = $trazabilidad->id;
+            $newItem->tipo_item = "producto";
+            $newItem->save();
+            $producto = productos_ventas::find($item->id);
+            $producto->stock = $producto->stock - $item->quantity;
+            if($producto->stock<=0){
+                $users = User::all();
+                foreach($users as $user){
+                    if($user->can('acceso administracion de stock')){
+                        $user->notify(new StockProductoInventario($producto, true));
+                    }
+                }   
+            }else if($producto->stock<$producto->min_stock){
+                $users = User::all();
+                foreach($users as $user){
+                    if($user->can('acceso administracion de stock')){
+                        $user->notify(new StockProductoInventario($producto, false));
+                    }
+                }   
+            }
+            $producto->save();
         }
         $response = (new Transaction)->status($request->token);
         $compra=Compra::find($response->buyOrder);

@@ -47,7 +47,7 @@
                 @if (sizeof(auth()->user()->notifications) > 0)
                     @foreach (auth()->user()->notifications as $notification)
                         @if (!isset($notification->read_at))
-                            <a href="{{ $notification->data['route'] }}" style="text-decoration:none; color:black;">
+                            <a @if(isset($notification->data['route'])) href="{{ $notification->data['route'] }}" @endif style="text-decoration:none; color:black;">
                                 <div class="container border border-dark rounded py-3 px-5 shadow my-3 align-items-center"
                                     id="notificationDiv" style="color: white;">
 
@@ -70,7 +70,7 @@
                                 </div>
                             </a>
                         @else
-                            <a href="{{ $notification->data['route'] }}" style="text-decoration:none; color:black;">
+                            <a @if(isset($notification->data['route'])) href="{{ $notification->data['route'] }}" @endif style="text-decoration:none; color:black;">
                                 <div class="container border border-dark rounded py-3 px-5 shadow my-3 align-items-center"
                                     id="notificationDiv" style="background:white;">
 

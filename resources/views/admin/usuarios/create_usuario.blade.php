@@ -55,7 +55,7 @@
                 <form action="{{ route('admin.usuarios.store') }}" method="POST">
                     @csrf
                     <div id="RoleWindow">
-                        <h2 class="mt-4">Informacion Personal</h2>
+                        <h2 class="mt-4">Información Personal</h2>
                         <div class="row mt-3">
                             <div class="col">
                                 <label for="nombre" class="form-label">Nombre</label>
@@ -88,7 +88,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">Correo</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" name="email" placeholder="Ej. email@gmail.com"
                                     value="{{ old('email') }}" required>
@@ -99,7 +99,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="telefono" class="form-label">Telefono</label>
+                                <label for="telefono" class="form-label">Teléfono</label>
                                 <div class="input-group">
                                     <div class="input-group-text">+56</div>
                                     <input type="number" class="form-control @error('telefono') is-invalid @enderror"
@@ -111,7 +111,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <h5 class='my-4'>La contraseña sera por defecto el rut sin el digito verificador</h5>
+                        <h5 class='my-4'>La contraseña será por defecto el rut sin el digito verificador</h5>
                         <hr class="mt-4">
                         <h5 class="mt-4">Roles</h5>
                         <div class="row justify-content-center align-items-center g-2">
@@ -123,7 +123,7 @@
                             @foreach ($roles as $rol)
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[{{ $rol->id }}]"
+                                        <input class="form-check-input" type="radio" name="role"
                                             value="{{ $rol->name }}" @if (old('roles[' . $rol->id . ']') == $rol->name) checked @endif>
                                         <label class="form-check-label" for="">
                                             {{ $rol->name }}
@@ -134,7 +134,7 @@
                         </div>
                         <hr>
                         <div class="align-self-center">
-                            <input class="btn btn-primary " id="btn-submit" type="submit" value="Agregar Usuario"
+                            <input class="btn btn-primary " id="btn-submit" type="submit" value="Agregar"
                                 style="background-color:#19A448; border-color:#19A448;">
                         </div>
 
@@ -175,7 +175,7 @@
                 if (!Fn.validaRut(rut)) {
                     Swal.fire(
                         'Error',
-                        'Rut ingresado no sigue el formato, debe ser xxxxxxxx-x',
+                        'Rut ingresado no sigue el formato xxxxxxxx-x',
                         'error'
                     )
                     return;
@@ -183,7 +183,7 @@
                     var form = $(this).parents(form);
                     Swal.fire({
                         title: 'Agregar Nuevo usuario',
-                        text: "¿Estás seguro de que todos los datos estan correctos?",
+                        text: "¿Estás seguro de que todos los datos están correctos?",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

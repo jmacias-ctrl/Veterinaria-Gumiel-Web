@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Modificar Marca Insumos Medicos - Veterinaria Gumiel</title>
+<title>Modificar Marca Insumos Médicos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Marca {{ $marcaInsumo->nombre }}
+    Modificación Marca de Insumo Médico {{ $marcaInsumo->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -47,10 +47,10 @@
             <form id="formMarca" action="{{ route('admin.marcaInsumos.update') }}" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $marcaInsumo->id }}">
-            <h5 class="my-4">Informacion del Rol</h5>
+            <h5 class="my-4">Información del Rol</h5>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="nombre" class="form-label">Nombre Marca</label>
+                    <label for="nombre" class="form-label">Nombre</label>
                     <input type="text"  class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Braun" aria-label="nombre"
                         value="{{ $marcaInsumo->nombre }}" id="nombre" name="nombre" required>
                     @error('nombre')
@@ -79,8 +79,8 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: 'Modificar Marca de Insumo Medico',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    title: 'Modificar Marca de Insumo Médico',
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

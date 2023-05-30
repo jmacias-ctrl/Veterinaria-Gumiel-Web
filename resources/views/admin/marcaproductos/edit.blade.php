@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Marca {{ $marcaproductos->nombre }}
+    Modificación de Marca {{ $marcaproductos->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -49,7 +49,7 @@
             <div class="row mt-3">
                 <div class="col">
                     <input type="hidden" name="id" value="{{ $marcaproductos->id }}">
-                    <label for="nombre" class="form-label">Nombre Marca</label>
+                    <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                         value="{{ $marcaproductos->nombre }}" id="nombre" checked>
                     @error('nombre')
@@ -86,8 +86,8 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Modificar Marca Productos',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    title: 'Modificar Marca Producto',
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

@@ -12,4 +12,10 @@ class productos_ventas extends Model
     public function MarcaProductos(){
         return $this->belongsTo('App\Models\Marcaproducto','id_marca','id');
     }
+    public function tipoproductos_ventas(){
+        return $this->belongsTo('App\Models\tipoproductos_ventas','id_tipo','id');
+    }
+    public function especies(){
+        return $this->belongsTo('App\Models\Especie','producto_enfocado','id');
+    }
 }

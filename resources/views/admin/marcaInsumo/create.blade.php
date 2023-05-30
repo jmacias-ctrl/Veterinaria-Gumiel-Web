@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Ingresar Nueva Marca Insumos Medicos - Veterinaria Gumiel</title>
+<title>Ingresar Nueva Marca Insumos Médicos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -23,7 +23,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Marca de Insumo
+    Crear Marca de Insumo Médico
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -54,7 +54,7 @@
             <div class="card shadow p-4">
             <form action="{{ route('admin.marcaInsumos.store') }}" method="POST">
         @csrf
-            <h5 class="mt-4">Informacion de la marca insumos medicos</h5>
+            <h5 class="mt-4">Información de la marca insumos médicos</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="Nombre" class="form-label @error('nombre') is-invalid @enderror">Nombre</label>
@@ -88,8 +88,8 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Agregar Nueva Marca Insumos Medicos',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    title: 'Agregar Nueva Marca Insumos Médicos',
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

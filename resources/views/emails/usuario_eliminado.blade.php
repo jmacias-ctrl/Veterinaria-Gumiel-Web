@@ -128,7 +128,7 @@
         <main style="padding: 25px">
             <h1>Usuario Eliminado</h1>
             <img src="{{asset('image/user-deleted.png')}}" alt="">
-            <p style="font-size: 20px">Tu cuenta de usuario ha sido eliminado de la plataforma, para saber las razones, contáctese con el administrador de la plataforma.</p>
+            <p style="font-size: 20px">Tu cuenta de usuario ha sido eliminada de la plataforma, para saber las razones, contáctese con el administrador de la plataforma.</p>
             
         </main>
         <hr>

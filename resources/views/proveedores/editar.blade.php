@@ -66,7 +66,7 @@
                     </div>
                     <hr class="my-3">
                     <button type="submit" id="btn-submit" class="btn btn-primary"
-                        style="background-color:#19A448; border-color:#19A448;">Modificar Proveedor</button>
+                        style="background-color:#19A448; border-color:#19A448;">Modificar</button>
                 </form>
             </div>
         </div>
@@ -84,8 +84,8 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Modificar producto',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    title: 'Modificar Proveedor',
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

@@ -62,7 +62,7 @@
                             @enderror
                         </div>
                         <hr class="my-3">
-                        <button type="submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;">Agregar Proveedor</button>
+                        <button type="submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;">Agregar</button>
                     </form>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Agregar Nuevo Proveedor',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

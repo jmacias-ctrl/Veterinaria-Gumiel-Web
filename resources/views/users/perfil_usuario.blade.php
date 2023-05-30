@@ -88,7 +88,7 @@
                     </div>
                     <hr>
                     <div class="h3 mt-2">
-                        <i class="ni business_briefcase-24 mr-2"></i>Telefono: @if (isset(Auth::user()->phone))
+                        <i class="ni business_briefcase-24 mr-2"></i>Teléfono: @if (isset(Auth::user()->phone))
                             {{Auth::user()->phone}}
                         @else
                             No definido

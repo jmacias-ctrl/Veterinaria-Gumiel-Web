@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Marca de Medicamentos
+    Gestión de Marca de Medicamentos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -139,7 +139,7 @@
 
             Swal.fire({
                 title: '¿Eliminar Marca de Medicamento?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -154,7 +154,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Marca eliminada correctamente!')
+                            toastr.success('¡Marca eliminada correctamente!')
 
                         })
                         .catch(function(error) {
@@ -163,7 +163,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Marca eliminada correctamente!',
+                                title: '¡Marca de Medicamento eliminada correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

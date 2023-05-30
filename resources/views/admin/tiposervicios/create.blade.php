@@ -55,7 +55,7 @@
                 <form action="{{ route('admin.tiposervicios.store') }}" method="POST">
                 @csrf
                 <div class="container">
-                    <h5 class="mt-4">Informacion del Tipo</h5>
+                    <h5 class="mt-4">Información del Tipo</h5>
                     <div class="row mt-3">
                         <div class="col">
                             <label for="Nombre" class="form-label">Nombre</label>
@@ -64,27 +64,6 @@
                             @error('nombre')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <h5 class="mt-4">Funcionario asociado</h5>
-                                <div class="row justify-content-center align-items-center g-2">
-                                <div class="col">
-                                    <select class="form-select @error('user_id') is-invalid @enderror"
-                                        aria-label="Default select example" name="user_id" id="user_id">
-                                        <option selected disabled>Seleccione una opcion</option>
-                                        @foreach ($users as $user)
-                                            @if ($user->hasRole('Veterinario') || $user->hasRole('Peluquero'))
-                                            <option type="unsignedBigInteger" value="{{ $user->id }}">{{ $user->name }}</option>
-                                            @endif                       
-                                        @endforeach
-                                    </select>
-                                    @error('user_id')
-                                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                                    @enderror
-                                </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <br>
@@ -111,7 +90,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Agregar Nuevo Tipo de Servicio',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

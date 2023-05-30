@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Tipo Insumos médicos</title>
+<title>Gestión Tipo Insumos médicos</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Tipo de Insumos
+    Gestión de Tipo de Insumos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -66,7 +66,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Opciones</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                     </table>
@@ -147,7 +147,7 @@
 
             Swal.fire({
                 title: '¿Eliminar tipo de insumo?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -162,7 +162,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Tipo de insumo eliminado correctamente!')
+                            toastr.success('¡Tipo de insumo eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -171,7 +171,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Tipo de insumo eliminado correctamente!',
+                                title: '¡Tipo de insumo eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Modificacion de Perfil - Veterinaria Gumiel</title>
+<title>Modificación de Perfil - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -31,7 +31,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Modificacion del Perfil {{ Auth::user()->name }}
+    Modificación del Perfil {{ Auth::user()->name }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -81,7 +81,7 @@
                             @enderror
                         </div>
                     </div>
-                    <h4 class="mt-4">Informacion Personal</h4>
+                    <h4 class="mt-4">Información Personal</h4>
                     <hr>
                     <div class="row mt-3">
                         <div class="col">
@@ -106,7 +106,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">Correo</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
                                 name="email" placeholder="Ej. email@gmail.com" value="{{ Auth::user()->email }}"
                                 required>
@@ -117,7 +117,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="telefono" class="form-label">Telefono</label>
+                            <label for="telefono" class="form-label">Teléfono</label>
                             <div class="input-group">
                                 <div class="input-group-text">+56</div>
                                 <input type="number" class="form-control @error('telefono') is-invalid @enderror"
@@ -153,7 +153,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="passwordConfirmation" class="form-label">Confirmacion Nueva Contraseña</label>
+                            <label for="passwordConfirmation" class="form-label">Confirmación Nueva Contraseña</label>
                             <input type="password" class="form-control @error('passNueva') is-invalid @enderror"
                                 id="passwordConfirmation" name="new_password_confirmation">
                             @error('passNueva')
@@ -204,7 +204,7 @@
                 if (!Fn.validaRut(rut)) {
                     Swal.fire(
                         'Error',
-                        'Rut ingresado no sigue el formato, debe ser xxxxxxxx-x',
+                        'Rut ingresado no sigue el formato xxxxxxxx-x',
                         'error'
                     )
                     return;
@@ -212,7 +212,7 @@
                     var form = $(this).parents(form);
                     Swal.fire({
                         title: 'Modificar tu Perfil de Usuario',
-                        text: "¿Estás seguro de que todos los datos estan correctos?",
+                        text: "¿Estás seguro de que todos los datos están correctos?",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

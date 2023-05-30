@@ -55,7 +55,7 @@
                 <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
-                        <label for="codigo" class="form-label">Codigo</label>
+                        <label for="codigo" class="form-label">Código</label>
                         <input type="text" id="codigo" name="codigo"
                             class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
                             aria-label="codigo" value="{{ old('codigo') }}" required>
@@ -185,7 +185,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Agregar Nuevo producto',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

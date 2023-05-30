@@ -56,7 +56,7 @@
             <form action="{{ route('admin.tipoinsumos.store') }}" method="POST">
             @csrf
             <div class="container">
-                <h5 class="mt-4">Informacion del Tipo</h5>
+                <h5 class="mt-4">Información del Tipo</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="Nombre" class="form-label">Nombre</label>
@@ -91,7 +91,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Agregar Nuevo Tipo de Insumo',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

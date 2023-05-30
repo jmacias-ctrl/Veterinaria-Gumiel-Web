@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Especie {{ $especie->nombre }}
+    Modificación de Especie {{ $especie->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -47,7 +47,7 @@
             <div class="card shadow p-4">
                 <form action="{{ route('admin.especies.update') }}" method="POST">
                     @csrf
-                    <h5 class="mt-4">Informacion de la Especie</h5>
+                    <h5 class="mt-4">Información de la Especie</h5>
                     <div class="row mt-3">
                         <input type="hidden" name="id" value="{{$especie->id}}">
                         <div class="col">
@@ -93,7 +93,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Modificar Especie',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

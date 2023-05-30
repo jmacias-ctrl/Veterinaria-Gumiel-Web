@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Marca Productos
+    Gestión de Marca Productos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -38,7 +38,7 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Marca productos</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Marca Productos</li>
     </nav>
 @endsection
 @section('content')
@@ -140,7 +140,7 @@
 
             Swal.fire({
                 title: '¿Eliminar Marca de Producto?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -155,7 +155,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Marca eliminada correctamente!')
+                            toastr.success('¡Marca de Producto eliminada correctamente!')
 
                         })
                         .catch(function(error) {
@@ -164,7 +164,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Marca eliminada correctamente!',
+                                title: '¡Marca de Producto eliminada correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

@@ -56,10 +56,10 @@
                 <form action="{{ route('admin.medicamentos_vacunas.store') }}" method="POST">
                     @csrf
                     <div id="RoleWindow">
-                        <h5 class="mt-4">Informacion del Medicamento</h5>
+                        <h5 class="mt-4">Información del Medicamento</h5>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nomcodigobre" class="form-label">Codigo</label>
+                                <label for="nomcodigobre" class="form-label">Código</label>
                                 <input type="text" id="codigo" name="codigo"
                                     class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
                                     aria-label="codigo" value="{{old('codigo')}}" required>
@@ -148,7 +148,7 @@
                                 <div class="col">
                                     <input class="btn btn-primary" id="btn-submit"
                                         style="background-color:#19A448; border-color:#19A448;" type="submit"
-                                        value="Agregar Medicamento">
+                                        value="Modificar">
                                 </div>
                             </div>
                         </div>

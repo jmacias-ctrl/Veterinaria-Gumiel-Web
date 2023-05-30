@@ -16,7 +16,7 @@
                     <li class="list-group-item" id="metodoPagoShow">Metodo de Pago: </li>
                     <li class="list-group-item" id="efectivo">Efectivo Dado: </li>
                     <li class="list-group-item" id="vuelto">Vuelto: </li>
-                    <li class="list-group-item" id="id_operacion">Id Operacion: </li>
+                    <li class="list-group-item" id="id_operacion">Id Operación: </li>
                     <li class="list-group-item" id="Banco">Banco: </li>
                 </ul>
                 </ul>

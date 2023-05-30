@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Marcas de Innsumos Medico - Veterinaria Gumiel</title>
+<title>Marcas de Insumos Médico - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Marca Insumos
+    Gestión de Marca Insumos Médicos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -38,7 +38,7 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Marca productos</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Marca Insumos Médicos</li>
     </nav>
 @endsection
 @section('content')
@@ -48,7 +48,7 @@
             <div class="card shadow p-4">
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
-                        <h1>Listado de Marca de Insumos</h1>
+                        <h1>Listado de Marca de Insumos Médicos</h1>
                         @can('ingresar insumos medicos')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}"
                                 style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
@@ -64,7 +64,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Opciones</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                     </table>
@@ -88,6 +88,16 @@
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @if (Session::has('success'))
+            <script>
+                toastr.success("{{ Session::get('success') }}");
+            </script>
+    @endif
+    @if (Session::has('error'))
+        <script>
+            toastr.error("{{ Session::get('error') }}");
+        </script>
+    @endif
     <script>
         $(document).ready(function() {
             var table = $("#table").DataTable({
@@ -129,57 +139,48 @@
                 $('#table').dataTable().fnFilter(this.value);
             });
         });
-        @if (Session::has('success'))
-            <
-            script >
-                toastr.success("{{ Session::get('success') }}");
-    </script>
-    @endif
-    @if (Session::has('error'))
-        <script>
-            toastr.error("{{ Session::get('error') }}");
-        </script>
-    @endif
-    function deleted(id_get) {
 
-    Swal.fire({
-    title: '¿Eliminar Marca de Insumo Medico?',
-    text: "¿Estás seguro? no podrás revertir la acción!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Si, borrar',
-    cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    
+        function deleted(id_get) {
 
-    if (result.isConfirmed) {
-    axios.post("{{ route('admin.marcaInsumos.delete') }}", {
-    id: id_get
-    })
-    .then(function(response) {
+            Swal.fire({
+                title: '¿Eliminar Marca de Insumo Medico?',
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, borrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
 
-    toastr.success('Marca eliminada correctamente!')
+                if (result.isConfirmed) {
+                    axios.post("{{ route('admin.marcaInsumos.delete') }}", {
+                            id: id_get
+                        })
+                        .then(function(response) {
 
-    })
-    .catch(function(error) {
-    toastr.error('La acción no se pudo realizar')
-    })
-    .finally(function() {
-    Swal.fire({
-    icon: 'success',
-    title: 'Marca eliminada correctamente!',
-    showConfirmButton: false,
-    timer: 1500
-    })
-    setTimeout(() => {
-    location.reload();
-    }, 1500);
+                            toastr.success('¡Marca de Insumo Médico eliminada correctamente!')
 
-    });
-    }
-    });
+                        })
+                        .catch(function(error) {
+                            toastr.error('La acción no se pudo realizar')
+                        })
+                        .finally(function() {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Marca de Insumo Médico eliminada correctamente!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500);
 
-    }
+                        });
+                }
+            });
+
+        }
     </script>
 @endsection

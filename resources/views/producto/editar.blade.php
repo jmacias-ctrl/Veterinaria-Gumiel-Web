@@ -56,7 +56,7 @@
                     @csrf
                     <input type="hidden" name="id" value="{{ $producto->id }}">
                     <div class="form-group">
-                        <label for="codigo" class="form-label">Codigo</label>
+                        <label for="codigo" class="form-label">Código</label>
                         <input type="text" id="codigo" name="codigo"
                             class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
                             aria-label="codigo" value="{{ $producto->codigo }}" required>
@@ -171,7 +171,7 @@
                     </div>
                     <hr class="my-3">
                     <button type="submit" id="btn-submit" class="btn btn-primary"
-                        style="background-color:#19A448; border-color:#19A448;">Modificar producto</button>
+                        style="background-color:#19A448; border-color:#19A448;">Modificar</button>
                 </form>
             </div>
         </div>
@@ -190,7 +190,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Modificar producto',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

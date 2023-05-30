@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Roles - Veterinaria Gumiel</title>
+<title>Gestión Roles - Veterinaria Gumiel</title>
 @section('css-after')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet"
@@ -23,7 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Roles
+    Gestión de Roles
 @endsection
 
 @section('breadcrumbs')
@@ -189,7 +189,7 @@
 
             Swal.fire({
                 title: '¿Eliminar Rol?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -204,11 +204,11 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Rol eliminado correctamente!');
+                            toastr.success('¡Rol eliminado correctamente!');
 
                         })
                         .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar');
+                            toastr.error('¡La acción no se pudo realizar');
                         })
                         .finally(function() {
                             $('#table').DataTable().ajax.reload();

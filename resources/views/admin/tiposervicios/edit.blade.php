@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Tipo de Servicio {{ $tiposervicios->nombre }}
+    Modificación de Tipo de Servicio {{ $tiposervicios->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -49,7 +49,7 @@
                 <div class="row mt-3">
                     <div class="col">
                         <input type="hidden"  name="id" value="{{$tiposervicios->id}}">
-                        <label for="nombre" class="form-label">Nombre Tipo de Servicio</label>
+                        <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" name="nombre" value="{{$tiposervicios->nombre}}" id="nombre" checked>
                     </div>
 
@@ -80,7 +80,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Modificar Tipo Servicio',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

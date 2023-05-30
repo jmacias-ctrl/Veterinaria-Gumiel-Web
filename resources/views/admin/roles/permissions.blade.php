@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="col">
-        <h5>Insumos Medicos</h5>
+        <h5>Insumos Médicos</h5>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="permisos[]" value="ver insumos medicos"
                 id="flexCheckDefault" @if (isset($permissions) && $permissions->contains('ver insumos medicos')) checked @endif>
@@ -258,14 +258,14 @@
             <input class="form-check-input" type="checkbox" name="permisos[]" value="ver gestionvet"
                 id="flexCheckDefault" @if (isset($permissions) && $permissions->contains('ver gestionvet')) checked @endif>
             <label class="form-check-label" for="flexCheckDefault">
-                Acceso Gestion de Veterinaria
+                Acceso Gestión de Veterinaria
             </label>
         </div>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="permisos[]" value="acceso administracion de stock"
                 id="flexCheckDefault" @if (isset($permissions) && $permissions->contains('acceso administracion de stock')) checked @endif>
             <label class="form-check-label" for="flexCheckDefault">
-                Acceso Administracion de Inventario
+                Acceso Administración de Inventario
             </label>
         </div>
         <div class="form-check">

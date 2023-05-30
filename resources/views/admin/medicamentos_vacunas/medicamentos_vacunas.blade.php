@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Medicamentos - Veterinaria Gumiel</title>
+<title>Gestión Medicamentos - Veterinaria Gumiel</title>
 @section('css-after')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Medicamentos
+    Gestión de Medicamentos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -58,7 +58,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Codigo</th>
+                            <th scope="col">Código</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Tipo</th>
@@ -213,7 +213,7 @@
 
             Swal.fire({
                 title: '¿Eliminar Medicamento?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -229,7 +229,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Medicamento eliminado correctamente!')
+                            toastr.success('¡Medicamento eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -238,7 +238,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Medicamento eliminado correctamente!',
+                                title: '¡Medicamento eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

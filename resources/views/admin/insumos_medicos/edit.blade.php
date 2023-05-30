@@ -1,19 +1,19 @@
 @extends('layouts.panel_usuario')
-<title>Modificar Insumo Medico - Veterinaria Gumiel</title>
+<title>Modificar Insumo Médico - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 @endsection
 @section('title')
-    Modificar Insumos - Veterinaria Gumiel
+    Modificar Insumo Médico - Veterinaria Gumiel
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Insumo {{ $insumos_medicos->nombre }}
+    Modificación del Insumo {{ $insumos_medicos->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -49,7 +49,7 @@
                     @csrf
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="nomcodigobre" class="form-label">Codigo</label>
+                            <label for="nomcodigobre" class="form-label">Código</label>
                             <input type="text" id="codigo" name="codigo"
                                 class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
                                 aria-label="codigo" value="{{ $insumos_medicos->codigo }}" required>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="id_tipo" class="form-label">Tipo insumo</label>
+                            <label for="id_tipo" class="form-label">Tipo Insumo Médico</label>
                             <select class="form-select @error('id_tipo') is-invalid @enderror" name="id_tipo"
                                 for="id_tipo">
                                 <option disabled>Selecciona una opción</option>

@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Medicamento {{ $medicamentos->nombre }}
+    Modificación de Medicamento {{ $medicamentos->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -49,7 +49,7 @@
             <input type="hidden" name="id" value="{{$medicamentos->id}}">
             <div class="row mt-3">
                 <div class="col">
-                    <label for="nomcodigobre" class="form-label">Codigo</label>
+                    <label for="nomcodigobre" class="form-label">Código</label>
                     <input type="text" id="codigo" name="codigo"
                         class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
                         aria-label="codigo" value="{{$medicamentos->codigo}}" required>
@@ -61,7 +61,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="nombre" class="form-label">Nombre medicamento</label>
+                    <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" id="nombre" name="nombre"
                         class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. "
                         aria-label="Nombre" value="{{$medicamentos->nombre}}" required>
@@ -158,7 +158,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Modificar Medicamento',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

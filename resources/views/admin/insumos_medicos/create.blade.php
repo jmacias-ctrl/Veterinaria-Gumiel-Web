@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Ingreso Insumos Medicos - Veterinaria Gumiel</title>
+<title>Ingreso Insumos Médicos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -58,7 +58,7 @@
                 <h5 class="mt-4">Informacion del Insumo</h5>
                 <div class="row mt-3">
                     <div class="col">
-                        <label for="nomcodigobre" class="form-label">Codigo</label>
+                        <label for="nomcodigobre" class="form-label">Código</label>
                         <input type="text" id="codigo" name="codigo"
                             class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
                             aria-label="codigo" value="{{old('codigo')}}" required>
@@ -98,7 +98,7 @@
 
                 </div>
                 <hr class="mt-4">
-                <h5 class="mt-4">Tipos de Insumos Medicos</h5>
+                <h5 class="mt-4">Tipos de Insumo Médico</h5>
                 @error('id_tipo')
                     <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                 @enderror
@@ -154,8 +154,8 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Agregar Nuevo Insumo Medico',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    title: 'Agregar Nuevo Insumo Médico',
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

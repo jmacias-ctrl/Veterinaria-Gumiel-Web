@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Servicio - Veterinaria Gumiel</title>
+<title>Gestión Servicio - Veterinaria Gumiel</title>
 @section('css-after')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Servicios
+    Gestión de Servicios
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -63,7 +63,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Tipo</th>
                             <th scope="col">Precio</th>
-                            <th scope="col">Duracion</th>
+                            <th scope="col">Duración</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -204,7 +204,7 @@
         function deleted(id_get) {
             Swal.fire({
                 title: '¿Eliminar servicios?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -219,7 +219,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Insumo medico eliminado correctamente!')
+                            toastr.success('¡Servicio eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -228,7 +228,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Insumo medico eliminado correctamente!',
+                                title: '¡Servicio eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

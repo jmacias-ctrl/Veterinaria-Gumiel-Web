@@ -55,10 +55,10 @@
                 <form action="{{ route('admin.servicio.store') }}" method="POST">
                 @csrf
                 <div id="RoleWindow">
-                    <h5 class="mt-4">Informacion del Servicio</h5>
+                    <h5 class="mt-4">Información del Servicio</h5>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="nombre" class="form-label">Nombre Servicio</label>
+                            <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder=""
                                 aria-label="Nombre" required>
                                 @error('nombre')
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <hr class="mt-4">
-                    <h5 class="mt-4">Tipos de Servicio</h5>
+                    <h5 class="mt-4">Tipo</h5>
                     <div class="row justify-content-center align-items-center g-2">
                         <div class="col">
                             <select class="form-select @error('id_tipo') is-invalid @enderror"
@@ -94,7 +94,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="marca" class="form-label">Duracion</label>
+                            <label for="marca" class="form-label">Duración</label>
                             <input type="text" class="form-control @error('duracion') is-invalid @enderror" id="duracion" name="duracion" placeholder="" required>
                             @error('duracion')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -125,7 +125,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Agregar Nuevo Servicio',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

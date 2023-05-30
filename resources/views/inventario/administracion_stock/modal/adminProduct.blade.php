@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Administracion del Producto</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Administración del Producto</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -39,7 +39,7 @@
 
                     </div>
                     <hr class="p-0">
-                    <h4 id="info">Informacion y Opciones</h4>
+                    <h4 id="info">Información y Opciones</h4>
                     <div class="form-row mt-2">
                         <div class="form-group col-md-6" id="costoDiv">
                             <label for="costoStockAgregado">Costo por Unidad</label>

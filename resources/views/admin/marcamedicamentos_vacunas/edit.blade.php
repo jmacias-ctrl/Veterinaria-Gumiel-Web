@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Marca {{ $marcamedicamentos_vacunas->nombre }}
+    Modificación de Marca {{ $marcamedicamentos_vacunas->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -31,7 +31,7 @@
                 Inicio</a>
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.marcamedicamentos_vacunas.index')}}" style="color:black;">Marcas Medicamentos</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Marcas</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Marca de Medicamento</li>
     </nav>
 @endsection
 @section('back-arrow')
@@ -47,10 +47,10 @@
             <form id="formMarca" action="{{ route('admin.marcamedicamentos_vacunas.update') }}" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $marcamedicamentos_vacunas->id }}">
-            <h5 class="my-4">Informacion del Rol</h5>
+            <h5 class="my-4">Información del Rol</h5>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="nombre" class="form-label">Nombre Marca</label>
+                    <label for="nombre" class="form-label">Nombre</label>
                     <input type="text"  class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Braun" aria-label="nombre"
                         value="{{ $marcamedicamentos_vacunas->nombre }}" id="nombre" name="nombre" required>
                     @error('nombre')
@@ -60,7 +60,7 @@
 
             </div>
             <hr class="my-3">
-            <input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Modificar Marca">
+            <input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Modificar">
             </form>
             </div>
         </div>
@@ -80,7 +80,7 @@
 
                 Swal.fire({
                     title: 'Modificar Marca de medicamento Medico',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

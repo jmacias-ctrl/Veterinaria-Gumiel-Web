@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Productos - Veterinaria Gumiel</title>
+<title>Gestión Productos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Productos
+    Gestión de Productos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -66,7 +66,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Codigo</th>
+                            <th>Código</th>
                             <th>Nombre</th>
                             <th>Slug</th>
                             <th>Marca</th>
@@ -227,7 +227,7 @@
 
             Swal.fire({
                 title: '¿Eliminar Producto?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -242,7 +242,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Producto eliminado correctamente!')
+                            toastr.success('¡Producto eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -251,7 +251,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Producto eliminado correctamente!',
+                                title: '¡Producto eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

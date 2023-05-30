@@ -43,7 +43,7 @@
             <div class="card shadow p-4">
                 <form action="{{ route('admin.roles.store') }}" method="POST" class="needs-validation">
                     @csrf
-                    <h2 class="mt-4">Informacion del Rol</h2>
+                    <h2 class="mt-4">Información del Rol</h2>
                     <div class="row mt-3">
                         <div class="col">
                             <label for="nombre" class="form-label">Nombre</label>

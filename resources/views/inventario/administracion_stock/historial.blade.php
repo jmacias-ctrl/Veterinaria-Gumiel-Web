@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Administracion de Inventario - Veterinaria Gumiel</title>
+<title>Administración de Inventario - Veterinaria Gumiel</title>
 @section('css-after')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -33,7 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Administracion de Inventario
+    Administración de Inventario
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -82,12 +82,12 @@
             <div class="card shadow p-4 align-items-center justify-content-center">
                 <div class="d-flex">
                     <span class="material-symbols-outlined">admin_meds</span>
-                    <h3 class="text-center mx-2">Insumos Medicos</h3>
+                    <h3 class="text-center mx-2">Insumos Médicos</h3>
                 </div>
                 @if ($cant_insumos_medicos['no_stock'] > 0)
                     <p class="fs-5 text fw-bold text-danger">{{ $cant_insumos_medicos['no_stock'] }} sin stock</p>
                 @else
-                    <p class="fs-6 text fw-bold text-success">No hay insumos medicos en peligro de stock</p>
+                    <p class="fs-6 text fw-bold text-success">No hay insumos médicos en peligro de stock</p>
                 @endif
             </div>
         </div>
@@ -109,7 +109,7 @@
         <div class="btn-group align-self-center shadow" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-success active buttonChangeTable" id="allButton">Todo</button>
             <button type="button" class="btn btn-success buttonChangeTable" id="productosButton">Productos</button>
-            <button type="button" class="btn btn-success buttonChangeTable" id="insumosButton">Insumos Medicos</button>
+            <button type="button" class="btn btn-success buttonChangeTable" id="insumosButton">Insumos Médicos</button>
             <button type="button" class="btn btn-success buttonChangeTable" id="medicinasButton">Medicinas</button>
         </div>
 
@@ -294,7 +294,7 @@
                         break;
                     case "insumosButton":
                         table = setTable(table, "insumos");
-                        $("#selected-table").html('Historial: Insumos Medicos');
+                        $("#selected-table").html('Historial: Insumos Médicos');
                         break;
                     case "medicinasButton":
                         table = setTable(table, "medicinas");
@@ -369,7 +369,7 @@
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
-                        title: `No se pudo obtener informacion del producto`,
+                        title: `No se pudo obtener información del producto`,
                         showConfirmButton: false,
                         timer: 1500
                     })

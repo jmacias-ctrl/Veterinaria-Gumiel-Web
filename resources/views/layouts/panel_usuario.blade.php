@@ -95,15 +95,7 @@
                         </a>
                         <a href="{{ route('user.profile.modify') }}" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
-                            <span>Configuracion</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-calendar-grid-58"></i>
-                            <span>Actividad</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-support-16"></i>
-                            <span>Soporte</span>
+                            <span>Configuración</span>
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('logout') }}"
@@ -111,7 +103,7 @@
                             document.getElementById('logout-form').submit();"
                             id="logout" class="dropdown-item">
                             <i class="ni ni-user-run"></i>
-                            <span>Cerrar Sesion</span>
+                            <span>Cerrar Sesión</span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
@@ -176,7 +168,7 @@
                         @endif
                         <a class="nav-link collapse-links" data-toggle="collapse" href="#usuarioCollapse" role="button"
                             aria-expanded="false" aria-controls="usuarioCollapse">
-                            <i class="ni ni-circle-08 text-green"></i> Gestion Usuarios
+                            <i class="ni ni-circle-08 text-green"></i> Gestión Usuarios
                         </a>
                         <div class="collapse" id="usuarioCollapse">
                             <div class="card card-body" id="dropdown">
@@ -196,12 +188,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
                                             href="{{ url('funcionarios') }}" id="link-dropdown">Funcionario</a>
-                                    </li>
-                                </ul>
-                                <ul class="navbar-nav">
-                                    <li class="nav-item">
-                                        <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
-                                            href="{{ route('admin.horario.index') }}" id="link-dropdown">Horarios</a>
                                     </li>
                                 </ul>
                             </div>
@@ -240,7 +226,7 @@
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#productosCollapse"
                                 role="button" aria-expanded="false" aria-controls="productosCollapse">
-                                <i class="ni ni-box-2 text-green"></i> Gestion Productos
+                                <i class="ni ni-box-2 text-green"></i> Gestión Productos
                             </a>
                             <div class="collapse" id="productosCollapse">
                                 <div class="card card-body" id="dropdown">
@@ -255,7 +241,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.insumos_medicos.*')) active @endif"
                                                 href="{{ route('admin.insumos_medicos.index') }}"
-                                                id="link-dropdown">Insumos Medicos</a>
+                                                id="link-dropdown">Insumos Médicos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
@@ -302,14 +288,14 @@
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaInsumos.*')) active @endif"
                                                 href="{{ route('admin.marcaInsumos.index') }}" id="link-dropdown">Marcas
-                                                Insumos Medicos</a>
+                                                Insumos Médicos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoinsumos.*')) active @endif"
                                                 href="{{ route('admin.tipoinsumos.index') }}" id="link-dropdown">Tipos
-                                                Insumos Medicos</a>
+                                                Insumos Médicos</a>
                                         </li>
                                     </ul>
                                     <ul class="navbar-nav">
@@ -339,14 +325,6 @@
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
                                                 id="link-dropdown">Landing Page</a>
-                                        </li>
-                                    </ul>
-
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 "
-                                                href="{{ route('trazabilidad-ventas-y-servicios') }}"
-                                                id="link-dropdown">Trazabilidad</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -381,7 +359,7 @@
                         <li class="nav-item active">
                             <a class="nav-link @if (request()->routeIs('administracion_inventario.*')) active @endif"
                                 href="{{ route('administracion_inventario.index') }}">
-                                <i class="ni ni-bullet-list-67 text-green"></i> Administracion de Inventario
+                                <i class="ni ni-bullet-list-67 text-green"></i> Administración de Inventario
                             </a>
                         </li>
                     @endcan
@@ -494,15 +472,7 @@
                         </a>
                         <a href="{{ route('user.profile.modify') }}" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
-                            <span>Configuracion</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-calendar-grid-58"></i>
-                            <span>Actividad</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-support-16"></i>
-                            <span>Soporte</span>
+                            <span>Configuración</span>
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('logout') }}"
@@ -510,7 +480,7 @@
                             document.getElementById('logout-form').submit();"
                             id="logout" class="dropdown-item">
                             <i class="ni ni-user-run"></i>
-                            <span>Cerrar Sesion</span>
+                            <span>Cerrar Sesión</span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                 class="d-none">
                                 @csrf

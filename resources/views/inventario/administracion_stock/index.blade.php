@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Administracion de Inventario - Veterinaria Gumiel</title>
+<title>Administración de Inventario - Veterinaria Gumiel</title>
 @section('css-after')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -33,7 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Administracion de Inventario
+    Administración de Inventario
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -50,7 +50,7 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Administracion de Inventario</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Administración de Inventario</li>
     </nav>
 @endsection
 @section('content')
@@ -80,7 +80,7 @@
                 @if ($cant_insumos_medicos['no_stock'] > 0)
                     <p class="fs-5 text fw-bold text-danger">{{ $cant_insumos_medicos['no_stock'] }} sin stock</p>
                 @else
-                    <p class="fs-6 text fw-bold text-success">No hay insumos medicos en peligro de stock</p>
+                    <p class="fs-6 text fw-bold text-success">No hay insumos médicos en peligro de stock</p>
                 @endif
             </div>
         </div>
@@ -101,7 +101,7 @@
     <div class="card shadow p-4">
         <div class="btn-group align-self-center shadow" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-success active buttonChangeTable" id="productosButton">Productos</button>
-            <button type="button" class="btn btn-success buttonChangeTable" id="insumosButton">Insumos Medicos</button>
+            <button type="button" class="btn btn-success buttonChangeTable" id="insumosButton">Insumos Médicos</button>
             <button type="button" class="btn btn-success buttonChangeTable" id="medicinasButton">Medicinas</button>
         </div>
 

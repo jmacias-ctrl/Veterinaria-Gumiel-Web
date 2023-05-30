@@ -15,7 +15,7 @@
                             <p id="nombre"> Colonia</p>
                         </div>
                         <div class="d-flex" id="descripcionDiv">
-                            <p class="font-weight-bold">Descripcion:&nbsp</p>
+                            <p class="font-weight-bold">Descripción:&nbsp</p>
                             <p id="descripcion">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum eius
                                 recusandae eveniet
                                 atque suscipit harum, dolorem eum libero maxime eligendi! Eos nulla totam eligendi
@@ -48,7 +48,7 @@
                         color: #333;  /* old IE */
                         background-color: #333;">
                         <div class="d-block" id="ultimaReposicionDiv">
-                            <p class="font-weight-bold">Ultima Reposicion:&nbsp</p>
+                            <p class="font-weight-bold">Última Reposición:&nbsp</p>
                             <div class="row justify-content-center align-items-center g-2">
                                 <div class="col">
                                     <p id="proveedorUlt">ProveedorX</p>

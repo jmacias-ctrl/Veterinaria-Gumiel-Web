@@ -55,7 +55,7 @@
             <form action="{{ route('admin.especies.store') }}" method="POST">
             @csrf
             <div id="RoleWindow">
-                <h5 class="mt-4">Informacion de la Especie</h5>
+                <h5 class="mt-4">Información de la Especie</h5>
                 <div class="row mt-3">
                     <div class="col">
                         <label for="nombre" class="form-label">Nombre del Especie</label>
@@ -97,7 +97,7 @@
                 var form = $(this).parents(form);
                 Swal.fire({
                     title: 'Agregar Nueva Especie',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

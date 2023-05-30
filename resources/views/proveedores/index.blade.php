@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Proveedores - Veterinaria Gumiel</title>
+<title>Gestión Proveedores - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Proveedores
+    Gestión de Proveedores
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">

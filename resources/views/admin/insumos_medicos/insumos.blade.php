@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Insumos médicos - Veterinaria Gumiel</title>
+<title>Gestión Insumos médicos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -23,7 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Insumos Médicos
+    Gestión de Insumos Médicos
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -67,7 +67,7 @@
                             <th scope="col">Marca</th>
                             <th scope="col">Tipo</th>
                             <th scope="col">Stock</th>
-                            <th scope="col">Opciones</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -216,8 +216,8 @@
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar Insumo medico?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                title: '¿Eliminar Insumo Médico?',
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -233,7 +233,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Insumo medico eliminado correctamente!')
+                            toastr.success('¡Insumo médico eliminado correctamente!')
 
                         })
                         .catch(function(error) {
@@ -242,7 +242,7 @@
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Insumo medico eliminado correctamente!',
+                                title: '¡Insumo médico eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

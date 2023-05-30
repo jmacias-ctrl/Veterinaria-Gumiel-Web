@@ -57,9 +57,9 @@ LOGIN SHOP | Veterinaria Gumiel
                 </form>
 
                 <div>
-                    <form class="m-0" action="{{route('shop.checkout.registro_invitado')}}" method="get">
+                    <form class="m-0 d-flex justify-content-center" action="{{route('shop.checkout.registro_invitado')}}" method="get">
                         {{csrf_field()}}
-                        <button class="a-dec font-weight-bold ">Borrar Carrito</button>
+                        <button class="a-dec font-weight-bold ">Registrate como invitado</button>
                     </form>
                 </div>
             </div>

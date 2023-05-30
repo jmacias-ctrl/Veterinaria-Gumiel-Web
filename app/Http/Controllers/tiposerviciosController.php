@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\tiposervicios;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class tiposerviciosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            $data = tiposervicios::all();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action','admin.tiposervicios.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
         $tiposervicios = tiposervicios::all();
         return view('admin.tiposervicios.tiposervicios', compact('tiposervicios'));
     }

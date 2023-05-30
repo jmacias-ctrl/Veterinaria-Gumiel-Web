@@ -15,8 +15,16 @@ use Illuminate\Support\Facades\Validator;
  */
 class TipoinsumosController extends Controller
 {
-    public function index_tipo()
+    public function index_tipo(Request $request)
     {
+        if($request->ajax()){
+            $data = tipoinsumos::all();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action','admin.tipoinsumos.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
         $tipoinsumos = Tipoinsumos::all();
         return view('admin.tipoinsumos.tipoinsumos', compact('tipoinsumos'));
     }

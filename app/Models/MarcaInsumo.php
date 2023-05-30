@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MarcaInsumo extends Model
 {
-    
+  protected $table = "marca_insumos";
     static $rules = [
 		'nombre' => 'required',
     ];

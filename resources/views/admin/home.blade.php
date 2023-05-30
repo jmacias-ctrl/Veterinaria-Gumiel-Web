@@ -1,1 +1,2 @@
-@include('layouts.layouts_users')
+@include('layouts.panel_usuario')
+<title>Inicio - Veterinaria Gumiel</title>

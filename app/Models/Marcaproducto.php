@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Marcaproducto extends Model
 {
-    
+    protected $table = "marcaproductos";
+
     static $rules = [
 		'nombre' => 'required',
     ];
@@ -30,7 +31,7 @@ class Marcaproducto extends Model
      * @var array
      */
     protected $fillable = ['nombre'];
-
+    
 
 
 }

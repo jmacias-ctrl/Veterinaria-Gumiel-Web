@@ -18,7 +18,7 @@ use App\Notifications\UsuarioModificacionRoles;
 use App\Notifications\GeneralNotificationForUsers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->nombre_roles = $user->getRoleNames();
-        $roles = Role::whereNotIn('name', $user->nombre_roles)->where('name','!=','Cliente')->get();
+        $roles = Role::whereNotIn('name', $user->nombre_roles)->where('name', '!=', 'Cliente')->get();
 
         return view('admin.usuarios.modify_roles', compact('user', 'roles'));
     }
@@ -77,7 +77,7 @@ class UserController extends Controller
     public function index_roles(Request $request)
     {
         if ($request->ajax()) {
-            $data = Role::where('name', '!=', 'Admin')->where('name','!=','Cliente')->where('name','!=','Veterinario')->where('name','!=','Peluquero')->where('name','!=','Inventario')->get();
+            $data = Role::where('name', '!=', 'Admin')->where('name', '!=', 'Cliente')->where('name', '!=', 'Veterinario')->where('name', '!=', 'Peluquero')->where('name', '!=', 'Inventario')->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.roles.datatable.action')
@@ -107,6 +107,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
             $role = Role::create(['name' => $request->nombre]);
+            $role->syncPermissions($request->permisos);
+            $role->givePermissionTo('acceder panel');
             $admins = User::role('Admin')->get();
             foreach ($admins as $admin) {
                 $admin->notify(new GeneralNotificationForUsers('Rol nuevo agregado', 'El Administrador ' . auth()->user()->name . ' ha agregado el rol: ' . $role->name . '.', route('admin.roles.index')));
@@ -142,6 +144,8 @@ class UserController extends Controller
         $oldName = $rol->name;
         $rol->name = $request->nombre;
         $rol->save();
+        $rol->syncPermissions($request->permisos);
+        $rol->givePermissionTo('acceder panel');
         $admins = User::role('Admin')->get();
         foreach ($admins as $admin) {
             $admin->notify(new GeneralNotificationForUsers('Rol Modificado', 'El Administrador ' . auth()->user()->name . ' ha modificado el rol: ' . $oldName . ' por ' . $rol->name . '.', route('admin.roles.index')));
@@ -152,7 +156,8 @@ class UserController extends Controller
     public function modify_rol($id)
     {
         $rol = Role::find($id);
-        return view('admin.roles.modify_role', compact('rol'));
+        $permissions = $rol->permissions->pluck('name');
+        return view('admin.roles.modify_role', compact('rol','permissions'));
     }
 
     public function store_user(Request $request)
@@ -161,9 +166,9 @@ class UserController extends Controller
             'nombre' => 'required|string',
             'apellido'  => 'required|string',
             'rut'  => 'required|string|max:10',
-            'email'  => 'required|string',
+            'email'  => 'required|string|unique:App\Models\User,email',
             'telefono' => 'required|digits:9',
-            'roles' => 'required|array|min:1'
+            'role' => 'required'
         ];
         $attributes = [
             'nombre' => 'Nombre',
@@ -171,12 +176,14 @@ class UserController extends Controller
             'rut' => 'Rut',
             'email' => 'Correo',
             'telefono' => 'Teléfono',
+            'role' => 'Rol',
         ];
         $message = [
             'required' => ':attribute es obligatorio.',
             'integer' => ':attribute no es un numero de teléfono, ingrese nuevamente',
             'digits' => ':attribute invalido, :attribute debe ser :digits dígitos',
-            'max' => ':attribute invalido, debe ser máximo :max'
+            'max' => ':attribute invalido, debe ser máximo :max',
+            'unique' => 'El :attribute ya ha sido registrado'
         ];
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
@@ -194,13 +201,10 @@ class UserController extends Controller
                 $user->phone = $request->telefono;
                 $user->save();
                 db::commit();
-                $user->assignRole($request->roles);
+                $user->assignRole($request->role);
                 $admins = User::role('Admin')->get();
 
-                $roleText = "";
-                foreach ($request->roles as $role) {
-                    $roleText .= $role;
-                }
+                $roleText = $request->role;
                 foreach ($admins as $admin) {
                     $admin->notify(new GeneralNotificationForUsers('Usuario Nuevo Agregado', 'El Administrador ' . auth()->user()->name . ' ha creado un nuevo usuario: ' . $user->name . ' - ' . $user->rut . '- Rol: ' . $roleText . '.', route('admin.usuarios.index')));
                 }
@@ -216,24 +220,18 @@ class UserController extends Controller
     }
     public function update_roles(Request $request)
     {
-        $rules=['roles' => 'required|array|min:1'];
-        $attribute = ['roles'=>'Rol'];
-        $message = ['required', 'Debe haber al menos 1 rol'];
-        $validator = Validator::make($request->all(), $rules, $message,$attribute);
-        if($validator->passes()){
+        $rules = ['role' => 'required'];
+        $attribute = ['role' => 'Rol'];
+        $message = ['required', 'Debe seleccionar un rol'];
+        $validator = Validator::make($request->all(), $rules, $message, $attribute);
+        if ($validator->passes()) {
             $user = User::find($request->id);
-            $user->syncRoles($request->roles);
+            $user->syncRoles($request->role);
             $admins = User::role('Admin')->get();
-    
-    
-            $mensajeRoles = "";
-            for ($i = 0; $i < sizeof($request->roles); $i++) {
-                if ($i == sizeof($request->roles) - 1) {
-                    $mensajeRoles .= $request->roles[$i];
-                } else {
-                    $mensajeRoles .= $request->roles[$i] . ",";
-                }
-            }
+
+
+            $mensajeRoles = $request->role;
+
             $mensajeAdmin = 'El Administrador ' . auth()->user()->name . ' ha modificado los roles del usuario ' . $user->name . ', nuevos roles: ' . $mensajeRoles;
             $mensajeUsuario = 'Te han cambiado los roles a los siguientes: ' . $mensajeRoles;
             foreach ($admins as $admin) {
@@ -265,14 +263,18 @@ class UserController extends Controller
     {
         return view('users.modify_perfil_usuario');
     }
+
     public function update_user_profile(Request $request)
     {
-
         if (isset($request->new_password_confirmation) || isset($request->new_password) || isset($request->old_password)) {
             $rules = [
                 'name' => 'required|string',
                 'rut'  => 'required|string|max:10',
-                'email'  => 'required|string',
+                'email'  => [
+                    'required',
+                    'string',
+                    Rule::unique('users', 'email')->ignore($request->id),
+                ],
                 'telefono' => 'required|digits:9',
                 'image' => 'mimes:jpeg,png,jpg',
                 'old_password' => 'required',
@@ -286,7 +288,7 @@ class UserController extends Controller
                 'telefono' => 'Teléfono',
                 'image' => 'Imagen',
                 'old_password' => 'Contraseña Actual',
-                'new_password'=> 'Contraseña Nueva',
+                'new_password' => 'Contraseña Nueva',
             ];
             $message = [
                 'required' => ':attribute es obligatorio.',
@@ -300,7 +302,11 @@ class UserController extends Controller
             $rules = [
                 'name' => 'required|string',
                 'rut'  => 'required|string|max:10',
-                'email'  => 'required|string',
+                'email'  => [
+                    'required',
+                    'string',
+                    Rule::unique('users', 'email')->ignore($request->id),
+                ],
                 'telefono' => 'required|digits:9',
                 'image' => 'mimes:jpeg,png,jpg'
 
@@ -318,13 +324,14 @@ class UserController extends Controller
                 'integer' => ':attribute no es un numero de teléfono, ingrese nuevamente',
                 'digits' => ':attribute invalido, :attribute debe ser :digits dígitos',
                 'max' => ':attribute invalido, debe ser máximo :max',
-                'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg'
+                'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg',
+                'unique' => ':attribute ya ha sido registrado'
             ];
         }
 
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
-            
+
             try {
                 $user = User::find($request->id);
                 $user->rut = ($request->rut);
@@ -338,8 +345,8 @@ class UserController extends Controller
                     $user->image = $request->file('image')->store('uploads', 'public');
                 }
 
-                if(isset($request->new_password_confirmation) || isset($request->new_password) || isset($request->old_password)){
-                    if(!Hash::check($request->old_password, auth()->user()->password)){
+                if (isset($request->new_password_confirmation) || isset($request->new_password) || isset($request->old_password)) {
+                    if (!Hash::check($request->old_password, auth()->user()->password)) {
                         return back()->with("error", "Contraseña actual no coincide");
                     }
                     $user->password = Hash::make($request->new_password);
@@ -354,18 +361,5 @@ class UserController extends Controller
             }
         }
         return back()->withErrors($validator)->withInput();
-    }
-
-    public function modify_permissions_role($id){
-        $role = Role::find($id);
-        $permissions = $role->permissions->pluck('name');
-        return view('admin.roles.modifiy_role_permissions', compact('role','permissions'));
-    }
-
-    public function update_permissions_role(Request $request){
-        $role = Role::find($request->id);
-        $role->syncPermissions($request->permisos);
-        $role->givePermissionTo('acceder panel');
-        return redirect()->route('admin.roles.index')->with('success', 'Se ha agregado permisos al rol '.$role->name);
     }
 }

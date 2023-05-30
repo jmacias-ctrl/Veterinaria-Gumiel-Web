@@ -16,11 +16,12 @@ class CreateServiciosTable extends Migration
         Schema::create('servicios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->unsignedBigInteger('id_tipo');
+            $table->unsignedBigInteger('tiposervicio_id');
             $table->integer('precio');
+            $table->integer('duracion')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_tipo')->references('id')->on('tiposervicios');
+            $table->foreign('tiposervicio_id')->references('id')->on('tiposervicios')->onDelete('cascade');
         });
     }
 

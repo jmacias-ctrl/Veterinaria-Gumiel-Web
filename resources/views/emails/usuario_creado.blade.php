@@ -134,7 +134,9 @@
             </p>
             <div class="userInfo">
                 <img src="{{ asset('image/default-user-image.png') }}" alt="" style="width:100px; opacity:0.5;">
-                <p class="bold" style="font-size:25px; margin-top:-1px;">José Macias</p>
+                <p class="bold" style="font-size:25px; margin-top:-1px;">@if (isset($nombre))
+                    {{$nombre}}
+                @endif</p>
                 <ul class="list-group">
                     <li class="list-group-item">
                         <div class='div-list-group-item'>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marcaproducto;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,9 +14,17 @@ use Illuminate\Support\Facades\Validator;
 class MarcaproductoController extends Controller
 {
 
-    public function index_marca()
+    public function index_marca(Request $request)
     {
-        $marcaproductos = Marcaproducto::all();
+        if($request->ajax()){
+            $data = marcaproducto::all();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', 'admin.marcaproductos.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+        $marcaproductos = marcaproducto::all();
         return view('admin.marcaproductos.marcaproductos', compact('marcaproductos'));
     }
 

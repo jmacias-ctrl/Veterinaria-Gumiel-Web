@@ -9,7 +9,7 @@ Inicio - Veterinaria Gumiel
 <html lang="es">
 
 @include('landing-page-header')
-
+@include('landing-page-floatIcons')
 <body>
 
 <section id="nosotros">

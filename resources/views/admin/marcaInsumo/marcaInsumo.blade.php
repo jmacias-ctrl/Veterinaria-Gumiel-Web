@@ -51,7 +51,7 @@
                         <h1>Listado de Marca de Insumos Médicos</h1>
                         @can('ingresar insumos medicos')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.marcaInsumos.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Marca</a>
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
 
                     </div>
@@ -106,6 +106,7 @@
                 },
                 responsive: true,
                 "language": {
+                    "lengthMenu": "Mostrar _MENU_ marcas por página",
                     "search": "Buscar:",
                     "zeroRecords": "No se encontraron datos",
                     "infoEmpty": "No hay datos para mostrar",

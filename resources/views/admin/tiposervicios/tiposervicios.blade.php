@@ -46,17 +46,12 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <div class="card-header border-0">
-                    <div class="row">
-                        <div class="col-sm-9">
+                <div class="card-header border-0 p-0 mb-4">
+                    <div class="d-flex justify-content-between">
                             <h1>Listado de Tipos de Servicios</h1>
-                        </div>
                         @can('ingresar servicios')
-                            <div class="col-sm-3">
                                 <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tiposervicios.create') }}"
-                                    style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
-                                    servicios</a>
-                            </div>
+                                    style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
 
                     </div>
@@ -110,6 +105,7 @@
                 },
                 responsive: true,
                 "language": {
+                    "lengthMenu": "Mostrar _MENU_ tipos por página",
                     "search": "Buscar:",
                     "zeroRecords": "No se encontraron datos",
                     "infoEmpty": "No hay datos para mostrar",

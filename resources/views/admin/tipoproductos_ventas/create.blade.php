@@ -4,17 +4,17 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <style>
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-            input[type=number] {
-                -moz-appearance: textfield;
-            }
-        </style>
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 @endsection
 @section('back-arrow')
     <a href="{{ route('admin.tipoproductos_ventas.index') }}"> <span class="material-symbols-outlined"
@@ -33,13 +33,13 @@
                     <a href="{{ route('admin') }}" style="color:black;">
                     @elseif(auth()->user()->hasRole('Veterinario'))
                         <a href="{{ route('veterinario') }}">
-                        
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
+                        @elseif (auth()->user()->hasRole('Inventario'))
+                            <a href="{{ route('inventario') }}">
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.tipoproductos_ventas.index')}}" style="color:black;">Tipo Productos</a> </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.tipoproductos_ventas.index') }}"
+                    style="color:black;">Tipo Productos</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Tipo de Producto</li>
     </nav>
 @endsection
@@ -50,15 +50,15 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <div class="card shadow p-4">
+            <div class="card shadow p-5">
                 <form action="{{ route('admin.tipoproductos_ventas.store') }}" method="POST">
-                @csrf
-                <div class="container">
+                    @csrf
                     <h5 class="mt-4">Información del Tipo</h5>
                     <div class="row mt-3">
                         <div class="col">
                             <label for="Nombre" class="form-label">Nombre</label>
-                            <input minlength="4" type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. ."
+                            <input minlength="4" type="text" id="nombre" name="nombre"
+                                class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. ."
                                 aria-label="Nombre" required>
                             @error('nombre')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -66,12 +66,9 @@
                         </div>
                     </div>
                     <br>
-                    <div class="container">
-                        <div class="row row-cols-auto">
-                            <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
-                        </div>
-                    </div>
-                </div>
+                    <input class="btn btn-primary" id="btn-submit" type="submit"
+                        style="background-color:#19A448; border-color:#19A448;" value="Agregar">
+
                 </form>
             </div>
         </div>

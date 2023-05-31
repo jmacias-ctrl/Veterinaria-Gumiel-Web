@@ -54,8 +54,7 @@
                         <h1>Listado de Usuarios</h1>
                         @can('ingresar usuario')
                             <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button"
-                                style="background-color:#19A448; border-color:#19A448;">Ingresar
-                                Usuario</a>
+                                style="background-color:#19A448; border-color:#19A448;">Agregar</a>
                         @endcan
                     </div>
 

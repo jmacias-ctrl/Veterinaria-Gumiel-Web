@@ -1,4 +1,4 @@
-<div id="carouselExampleControls" class="carousel slide w-50 col-md-6 mx-auto" data-ride="carousel">
+<div id="carouselExampleControls" class="carousel slide w-100 col-md-6 mx-auto" data-ride="carousel">
   <div class="carousel-inner">
 
     <div class="carousel-item active">

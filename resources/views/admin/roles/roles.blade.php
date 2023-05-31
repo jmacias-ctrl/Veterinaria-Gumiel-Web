@@ -53,8 +53,7 @@
                         <h1>Listado de Roles</h1>
                         @can('ingresar roles')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.roles.add') }}" role="button"
-                                style="background-color:#19A448; border-color:#19A448;">Ingresar
-                                Rol</a>
+                                style="background-color:#19A448; border-color:#19A448;">Agregar</a>
                         @endcan
                     </div>
                 </div>

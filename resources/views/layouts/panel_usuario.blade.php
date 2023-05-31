@@ -118,8 +118,8 @@
                     <div class="row">
                         <div class="col-6 collapse-close">
                             <button type="button" class="navbar-toggler" data-toggle="collapse"
-                                data-target="#sidenav-collapse-main" aria-controls="sidenav-main"
-                                aria-expanded="false" aria-label="Toggle sidenav">
+                                data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false"
+                                aria-label="Toggle sidenav">
                                 <span></span>
                                 <span></span>
                             </button>
@@ -143,22 +143,22 @@
                     <li class="nav-item active">
                         @if (auth()->user()->hasRole('Admin'))
                             <a class="nav-link @if (Route::current()->getName() == 'admin') active @endif"
-                                href="{{ route('admin') }}">
-                            @elseif(auth()->user()->hasRole('Veterinario'))
-                                <a class="nav-link  @if (Route::current()->getName() == 'veterinario') active @endif "
-                                    href="{{ route('veterinario') }}">
-                                @elseif (auth()->user()->hasRole('Peluquero'))
-                                    <a class="nav-link  @if (Route::current()->getName() == 'peluquero') active @endif "
-                                        href="{{ route('peluquero') }}">
-                                    @elseif (auth()->user()->hasRole('Inventario'))
-                                        <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
-                                            href="{{ route('inventario') }}">
-                                        @elseif (auth()->user()->hasRole('Cliente'))
-                                            <a class="nav-link @if (Route::current()->getName() == 'cliente') active @endif"
-                                                href="{{ route('inventario') }}">
+                                href="{{ route('admin') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
+                            </a>
+                        @elseif(auth()->user()->hasRole('Veterinario'))
+                            <a class="nav-link  @if (Route::current()->getName() == 'veterinario') active @endif "
+                                href="{{ route('veterinario') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
+                            </a>
+                        @elseif (auth()->user()->hasRole('Peluquero'))
+                            <a class="nav-link  @if (Route::current()->getName() == 'peluquero') active @endif "
+                                href="{{ route('peluquero') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
+                            </a>
+                        @elseif (auth()->user()->hasRole('Inventario'))
+                            <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
+                                href="{{ route('inventario') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
+                            </a>
                         @endif
-                        <i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
+
                     </li>
                     @can('ver usuario')
                         @if (Route::currentRouteName() == 'admin.usuarios.index')
@@ -193,7 +193,7 @@
                             </div>
                         </div>
                         </li>
-                        @endcan
+                    @endcan
                     @can('ver servicios')
                         <li class="nav-item">
                             <a class="nav-link @if (request()->routeIs('admin.servicio.*')) active @endif"
@@ -212,12 +212,14 @@
                     @endcan
                     @can('ver citasvet')
                         <li class="nav-item">
-                            <a class="nav-link @if(request()->routeIs('/agendar-horas/create')) active @endif" href="{{ route('agendar-horas.create') }}">
+                            <a class="nav-link @if (request()->routeIs('/agendar-horas/create')) active @endif"
+                                href="{{ route('agendar-horas.create') }}">
                                 <i class="ni ni-atom text-green "></i> Reservar cita
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(request()->routeIs('/miscitas')) active @endif" href="{{ route('Agendar') }}">
+                            <a class="nav-link @if (request()->routeIs('/miscitas')) active @endif"
+                                href="{{ route('Agendar') }}">
                                 <i class="ni ni-atom text-green "></i> Mis citas
                             </a>
                         </li>
@@ -255,100 +257,101 @@
                             </div>
                         </li>
                     @endcan
-                    @canany(['ver productos','ver servicios','ver insumos medicos','ver medicamentos','ver especies','modificar landing page'])
+                    @canany(['ver productos', 'ver servicios', 'ver insumos medicos', 'ver medicamentos', 'ver
+                        especies', 'modificar landing page'])
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#mantenedoresCollapse"
                                 role="button" aria-expanded="false" aria-controls="mantenedoresCollapse">
                                 <i class="ni ni-settings text-green"></i> Mantenedores
                             </a>
-                            <div class="collapse" id="mantenedoresCollapse">                     
+                            <div class="collapse" id="mantenedoresCollapse">
                                 <div class="card card-body" id="dropdown">
                                     @can('ver productos')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaproductos.*')) active @endif"
-                                                href="{{ route('admin.marcaproductos.index') }}"
-                                                id="link-dropdown">Marcas Productos</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaproductos.*')) active @endif"
+                                                    href="{{ route('admin.marcaproductos.index') }}"
+                                                    id="link-dropdown">Marcas Productos</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('ver productos')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoproductos_ventas.*')) active @endif"
-                                                href="{{ route('admin.tipoproductos_ventas.index') }}"
-                                                id="link-dropdown">Tipo Productos</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoproductos_ventas.*')) active @endif"
+                                                    href="{{ route('admin.tipoproductos_ventas.index') }}"
+                                                    id="link-dropdown">Tipo Productos</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('ver servicios')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tiposervicios.*')) active @endif"
-                                                href="{{ route('admin.tiposervicios.index') }}" id="link-dropdown">Tipos
-                                                Servicios</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.tiposervicios.*')) active @endif"
+                                                    href="{{ route('admin.tiposervicios.index') }}" id="link-dropdown">Tipos
+                                                    Servicios</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('ver insumos medicos')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaInsumos.*')) active @endif"
-                                                href="{{ route('admin.marcaInsumos.index') }}" id="link-dropdown">Marcas
-                                                Insumos Médicos</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaInsumos.*')) active @endif"
+                                                    href="{{ route('admin.marcaInsumos.index') }}" id="link-dropdown">Marcas
+                                                    Insumos Médicos</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('ver insumos medicos')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoinsumos.*')) active @endif"
-                                                href="{{ route('admin.tipoinsumos.index') }}" id="link-dropdown">Tipos
-                                                Insumos Médicos</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoinsumos.*')) active @endif"
+                                                    href="{{ route('admin.tipoinsumos.index') }}" id="link-dropdown">Tipos
+                                                    Insumos Médicos</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('ver medicamentos')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipomedicamentos_vacunas.*')) active @endif"
-                                                href="{{ route('admin.tipomedicamentos_vacunas.index') }}"
-                                                id="link-dropdown">Tipos
-                                                Medicamentos</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.tipomedicamentos_vacunas.*')) active @endif"
+                                                    href="{{ route('admin.tipomedicamentos_vacunas.index') }}"
+                                                    id="link-dropdown">Tipos
+                                                    Medicamentos</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('ver medicamentos')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcamedicamentos_vacunas.*')) active @endif"
-                                                href="{{ route('admin.marcamedicamentos_vacunas.index') }}"
-                                                id="link-dropdown">Marca
-                                                Medicamentos</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.marcamedicamentos_vacunas.*')) active @endif"
+                                                    href="{{ route('admin.marcamedicamentos_vacunas.index') }}"
+                                                    id="link-dropdown">Marca
+                                                    Medicamentos</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('ver especies')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.especies.*')) active @endif"
-                                                href="{{ route('admin.especies.index') }}"
-                                                id="link-dropdown">Especies</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 @if (request()->routeIs('admin.especies.*')) active @endif"
+                                                    href="{{ route('admin.especies.index') }}"
+                                                    id="link-dropdown">Especies</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                     @can('modificar landing page')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
-                                                id="link-dropdown">Landing Page</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="navbar-nav">
+                                            <li class="nav-item">
+                                                <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
+                                                    id="link-dropdown">Landing Page</a>
+                                            </li>
+                                        </ul>
                                     @endcan
                                 </div>
                             </div>
                         </li>
-                    @endcanany 
+                    @endcanany
                     @can('acceso punto de venta')
                         <li class="nav-item active">
                             <a class="nav-link @if (request()->routeIs('point_sale.*')) active @endif"
@@ -409,15 +412,16 @@
             <div class="container-fluid">
                 <!-- Brand -->
 
-               
+
                 <div class="row">
                     <div class="d-flex align-items-center">
                         @yield('back-arrow')
-                        <a class="h3 ml-2 mt-3 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ url()->full() }}">
-                                <p class="font-weight-bold" text-center> @yield('header-title')</p>
+                        <a class="h3 ml-2 mt-3 mb-0 text-white text-uppercase d-none d-lg-inline-block"
+                            href="{{ url()->full() }}">
+                            <p class="font-weight-bold" text-center> @yield('header-title')</p>
                         </a>
                     </div>
-                    
+
                 </div>
 
                 <!-- Form -->
@@ -511,103 +515,102 @@
     </nav>
     <!-- End Navbar -->
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 @cannot('ver estadisticas')
-        
-    @endcannot">
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
         <div class="container-fluid">
             @yield('breadcrumbs')
-            @can('ver estadisticas')
             <div class="header-body">
                 <!-- Card stats -->
-                <div class="row">
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                                        <span class="h2 font-weight-bold mb-0">350,897</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                            <i class="fas fa-chart-bar"></i>
+                @can('ver estadisticas')
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                                            <span class="h2 font-weight-bold mb-0">350,897</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </div>
                                         </div>
                                     </div>
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                                            <span class="h2 font-weight-bold mb-0">2,356</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                                <i class="fas fa-chart-pie"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                                        <span class="text-nowrap">Since last week</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                                            <span class="h2 font-weight-bold mb-0">924</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                                <i class="fas fa-users"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                                        <span class="text-nowrap">Since yesterday</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                                            <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                <i class="fas fa-percent"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                                        <span class="h2 font-weight-bold mb-0">2,356</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                                            <i class="fas fa-chart-pie"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                                    <span class="text-nowrap">Since last week</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                                        <span class="h2 font-weight-bold mb-0">924</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                                            <i class="fas fa-users"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                                    <span class="text-nowrap">Since yesterday</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                                        <span class="h2 font-weight-bold mb-0">49,65%</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                            <i class="fas fa-percent"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endcan
             </div>
         </div>
-        @endcan 
+
         <script src="{{ asset('js/horarios.js') }}" defer></script>
     </div>
     </nav>

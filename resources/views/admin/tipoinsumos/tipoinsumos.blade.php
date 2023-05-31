@@ -52,8 +52,7 @@
                         <h1>Listado de Tipo de Insumos</h1>
                         @can('ingresar insumos medicos')
                             <a class="btn btn-primary ms-5 boton-aceptar" href="{{ route('admin.tipoinsumos.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar tipo de
-                                insumo</a>
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
 
                     </div>
@@ -108,6 +107,7 @@
                 },
                 responsive: true,
                 "language": {
+                    "lengthMenu": "Mostrar _MENU_ tipos por página",
                     "search": "Buscar:",
                     "zeroRecords": "No se encontraron datos",
                     "infoEmpty": "No hay datos para mostrar",

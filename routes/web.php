@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth','can:ver productos']], function () {
     Route::get('tipoproductos_ventas/create', [\App\Http\Controllers\tipoproductos_ventasController::class, 'create'])->name('admin.tipoproductos_ventas.create')->middleware(['permission:ingresar productos']);
     Route::post('tipoproductos_ventas/store', [\App\Http\Controllers\tipoproductos_ventasController::class, 'store'])->name('admin.tipoproductos_ventas.store')->middleware(['permission:ingresar productos']);
     Route::get('tipoproductos_ventas/edit', [\App\Http\Controllers\tipoproductos_ventasController::class, 'edit'])->name('admin.tipoproductos_ventas.edit')->middleware(['permission:modificar productos']);
-    Route::post('tipoproductos_ventas/delete', [\App\Http\Controllers\tipoproductos_ventasController::class, 'delete'])->name('admin.tipoproductos_ventas.delete')->name('productos.delete')->middleware(['permission:eliminar productos']);
+    Route::post('tipoproductos_ventas/delete', [\App\Http\Controllers\tipoproductos_ventasController::class, 'delete'])->name('admin.tipoproductos_ventas.delete')->middleware(['permission:eliminar productos']);
     Route::post('tipoproductos_ventas/update', [\App\Http\Controllers\tipoproductos_ventasController::class, 'update'])->name('admin.tipoproductos_ventas.update')->middleware(['permission:modificar productos']);
 });
 
@@ -242,9 +242,9 @@ Route::get('/inicio/inventario', function () {
 Route::group(['middleware' => 'auth','can:ver proveedores'], function () {
     Route::get('proveedores', [\App\Http\Controllers\ProveedoresController::class, 'index'])->name('proveedores.index')->middleware('can:ver proveedores');
     Route::get('proveedores/create', [\App\Http\Controllers\ProveedoresController::class, 'create'])->name('proveedores.create')->middleware('can:ingresar proveedores');
-    Route::post('proveedores/delete', [\App\Http\Controllers\ProveedoresController::class, 'delete'])->name('proveedores.delete')->middleware('can:eliminar proveedores');
+    Route::post('proveedores/delete', [\App\Http\Controllers\ProveedoresController::class, 'destroy'])->name('proveedores.delete')->middleware('can:eliminar proveedores');
     Route::post('proveedores/store', [\App\Http\Controllers\ProveedoresController::class, 'store'])->name('proveedores.store')->middleware('can:ingresar proveedores');
-    Route::get('proveedores/edit', [\App\Http\Controllers\ProveedoresController::class, 'edit'])->name('proveedores.edit')->middleware('can:modificar proveedores');
+    Route::get('proveedores/edit/{id}', [\App\Http\Controllers\ProveedoresController::class, 'edit'])->name('proveedores.edit')->middleware('can:modificar proveedores');
     Route::post('proveedores/update', [\App\Http\Controllers\ProveedoresController::class, 'update'])->name('proveedores.update')->middleware('can:modificar proveedores');
 });
 

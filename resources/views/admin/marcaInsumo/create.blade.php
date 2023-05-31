@@ -1,20 +1,20 @@
 @extends('layouts.panel_usuario')
-<title>Ingresar Nueva Marca Insumos Médicos - Veterinaria Gumiel</title>
+<title>Agregar Nueva Marca Insumos Médicos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <style>
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-            input[type=number] {
-                -moz-appearance: textfield;
-            }
-        </style>
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 @endsection
 @section('back-arrow')
     <a href="{{ route('admin.marcaInsumos.index') }}"> <span class="material-symbols-outlined"
@@ -23,7 +23,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Marca de Insumo Médico
+    Agregar Marca de Insumo Médico
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -44,38 +44,39 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.marcaInsumos.index')}}" style="color:black;">Marca Insumos</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Marca</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.marcaInsumos.index') }}"
+                    style="color:black;">Marca Insumos</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Marca de Insumo</li>
     </nav>
 @endsection
 @section('content')
     <div class="row">
         <div class="col">
-            <div class="card shadow p-4">
-            <form action="{{ route('admin.marcaInsumos.store') }}" method="POST">
-        @csrf
-            <h5 class="mt-4">Información de la marca insumos médicos</h5>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="Nombre" class="form-label @error('nombre') is-invalid @enderror">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control"
-                            placeholder="Ej. Shinova" aria-label="Nombre" required>
+            <div class="card shadow px-5 py-4">
+                <form action="{{ route('admin.marcaInsumos.store') }}" method="POST">
+                    @csrf
+                    <h5 class="mt-4">Información de la marca insumos médicos</h5>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="Nombre" class="form-label @error('nombre') is-invalid @enderror">Nombre</label>
+                            <input minlength="4" type="text" id="nombre" name="nombre" class="form-control"
+                                placeholder="Ej. Shinova" aria-label="Nombre" required>
                             @error('nombre')
-                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                        @enderror
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+
+
                     </div>
                     <br>
-
-                </div>
-        <hr>
-        <input class="btn btn-primary" id="btn-submit" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Agregar Marca">
-    </form>
+                    <input class="btn btn-primary" id="btn-submit" style="background-color:#19A448; border-color:#19A448;"
+                        type="submit" value="Agregar">
+                </form>
             </div>
         </div>
     </div>
-    
+
     <hr>
-    
 @endsection
 @section('js-after')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />

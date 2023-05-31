@@ -30,7 +30,8 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.tiposervicios.index')}}" style="color:black;">Tipo Servicios</a> </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.tiposervicios.index') }}"
+                    style="color:black;">Tipo Servicios</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Tipo Servicios</li>
     </nav>
 @endsection
@@ -43,25 +44,22 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <div class="card shadow p-4">
-                <form action="{{route('admin.tiposervicios.update')}}" method="POST">
-                @csrf
-                <div class="row mt-3">
-                    <div class="col">
-                        <input type="hidden"  name="id" value="{{$tiposervicios->id}}">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" value="{{$tiposervicios->nombre}}" id="nombre" checked>
-                    </div>
-
-                </div>
-                <br>
-                <div class="container">
-                    <div class="row row-cols-auto">
+            <div class="card shadow px-5 py-4">
+                <form action="{{ route('admin.tiposervicios.update') }}" method="POST">
+                    @csrf
+                    <h5 class="mt-4">Información del Tipo</h5>
+                    <div class="row mt-3">
                         <div class="col">
-                            <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                            <input type="hidden" name="id" value="{{ $tiposervicios->id }}">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" value="{{ $tiposervicios->nombre }}"
+                                id="nombre" checked>
                         </div>
+
                     </div>
-                </div>    
+                    <br>
+                    <input name="btn-submit" id="btn-submit" class="btn btn-primary"
+                        style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
                 </form>
             </div>
         </div>

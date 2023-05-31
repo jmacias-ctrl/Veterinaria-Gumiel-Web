@@ -52,7 +52,7 @@
                         <h1>Listado de Servicios</h1>
                         @can('ingresar servicios')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.servicio.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Servicio</a>
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
                     </div>
                 </div>

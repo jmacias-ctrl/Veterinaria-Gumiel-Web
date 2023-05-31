@@ -53,7 +53,7 @@
                         @can('ingresar productos')
                             <div class="float-right"><a class="btn btn-primary mr-auto float-right"
                                     href="{{ route('productos.crear') }}" role="button"
-                                    style="background-color:#19A448; border-color:#19A448;">Ingresar Producto</a></div>
+                                    style="background-color:#19A448; border-color:#19A448;">Agregar</a></div>
                         @endcan
                     </div>
                 </div>

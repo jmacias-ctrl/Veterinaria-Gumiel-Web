@@ -52,7 +52,7 @@
                         <h1>Listado de Medicamentos</h1>
                         @can('ingresar medicamentos vacunas')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.medicamentos_vacunas.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Medicamento</a>
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
                     </div>
                 </div>

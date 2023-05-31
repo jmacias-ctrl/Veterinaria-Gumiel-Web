@@ -37,6 +37,7 @@
             color: #2E7646;
         }
     </style>
+    @yield('styles')
 </head>
 @php
     $userNotification = sizeof(Auth::user()->unreadNotifications);
@@ -94,15 +95,7 @@
                         </a>
                         <a href="{{ route('user.profile.modify') }}" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
-                            <span>Configuracion</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-calendar-grid-58"></i>
-                            <span>Actividad</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-support-16"></i>
-                            <span>Soporte</span>
+                            <span>Configuración</span>
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('logout') }}"
@@ -110,7 +103,7 @@
                             document.getElementById('logout-form').submit();"
                             id="logout" class="dropdown-item">
                             <i class="ni ni-user-run"></i>
-                            <span>Cerrar Sesion</span>
+                            <span>Cerrar Sesión</span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
@@ -160,11 +153,14 @@
                                     @elseif (auth()->user()->hasRole('Inventario'))
                                         <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
                                             href="{{ route('inventario') }}">
+                                        @elseif (auth()->user()->hasRole('Cliente'))
+                                            <a class="nav-link @if (Route::current()->getName() == 'cliente') active @endif"
+                                                href="{{ route('inventario') }}">
                         @endif
                         <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
                     </li>
-                    @hasrole('Admin')
+                    @can('ver usuario')
                         @if (Route::currentRouteName() == 'admin.usuarios.index')
                             <li class="nav-item  active">
                             @else
@@ -172,7 +168,7 @@
                         @endif
                         <a class="nav-link collapse-links" data-toggle="collapse" href="#usuarioCollapse" role="button"
                             aria-expanded="false" aria-controls="usuarioCollapse">
-                            <i class="ni ni-circle-08 text-green"></i> Gestion Usuarios
+                            <i class="ni ni-circle-08 text-green"></i> Gestión Usuarios
                         </a>
                         <div class="collapse" id="usuarioCollapse">
                             <div class="card card-body" id="dropdown">
@@ -194,16 +190,10 @@
                                             href="{{ url('funcionarios') }}" id="link-dropdown">Funcionario</a>
                                     </li>
                                 </ul>
-                                <ul class="navbar-nav">
-                                    <li class="nav-item">
-                                        <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
-                                            href="{{ route('admin.horario.index') }}" id="link-dropdown">Horarios</a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                         </li>
-                    @endhasrole
+                        @endcan
                     @can('ver servicios')
                         <li class="nav-item">
                             <a class="nav-link @if (request()->routeIs('admin.servicio.*')) active @endif"
@@ -212,16 +202,22 @@
                             </a>
                         </li>
                     @endcan
+                    @can('ver proveedores')
+                        <li class="nav-item">
+                            <a class="nav-link @if (request()->routeIs('proveedores.*')) active @endif"
+                                href="{{ route('proveedores.index') }}">
+                                <i class="ni ni-delivery-fast text-green "></i> Proveedores
+                            </a>
+                        </li>
+                    @endcan
                     @can('ver citasvet')
                         <li class="nav-item">
-                            <a class="nav-link @if (request()->routeIs('/agendar-horas/create')) active @endif"
-                                href="{{ route('agendar-horas.create') }}">
+                            <a class="nav-link @if(request()->routeIs('/agendar-horas/create')) active @endif" href="{{ route('agendar-horas.create') }}">
                                 <i class="ni ni-atom text-green "></i> Reservar cita
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if (request()->routeIs('/miscitas')) active @endif"
-                                href="{{ route('Agendar') }}">
+                            <a class="nav-link @if(request()->routeIs('/miscitas')) active @endif" href="{{ route('Agendar') }}">
                                 <i class="ni ni-atom text-green "></i> Mis citas
                             </a>
                         </li>
@@ -230,7 +226,7 @@
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#productosCollapse"
                                 role="button" aria-expanded="false" aria-controls="productosCollapse">
-                                <i class="ni ni-box-2 text-green"></i> Gestion Productos
+                                <i class="ni ni-box-2 text-green"></i> Gestión Productos
                             </a>
                             <div class="collapse" id="productosCollapse">
                                 <div class="card card-body" id="dropdown">
@@ -240,25 +236,34 @@
                                                 href="{{ route('productos.index') }}" id="link-dropdown">Productos</a>
                                         </li>
                                     </ul>
+
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.insumos_medicos.*')) active @endif"
                                                 href="{{ route('admin.insumos_medicos.index') }}"
-                                                id="link-dropdown">Insumos Medicos</a>
+                                                id="link-dropdown">Insumos Médicos</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.medicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.medicamentos_vacunas.index') }}"
+                                                id="link-dropdown">Medicamentos</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </li>
                     @endcan
-                    @hasrole('Admin')
+                    @canany(['ver productos','ver servicios','ver insumos medicos','ver medicamentos','ver especies','modificar landing page'])
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#mantenedoresCollapse"
                                 role="button" aria-expanded="false" aria-controls="mantenedoresCollapse">
                                 <i class="ni ni-settings text-green"></i> Mantenedores
                             </a>
-                            <div class="collapse" id="mantenedoresCollapse">
+                            <div class="collapse" id="mantenedoresCollapse">                     
                                 <div class="card card-body" id="dropdown">
+                                    @can('ver productos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaproductos.*')) active @endif"
@@ -266,6 +271,8 @@
                                                 id="link-dropdown">Marcas Productos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver productos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoproductos_ventas.*')) active @endif"
@@ -273,6 +280,8 @@
                                                 id="link-dropdown">Tipo Productos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver servicios')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tiposervicios.*')) active @endif"
@@ -280,48 +289,103 @@
                                                 Servicios</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver insumos medicos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.marcaInsumos.*')) active @endif"
                                                 href="{{ route('admin.marcaInsumos.index') }}" id="link-dropdown">Marcas
-                                                Insumos Medicos</a>
+                                                Insumos Médicos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver insumos medicos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.tipoinsumos.*')) active @endif"
                                                 href="{{ route('admin.tipoinsumos.index') }}" id="link-dropdown">Tipos
-                                                Insumos Medicos</a>
+                                                Insumos Médicos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver medicamentos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}" id="link-dropdown">Landing Page</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.tipomedicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.tipomedicamentos_vacunas.index') }}"
+                                                id="link-dropdown">Tipos
+                                                Medicamentos</a>
                                         </li>
                                     </ul>
-
+                                    @endcan
+                                    @can('ver medicamentos')
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
-                                            <a class="nav-link ms-3 " href="{{ route('trazabilidad-ventas-y-servicios') }}" id="link-dropdown">Trazabilidad</a>
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.marcamedicamentos_vacunas.*')) active @endif"
+                                                href="{{ route('admin.marcamedicamentos_vacunas.index') }}"
+                                                id="link-dropdown">Marca
+                                                Medicamentos</a>
                                         </li>
                                     </ul>
+                                    @endcan
+                                    @can('ver especies')
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.especies.*')) active @endif"
+                                                href="{{ route('admin.especies.index') }}"
+                                                id="link-dropdown">Especies</a>
+                                        </li>
+                                    </ul>
+                                    @endcan
+                                    @can('modificar landing page')
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
+                                                id="link-dropdown">Landing Page</a>
+                                        </li>
+                                    </ul>
+                                    @endcan
                                 </div>
                             </div>
                         </li>
-                    @endhasrole
-                    @hasrole('Inventario')
+                    @endcanany 
+                    @can('acceso punto de venta')
                         <li class="nav-item active">
                             <a class="nav-link @if (request()->routeIs('point_sale.*')) active @endif"
                                 href="{{ route('point_sale.index') }}">
                                 <i class="ni ni-cart text-green"></i> Punto de Venta
                             </a>
                         </li>
-                    @endhasrole
+                    @endcan
+                    @can('acceso punto de venta')
+                        <li class="nav-item active">
+                            <a class="nav-link @if (request()->routeIs('control-servicios.*')) active @endif"
+                                href="{{ route('control_servicios.index') }}">
+                                <i class="ni ni-cart text-green"></i>Punto de Reserva/Pago Servicios
+                            </a>
+                        </li>
+                    @endcan
+                    @can('acceso ventas')
+                        <li class="nav-item active">
+                            <a class="nav-link @if (request()->routeIs('ventas.*')) active @endif"
+                                href="{{ route('ventas.index') }}">
+                                <i class="ni ni-money-coins text-green"></i> Ventas
+                            </a>
+                        </li>
+                    @endcan
+                    @can('acceso administracion de stock')
+                        <li class="nav-item active">
+                            <a class="nav-link @if (request()->routeIs('administracion_inventario.*')) active @endif"
+                                href="{{ route('administracion_inventario.index') }}">
+                                <i class="ni ni-bullet-list-67 text-green"></i> Administración de Inventario
+                            </a>
+                        </li>
+                    @endcan
                     @can('ver gestionvet')
                         <li class="nav-item active">
                             <a class="nav-link  @if (request()->routeIs('admin.horariofuncionarios.*')) active @endif"
                                 href="{{ route('admin.horariofuncionarios.edit') }}">
-                                <i class="ni ni-calendar-grid-58 text-green"></i> Horario Funcionarios</a>
+                                <i class="ni ni-calendar-grid-58 text-green"></i> Mi Horario</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link  @if (request()->routeIs('pacientes.*')) active @endif"
@@ -329,7 +393,7 @@
                                 <i class="ni ni-archive-2 text-green "></i>Mis Pacientes</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link  @if (request()->routeIs('miscitas.*')) active @endif" href="">
+                            <a class="nav-link  @if (request()->routeIs('miscitas.*')) active @endif" href="/miscitas">
                                 <i class="	fas fa-calendar-check text-green "></i>Mis Citas</a>
                         </li>
                     @endcan
@@ -345,15 +409,15 @@
             <div class="container-fluid">
                 <!-- Brand -->
 
-                @yield('back-arrow')
+               
                 <div class="row">
-
-                    <a class="h3 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ url()->full() }}">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <p class="font-weight-bold" text-center> @yield('header-title')</p>
-                            @yield('breadcrumbs')
-                        </div>
-                    </a>
+                    <div class="d-flex align-items-center">
+                        @yield('back-arrow')
+                        <a class="h3 ml-2 mt-3 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ url()->full() }}">
+                                <p class="font-weight-bold" text-center> @yield('header-title')</p>
+                        </a>
+                    </div>
+                    
                 </div>
 
                 <!-- Form -->
@@ -426,15 +490,7 @@
                         </a>
                         <a href="{{ route('user.profile.modify') }}" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
-                            <span>Configuracion</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-calendar-grid-58"></i>
-                            <span>Actividad</span>
-                        </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
-                            <i class="ni ni-support-16"></i>
-                            <span>Soporte</span>
+                            <span>Configuración</span>
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="{{ route('logout') }}"
@@ -442,7 +498,7 @@
                             document.getElementById('logout-form').submit();"
                             id="logout" class="dropdown-item">
                             <i class="ni ni-user-run"></i>
-                            <span>Cerrar Sesion</span>
+                            <span>Cerrar Sesión</span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                 class="d-none">
                                 @csrf
@@ -455,8 +511,12 @@
     </nav>
     <!-- End Navbar -->
     <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 @cannot('ver estadisticas')
+        
+    @endcannot">
         <div class="container-fluid">
+            @yield('breadcrumbs')
+            @can('ver estadisticas')
             <div class="header-body">
                 <!-- Card stats -->
                 <div class="row">
@@ -547,6 +607,7 @@
                 </div>
             </div>
         </div>
+        @endcan 
         <script src="{{ asset('js/horarios.js') }}" defer></script>
     </div>
     </nav>
@@ -562,6 +623,7 @@
 <!--   Optional JS   -->
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
 <script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>
+@yield('scripts')
 <!--   Argon JS   -->
 <script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
 <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>

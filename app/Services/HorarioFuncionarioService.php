@@ -58,7 +58,7 @@ class HorarioFuncionarioService implements HorarioFuncionarioServiceInterface {
 
             $available = $this->isAvailableInterval($date, $funcionarioId, $start);
 
-            $start->addMinutes(30);
+            $start->addMinutes(15);
             $intervalo['end'] = $start->format('H:i');
 
             if($available){

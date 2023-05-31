@@ -18,6 +18,7 @@ class ServicioController extends Controller
     if ($request->ajax()) {
         $data = servicios::with('tiposervicios')->get()->map(function($servicio){
             $servicio->id_tipo = $servicio->tiposervicios->nombre;
+            $servicio->precio = '$'.number_format($servicio->precio, 0, ',', '.');
             return $servicio;
         });
         return Datatables::of($data)
@@ -42,11 +43,13 @@ class ServicioController extends Controller
             'nombre' => 'required|string',
             'id_tipo' => 'required',
             'precio' => 'required',
+            'duracion' => 'required',
         ];
         $attribute = [
             'nombre' => 'Nombre',
             'id_tipo' => 'Tipo',
             'precio' => 'Precio',
+            'duracion' => 'Duracion',
         ];
         $message = [
             'required' => ':attribute es obligatorio'
@@ -56,9 +59,9 @@ class ServicioController extends Controller
             $tiposervicios = tiposervicios::all();
             $servicio = new servicios;
             $servicio->nombre = $request->input('nombre');
-            $servicio->id_tipo = $request->input('id_tipo');
+            $servicio->tiposervicio_id = $request->input('id_tipo');
             $servicio->precio = $request->input('precio');
-
+            $servicio->duracion = $request->input('duracion');
             $servicio->save();
             return redirect()->route('admin.servicio', compact('tiposervicios'))->with('success', 'El servicio ' . $request->nombre . ' fue agregado de manera satisfactoria');
         }
@@ -85,11 +88,13 @@ class ServicioController extends Controller
             'nombre' => 'required|string',
             'id_tipo' => 'required',
             'precio' => 'required',
+            'duracion' => 'required',
         ];
         $attribute = [
             'nombre' => 'Nombre',
             'id_tipo' => 'Tipo',
             'precio' => 'Precio',
+            'duracion' => 'Duracion',
         ];
         $message = [
             'required' => ':attribute es obligatorio'
@@ -99,8 +104,9 @@ class ServicioController extends Controller
             $tiposervicios = tiposervicios::all();
             $servicio = servicios::find($request->id);
             $servicio->nombre = $request->input('nombre');
-            $servicio->id_tipo = $request->input('id_tipo');
+            $servicio->tiposervicio_id = $request->input('id_tipo');
             $servicio->precio = $request->input('precio');
+            $servicio->duracion = $request->input('duracion');
             $servicio->save();
             return redirect()->route('admin.servicio')->with('success', 'El servicio ' . $request->nombre . ' fue modificado de manera satisfactoria');
         }

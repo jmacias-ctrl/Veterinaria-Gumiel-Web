@@ -22,8 +22,21 @@ class HorariosFuncionariosTableSeeder extends Seeder
                 'morning_end' => ($i==0 ? '14:00:00' : '07:00:00'),
                 'afternoon_start' => ($i==0 ? '15:00:00' : '15:00:00'),
                 'afternoon_end' => ($i==0 ? '19:00:00' : '20:00:00'),
-                'user_id' => 1
+                'user_id' => 1,
+            ]);  
+        }
+        for($j=0; $j<7; ++$j){
+            HorarioFuncionarios::create([
+                'day'=>$j,
+                'active' => ($j==0),
+                'morning_start' => ($j==0 ? '09:30:00' : '07:00:00'),
+                'morning_end' => ($j==0 ? '14:00:00' : '07:00:00'),
+                'afternoon_start' => ($j==0 ? '15:00:00' : '15:00:00'),
+                'afternoon_end' => ($j==0 ? '19:00:00' : '20:00:00'),
+                'user_id' => 2,
             ]);
         }
+
+        
     }
 }

@@ -175,14 +175,14 @@
                     Swal.fire({
                         position: 'center',
                         icon: 'error',
-                        title: `Cantidad de efectivo ofrecido es menor a total`,
+                        title: `Cantidad de efectivo ofrecido es menor que el total`,
                         showConfirmButton: false,
                         timer: 1500,
                     })
                 }
                 Swal.fire({
                     title: '¿Realizar Venta?',
-                    text: "¿Estás seguro que los datos estan correctos?",
+                    text: "¿Estás seguro que los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -382,7 +382,7 @@
                     axios.get("{{ route('point_sale.clear') }}", {})
                         .then(function(response) {
 
-                            toastr.success("Venta cancelada correctamente!");
+                            toastr.success("¡Venta cancelada correctamente!");
 
                         })
                         .catch(function(error) {

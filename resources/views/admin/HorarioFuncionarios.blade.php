@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Servicios
+    Horarios Funcionarios
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -56,7 +56,7 @@
 
                     @if (session('errors'))
                         <div class="alert alert-danger" role="alert">
-                            los cambios se han guardado pero encontramos los siguientes errorres:
+                            los cambios se han guardado, pero encontramos los siguientes errores:
                             <ul>
                                 @foreach (session('errors') as $error)
                                     <li>{{$error}}</li>

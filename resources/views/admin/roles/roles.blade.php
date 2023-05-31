@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Roles - Veterinaria Gumiel</title>
+<title>Gestión Roles - Veterinaria Gumiel</title>
 @section('css-after')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet"
@@ -23,7 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Roles
+    Gestión de Roles
 @endsection
 
 @section('breadcrumbs')
@@ -51,9 +51,11 @@
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Roles</h1>
-                        <a class="btn btn-primary ms-5" href="{{ route('admin.roles.add') }}" role="button"
-                            style="background-color:#19A448; border-color:#19A448;">Ingresar
-                            Rol</a>
+                        @can('ingresar roles')
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.roles.add') }}" role="button"
+                                style="background-color:#19A448; border-color:#19A448;">Ingresar
+                                Rol</a>
+                        @endcan
                     </div>
                 </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">
@@ -189,7 +191,7 @@
 
             Swal.fire({
                 title: '¿Eliminar Rol?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -204,11 +206,11 @@
                         })
                         .then(function(response) {
 
-                            toastr.success('Rol eliminado correctamente!');
+                            toastr.success('¡Rol eliminado correctamente!');
 
                         })
                         .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar');
+                            toastr.error('¡La acción no se pudo realizar');
                         })
                         .finally(function() {
                             $('#table').DataTable().ajax.reload();

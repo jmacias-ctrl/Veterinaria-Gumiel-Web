@@ -1,4 +1,5 @@
 @extends('layouts.panel_usuario')
+<title>Ventas - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.4.1/css/dataTables.dateTime.min.css">
     <style>
         .dataTables_filter,
         .dataTables_info {
@@ -20,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Ventas - Veterinaria Gumiel
+    Ventas
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -56,13 +58,25 @@
                         {{ session()->get('success') }}
                     </div>
                 @endif
+                <div class="d-flex" style="width:50%">
+                    <div class="d-flex">
+                        <p class="mr-3">Fecha Inicio:</p>
+                        <input type="text" class="form-control rangeDate" id="min" name="min">
+                    </div>
+                    <div class="d-flex mx-3">
+                        <p class="mr-3">Fecha Termino:</p>
+                        <input type="text" class="form-control rangeDate" id="max" name="max">
+                    </div>
+                </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>ID Compra</th>
                             <th>Nombre Cliente</th>
-                            <th>Venta</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Metodo Pago</th>
                             <th>Monto</th>
                             <th>Acciones</th>
                         </tr>
@@ -74,6 +88,8 @@
 @endsection
 @include('inventario.ventas.modal.detalleVenta')
 @section('js-after')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
@@ -87,15 +103,50 @@
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/datetime/1.4.1/js/dataTables.dateTime.min.js"></script>
     <script>
+        var minDate, maxDate;
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = moment($('#min').val(), 'DD-MM-YYYY', true).isValid() ?
+                    moment($('#min').val(), 'DD-MM-YYYY', true).unix() :
+                    null;
+                var max = moment($('#max').val(), 'DD-MM-YYYY').isValid() ?
+                    moment($('#max').val(), 'DD-MM-YYYY', true).unix() :
+                    null;
+                var date = moment( data[3], 'DD-MM-YYYY', true ).unix();
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date <= max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date <= max)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+        $(".rangeDate").flatpickr({
+            enableTime: true,
+            dateFormat: "d-m-Y",
+        });
         $(document).ready(function() {
+            minDate = new DateTime($('#min'), {
+                format: 'MMMM Do YYYY'
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'MMMM Do YYYY'
+            });
+
             let columns = [0, 1, 2, 3, 4, 5, 6];
+
             var table = $("#table").DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 },
                 dom: 'Bfrtip',
+                searching: true,
                 responsive: true,
                 "language": {
                     "search": "Buscar:",
@@ -172,8 +223,16 @@
                         name: 'nombre_cliente'
                     },
                     {
-                        data: 'venta',
-                        name: 'venta'
+                        data: 'fecha',
+                        name: 'fecha'
+                    },
+                    {
+                        data: 'hora',
+                        name: 'hora'
+                    },
+                    {
+                        data: 'metodo_pago',
+                        name: 'metodo_pago'
                     },
                     {
                         data: 'monto',
@@ -189,6 +248,9 @@
             });
             $('#myInput').on('keyup', function() {
                 $('#table').dataTable().fnFilter(this.value);
+            });
+            $('#min, #max').on('change', function() {
+                table.draw();
             });
         });
 
@@ -221,22 +283,27 @@
                         $("#id_operacion").addClass('d-none');
                         $("#Banco").addClass('d-none');
                         $("#efectivo").html('Efectivo Dado: ' + new Intl.NumberFormat('es-CL', {
-                        currency: 'CLP',
-                        style: 'currency'
-                    }).format(response.data.detalle_metodo['efectivo']))
+                            currency: 'CLP',
+                            style: 'currency'
+                        }).format(response.data.detalle_metodo['efectivo']))
                         $("#vuelto").html('Vuelto: ' + new Intl.NumberFormat('es-CL', {
-                        currency: 'CLP',
-                        style: 'currency'
-                    }).format(response.data.detalle_metodo['vuelto']))
+                            currency: 'CLP',
+                            style: 'currency'
+                        }).format(response.data.detalle_metodo['vuelto']))
                     } else if (response.data.venta['metodo_pago'] == "tarjeta") {
                         $("#efectivo").addClass('d-none');
                         $("#vuelto").addClass('d-none');
                         $("#id_operacion").html('Num Operacion: ' + response.data.detalle_metodo['num_operacion'])
-                    } else {
+                    } else if(response.data.venta['metodo_pago']=="transferencia"){
                         $("#efectivo").addClass('d-none');
                         $("#vuelto").addClass('d-none');
                         $("#id_operacion").html('Num Operacion: ' + response.data.detalle_metodo['num_operacion'])
                         $("#Banco").html('Banco: ' + response.data.detalle_metodo['banco'])
+                    }else{
+                        $("#efectivo").addClass('d-none');
+                        $("#vuelto").addClass('d-none');
+                        $("#id_operacion").addClass('d-none')
+                        $("#Banco").addClass('d-none')
                     }
                     $.map(response.data.itemsComprado, function(elementOrValue,
                         indexOrKey) {

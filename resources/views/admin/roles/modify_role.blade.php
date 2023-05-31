@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Modificacion de Rol - Veterinaria Gumiel</title>
+<title>Modificación de Rol - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -16,7 +16,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Modificacion del Rol {{ $rol->name }}
+    Modificación del Rol {{ $rol->name }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -45,7 +45,7 @@
                 <form action="{{ route('admin.roles.update') }}" method="POST" id="formRole">
                     @csrf
                     <div id="RoleWindow">
-                        <h2 class="mt-4">Informacion del Rol</h2>
+                        <h2 class="mt-4">Información del Rol</h2>
                         <input type="hidden" name="id" value="{{ $rol->id }}">
                         <div class="row mt-3">
                             <div class="col-3">
@@ -53,6 +53,8 @@
                                 <input type="text" id="nombre" name="nombre" class="form-control"
                                     placeholder="Ej. Logistica" aria-label="Nombre" value="{{ $rol->name }}" required>
                             </div>
+                            <hr class="my-3">
+                            @include('admin.roles.permissions')
                             <hr class="my-3">
                             <input class="btn btn-primary" id="btn-submit" type="submit" value="Modificar Rol"
                                 style="background-color:#19A448; border-color:#19A448;">
@@ -77,7 +79,7 @@
 
                 Swal.fire({
                     title: 'Modificar Rol',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

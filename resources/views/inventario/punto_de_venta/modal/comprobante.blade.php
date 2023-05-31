@@ -1,9 +1,9 @@
-<div class="modal fade" id="comprobanteModal" aria-labelledby="comprobanteModal" aria-hidden="true">
+<div class="modal fade" id="comprobanteModal" data-backdrop="static" data-keyboard="false" aria-labelledby="comprobanteModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Comprobante de Venta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -41,9 +41,9 @@
                 </table>
                 <hr>
                 
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center" style="display:none;">
                     
-                    <form class="form-inline">
+                    <form class="form-inline d-none">
                         <label for="email_cliente" class="form-label mr-4">Enviar comprobante por correo</label>
                         <div class="form-group mb-2">
                             <input type="email" class="form-control" id="email_cliente" name="email_cliente"

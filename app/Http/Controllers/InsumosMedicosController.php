@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Tipoinsumo;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Validation\Rule;
 
 
 class InsumosMedicosController extends Controller
@@ -46,24 +47,28 @@ class InsumosMedicosController extends Controller
         $rules = [
             'nombre' => 'required|string',
             'marca' => 'required',
+            'codigo'=> 'string|required|unique:App\Models\insumos_medicos,codigo',
             'id_tipo' => 'required',
             'stock' => 'required|integer',
         ];
         $attribute = [
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'codigo'=> 'Codigo',
             'id_tipo' => 'Tipo',
             'stock' => 'Stock',
         ];
         $message = [
             'required' => ':attribute es obligatorio',
-            'integer'=> ':attribute debe ser un numero'
+            'integer'=> ':attribute debe ser un numero',
+            'unique'=> ':attribute ya se encuentra registrado'
         ];
         $validator = Validator::make($request->all(), $rules, $message, $attribute);
         if ($validator->passes()) {
             $tipoinsumos = Tipoinsumos::all();
             $insumos_medicos = new insumos_medicos;
             $insumos_medicos->nombre = $request->input('nombre');
+            $insumos_medicos->codigo = $request->input('codigo');
             $insumos_medicos->id_marca = $request->input('marca');
             $insumos_medicos->id_tipo = $request->input('id_tipo');
             $insumos_medicos->stock = $request->input('stock');
@@ -94,17 +99,24 @@ class InsumosMedicosController extends Controller
         $rules = [
             'nombre' => 'required|string',
             'marca' => 'required',
+            'codigo'=> [
+                'string',
+                'required',
+                Rule::unique('insumos_medicos', 'codigo')->ignore($request->id),
+            ],
             'id_tipo' => 'required',
             'stock' => 'required',
         ];
         $attribute = [
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'codigo'=> 'Codigo',
             'id_tipo' => 'Tipo',
             'stock' => 'Stock',
         ];
         $message = [
-            'required' => ':attribute es obligatorio'
+            'required' => ':attribute es obligatorio',
+            'unique'=> ':attribute ya se encuentra registrado'
         ];
         $validator = Validator::make($request->all(), $rules, $message, $attribute);
         if ($validator->passes()) {
@@ -113,6 +125,7 @@ class InsumosMedicosController extends Controller
             $insumos_medicos->nombre = $request->input('nombre');
             $insumos_medicos->id_marca = $request->input('marca');
             $insumos_medicos->id_tipo = $request->input('id_tipo');
+            $insumos_medicos->codigo = $request->input('codigo');
             $insumos_medicos->stock = $request->input('stock');
             $insumos_medicos->save();
             return redirect()->route('admin.insumos_medicos.index')->with('success', 'El insumo medico ' . $request->nombre . ' fue modificado de manera satisfactoria');

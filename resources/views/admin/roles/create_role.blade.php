@@ -43,7 +43,7 @@
             <div class="card shadow p-4">
                 <form action="{{ route('admin.roles.store') }}" method="POST" class="needs-validation">
                     @csrf
-                    <h2 class="mt-4">Informacion del Rol</h2>
+                    <h2 class="mt-4">Información del Rol</h2>
                     <div class="row mt-3">
                         <div class="col">
                             <label for="nombre" class="form-label">Nombre</label>
@@ -54,6 +54,8 @@
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
                         </div>
+                        <hr class="my-3">
+                        @include('admin.roles.permissions')
                         <hr class="my-3">
                         <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol"
                             style="background-color:#19A448; border-color:#19A448;">

@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de servicio {{ $servicio->nombre }}
+    Modificación de servicio {{ $servicio->nombre }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -49,7 +49,7 @@
                     <div class="row mt-3">
                         <div class="col">
                             <input type="hidden" name="id" value="{{ $servicio->id }}">
-                            <label for="nombre"class="form-label">Nombre Servicio</label>
+                            <label for="nombre"class="form-label">Nombre</label>
                             <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                                 value="{{ $servicio->nombre }}" id="nombre" checked>
                             @error('nombre')
@@ -59,7 +59,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="nombre" class="form-label">Tipo se servicio</label>
+                            <label for="nombre" class="form-label">Tipo</label>
                             <select class="form-select @error('id_tipo') is-invalid @enderror" aria-label="Default select example"
                             name="id_tipo" id="id_tipo">
                             @foreach ($tiposervicios as $tipo)
@@ -87,6 +87,16 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="duracion" class="form-label">Duración</label>
+                            <input type="int" class="form-control @error('duracion') is-invalid @enderror" name="duracion"
+                                value="{{ $servicio->duracion }}" id="duracion" checked>
+                            @error('duracion')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="container">
                     <br>
                     <input name="" id="btn-submit" class="btn btn-primary"
@@ -107,8 +117,8 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Modificar Tipo de Servicio',
-                    text: "¿Estás seguro de que todos los datos estan correctos?",
+                    title: 'Modificar Servicio',
+                    text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

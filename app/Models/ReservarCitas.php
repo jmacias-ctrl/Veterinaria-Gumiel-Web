@@ -15,7 +15,8 @@ class ReservarCitas extends Model
         'description',
         'funcionario_id',
         'paciente_id',
-        'tiposervicio_id'
+        'tiposervicio_id',
+        'id_servicio'
     ];
 
     public function tiposervicio(){
@@ -30,4 +31,7 @@ class ReservarCitas extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function cancellation(){
+        return $this->hasOne(CancelledCitas::class);
+    }
 }

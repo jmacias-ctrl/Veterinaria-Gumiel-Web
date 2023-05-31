@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestion Usuarios - Administrador</title>
+<title>Gestión Usuarios - Administrador</title>
 @section('css-after')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestion de Usuario
+    Gestión de Usuario
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -52,10 +52,11 @@
 
                     <div class="d-flex justify-content-between">
                         <h1>Listado de Usuarios</h1>
-                        <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button"
-                            style="background-color:#19A448; border-color:#19A448;">Ingresar
-                            Usuario</a>
-
+                        @can('ingresar usuarios')
+                            <a class="btn btn-primary shadow-sm" href="{{ route('admin.usuarios.add') }}" role="button"
+                                style="background-color:#19A448; border-color:#19A448;">Ingresar
+                                Usuario</a>
+                        @endcan
                     </div>
 
                 </div>
@@ -66,7 +67,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Rut</th>
                             <th scope="col">Correo</th>
-                            <th scope="col">Telefono</th>
+                            <th scope="col">Teléfono</th>
                             <th scope="col">Roles</th>
                             <th scope="col">Acciones</th>
                         </tr>
@@ -104,7 +105,7 @@
     @endif
     <script>
         $(document).ready(function() {
-            let columns = [0, 1, 2, 3, 4, 5, 6];
+            let columns = [0, 1, 2, 3, 4, 5];
             var table = $("#table").DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
@@ -214,7 +215,7 @@
             var form = $(this).parents(form);
             Swal.fire({
                 title: '¿Eliminar usuario?',
-                text: "¿Estás seguro? no podrás revertir la acción!",
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -229,7 +230,7 @@
                         })
                         .then(function(response) {
 
-                            toastr.success("Usuario eliminado correctamente!");
+                            toastr.success("¡Usuario eliminado correctamente!");
 
                         })
                         .catch(function(error) {

@@ -31,8 +31,9 @@
     <link rel="stylesheet" type="text/css" href="fullCalendar4/packages/timegrid/main.css">
     <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
     <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
   
     
@@ -48,14 +49,13 @@
     @yield('js-before')
 </head>
 
-<body>
+<body class="h-100">
     
         
-    <script src="{{ asset('js/horarios.js') }}" defer></script>
-    <main class="py-4">
+    
 
         @yield('content')
-    </main>
+    
     <style>
         .a-dec {
             color: #19a448;
@@ -70,21 +70,43 @@
         .a-dec:hover {
             color: #2e7646;
         }
+        .btn-w{
+            color:red;
+        }
+        .btn-w:hover{
+            background-color:red;
+            border-radius:50px;
+            color:black;
+            outline: none;
+        }
+        .btn-w:focus{
+            background-color:red;
+            border-radius:50px;
+            color:black;
+            outline: none;
+        }
+        .btn-edit{
+            color:lightgray;
+        }
+        .btn-edit:hover{
+            color:black;
+        }
+        
+        
 </style>
     
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-			  integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-			  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    
+        
 
 </body>
 @yield('js-after')

@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Modificacion de Ubicacion - Veterinaria Gumiel</title>
+<title>Modificación Landing Page - Veterinaria Gumiel</title>
 @section('css-before')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -30,7 +30,7 @@
     </span> </a>
 @endsection
 @section('header-title')
-Modificacion del Perfil {{ Auth::user()->name }}
+Modificación Landing Page
 @endsection
 @section('breadcrumbs')
 <nav aria-label="breadcrumb">
@@ -59,11 +59,11 @@ Modificacion del Perfil {{ Auth::user()->name }}
                 @csrf
                 <!-- <input type="hidden" name="id" value="{{ Auth::user()->id }}"> -->
 
-                <h4 class="mt-4">Informacion de Ubicacion</h4>
+                <h4 class="mt-4">Información de Ubicacion</h4>
                 <hr>
                 <div class="row mt-3">
                     <div class="col">
-                        <label for="direccion" class="form-label">Direccion</label>
+                        <label for="direccion" class="form-label">Dirección</label>
                         <input type="text" id="direccion" name="direccion" class="form-control @error('direccion') is-invalid @enderror" placeholder="Ej. Villagran 437,Cañete,Chile." aria-label="direccion" value="{{$landingMaps->direccion}}" required>
                         @error('direccion')
                         <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -73,7 +73,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
 
                 <div class="row mt-3">
                     <div class="col">
-                        <label for="telefono" class="form-label">Telefono</label>
+                        <label for="telefono" class="form-label">Teléfono</label>
                         <div class="input-group">
                             <div class="input-group-text">+56</div>
                             <input type="number" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" placeholder="954231232" maxlength="9" minlength="9" value="{{ $landingMaps->telefono }}">
@@ -145,7 +145,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
             <form action="{{ route('landing.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <h4 class="mt-4">Informacion de Nosotros</h4>
+                <h4 class="mt-4">Información de Nosotros</h4>
                 <hr>
 
                 <div class="row mt-3">

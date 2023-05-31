@@ -49,13 +49,15 @@ class PointSaleController extends Controller
     public function venta(Request $request)
     {
         $cartGet = \Cart::session(auth()->user()->id)->getContent();
-        $fecha = Carbon::now()->format('d-m-Y');
-        $hora = Carbon::now()->format('h:i:s A');
+        $fecha = Carbon::now();
+        $fecha_t = $fecha->toDateString();
+        $hora = $fecha->format('h:i:s');
         $nuevaVenta  = new trazabilidad_venta_presencial();
         $nuevaVenta->id_venta = Str::random(10);
         $nuevaVenta->metodo_pago = $request->metodoPago;
         $nuevaVenta->nombre_cliente = $request->nombreCliente;
         $nuevaVenta->id_operador = auth()->user()->id;
+        $nuevaVenta->fecha_compra = $fecha->toDateTimeString();
         $nuevaVenta->save();
         $montoFinal = 0;
         $metodoPagoEscogido = null;
@@ -65,20 +67,25 @@ class PointSaleController extends Controller
             $itemComprado->cantidad = $item->quantity;
             $itemComprado->id_producto = $item->id;
             $itemComprado->id_venta = $nuevaVenta->id;
+            $itemComprado->tipo_item = "producto";
             $itemComprado->save();
             $montoFinal = $montoFinal + ($itemComprado->monto*$itemComprado->cantidad);
 
             $producto = productos_ventas::find($item->id);
             $producto->stock = $producto->stock - $item->quantity;
             if($producto->stock<=0){
-                $users = User::role('Inventario')->get();
+                $users = User::all();
                 foreach($users as $user){
-                    $user->notify(new StockProductoInventario($producto, true));
+                    if($user->can('acceso administracion de stock')){
+                        $user->notify(new StockProductoInventario($producto, true));
+                    }
                 }   
             }else if($producto->stock<$producto->min_stock){
-                $users = User::role('Inventario')->get();
+                $users = User::all();
                 foreach($users as $user){
-                    $user->notify(new StockProductoInventario($producto, false));
+                    if($user->can('acceso administracion de stock')){
+                        $user->notify(new StockProductoInventario($producto, false));
+                    }
                 }   
             }
             $producto->save();
@@ -111,7 +118,7 @@ class PointSaleController extends Controller
                 break; 
         }
         \Cart::session(auth()->user()->id)->clear();
-        return response()->json(['success' => true,'metodoPago'=>$request->metodoPago, 'fecha'=>$fecha,'hora'=>$hora, 'productosComprados'=>$cartGet, 'montoFinal'=>$montoFinal, 'nuevaVenta'=>$nuevaVenta], 200);
+        return response()->json(['success' => true,'metodoPago'=>$request->metodoPago, 'fecha'=>$fecha_t,'hora'=>$hora, 'productosComprados'=>$cartGet, 'montoFinal'=>$montoFinal, 'nuevaVenta'=>$nuevaVenta], 200);
     }
     public function add_product(Request $request)
     {
@@ -147,12 +154,16 @@ class PointSaleController extends Controller
         if($request->ajax()){
             $data = db::table('trazabilidad_venta_presencials')
             ->join('items_comprados','items_comprados.id_venta','=','trazabilidad_venta_presencials.id')
-            ->select('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'nombre_cliente', db::raw('sum(items_comprados.monto*items_comprados.cantidad) as monto'), db::raw('"presencial" as venta'))
-            ->groupBy('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'nombre_cliente', 'venta')
-            ->get();
-            foreach($data as $item){
+            ->select('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta','trazabilidad_venta_presencials.metodo_pago', 'trazabilidad_venta_presencials.fecha_compra','nombre_cliente', db::raw('sum(items_comprados.monto*items_comprados.cantidad) as monto'))
+            ->groupBy('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta','trazabilidad_venta_presencials.metodo_pago','nombre_cliente','trazabilidad_venta_presencials.fecha_compra')
+            ->get()->map(function($item){
+                $carbon = Carbon::parse($item->fecha_compra);
+                $item->fecha = $carbon->format('d-m-Y');
+                $item->metodo_pago = ucfirst($item->metodo_pago);
+                $item->hora = $carbon->format('h:i:s A');
                 $item->monto = '$'.number_format($item->monto, 0, ',', '.');
-            }
+                return $item;
+            });
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action','inventario.ventas.datatable.action')
@@ -161,12 +172,12 @@ class PointSaleController extends Controller
         }
         return view('inventario.ventas.index');
     }
-
+ 
     public function detalle_venta(Request $request){
         $venta = trazabilidad_venta_presencial::find($request->id);
         $detalle_metodo = null;
-        $venta->hora = Carbon::parse($venta->created_at)->format('d-m-Y');
-        $venta->fecha = Carbon::parse($venta->created_at)->format('h:i:s A');
+        $venta->fecha = Carbon::parse($venta->fecha_compra)->format('d-m-Y');
+        $venta->hora = Carbon::parse($venta->fecha_compra)->format('h:i:s A');
         if($venta->metodo_pago=="efectivo"){
             $detalle_metodo = efectivo::where('id_operacion', '=', $venta->id)->first();
         }else if($venta->metodo_pago=="tarjeta"){
@@ -174,7 +185,14 @@ class PointSaleController extends Controller
         }else{
             $detalle_metodo = transferencia::where('id_operacion', '=', $venta->id)->first();
         }
-        $itemsComprado = db::table('items_comprados')->join('productos_ventas', 'items_comprados.id_producto', '=', 'productos_ventas.id')->where('id_venta', '=', $venta->id)->select('items_comprados.id', 'productos_ventas.nombre', 'items_comprados.cantidad', 'items_comprados.monto')->get();
+        $itemsComprado =items_comprados::with('productos_ventas','servicios')->where('id_venta', '=',$venta->id)->get()->map(function($item){
+            if($item->tipo_item=="servicio"){
+                $item->nombre = $item->servicios->nombre;
+            }else{
+                $item->nombre = $item->productos_ventas->nombre;
+            }
+            return $item;
+        });
         $montoFinal = 0;
         foreach($itemsComprado as $item){
             $montoFinal = $montoFinal + ($item->monto*$item->cantidad);

@@ -15,12 +15,14 @@ class CreateComprasTable extends Migration
     {
         Schema::create('compras', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('buy_order');
-            $table->string('session_id');
+            $table->unsignedBigInteger('id_cliente');
+            $table->string('buy_order')->unique();
+            $table->string('session_id')->unique();
             $table->integer('total');
             $table->string('status');
-            
+            $table->string('token')->nullable()->unique();
             $table->timestamps();
+            $table->foreign('id_cliente')->references('id')->on('users');
         });
     }
 

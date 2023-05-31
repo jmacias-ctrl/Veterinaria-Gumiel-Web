@@ -19,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('header-title')
-    Modificacion de Roles del Usuario {{ $user->name }}
+    Modificación de Roles del Usuario {{ $user->name }}
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -53,8 +53,6 @@
                 <form action="{{ route('admin.usuarios.update.roles') }}" method="POST">
                     @csrf
                     <input type="hidden" name="id" value="{{ $user->id }}">
-
-                        <h2>Modificacion de Roles Usuario: {{ $user->name }}</h2>
                         <h3 class="mt-4">Roles</h3>
                         @error('roles')
                             <div class="text-danger"><span><small>{{ _('Debes seleccionar al menos un rol') }}</small></span>
@@ -104,7 +102,7 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Modificacion de Roles de un Usuario',
+                    title: 'Modificación de Roles de un Usuario',
                     text: "¿Estás seguro de los roles asignados?",
                     icon: 'warning',
                     showCancelButton: true,

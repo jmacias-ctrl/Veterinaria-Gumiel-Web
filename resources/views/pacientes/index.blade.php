@@ -37,9 +37,11 @@
                 <div class="col">
                     <h3 class="mb-0">Pacientes</h3>
                 </div>
+                @can('ingresar usuarios')
                 <div class="col text-right">
                     <a href="{{url('/pacientes/create')}}" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Nuevo paciente</a>
                 </div>
+                @endcan
             </div>
         </div>
         <div class="card-body">
@@ -56,7 +58,6 @@
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Correo</th>
-                        <th scope="col">Rol</th>
                         <th scope="col">Acciones</th>
                     </tr>       
                 </thead> 
@@ -66,14 +67,16 @@
                     <th scope="row">{{ $paciente->id }}</th>
                     <td>{{ $paciente->name }}</td>
                     <td>{{ $paciente->email }}</td>
-                    <td>{{ $paciente->nombre_rol }}</td>
                     <td>
                         <form action="{{ url('/pacientes/'.$paciente->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-
+                            @can('eliminar usuarios')
                             <button type="submit" class="btn btn-sm btn-outline-danger"><span class="material-symbols-outlined">delete</span></button>    
+                            @endcan
+                            @can('modificar usuarios')
                             <a href="{{ url('/pacientes/'.$paciente->id.'/edit') }}" class="btn btn-sm btn-outline-warning"><span class="material-symbols-outlined">edit</span></a>
+                            @endcan
 
                         </form>
                     </td>

@@ -1,11 +1,14 @@
 <div class="fixed-icons">
   <ul>
-    <li><a href="https://api.whatsapp.com/send?phone=56977088874&text=Habla%20con%20nosotros!" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
-    <li><a href="#"><i class="fa fa-calendar"></i></a></li>
+    <li id="wsp"><a href="https://api.whatsapp.com/send?phone=56977088874&text=Habla%20con%20nosotros!" target="_blank"><img src="{{asset('images/icons/whatsapp_logo.png')}}" alt=""></a></li>
+    <li class="d-none"><a href="#"><i class="fa fa-calendar"></i></a></li>
   </ul>
 </div>
 
 <style>
+  #wsp{
+    background-image:
+  }
   .fixed-icons {
   position: fixed;
   bottom: 0;
@@ -24,7 +27,11 @@
 
   padding:10px;
 }
-
+.fixed-icons img {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+}
 .fixed-icons li a {
   display: block;
   width: 100px;

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class trazabilidad_venta_presencial extends Model
 {
     use HasFactory;
+    
 }

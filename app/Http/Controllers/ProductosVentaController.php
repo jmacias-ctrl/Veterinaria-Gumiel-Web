@@ -11,11 +11,13 @@ use App\Models\trazabilidad_venta_presencial;
 use App\Models\efectivo;
 use App\Models\transferencia;
 use App\Models\tarjeta;
+use App\Models\Especie;
 use App\Models\items_comprados;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductosVentaController extends Controller
 {
@@ -27,9 +29,11 @@ class ProductosVentaController extends Controller
     public function index_productos(Request $request)
     {
         if($request->ajax()){
-            $data = productos_ventas::with(['marcaproductos','tipoproductos_ventas'])->get()->map(function($producto){
+            $data = productos_ventas::with(['marcaproductos','tipoproductos_ventas', 'especies'])->get()->map(function($producto){
                 $producto->id_marca = $producto->marcaproductos->nombre;
                 $producto->id_tipo = $producto->tipoproductos_ventas->nombre;
+                $producto->producto_enfocado = $producto->especies->nombre;
+                $producto->precio = '$'.number_format($producto->precio, 0, ',', '.');
                 return $producto;
             });
             return Datatables::of($data)
@@ -38,12 +42,7 @@ class ProductosVentaController extends Controller
                 ->rawColumns(['action'])
                 ->toJson();
         }
-        $productos = productos_ventas::with(['marcaproductos','tipoproductos_ventas'])->get()->map(function($producto){
-            $producto->id_marca = $producto->marcaproductos->nombre;
-            $producto->id_tipo = $producto->tipoproductos_ventas->nombre;
-            return $producto;
-        });
-        return view('producto.index', compact('productos'));
+        return view('producto.index');
     }
 
     /**
@@ -55,7 +54,8 @@ class ProductosVentaController extends Controller
     {
         $MarcaProductos = Marcaproducto::all();
         $TipoProductos = tipoproductos_ventas::all();
-        return view('producto.crear', compact('MarcaProductos', 'TipoProductos'));
+        $especies = Especie::all();
+        return view('producto.crear', compact('MarcaProductos', 'TipoProductos', 'especies'));
     }
     /**
      * Store a newly created resource in storage.
@@ -67,6 +67,7 @@ class ProductosVentaController extends Controller
     {
         $rules = ([
             'nombre' => 'required',
+            'codigo'=> 'string|required|unique:App\Models\productos_ventas,codigo',
             'marca' => 'required',
             'slug'=>'required',
             'descripcion' => 'required',
@@ -80,6 +81,7 @@ class ProductosVentaController extends Controller
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'codigo'=>'Codigo',
             'slug'=>'Slug',
             'descripcion' => 'Descripcion',
             'min_stock'=>'Minimo Stock',
@@ -92,7 +94,8 @@ class ProductosVentaController extends Controller
         $message = ([
             'required' => ':attribute es obligatorio.',
             'integer' => ':attribute no es un numero, ingrese nuevamente',
-            'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg'
+            'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg',
+            'unique'=> ':attribute ya se encuentra registrado'
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
@@ -101,6 +104,7 @@ class ProductosVentaController extends Controller
             // Crea una instancia de la clase productos_ventas y asigna los valores
             $producto = new productos_ventas();
             $producto->nombre = $request->input('nombre');
+            $producto->codigo = $request->input('codigo');
             $producto->id_marca = $request->input('marca');
             $producto->descripcion = $request->input('descripcion');
             $producto->slug = $request->input('slug');
@@ -144,11 +148,13 @@ class ProductosVentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(productos_ventas $producto)
+    public function edit($id)
     {
+        $producto = productos_ventas::find($id);
         $MarcaProductos = Marcaproducto::all();
         $TipoProductos = tipoproductos_ventas::all();
-        return view('producto.crear', compact('MarcaProductos', 'TipoProductos'));
+        $especies = Especie::all();
+        return view('producto.editar', compact('MarcaProductos', 'TipoProductos', 'especies', 'producto'));
     }
 
     /**
@@ -162,6 +168,11 @@ class ProductosVentaController extends Controller
     {
         $rules = ([
             'nombre' => 'required',
+            'codigo'=> [
+                'string',
+                'required',
+                Rule::unique('productos_ventas', 'codigo')->ignore($request->id),
+            ],
             'marca' => 'required',
             'slug'=>'required',
             'descripcion' => 'required',
@@ -170,11 +181,11 @@ class ProductosVentaController extends Controller
             'min_stock' => 'required|integer',
             'producto_enfocado' => 'required',
             'precio' => 'required|integer',
-            'imagen_path' => 'required|mimes:jpg,jpeg,png',
         ]);
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
+            'codigo' => 'Codigo',
             'slug'=>'Slug',
             'descripcion' => 'Descripcion',
             'min_stock'=>'Minimo Stock',
@@ -182,12 +193,11 @@ class ProductosVentaController extends Controller
             'stock' => 'Stock',
             'producto_enfocado' => 'Enfoque del Producto',
             'precio' => 'Precio',
-            'imagen_path' => 'Imagen',
         ]);
         $message = ([
             'required' => ':attribute es obligatorio.',
             'integer' => ':attribute no es un numero, ingrese nuevamente',
-            'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg'
+            'unique'=> ':attribute ya se encuentra registrado',
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
@@ -201,7 +211,7 @@ class ProductosVentaController extends Controller
                 $prod->imagen_path = "$imagenProducto";
             }
             $prod->nombre = $request->input('nombre');
-            $prod->id_marca = $request->input('id_marca');
+            $prod->id_marca = $request->input('marca');
             $producto->slug = $request->input('slug');
             $producto->min_stock = $request->input('min_stock');
             $prod->descripcion = $request->input('descripcion');

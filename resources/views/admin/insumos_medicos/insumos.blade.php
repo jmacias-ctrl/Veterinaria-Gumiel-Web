@@ -54,7 +54,7 @@
                         <h1>Listado de Insumos Médicos</h1>
                         @can('ingresar insumos medicos')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar insumo</a>
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
                     </div>
                 </div>

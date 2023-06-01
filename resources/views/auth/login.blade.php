@@ -10,7 +10,7 @@ Inicio de Sesion - Veterinaria Gumiel
 
                     <div class="card-body px-lg-5 py-lg-5">
                         <div class="text-center text-muted mb-4">
-                            <h3>Inicio de Sesion</h3>
+                            <h3>Inicio de Sesión</h3>
 
                         </div>
                         <form method="POST" action="{{ route('login') }}">
@@ -52,7 +52,7 @@ Inicio de Sesion - Veterinaria Gumiel
                                 </label>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success my-4" style="background-color:#19A448; border-color:#19A448">Iniciar Sesion</button>
+                                <button type="submit" class="btn btn-success my-4" style="background-color:#19A448; border-color:#19A448">Iniciar Sesión</button>
                             </div>
                         </form>
                     </div>
@@ -61,7 +61,7 @@ Inicio de Sesion - Veterinaria Gumiel
                     <div class="col-6">
 
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-light"><small>¿Olvido su
+                            <a href="{{ route('password.request') }}" class="text-light"><small>¿Olvidó su
                                     contraseña?</small></a>
                         @endif
                     </div>

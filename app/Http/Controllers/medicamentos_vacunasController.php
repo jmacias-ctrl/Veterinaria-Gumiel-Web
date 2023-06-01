@@ -72,6 +72,7 @@ class medicamentos_vacunasController extends Controller
         if ($validator->passes()) {
             $tipomedicamentos_vacunas = TipoMedicamento::all();
             $medicamentos_vacunas = new medicamentos_vacunas();
+            $medicamentos_vacunas->codigo = $request->input('codigo');
             $medicamentos_vacunas->nombre = $request->input('nombre');
             $medicamentos_vacunas->id_marca = $request->input('marca');
             $medicamentos_vacunas->medicamentos_enfocados = $request->input('medicamento_enfocado');
@@ -128,6 +129,7 @@ class medicamentos_vacunasController extends Controller
         if ($validator->passes()) {
             $tipomedicamentos_vacunas = TipoMedicamento::all();
             $medicamentos_vacunas = medicamentos_vacunas::find($request->id);
+            $medicamentos_vacunas->codigo = $request->input('codigo');
             $medicamentos_vacunas->nombre = $request->input('nombre');
             $medicamentos_vacunas->id_marca = $request->input('marca');
             $medicamentos_vacunas->medicamentos_enfocados = $request->input('medicamento_enfocado');

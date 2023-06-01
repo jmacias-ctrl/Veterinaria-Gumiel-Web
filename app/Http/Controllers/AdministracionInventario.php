@@ -205,7 +205,7 @@ class AdministracionInventario extends Controller
                 if ($request->checkStockComprados == "true") {
                     $nuevaVenta  = new trazabilidad_venta_presencial();
                     $nuevaVenta->id_venta = Str::random(10);
-                    $nuevaVenta->metodo_pago = "efectivo";
+                    $nuevaVenta->metodo_pago = "online";
                     $nuevaVenta->nombre_cliente = auth()->user()->name;
                     $nuevaVenta->id_operador = auth()->user()->id;
                     $nuevaVenta->save();

@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Ingreso Medicamentos - Veterinaria Gumiel</title>
+<title>Agregar Medicamentos - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -23,7 +23,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Medicamento
+Agregar Medicamento
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -46,7 +46,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.medicamentos_vacunas.index') }}"
                     style="color:black;">Medicamentos</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Medicamento</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Medicamento</li>
     </nav>
 @endsection
 @section('content')
@@ -62,8 +62,8 @@
                                 <label for="nomcodigobre" class="form-label">Código</label>
                                 <input type="text" id="codigo" name="codigo"
                                     class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
-                                    aria-label="codigo" value="{{old('codigo')}}" required>
-        
+                                    aria-label="codigo" value="{{ old('codigo') }}" required>
+
                                 @error('codigo')
                                     <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                                 @enderror
@@ -117,9 +117,10 @@
                             <div class="form-group">
                                 <label for="medicamento_enfocado">Medicamento enfocado:</label>
                                 <select class="form-select @error('medicamento_enfocado') is-invalid @enderror"
-                                    aria-label="Default select example" id="medicamento_enfocado" name="medicamento_enfocado"
-                                    required>
-                                    <option @if (old('medicamento_enfocado')) selected @endif disabled>Seleccione una Especie
+                                    aria-label="Default select example" id="medicamento_enfocado"
+                                    name="medicamento_enfocado" required>
+                                    <option @if (old('medicamento_enfocado')) selected @endif disabled>Seleccione una
+                                        Especie
                                     </option>
                                     @foreach ($especies as $especie)
                                         <option value="{{ $especie->id }}"
@@ -143,15 +144,9 @@
                             </div>
                         </div>
                         <br>
-                        <div class="container">
-                            <div class="row row-cols-auto">
-                                <div class="col">
-                                    <input class="btn btn-primary" id="btn-submit"
-                                        style="background-color:#19A448; border-color:#19A448;" type="submit"
-                                        value="Modificar">
-                                </div>
-                            </div>
-                        </div>
+
+                        <input class="btn btn-primary" id="btn-submit"
+                            style="background-color:#19A448; border-color:#19A448;" type="submit" value="Agregar">
                     </div>
                 </form>
             </div>

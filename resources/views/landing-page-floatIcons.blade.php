@@ -11,6 +11,7 @@
   }
   .fixed-icons {
   position: fixed;
+  z-index: 99;
   bottom: 0;
   right: 0;
 }

@@ -23,13 +23,14 @@
                     <a href="{{ route('admin') }}" style="color:black;">
                     @elseif(auth()->user()->hasRole('Veterinario'))
                         <a href="{{ route('veterinario') }}">
-                        >
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
+                            >
+                        @elseif (auth()->user()->hasRole('Inventario'))
+                            <a href="{{ route('inventario') }}">
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.tipoproductos_ventas.index')}}" style="color:black;">Tipo Productos</a> </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.tipoproductos_ventas.index') }}"
+                    style="color:black;">Tipo Productos</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Tipo Productos</li>
     </nav>
 @endsection
@@ -42,25 +43,23 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <div class="card shadow p-4">
-                <form action="{{route('admin.tipoproductos_ventas.update')}}" method="POST">
-                @csrf
-                <div class="row mt-3">
-                    <div class="col">
-                        <input type="hidden"  name="id" value="{{$tipoproductos_ventas->id}}">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="nombre" value="{{$tipoproductos_ventas->nombre}}" id="nombre" checked>
-                    </div>
-
-                </div>
-                <br>
-                <div class="container">
-                    <div class="row row-cols-auto">
+            <div class="card shadow p-5">
+                <form action="{{ route('admin.tipoproductos_ventas.update') }}" method="POST">
+                    @csrf
+                    <h5 class="mt-4">Información del Tipo</h5>
+                    <div class="row mt-3">
                         <div class="col">
-                            <input name="btn-submit" id="btn-submit" class="btn btn-primary" style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                            <input type="hidden" name="id" value="{{ $tipoproductos_ventas->id }}">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" name="nombre"
+                                value="{{ $tipoproductos_ventas->nombre }}" id="nombre" checked>
                         </div>
+
                     </div>
-                </div>    
+                    <br>
+
+                    <input name="btn-submit" id="btn-submit" class="btn btn-primary"
+                        style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
                 </form>
             </div>
         </div>

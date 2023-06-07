@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>
         @yield('title')
     </title>
@@ -35,6 +37,19 @@
 
         .active {
             color: #2E7646;
+        }
+        #headerMobile{
+                display:none;
+            }
+        @media only screen and (max-width: 767px) {
+            #desktopNotification {
+                display: none;
+            }
+        }
+        @media only screen and (max-width: 991px){
+            #headerMobile{
+                display:inline;
+            }
         }
     </style>
     @yield('styles')
@@ -257,8 +272,15 @@
                             </div>
                         </li>
                     @endcan
-                    @canany(['ver productos', 'ver servicios', 'ver insumos medicos', 'ver medicamentos', 'ver
-                        especies', 'modificar landing page'])
+                    @canany([
+                        'ver productos',
+                        'ver servicios',
+                        'ver insumos medicos',
+                        'ver medicamentos',
+                        'ver
+                        especies',
+                        'modificar landing page',
+                        ])
                         <li class="nav-item">
                             <a class="nav-link collapse-links" data-toggle="collapse" href="#mantenedoresCollapse"
                                 role="button" aria-expanded="false" aria-controls="mantenedoresCollapse">
@@ -426,7 +448,7 @@
 
                 <!-- Form -->
                 <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-                    <div class="form-group mb-0">
+                    <div class="form-group mb-0 mt-3">
                         <div class="input-group input-group-alternative">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -439,7 +461,7 @@
                 </form>
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                        aria-haspopup="true" aria-expanded="false" style="color:black;" id="desktopNotification">
                         <i class="ni ni-bell-55"></i>
                         <span class="badge badge-danger">
                             @if ($userNotification < 99)
@@ -518,10 +540,15 @@
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
         <div class="container-fluid">
             @yield('breadcrumbs')
+            <a class="h3 ml-5 mt-3 mb-0 text-white text-uppercase" href="{{ url()->full() }}" id="headerMobile">
+                <p class="ml-3 font-weight-bold" text-center> @yield('header-title')</p>
+            </a>
             <div class="header-body">
-                <!-- Card stats -->
-                @can('ver estadisticas')
-                    <div class="row">
+                
+                <!-- Card stats
+            
+            @can('ver estadisticas')
+<div class="row">
                         <div class="col-xl-3 col-lg-6">
                             <div class="card card-stats mb-4 mb-xl-0">
                                 <div class="card-body">
@@ -607,7 +634,8 @@
                             </div>
                         </div>
                     </div>
-                @endcan
+@endcan
+            -->
             </div>
         </div>
 

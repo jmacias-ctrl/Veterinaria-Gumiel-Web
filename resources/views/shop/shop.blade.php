@@ -35,8 +35,11 @@ Tienda - Veterinaria Gumiel
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12 bg-white shadow p-4" style="margin-bottom: 20px; display:flex; justify-content:space-between">
-                        <h2 class=" text-dark font-weight-bold">Productos</h2>
-                    
+                        <div class="d-flex">
+                            <h2 class="mb-0 mt-auto text-dark font-weight-bold">Productos </h2>
+                            <span class="mb-0 mt-auto ml-2 text-dark font-weight-bold">(mostrando {{count($products)}} productos)</span>
+            
+                        </div>
                         <form action="{{route('shop.shop')}}" method="get" class="mt-auto mb-auto">
                             <div class="input-group input-group-alternative" style="border: 2px solid gray; border-radius:10px;">
                                 <input type="text" class="pt-2 pr-3 pb-2 pl-3 fc bg-transparent text-dark border-0" name="texto" id="texto" placeholder="Buscar" value="{{$texto}}">
@@ -50,7 +53,7 @@ Tienda - Veterinaria Gumiel
                     @if(count($products)>0)
                         @foreach($products as $pro)
                             <div class="col-lg-3 p-1">
-                                
+                            {{$pro->stock}}
                                 <div class="card pt-3" style="background-color:light-gray; margin-bottom: 20px; height: auto;">
                                     @if (!$pro->stock)
                                         <div class="w-100" style="position:absolute;">
@@ -69,10 +72,10 @@ Tienda - Veterinaria Gumiel
                                             <p class="mt-2 mb-2">${{number_format($pro->precio, 0, ',', '.')}}</p>
                                             @if (!$pro->stock)
                                             <input type="number" class="form-control form-control-sm" value="1"
-                                                id="quantity" name="quantity" style="margin: auto 0 auto auto; width: 70px;" min="1" max="{{ $pro->stock }}">
+                                                id="quantity" name="quantity" style="margin: auto 0 auto auto; width: 70px;" min="1" >
                                             @else
                                             <input type="number" diasbled class="form-control form-control-sm" value="1"
-                                                id="quantity" name="quantity" style="margin: auto 0 auto auto; width: 70px;" min="1" max="{{ $pro->stock }}">
+                                                id="quantity" name="quantity" style="margin: auto 0 auto auto; width: 70px;" min="1" >
                                             @endif
                                             
                                         </div>

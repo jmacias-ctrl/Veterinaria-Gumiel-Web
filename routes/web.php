@@ -268,6 +268,9 @@ Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])-
 Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
 Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');
 
+
+
+
 Route::any('shop/resumen-compra', [\App\Http\Controllers\CompraController::class, 'resumen_compra'])->name('shop.resumen-compra')->middleware(['role:Cliente|Invitado']);  
 Route::any('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente|Invitado']);
 Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login')->middleware('guest');

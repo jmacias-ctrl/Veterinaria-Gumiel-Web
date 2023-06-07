@@ -57,13 +57,16 @@
         @yield('content')
     
     <style>
+        html, 
+        body ,.container{
+            height: 100%;
+        }
         .a-dec {
             color: #19a448;
-            text-decoration:underline;
         }
         .a-dec:visited {
-            color: #2e7646;
-            text-decoration:underline;}
+            color: #19a448;
+        }
         .a-dec:active {
             color: #2e7646;
             text-decoration:underline;}
@@ -91,7 +94,27 @@
         .btn-edit:hover{
             color:black;
         }
-        
+        .btn-wAll{
+            color:red;
+            font-size: 20px;
+
+        }
+        .btn-wAll:hover{
+            color:black;
+            outline: none;    
+        }
+        .btn-wAll:active{
+            color:black;
+            outline: none;
+            font-size: 19px;
+        }
+        body{
+            background:url("/image/fondo-tienda.png");
+            background-repeat: repeat;
+            background-attachment: fixed;
+            background-size:400px;
+            backdrop-filter:blur(1px);
+        }
         
 </style>
     

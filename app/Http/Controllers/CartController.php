@@ -14,7 +14,7 @@ class CartController extends Controller
         $texto=$request->texto;
         
         $products = DB::table('productos_ventas')
-                    ->select('id','nombre','id_marca','descripcion','slug','tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
+                    ->select('id','nombre','id_marca','descripcion','slug','id_tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
                     ->where('nombre','LIKE','%'.$texto.'%')
                     ->where('slug','LIKE','%'.$texto.'%')
                     ->paginate(20);
@@ -74,14 +74,28 @@ class CartController extends Controller
     }
 
     public function update(Request $request){
+        if($request->sor=="s"){
+            $cant =$request->quantity+1;
+        }
+        if($request->sor=="r"){
+            $cant =$request->quantity-1;
+        }
         \Cart::update($request->id,
             array(
                 'quantity' => array(
                     'relative' => false,
-                    'value' => $request->quantity
+                    'value' => $cant
                 ),
         ));
-        return redirect()->route('shop.cart.index')->with('success_msg', 'Item Atualizado Correctamente!');
+        
+
+        return response()->json([
+            'id'=> $request->id,
+            'quantity'=> $cant,
+            'sor' => $request->sor
+
+            
+        ], 200);
     }
 
     public function clear(){

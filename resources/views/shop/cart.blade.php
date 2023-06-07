@@ -5,12 +5,11 @@ CARRITO | Veterinaria Gumiel
 @section('content')
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4./dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div class="container pt-2">
         <div class="row justify-content-center">
-            <div class="col-lg-8 p-0 pr-2 pb-2">
+            <div id="div_productos" class="col-lg-8 p-0 pr-2 pb-2">
                 <nav aria-label="breadcrumb" >
                     <ol class="m-0  breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -35,14 +34,23 @@ CARRITO | Veterinaria Gumiel
                 
                 @foreach($cartCollection as $item)
                     <div class="col-12 p-0">
+                    dsr{{$item->id}}
                         <div class="row m-0 mt-3 bg-white" style="border-radius:20px; border:2px solid lightgray;">
                             <div class="col-1  d-flex p-0">
-                                <div class="card w-100 border-0" style="border-radius:20px;">
-                                    
-                                    <button style="margin:auto; outline: none;"><i class="fa fa-angle-up btn-edit"></i></button>
-                                    <div style="padding:0 auto; text-align:center;"><span>{{ $item->quantity }}</span></div>
-                                    <button style="margin:auto; outline: none;"><i class="fa fa-angle-down btn-edit"></i></button>
-                                    
+                                <div id="dsr{{$item->id}}" style="display:block;">
+                                    <div class="card w-100 h-100 border-0" style="border-radius:20px;">
+                                        <button id="{{$item->id}}_btns" name="{{$item->stock}}" value="{{ $item->quantity }}" style="margin:auto; outline: none;"><i class="btnsor fa fa-angle-up btn-edit"></i></button>
+                                        <div style="padding:0 auto; text-align:center; position:relative;">
+                                            <div id="{{$item->id}}_icon" class="w-100 h-100 p-1" hidden style="position:absolute;">
+                                                <div class="spinner-border spinner-border-sm" style="color:gray" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                            <input type="text" id="input{{$item->id}}" class="w-100" style="text-align:center"  disabled name="nombre" value="{{ $item->quantity }}">
+                                        </div>
+                                        <button id="{{$item->id}}_btnr" name="{{$item->stock}}" style="margin:auto; outline: none;"><i class="btnsor fa fa-angle-down btn-edit"></i></button>
+                                        
+                                    </div>
                                 </div>
                             </div>
                             <div class="p-0 col-2 d-flex align-items-center justify-content-center">
@@ -59,10 +67,10 @@ CARRITO | Veterinaria Gumiel
                             </div>
                             <div class="col-1 pl-0  d-flex align-items-center justify-content-center">
                                 <div>
-                                    <form action="{{ route('shop.cart.remove') }}" method="POST" class="m-0">
+                                    <form action="{{ route('shop.cart.remove') }}"  method="POST" class="m-0"  style="display:flex; justify-content:center; width:50px; height:50px;">
                                         {{ csrf_field() }}
                                         <input type="hidden" value="{{ $item->id }}" id="id" name="id">
-                                        <button class="p-3 btn-w"><i class="fa fa-trash" ></i></button>
+                                        <button  class="btn-w w-100"><i class="fa fa-trash" ></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -72,11 +80,12 @@ CARRITO | Veterinaria Gumiel
             </div>
             <div class="col-lg-4 p-0 pl-2">
                 <div  class="shadow border mb-3 p-5 card">
-                    <div class="row m-0 p-0 ml-auto">
-                        <a href="/shop" class="a-dec font-weight-bold ">Volver a la tienda</a>
+                    <div class="m-0 p-0">
+                            <button onclick="deleted()" class="p-2"><i class="m-auto btn-wAll fa fa-trash" ></i></button>
+                        
                     </div> 
                     <div class="row m-0 p-0 pb-4 pt-5">
-                        <h2 class="font-weight-bold">Resumen</h2>
+                        <h2 class="p-0 font-weight-bold">Resumen</h2>
                     </div>
                     <div  class="row p-0">
                         <div class="col-6" >
@@ -99,23 +108,25 @@ CARRITO | Veterinaria Gumiel
                         @if (!Auth::check())
                             <form action="{{ route('shop.checkout.login')}}" method="get">
                                 {{csrf_field()}}
-                                <input type="submit" id="btn-login" value="Ir a comprar login" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                <div onclick="cero()">
+                                    <input type="submit" value="Ir a pagar" class="btn-comprar btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                </div>
                             </form>
                         @else
                             <form action="{{ route('shop.checkout.checkout')}}" method="POST">
                                 {{csrf_field()}}
-                                <input type="submit" id="btn-checkout" value="Ir a comprar Checkout" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                <div onclick="cero()">
+                                    <input type="submit" value="Ir a pagar" class="btn-comprar btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                </div> 
                             </form>
                         @endif
-                        
-                        
                     </div>
-                    <div>
-                        <form class="m-0" action="/shop/checkout/registro_invitado" method="POST">
-                            {{csrf_field()}}
-                            <button class="btn btn-block btn-link font-weight-bold a-dec">Borrar Carrito</button>
-                        </form>
+                    <div class="m-3 d-flex">
+                        <a href="{{route('shop.shop')}}" class="m-auto a-dec font-weight-bold ">Seguir comprando</a>
                     </div>
+
+
+
                     <div >
 
 
@@ -127,53 +138,136 @@ CARRITO | Veterinaria Gumiel
     </div>
 
 
-    
 
-
-  
 
 <script>
     
-    function cero(ruta){
-        var ruta=ruta;
-        if({{\Cart::getTotal()}}==0){
-            
-            toastr.remove();
-            toastr.error('Agregue al menos un Producto al Carrito de Compras para poder Continuar con la Compra.', 'Carro Vacio!', {timeOut: 3000});
-        }else{
-            if(ruta=="checkout"){
-                window.location.href = "{{ route('shop.checkout.checkout')}}";
+    const btn_sr = document.querySelectorAll(".btnsor");
+    const onclick = function (evento) {
+        var id_btn=this.parentElement.id;
+        var stock=this.parentElement.name;
+        var id_input="input"+id_btn.substring(0, id_btn.indexOf("_"));
+        var cant=document.getElementById(id_input);
+        var id_div="dsr"+id_btn.substring(0, id_btn.indexOf("_"));
+        var divs=document.getElementById(id_div);
+        var id_loading=id_btn.substring(0, id_btn.indexOf("_"))+"_icon";
+        var divs_loading=document.getElementById(id_loading);
+        divs.style.pointerEvents = "none";
+        divs_loading.hidden=false;
+        cant.style.color="lightgray";
+
+        if(id_btn.slice(-1)=="s"){        
+            if(parseInt(cant.value)<parseInt(stock)){
+                axios.post("{{route('shop.cart.update')}}",{
+                    id: id_btn.substring(0, id_btn.indexOf("_")),
+                    quantity: document.getElementById(id_input).value,
+                    sor: id_btn.slice(-1)
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    divs.style.pointerEvents = "auto";
+                    divs_loading.hidden=true;
+                    cant.style.color="black";
+                    cant.value=response.data.quantity;
+                }).catch(function(error) {
+                    toastr.error('La acción no se pudo realizar');
+                    cant.style.color="black";
+                    divs_loading.hidden=true;
+
+                });
+            }else{
+                divs.style.pointerEvents = "auto";
+                cant.style.color="black";
+                divs_loading.hidden=true;
+                toastr.clear();
+                toastr.error('No hay mas stock de este producto.');}
             }
-            if(ruta=="login"){
-                window.location.href = "{{ route('shop.checkout.login')}}";
+
+            if(id_btn.slice(-1)=="r"){        
+                if(parseInt(cant.value)>1){
+                    axios.post("{{route('shop.cart.update')}}",{
+                    id: id_btn.substring(0, id_btn.indexOf("_")),
+                    quantity: document.getElementById(id_input).value,
+                    sor: id_btn.slice(-1)
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    divs.style.pointerEvents = "auto";
+                    divs_loading.hidden=true;
+                    cant.style.color="black";
+                    cant.value=response.data.quantity;
+                }).catch(function(error) {
+                    toastr.error('La acción no se pudo realizar');
+                    cant.style.color="black";
+                    divs_loading.hidden=true;
+                });
+            }else{
+                divs.style.pointerEvents = "auto";
+                cant.style.color="black";
+                divs_loading.hidden=true;
+                toastr.clear();
+                toastr.error('Minimo 1 producto en carrito.');
             }
         }
     }
+    
+    btn_sr.forEach(boton => {
+    	boton.addEventListener("click", onclick);
+    });
+
+   
+ 
 
     
 
-
-    function def(){        
+    function def(){           
         if({{\Cart::getTotal()}}==0){
-            document.getElementById('btn-checkout').disabled = true;
-            document.getElementById('btn-login').disabled = true;
-            toastr.remove();
+            document.querySelector(".btn-comprar").disabled = true;
             toastr.warning('Agregue al menos un Producto al Carrito de Compras para poder Continuar con la Compra.', 'Carro Vacio!', {timeOut: 5000});
         }
-
     }window.load = def();
-
     
+    function cero(){
+        if({{\Cart::getTotal()}}==0){
+            toastr.clear();
+            toastr.error('Agregue al menos un Producto al Carrito de Compras para poder Continuar con la Compra.', 'Carro Vacio!', {timeOut: 5000});
+        }
+    }
+    </script>
+@endsection
+    <script>
+    function deleted()
+    {
+        if({{\Cart::getTotal()}}==0)
+        {
+            toastr.clear();
+            toastr.error('¡Carrito vacio!');
+        }else{
+            Swal.fire({
+                title: '¿Vaciar carrito?',
+                text: "¿Estás seguro? ¡no podrás revertir la acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: 'green',
+                cancelButtonColor: 'red',
+                confirmButtonText: 'Si, borrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post("{{ route('shop.cart.clear') }}")
+                    .then(function(response)
+                    {
+                        toastr.clear();
+                        toastr.success('¡Carrito vacio!');
+                    })
+                    .catch(function(error) {
+                        toastr.clear();
+                        toastr.error('La acción no se pudo realizar');
+                    });
+                }
+            });
+        }
+    }
+   
 
 </script>
-@endsection
-
-<style>
-body{
-    background:url("/image/fondo-tienda.png");
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-size:400px;
-    backdrop-filter:blur(1px);
-        }
-</style>

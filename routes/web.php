@@ -210,7 +210,7 @@ Route::group(['middleware' => ['auth','role:Admin']], function () {
     // Route::post('/generar-comprobante', 'ComprobanteController@generarComprobante');
     Route::get('/generar-comprobante', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comprobante');
 
-    Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabiliadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
+    Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
 
     // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
     // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');

@@ -71,8 +71,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  @php
-    $services_names = ['Servicio A', 'Servicio B', 'Servicio C', 'Servicio D', 'Servicio E'];
+  @php    
     $services_quantity = [10, 15, 8, 12, 20];
 
     $sales_weekly = [100, 200, 150, 300];
@@ -92,7 +91,7 @@
     var serviciosMasVendidosChart = new Chart(serviciosMasVendidosCtx, {
       type: 'bar',
       data: {
-        labels: <?php echo json_encode($services_names); ?>,
+        labels: <?php echo json_encode($services_names_best); ?>,
         datasets: [{
           label: 'Cantidad',
           data: <?php echo json_encode($services_quantity); ?>,
@@ -111,7 +110,7 @@
     var serviciosMenosVendidosChart = new Chart(serviciosMenosVendidosCtx, {
       type: 'bar',
       data: {
-        labels: <?php echo json_encode($services_names); ?>,
+        labels: <?php echo json_encode($services_names_best); ?>,
         datasets: [{
           label: 'Cantidad',
           data: <?php echo json_encode($services_quantity); ?>,

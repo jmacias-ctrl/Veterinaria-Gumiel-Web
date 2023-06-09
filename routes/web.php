@@ -30,6 +30,9 @@ Route::get('/', function () {
 Route::get('/nosotros', function () {
     return view('nosotros');
 })->name('nosotros');
+Route::get('/servicios', function () {
+    return view('servicios');
+})->name('servicios');
 
 // Route::get('/', 'LandingPageController@index');
 // Route::get('/welcome', 'LandingPageController@index');

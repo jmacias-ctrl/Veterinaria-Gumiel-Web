@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
@@ -10,7 +10,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
+    @yield('css-before')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link href="{{ asset('img/brand/favicon.png') }}" rel="icon" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,11 +28,25 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
+    <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
 
+   
+    
     <!-- Libraries Stylesheet -->
     <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet" />
+
+     <!-- CSS Files -->
+    <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    
+
+    <script type="text/javascript">
+        var baseURL = {!! json_encode(url('/')) !!}
+    </script>
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('css/landingpage/bootstrap.min.css') }}" rel="stylesheet" />
@@ -36,6 +56,7 @@
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    @yield('styles')
 </head>
 
 <body>
@@ -165,13 +186,13 @@
                     </form>
                 </div>
             @endguest
-
+            
         </div>
     </nav>
     <!-- Navbar End -->
 
    @yield('content')
-
+    <script src="{{ asset('js/horarios.js') }}" defer></script>
     <!-- Footer Start -->
     <div class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
@@ -249,6 +270,28 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/landingpage/main.js') }}"></script>
+    @yield('js-before')
+    <!--   Core   -->
+    <script src="{{ asset('js/plugins/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <!--   Optional JS   -->
+    <script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>
+    @yield('scripts')
+    <!--   Argon JS   -->
+    <script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
+    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options.positionClass = 'toast-bottom-right';
+    </script>
+    <script>
+    window.TrackJS &&
+        TrackJS.install({
+            token: "ee6fab19c5a04ac1a32a645abde4613a",
+            application: "argon-dashboard-free"
+        });
+    </script>
     @yield('js-after')
 </body>
 

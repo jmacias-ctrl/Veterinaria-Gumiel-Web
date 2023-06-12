@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\items_comprados;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -34,5 +35,8 @@ class DatabaseSeeder extends Seeder
         $this->call(class:landingpageSeeder::class);
         $this->call(class:TipoConsulta_TamaniosSeeder::class);
         $this->call(class:ReservarCitasSeeder::class);
+        $this->call(class: ItemsCompradosSeeder::class);
+
+
     }
 }

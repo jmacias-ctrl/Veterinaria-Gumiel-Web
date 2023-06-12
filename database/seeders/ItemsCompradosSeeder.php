@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\items_comprados;
 
 class ItemsCompradosSeeder extends Seeder
 {
@@ -13,6 +14,6 @@ class ItemsCompradosSeeder extends Seeder
      */
     public function run()
     {
-        //
+        items_comprados::factory(50)->create();
     }
 }

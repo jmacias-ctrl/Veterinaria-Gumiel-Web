@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@php
+    use App\Http\Controllers\LandingPageController;
+    $userNotification = sizeof(Auth::user()->unreadNotifications);
+    $logo = LandingPageController::getLogoPanel();
+@endphp
 
 <head>
     <meta charset="utf-8" />
@@ -12,7 +17,9 @@
     <!-- Favicon -->
     @yield('css-before')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link href="{{ asset('img/brand/favicon.png') }}" rel="icon" type="image/png">
+    @if (isset($logo))
+        <link href="{{ asset('storage') . '/images/logos/' . $data_index->logo_2 }}" rel="icon">
+    @endif
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->
@@ -65,9 +72,6 @@
     </style>
     @yield('styles')
 </head>
-@php
-    $userNotification = sizeof(Auth::user()->unreadNotifications);
-@endphp
 
 <body class="">
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
@@ -79,7 +83,12 @@
             </button>
             <!-- Brand -->
             <a class="pt-0 m-0 align-self-center" href="{{ route('inicio') }}">
-                <img src="{{ asset('image/logo2.jpg') }}" id="logoPanel">
+                @if (isset($logo))
+                    <img src="{{ asset('storage') . '/images/logos/' . $data_index->logo_2 }}" id="logoPanel">
+                @else
+                    <img src="{{ asset('image/logo2.jpg') }}" id="logoPanel">
+                @endif
+
             </a>
             <!-- User -->
             <ul class="nav align-items-center d-md-none">
@@ -109,8 +118,8 @@
                         <a class="dropdown-item" href="#">No tienes notificaciones</a>
                     @endif
                     <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ route('users.notification.index') }}">Ver todas las
-                    notificaciones</a>
+                    <a class="dropdown-item" href="{{ route('users.notification.index') }}">Ver todas las
+                        notificaciones</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -161,8 +170,8 @@
                 <div class="row">
                     <div class="col-6 collapse-close">
                         <button type="button" class="navbar-toggler" data-toggle="collapse"
-                            data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false"
-                            aria-label="Toggle sidenav">
+                            data-target="#sidenav-collapse-main" aria-controls="sidenav-main"
+                            aria-expanded="false" aria-label="Toggle sidenav">
                             <span></span>
                             <span></span>
                         </button>
@@ -307,7 +316,6 @@
                     'ver medicamentos',
                     'ver
                     especies',
-                    'modificar landing page',
                     ])
                     <li class="nav-item">
                         <a class="nav-link collapse-links" data-toggle="collapse" href="#mantenedoresCollapse"
@@ -390,14 +398,6 @@
                                         </li>
                                     </ul>
                                 @endcan
-                                @can('modificar landing page')
-                                    <ul class="navbar-nav">
-                                        <li class="nav-item">
-                                            <a class="nav-link ms-3 " href="{{ route('landing.ubication.edit') }}"
-                                                id="link-dropdown">Landing Page</a>
-                                        </li>
-                                    </ul>
-                                @endcan
                             </div>
                         </div>
                     </li>
@@ -448,6 +448,39 @@
                     <li class="nav-item active">
                         <a class="nav-link  @if (request()->routeIs('miscitas.*')) active @endif" href="/miscitas">
                             <i class="	fas fa-calendar-check text-green "></i>Mis Citas</a>
+                    </li>
+                @endcan
+                @can('modificar landing page')
+                    <li class="nav-item">
+                        <a class="nav-link collapse-links" data-toggle="collapse" href="#configWebCollapse"
+                            role="button" aria-expanded="false" aria-controls="configWebCollapse">
+                            <i class="ni ni-world text-green"></i> Config. Sitio Web
+                        </a>
+                        <div class="collapse" id="configWebCollapse">
+                            <div class="card card-body" id="dropdown">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('landing.ubication.*')) active @endif"
+                                            href="{{ route('landing.ubication.edit') }}"
+                                            id="link-dropdown">Información General</a>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('landing.nosotros.*')) active @endif"
+                                            href="{{ route('landing.nosotros.edit') }}" id="link-dropdown">Seccion
+                                            Nosotros</a>
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('landing.website.*')) active @endif"
+                                            href="{{ route('landing.website.edit') }}" id="link-dropdown">Landing
+                                            Page</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </li>
                 @endcan
             </ul>
@@ -581,91 +614,91 @@
             <!-- Card stats
 @can('ver estadisticas')
 <div class="row">
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card card-stats mb-4 mb-xl-0">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                                    <span class="h2 font-weight-bold mb-0">350,897</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                        <i class="fas fa-chart-bar"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last month</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card card-stats mb-4 mb-xl-0">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                                    <span class="h2 font-weight-bold mb-0">2,356</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                                        <i class="fas fa-chart-pie"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last week</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card card-stats mb-4 mb-xl-0">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                                    <span class="h2 font-weight-bold mb-0">924</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                                        <i class="fas fa-users"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                                <span class="text-nowrap">Since yesterday</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card card-stats mb-4 mb-xl-0">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                                    <span class="h2 font-weight-bold mb-0">49,65%</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                        <i class="fas fa-percent"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-muted text-sm">
-                                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                                <span class="text-nowrap">Since last month</span>
-                            </p>
-                        </div>
-                    </div>
+<div class="col-xl-3 col-lg-6">
+<div class="card card-stats mb-4 mb-xl-0">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                <span class="h2 font-weight-bold mb-0">350,897</span>
+            </div>
+            <div class="col-auto">
+                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-chart-bar"></i>
                 </div>
             </div>
+        </div>
+        <p class="mt-3 mb-0 text-muted text-sm">
+            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+            <span class="text-nowrap">Since last month</span>
+        </p>
+    </div>
+</div>
+</div>
+<div class="col-xl-3 col-lg-6">
+<div class="card card-stats mb-4 mb-xl-0">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                <span class="h2 font-weight-bold mb-0">2,356</span>
+            </div>
+            <div class="col-auto">
+                <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+            </div>
+        </div>
+        <p class="mt-3 mb-0 text-muted text-sm">
+            <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+            <span class="text-nowrap">Since last week</span>
+        </p>
+    </div>
+</div>
+</div>
+<div class="col-xl-3 col-lg-6">
+<div class="card card-stats mb-4 mb-xl-0">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                <span class="h2 font-weight-bold mb-0">924</span>
+            </div>
+            <div class="col-auto">
+                <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+        <p class="mt-3 mb-0 text-muted text-sm">
+            <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+            <span class="text-nowrap">Since yesterday</span>
+        </p>
+    </div>
+</div>
+</div>
+<div class="col-xl-3 col-lg-6">
+<div class="card card-stats mb-4 mb-xl-0">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                <span class="h2 font-weight-bold mb-0">49,65%</span>
+            </div>
+            <div class="col-auto">
+                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                    <i class="fas fa-percent"></i>
+                </div>
+            </div>
+        </div>
+        <p class="mt-3 mb-0 text-muted text-sm">
+            <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+            <span class="text-nowrap">Since last month</span>
+        </p>
+    </div>
+</div>
+</div>
+</div>
 @endcan
 -->
         </div>

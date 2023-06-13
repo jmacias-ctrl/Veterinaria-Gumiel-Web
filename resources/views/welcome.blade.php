@@ -14,7 +14,7 @@
                 <div class="col-lg-6 p-0 wow fadeIn" data-wow-delay="0.1s">
                     <div class="header-bg h-100 d-flex flex-column justify-content-center p-5">
                         <h1 class="display-4 text-light mb-5">
-                            Servicios de Veterinaria y Peluqueria
+                            {{ $data_index->titulo_bienvenida }}
                         </h1>
                     </div>
                 </div>
@@ -45,16 +45,23 @@
                 <div class="row g-5">
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                         <h1 class="display-5 mb-4">
-                            Agenda Tu Hora
+                            {{ $data_index->agenda_hora_titulo }}
                         </h1>
                         <p class="mb-4">
-                            ¿Tu mascota necesita una consulta veterinaria o un corte de pelo? ¡Estás en el lugar correcto!
-                            Puedes solicitar una hora con nuestros expertos de manera fácil y rápida.
+                            {{ $data_index->agenda_hora_texto }}
                         </p>
-                        <a class="btn btn-primary py-3 px-5 mt-3" href="">Agenda Ahora</a>
+                        <a class="btn btn-primary py-3 px-5 mt-3" href="{{ route('agendar-horas.create') }}">Agenda
+                            Ahora</a>
                     </div>
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <img class="img-fluid" src="{{ asset('images/vet01.png') }}" alt="" />
+                        @if (isset($data_index->agenda_hora_imagen))
+                            <img class="img-fluid" src="{{ asset('storage') . '/images/' .  $data_index->agenda_hora_imagen }}"
+                                alt="" />
+                        @else
+                            <img class="img-fluid" src="{{ asset('images/vet01.png') }}"
+                                alt="" />
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -123,86 +130,120 @@
                             Galeria
                         </h1>
                     </div>
-                    <div class="col-lg-6 text-lg-end">
-                        <a class="btn btn-primary py-3 px-5" href="">Ver Más</a>
-                    </div>
                 </div>
                 <div class="row g-4">
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="row g-4">
-                            <div class="col-12">
-                                <a class="animal-item" href="{{ asset('images/vet03.png') }}" data-lightbox="animal">
-                                    <div class="position-relative">
-                                        <img class="img-fluid" src="{{ asset('images/vet03.png') }}" alt="" />
-                                        <div class="animal-text p-4">
-                                            <p class="text-white small text-uppercase mb-0">Pacientes</p>
+                            @if (isset($gallery_index[0]))
+                                <div class="col-12">
+                                    <a class="animal-item"
+                                        href="@if ($gallery_index[0]['id'] <= 6) {{ asset($gallery_index[0]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[0]['imagen'] }} @endif"
+                                        data-lightbox="animal">
+                                        <div class="position-relative">
+                                            <img class="img-fluid"
+                                                src="@if ($gallery_index[0]['id'] <= 6) {{ asset($gallery_index[0]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[0]['imagen'] }} @endif"
+                                                alt="" />
+                                            <div class="animal-text p-4">
+                                                <p class="text-white small text-uppercase mb-0">
+                                                    {{ $gallery_index[0]['titulo_imagen'] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a class="animal-item" href="{{ asset('images/vet04.png') }}" data-lightbox="animal">
-                                    <div class="position-relative">
-                                        <img class="img-fluid" src="{{ asset('images/vet04.png') }}" alt="" />
-                                        <div class="animal-text p-4">
-                                            <p class="text-white small text-uppercase mb-0">Animal</p>
-                                            <h5 class="text-white mb-0">Elephant</h5>
+                                    </a>
+                                </div>
+                            @endif
+                            @if (isset($gallery_index[1]))
+                                <div class="col-12">
+                                    <a class="animal-item"
+                                        href="@if ($gallery_index[2]['id'] <= 6) {{ asset($gallery_index[1]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[1]['imagen'] }} @endif"
+                                        data-lightbox="animal">
+                                        <div class="position-relative">
+                                            <img class="img-fluid"
+                                                src="@if ($gallery_index[1]['id'] <= 6) {{ asset($gallery_index[1]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[1]['imagen'] }} @endif"
+                                                alt="" />
+                                            <div class="animal-text p-4">
+                                                <p class="text-white small text-uppercase mb-0">
+                                                    {{ $gallery_index[1]['titulo_imagen'] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="row g-4">
-                            <div class="col-12">
-                                <a class="animal-item" href="{{ asset('images/vet05.png') }}" data-lightbox="animal">
-                                    <div class="position-relative">
-                                        <img class="img-fluid" src="{{ asset('images/vet05.png') }}" alt="" />
-                                        <div class="animal-text p-4">
-                                            <p class="text-white small text-uppercase mb-0">Animal</p>
-                                            <h5 class="text-white mb-0">Elephant</h5>
+                            @if (isset($gallery_index[2]))
+                                <div class="col-12">
+                                    <a class="animal-item"
+                                        href="@if ($gallery_index[2]['id'] <= 6) {{ asset($gallery_index[2]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[2]['imagen'] }} @endif"
+                                        data-lightbox="animal">
+                                        <div class="position-relative">
+                                            <img class="img-fluid"
+                                                src="@if ($gallery_index[2]['id'] <= 6) {{ asset($gallery_index[2]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[2]['imagen'] }} @endif"
+                                                alt="" />
+                                            <div class="animal-text p-4">
+                                                <p class="text-white small text-uppercase mb-0">
+                                                    {{ $gallery_index[2]['titulo_imagen'] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a class="animal-item" href="{{ asset('images/vet06.png') }}" data-lightbox="animal">
-                                    <div class="position-relative">
-                                        <img class="img-fluid" src="{{ asset('images/vet06.png') }}" alt="" />
-                                        <div class="animal-text p-4">
-                                            <p class="text-white small text-uppercase mb-0">Animal</p>
-                                            <h5 class="text-white mb-0">Elephant</h5>
+                                    </a>
+                                </div>
+                            @endif
+                            @if (isset($gallery_index[3]))
+                                <div class="col-12">
+                                    <a class="animal-item"
+                                        href="@if ($gallery_index[3]['id'] <= 6) {{ asset($gallery_index[3]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[3]['imagen'] }} @endif"
+                                        data-lightbox="animal">
+                                        <div class="position-relative">
+                                            <img class="img-fluid"
+                                                src="@if ($gallery_index[3]['id'] <= 6) {{ asset($gallery_index[3]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[3]['imagen'] }} @endif"
+                                                alt="" />
+                                            <div class="animal-text p-4">
+                                                <p class="text-white small text-uppercase mb-0">
+                                                    {{ $gallery_index[3]['titulo_imagen'] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="row g-4">
-                            <div class="col-12">
-                                <a class="animal-item" href="{{ asset('images/vet07.png') }}" data-lightbox="animal">
-                                    <div class="position-relative">
-                                        <img class="img-fluid" src="{{ asset('images/vet07.png') }}" alt="" />
-                                        <div class="animal-text p-4">
-                                            <p class="text-white small text-uppercase mb-0">Animal</p>
-                                            <h5 class="text-white mb-0">Elephant</h5>
+                            @if (isset($gallery_index[4]))
+                                <div class="col-12">
+                                    <a class="animal-item"
+                                        href="@if ($gallery_index[4]['id'] <= 6) {{ asset($gallery_index[4]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[4]['imagen'] }} @endif"
+                                        data-lightbox="animal">
+                                        <div class="position-relative">
+                                            <img class="img-fluid"
+                                                src="@if ($gallery_index[4]['id'] <= 6) {{ asset($gallery_index[4]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[4]['imagen'] }} @endif"
+                                                alt="" />
+                                            <div class="animal-text p-4">
+                                                <p class="text-white small text-uppercase mb-0">
+                                                    {{ $gallery_index[4]['titulo_imagen'] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-12">
-                                <a class="animal-item" href="{{ asset('images/vet08.png') }}" data-lightbox="animal">
-                                    <div class="position-relative">
-                                        <img class="img-fluid" src="{{ asset('images/vet08.png') }}" alt="" />
-                                        <div class="animal-text p-4">
-                                            <p class="text-white small text-uppercase mb-0">Animal</p>
-                                            <h5 class="text-white mb-0">Elephant</h5>
+                                    </a>
+                                </div>
+                            @endif
+                            @if (isset($gallery_index[5]))
+                                <div class="col-12">
+                                    <a class="animal-item"
+                                        href="@if ($gallery_index[5]['id'] <= 6) {{ asset($gallery_index[5]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[5]['imagen'] }} @endif"
+                                        data-lightbox="animal">
+                                        <div class="position-relative">
+                                            <img class="img-fluid"
+                                                src="@if ($gallery_index[5]['id'] <= 6) {{ asset($gallery_index[5]['imagen']) }} @else {{ asset('storage') . '/images/galeria/' . $gallery_index[5]['imagen'] }} @endif"
+                                                alt="" />
+                                            <div class="animal-text p-4">
+                                                <p class="text-white small text-uppercase mb-0">
+                                                    {{ $gallery_index[5]['titulo_imagen'] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -243,7 +284,7 @@
                             </li>
                             <li class="list-group-item">
                                 <span>Domingo</span>
-                                <span>Cerrado</span>
+                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
                             </li>
                         </ul>
                     </div>
@@ -269,7 +310,7 @@
             </div>
         </div>
         <!-- Visiting Hours End -->
-                             
+
     </body>
 
     </html>

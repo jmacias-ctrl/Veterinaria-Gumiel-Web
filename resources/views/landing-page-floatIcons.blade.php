@@ -1,4 +1,4 @@
-<a href="https://api.whatsapp.com/send?phone=56977088874&text=Habla%20con%20nosotros!" target="_blank">
+<a href="{{$landingMaps->whatsapp}}" target="_blank">
     <div class="fixed-icons"> </div>
 </a>
 

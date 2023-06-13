@@ -20,11 +20,11 @@ class whereYouCanFindSeeder extends Seeder
     {
         whereYouCanFind::create([
             'id' => 0,
-            'direccion' => 'Villagran 437,Cañete,Chile.', 
-            'telefono'=> '56977088874', 
-            'horarios'=> 'Lunes a Domingos y Festivos
-            09:30 - 14:00 hrs
-            15:00 - 19:00 hrs', 
+            'nombre' => 'Veterinaria Gumiel',
+            'direccion' => 'Villagran 437,Cañete,Chile.',
+            'horario_header' => 'Lunes a Viernes : 09:30 AM a 14:00 PM - 15:00 PM - 19:00 PM',
+            'telefono'=> '977088874',
+            'correo' => 'veterinariagumiel@gmail.com',
             'instagram'=> 'https://www.instagram.com/vetgumiel/?igshid=YmMyMTA2M2Y%3D', 
             'facebook'=> 'https://m.facebook.com/p/Cl%C3%ADnica-Veterinaria-Gumiel-100083250432886/?_rdr', 
             'whatsapp'=> 'https://api.whatsapp.com/send?phone=56977088874&text=Habla%20con%20nosotros!', 

@@ -14,10 +14,13 @@ class WhereYouCanFind extends Model
         'id',
         'direccion', 
         'telefono', 
-        'horarios', 
         'instagram', 
         'facebook', 
+        'horario_header',
+        'correo',
         'whatsapp',
+        'twitter',
+        'nombre',
 
         // 'aboutUs'
     ];
@@ -25,10 +28,13 @@ class WhereYouCanFind extends Model
     public $rules = [
         'direccion' => 'required|string',
         'telefono' => 'required|digits:9',
-        'horarios' => 'required|string',
-        'instagram' => 'required|string',
-        'facebook' => 'required|string',
-        'whatsapp' => 'required|string',
+        'instagram' => 'string',
+        'correo' => 'required|email',
+        'horario_header' => 'required|string',
+        'facebook' => 'string',
+        'whatsapp' => 'string',
+        'twitter' => 'string',
+        'nombre'=> 'required|string',
 
         // 'aboutUs' => 'required|string'
     ];
@@ -36,10 +42,13 @@ class WhereYouCanFind extends Model
     public $attributes = [
         'direccion' => 'Direccion',
         'telefono' => 'Telefono',
-        'horarios' => 'Horarios',
         'instagram' => 'Instagram',
+        'horario_header' => 'Horario de Encabezado',
         'facebook' => 'Facebook',
+        'correo' => 'Correo',
         'whatsapp' => 'Whatsapp',
+        'twitter' => 'Twitter',
+        'nombre' => 'nombre',
 
         // 'aboutUs' => 'AboutUs'
     ];

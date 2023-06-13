@@ -22,7 +22,7 @@ class CreateFichasMedicasTable extends Migration
             $table->text('observacion');
             $table->text('procedimiento');
 
-            $table->foreign('id_hora_reservada')->references('id')->on('agenda_veterinarias');
+            $table->foreign('id_hora_reservada')->references('id')->on('reservar_citas');
             $table->foreign('id_mascota')->references('id')->on('mascotas');
             $table->timestamps();
         });

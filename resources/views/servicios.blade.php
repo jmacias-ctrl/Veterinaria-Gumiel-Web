@@ -9,7 +9,7 @@
         <div class="container py-5">
             <h1 class="display-4 text-white mb-3 animated slideInDown">Servicios</h1>
             <nav aria-label="breadcrumb animated slideInDown">
-                <ol class="breadcrumb mb-0">
+                <ol class="breadcrumb mb-0" style="background-color:black;">
                     <li class="breadcrumb-item">
                         <a class="text-white" href="{{route('inicio')}}">Inicio</a>
                     </li>

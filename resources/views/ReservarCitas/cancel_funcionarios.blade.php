@@ -51,11 +51,8 @@
                     {{ session('notification') }}
                 </div>
             @endif
-            @if (auth()->user()->hasRole('Cliente'))
-                <p>Se cancelara tu cita reservada con el funcionario <b>{{$ReservarCita->funcionario->name}}</b>
-                (tipo de servicio <b>{{$ReservarCita->tiposervicio->nombre}}</b> ) 
-                para el día <b>{{$ReservarCita->scheduled_date}}</b>.</p>
-            @elseif (auth()->user()->hasRole('Veterinario') || auth()->user()->hasRole('Peluquero')  )
+            
+            @if (auth()->user()->hasRole('Veterinario') || auth()->user()->hasRole('Peluquero')  )
                 <p>Se cancelara la cita reservada para el paciente <b>{{$ReservarCita->paciente->name}}</b>
                 (tipo de servicio <b>{{$ReservarCita->tiposervicio->nombre}}</b> ) 
                 para el día <b>{{$ReservarCita->scheduled_date}}</b>

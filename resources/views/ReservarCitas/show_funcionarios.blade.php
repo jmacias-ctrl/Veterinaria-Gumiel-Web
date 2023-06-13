@@ -53,7 +53,7 @@
                 <dd>
                     <strong>Hora de atención:</strong> {{ $ReservarCita->sheduled_time }}
                 </dd>
-                @if (auth()->user()->hasRole('Cliente') || auth()->user()->hasRole('Admin'))
+                @if (auth()->user()->hasRole('Admin'))
                 <dd>
                     <strong>Funcionario:</strong> {{ $ReservarCita->funcionario->name }}
                 </dd>

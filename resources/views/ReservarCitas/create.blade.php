@@ -76,7 +76,7 @@
                     @endforeach
                 @endif
 
-                <form action="{{ url('/agendar-horas') }}" method="POST">
+                <form id="hola" action="{{ url('/agendar-horas') }}" method="POST">
                     @csrf
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -184,11 +184,14 @@
 
                     <div class="form-group">
                         <label for="description">Síntomas</label>
-                        <textarea name="description" id="description" type="text" class="form-control" rows="5" placeholder="Agregar una descripción breve..." required></textarea>
+                        <textarea name="description" id="description" type="text" class="form-control campoRequerido" rows="5" placeholder="Agregar una descripción breve..." required></textarea>
                     </div>
                 
                     <br>
                     <button type="submit" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Guardar</button>
+
+                    <button type="button" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;" id="btnprueba"  data-bs-target="#OpcionesInv">Boton de prueba</button>
+                    
                 </form>
             </div>
         </div>
@@ -197,6 +200,7 @@
 
     
 @endsection
+@include('ReservarCitas.modal.Opciones')
 
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -205,4 +209,36 @@
 
 <script src="{{asset('/js/ReservarCitas/create.js')}}">
 </script>
+<script>
+    $(document).ready(function() {
+      $('#btnprueba').click(function() {
+        // Verificar si los campos del formulario están llenos
+        if (verificarFormularioCompleto()) {
+          // Si el formulario está completo, mostrar el modal
+          $('#OpcionesInv').modal('show');
+        } else {
+          // Si el formulario no está completo, mostrar un mensaje de error o realizar otra acción
+          mostrarAlertaError('Por favor, complete todos los campos del formulario.');
+        }
+      });
+
+      function verificarFormularioCompleto() {
+        // Aquí puedes personalizar la lógica para verificar si los campos del formulario están llenos
+        // Por ejemplo, si tienes campos de entrada de texto con clases "campoRequerido", puedes verificarlos de la siguiente manera:
+        var camposVacios = $('.campoRequerido').filter(function() {
+          return $(this).val() === '';
+        });
+
+        return camposVacios.length === 0;
+      }
+
+      function mostrarAlertaError(mensaje) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: mensaje,
+        });
+      }
+    });
+  </script>
 @endsection

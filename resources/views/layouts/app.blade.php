@@ -45,7 +45,10 @@
     <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet" />
-
+    <link rel="stylesheet" type="text/css" href="fullCalendar4/packages/timegrid/main.css">
+    <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
+    <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('css/landingpage/bootstrap.min.css') }}" rel="stylesheet" />
 

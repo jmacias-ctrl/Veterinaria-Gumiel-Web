@@ -3,13 +3,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\productos_ventas;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    public function shop()
+    public function shop(Request $request)
+
     {   
-        $products = productos_ventas::all();
-        return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
+        
+        $texto=$request->texto;
+        
+        $products = DB::table('productos_ventas')
+                    ->select('id','nombre','id_marca','descripcion','slug','tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
+                    ->where('nombre','LIKE','%'.$texto.'%')
+                    ->where('slug','LIKE','%'.$texto.'%')
+                    ->paginate(20);
+        return view('shop.shop',compact('texto'))->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
     }
 
     public function cart()  {

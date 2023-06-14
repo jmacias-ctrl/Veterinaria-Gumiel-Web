@@ -78,6 +78,13 @@ class CompraController extends Controller
         $compra->token=$request->token;
         $compra->status=$response->status;
         $compra->save();
+        $a="ids = ";
+        foreach($cartCollection as $item){
+            $venta=productos_ventas::find($item->id);
+            $venta->stock=$venta->stock-$item->quantity;
+            $venta->save();
+        
+        }
         return view('shop.checkout.resumen-compra')->with(['response'=>$response])->with(['cartCollection' => $cartCollection]);
 
     }

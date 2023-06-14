@@ -23,20 +23,12 @@ use app\Http\Controllers\CompraController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [\App\Http\Controllers\LandingPageController::class, 'index_landingpage'])->name('inicio');
 
-Route::get('/nosotros', function () {
-    return view('nosotros');
-})->name('nosotros');
-
-// Route::get('/', 'LandingPageController@index');
-// Route::get('/welcome', 'LandingPageController@index');
-// Route::get('/landing', 'LandingPageController@index')->middleware('web');
-
-Route::get('/', [LandingPageController::class, 'index'])->name('inicio');
-Route::post('/contactanos', [landingPageController::class, "store"])->name('contactanos.store');
+Route::get('/nosotros', [\App\Http\Controllers\LandingPageController::class, 'aboutUs'])->name('nosotros');
+Route::get('/servicios', function () {
+    return view('servicios');
+})->name('servicios');
 
 Route::get('/verCalendario', function () {
     return view('verCalendario');
@@ -89,11 +81,6 @@ Route::group(['middleware' => ['auth','can:ver insumos medicos']], function () {
     Route::post('admin/marcaInsumos/store', [\App\Http\Controllers\MarcaInsumoController::class, 'store'])->name('admin.marcaInsumos.store')->middleware(['permission:ingresar insumos medicos']);
     Route::get('admin/marcaInsumos/edit', [\App\Http\Controllers\MarcaInsumoController::class, 'edit'])->name('admin.marcaInsumos.edit')->middleware(['permission:modificar insumos medicos']);
     Route::post('admin/marcaInsumos/update', [\App\Http\Controllers\MarcaInsumoController::class, 'update'])->name('admin.marcaInsumos.update')->middleware(['permission:modificar insumos medicos']);
-});
-
-Route::group(['middleware' => ['role:Admin']], function () {
-    Route::get('landingpage/edit/aboutUs', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_aboutUs'])->name('admin.landingpage_aboutUs.modify');
-    Route::get('landingpage/edit/ubication', [App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('admin.landingpage_ubication.modify');
 });
 
 Route::group(['middleware' => 'auth','can:acceso punto de venta'], function () {
@@ -189,7 +176,15 @@ Route::group(['middleware' => ['auth','can:ver roles']], function () {
 Route::group(['middleware' => ['auth','can:modificar landing page']], function () {
     Route::get('/landing/ubication/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_landingpage_ubication'])->name('landing.ubication.edit');
     Route::post('/landing/ubication/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage_ubication'])->name('landing.ubication.update');
+    Route::get('/landing/nosotros/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_aboutus'])->name('landing.nosotros.edit');
+    Route::post('/landing/nosotros/update', [\App\Http\Controllers\LandingPageController::class, 'update_aboutus'])->name('landing.nosotros.update');
     Route::post('/landing/update', [\App\Http\Controllers\LandingPageController::class, 'update_landingpage'])->name('landing.update');
+    Route::post('/landing/gallery/add', [\App\Http\Controllers\LandingPageController::class, 'add_photo_gallery'])->name('landing.gallery.add');
+    Route::post('/landing/website/update', [\App\Http\Controllers\LandingPageController::class, 'update_website'])->name('landing.website.update');
+    Route::get('/landing/website/edit',[\App\Http\Controllers\LandingPageController::class, 'modify_website'])->name('landing.website.edit');
+    Route::get('/landing/galeria/delete', [\App\Http\Controllers\LandingPageController::class, 'delete_photo_gallery'])->name('landing.gallery.delete');
+    Route::get('/landing/horario/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_horario_landingpage'])->name('landing.horario.edit');
+    Route::post('/landing/horario/update', [\App\Http\Controllers\LandingPageController::class, 'update_horario_landingpage'])->name('landing.horario.update');
 });
 Route::group(['middleware' => ['auth','role:Admin']], function () {
 
@@ -295,20 +290,19 @@ Route::patch('/marca/{id}', [MarcasController::class, 'update'])->name('marcas-u
 Route::delete('/marca/{id}', [MarcasController::class, 'destroy'])->name('marcas-destroy');
 
 
-
-
+Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
+Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
+//JSON
+    Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
+    Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
 Route::middleware('auth')->group(function(){
-    Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
-    Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
     Route::get('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');
     Route::get('/miscitas/{ReservarCita}',[App\Http\Controllers\ReservarCitasController::class, 'show']);
     Route::post('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'cancel']);
     Route::get('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'formCancel']);
     Route::post('/miscitas/{ReservarCita}/confirm',[App\Http\Controllers\ReservarCitasController::class, 'confirm']);
 
-    //JSON
-    Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
-    Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
+    
 });
 
 Route ::get('horas', function(){

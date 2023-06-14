@@ -273,9 +273,9 @@ Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->n
 
 Route::any('shop/resumen-compra', [\App\Http\Controllers\CompraController::class, 'resumen_compra'])->name('shop.resumen-compra')->middleware(['role:Cliente|Invitado']);  
 Route::any('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente|Invitado']);
-Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login')->middleware('guest');
+Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login');
 Route::post('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login_shop'])->name('login_shop');
-Route::get('shop/checkout/registro_invitado',[\App\Http\Controllers\CompraController::class, 'registro_invitado'])->name('shop.checkout.registro_invitado')->middleware('guest');
+Route::get('shop/checkout/registro_invitado',[\App\Http\Controllers\CompraController::class, 'registro_invitado'])->name('shop.checkout.registro_invitado');
 Route::post('shop/checkout/registro_invitado',[\App\Http\Controllers\CompraController::class, 'registro_invitado_shop'])->name('register_invitado');
 
 Route::get('shop/finish/{status_finish}',[\App\Http\Controllers\CompraController::class, 'finish'])->name('finish');

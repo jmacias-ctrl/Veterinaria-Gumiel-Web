@@ -82,7 +82,12 @@ class ReservarCitasController extends Controller
                 ->get();
         }
     
-        return view('ReservarCitas.index', compact('confirmedCita', 'pendingCita', 'oldCita'));
+        if($user->hasRole('Veterinario') || $user->hasRole('Peluquero') || $user->hasRole('admin')){
+            return view('ReservarCitas.index', compact('confirmedCita', 'pendingCita', 'oldCita'));
+        }else{
+            return view('ReservarCitas.index_cliente', compact('confirmedCita', 'pendingCita', 'oldCita'));
+        }
+        
     }
     
     
@@ -187,17 +192,17 @@ class ReservarCitasController extends Controller
         if($ReservarCita->status == 'Confirmada'){
             $correo = new CancelarHoraDespuesConfirm($ReservarCita);
             if($user->hasRole('Veterinario') || $user->hasRole('Peluquero')){
-            Mail::to($ReservarCita->paciente->email)->send($correo); 
+                Mail::to($ReservarCita->paciente->email)->send($correo); 
             } elseif($user->hasRole('Cliente')){
-            Mail::to($ReservarCita->funcionario->email)->send($correo); 
+                Mail::to($ReservarCita->funcionario->email)->send($correo); 
             }
         }else{
             $correo = new CancelarHora($ReservarCita);
             if($user->hasRole('Veterinario') || $user->hasRole('Peluquero')){
                 Mail::to($ReservarCita->paciente->email)->send($correo); 
-                } elseif($user->hasRole('Cliente')){
+            } elseif($user->hasRole('Cliente')){
                 Mail::to($ReservarCita->funcionario->email)->send($correo); 
-                }
+            }
         }  
         $ReservarCita->status = 'Cancelada';
 
@@ -208,16 +213,31 @@ class ReservarCitasController extends Controller
     }
 
     public function formCancel(ReservarCitas $ReservarCita){
-
-        if($ReservarCita->status == 'Confirmada'){
-            return view('ReservarCitas.cancel', compact('ReservarCita'));
+        $user = auth()->user();
+        if($user->hasRole('Cliente')){
+           if($ReservarCita->status == 'Confirmada'){
+            return view('ReservarCitas.cancel_cliente', compact('ReservarCita'));
+            } 
+        }else if($user->hasRole('Veterinario')|| $user->hasRole('Peluquero')|| $user->hasRole('admin')){
+            if($ReservarCita->status == 'Confirmada'){
+                return view('ReservarCitas.cancel_funcionarios', compact('ReservarCita'));
+            }
         }
+
         return redirect('/miscitas');
+        
     }
+
 
     public function show(ReservarCitas $ReservarCita){
-        return view('ReservarCitas.show' , compact('ReservarCita'));
+        $user = auth()->user();
+        if($user->hasRole('Cliente')){
+            return view('ReservarCitas.showcliente' , compact('ReservarCita'));
+        } else if($user->hasRole('Veterinario') || $user->hasRole('Peluquero') || $user->hasRole('admin')){
+            return view('ReservarCitas.show_funcionarios' , compact('ReservarCita'));
+        }
     }
+
 
     public function enviarRecordatorioDiaAntes()
     {

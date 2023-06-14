@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @php
     use App\Http\Controllers\LandingPageController;
     $landingMaps = LandingPageController::getLandingPageDetails();
     $logo = LandingPageController::getLogoLandingPage();
 @endphp
+
 
 <head>
     <meta charset="utf-8" />
@@ -18,6 +19,13 @@
     @if (isset($logo))
         <link href="{{ asset('storage') . '/images/logos/' . $logo }}" rel="icon" />
     @endif
+    @yield('css-before')
+
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,6 +39,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Libraries Stylesheet -->
+    @if(Route::currentRouteName()=='agendar-horas.create')
+    <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
+    @endif
     <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet" />
@@ -43,12 +54,16 @@
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-
+    
     <!-- Icons -->
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
+    <script type="text/javascript">
+        var baseURL = {!! json_encode(url('/')) !!}
+    </script>
     @yield('css')
 
+    @yield('styles')
 </head>
 
 <body>
@@ -207,7 +222,7 @@
     <!-- Navbar End -->
 
     @yield('content')
-
+    <script src="{{ asset('js/horarios.js') }}" defer></script>
     <!-- Footer Start -->
     <div class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
@@ -299,6 +314,28 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/landingpage/main.js') }}"></script>
+    @yield('js-before')
+    <!--   Core   -->
+    <script src="{{ asset('js/plugins/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <!--   Optional JS   -->
+    <script src="{{ asset('js/plugins/chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/chart.js/dist/Chart.extension.js') }}"></script>
+    @yield('scripts')
+    <!--   Argon JS   -->
+    <script src="{{ asset('js/argon-dashboard.min.js?v=1.1.2') }}"></script>
+    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options.positionClass = 'toast-bottom-right';
+    </script>
+    <script>
+        window.TrackJS &&
+            TrackJS.install({
+                token: "ee6fab19c5a04ac1a32a645abde4613a",
+                application: "argon-dashboard-free"
+            });
+    </script>
     @yield('js-after')
 </body>
 

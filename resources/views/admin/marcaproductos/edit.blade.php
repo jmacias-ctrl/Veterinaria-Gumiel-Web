@@ -30,7 +30,8 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.marcaproductos.index')}}" style="color:black;">Marcas Productos</a> </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.marcaproductos.index') }}"
+                    style="color:black;">Marcas Productos</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Marcas</li>
     </nav>
 @endsection
@@ -43,35 +44,27 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <div class="card shadow p-4">
-            <form action="{{ route('admin.marcaproductos.update') }}" method="POST">
-            @csrf
-            <div class="row mt-3">
-                <div class="col">
-                    <input type="hidden" name="id" value="{{ $marcaproductos->id }}">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
-                        value="{{ $marcaproductos->nombre }}" id="nombre" checked>
-                    @error('nombre')
-                        <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                    @enderror
-                </div>
+            <div class="card shadow p-5">
+                <form action="{{ route('admin.marcaproductos.update') }}" method="POST">
+                    @csrf
+                    <h5 class="mt-4">Información de la marca:</h5>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <input type="hidden" name="id" value="{{ $marcaproductos->id }}">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
+                                value="{{ $marcaproductos->nombre }}" id="nombre" checked>
+                            @error('nombre')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
 
-            </div>
-            <br>
-            <div class="container">
-                <div class="row row-cols-auto">
-                    <div class="col">
-                        <input name="btn-submit" id="btn-submit" class="btn btn-primary"
-                            style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
                     </div>
-                    
-                </div>
-            </div>
-        </form>
-            </div>
+                    <br>
+                    <input name="btn-submit" id="btn-submit" class="btn btn-primary"
+                        style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+            </form>
         </div>
-    </div>
     </div>
 @endsection
 

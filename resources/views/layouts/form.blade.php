@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -55,7 +54,7 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-icon" href="{{ route('login') }}">
                                 <i class="ni ni-key-25"></i>
-                                <span class="nav-link-inner--text">Iniciar Sesion</span>
+                                <span class="nav-link-inner--text">Iniciar Sesión</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -88,7 +87,7 @@
                 <div class="row align-items-center justify-content-xl-between">
                     <div class="col-xl-6">
                         <div class="copyright text-center text-xl-left text-muted">
-                            © 2023 <a href="{{ route('inicio') }}" class="font-weight-bold ml-1"
+                            ©{{\Carbon\Carbon::now()->format('Y')}} <a href="{{ route('inicio') }}" class="font-weight-bold ml-1"
                                 style="color:white;">Veterinaria Gumiel</a>
                         </div>
                     </div>

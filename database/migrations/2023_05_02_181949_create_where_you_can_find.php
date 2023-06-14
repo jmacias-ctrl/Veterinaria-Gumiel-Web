@@ -18,11 +18,14 @@ class CreateWhereYouCanFind extends Migration
 
             $table->string('direccion');
             $table->string('telefono');
-            $table->string('horarios');
-            $table->string('instagram');
-            $table->string('facebook');
-            $table->string('whatsapp');
-            
+            $table->string('horario_header');
+            $table->string('correo');
+            $table->string('nombre');
+            $table->string('instagram')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('twitter')->nullable();
+
             $table->timestamps();
         });
     }

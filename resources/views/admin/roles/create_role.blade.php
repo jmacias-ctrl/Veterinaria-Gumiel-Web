@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Crear Rol - Veterinaria Gumiel</title>
+<title>Agregar Rol - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -15,7 +15,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Rol
+Agregar Rol
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -34,7 +34,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.roles.index') }}"
                     style="color:black;">Roles</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Rol</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Rol</li>
     </nav>
 @endsection
 @section('content')
@@ -57,7 +57,7 @@
                         <hr class="my-3">
                         @include('admin.roles.permissions')
                         <hr class="my-3">
-                        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar Rol"
+                        <input class="btn btn-primary" id="btn-submit" type="submit" value="Agregar"
                             style="background-color:#19A448; border-color:#19A448;">
                 </form>
             </div>

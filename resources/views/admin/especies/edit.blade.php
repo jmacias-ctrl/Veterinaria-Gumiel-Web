@@ -49,32 +49,24 @@
                     @csrf
                     <h5 class="mt-4">Información de la Especie</h5>
                     <div class="row mt-3">
-                        <input type="hidden" name="id" value="{{$especie->id}}">
+                        <input type="hidden" name="id" value="{{ $especie->id }}">
                         <div class="col">
                             <label for="nombre" class="form-label">Nombre del Especie</label>
                             <input type="text" id="nombre" name="nombre"
                                 class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Gatos"
-                                aria-label="Nombre" value="{{$especie->nombre}}" required>
+                                aria-label="Nombre" value="{{ $especie->nombre }}" required>
 
                             @error('nombre')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
                         </div>
                     </div>
-
-
-                    <div class="container">
-                        <br>
-                        <div class="row row-cols-auto">
-                            <div class="col">
-                                <input name="" id="btn-submit" class="btn btn-primary"
-                                    style="background-color:#19A448; border-color:#19A448;" type="submit"
-                                    value="Modificar">
-                            </div>
-                        </div>
-                    </div>
+                    <br>
+                    <input name="" id="btn-submit" class="btn btn-primary"
+                        style="background-color:#19A448; border-color:#19A448;" type="submit" value="Modificar">
+                </form>
             </div>
-            </form>
+
         </div>
     </div>
     </div>

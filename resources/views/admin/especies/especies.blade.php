@@ -46,7 +46,7 @@
                         <h1>Listado de Especies</h1>
                         @can('ingresar especies')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.especies.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar Especie</a>
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
                     </div>
                 </div>

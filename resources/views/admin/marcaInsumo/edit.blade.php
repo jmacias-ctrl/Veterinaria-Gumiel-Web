@@ -60,7 +60,7 @@
 
             </div>
             <hr class="my-3">
-            <input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Modificar Marca">
+            <input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Modificar">
             </form>
             </div>
         </div>

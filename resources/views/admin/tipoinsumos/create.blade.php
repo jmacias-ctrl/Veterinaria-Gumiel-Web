@@ -1,20 +1,20 @@
 @extends('layouts.panel_usuario')
-<title>Ingresar Tipo de Insumo - Veterinaria Gumiel</title>
+<title>Agregar Tipo de Insumo - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <style>
-            input::-webkit-outer-spin-button,
-            input::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-            input[type=number] {
-                -moz-appearance: textfield;
-            }
-        </style>
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 @endsection
 @section('back-arrow')
     <a href="{{ route('admin.tipoinsumos.index') }}"> <span class="material-symbols-outlined"
@@ -23,7 +23,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Tipo de Insumo
+    Agregar Tipo de Insumo
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -44,8 +44,9 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.tipoinsumos.index')}}" style="color:black;">Tipo Insumos</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Tipo Insumos</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.tipoinsumos.index') }}"
+                    style="color:black;">Tipo Insumos</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Tipo Insumos</li>
     </nav>
 @endsection
 
@@ -53,28 +54,24 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-            <form action="{{ route('admin.tipoinsumos.store') }}" method="POST">
-            @csrf
-            <div class="container">
-                <h5 class="mt-4">Información del Tipo</h5>
-                <div class="row mt-3">
-                    <div class="col">
-                        <label for="Nombre" class="form-label">Nombre</label>
-                        <input minlength="4" type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Quirúrgicos"
-                            aria-label="Nombre" required>
-                        @error('nombre')
-                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
-                        @enderror
+                <form action="{{ route('admin.tipoinsumos.store') }}" method="POST">
+                    @csrf
+                    <h5 class="mt-4">Información del Tipo:</h5>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="Nombre" class="form-label">Nombre</label>
+                            <input minlength="4" type="text" id="nombre" name="nombre"
+                                class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Quirúrgicos"
+                                aria-label="Nombre" required>
+                            @error('nombre')
+                                <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
-                <br>
-                <div class="container">
-                    <div class="row row-cols-auto">
-                        <div class="col"><input class="btn btn-primary" id="btn-submit" type="submit" style="background-color:#19A448; border-color:#19A448;" value="Agregar"></div>
-                    </div>
-                </div>
-            </div>
-            </form>
+                    <br>
+                    <input class="btn btn-primary" id="btn-submit" type="submit"
+                        style="background-color:#19A448; border-color:#19A448;" value="Agregar">
+                </form>
             </div>
         </div>
     </div>

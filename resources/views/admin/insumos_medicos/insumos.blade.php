@@ -54,7 +54,7 @@
                         <h1>Listado de Insumos Médicos</h1>
                         @can('ingresar insumos medicos')
                             <a class="btn btn-primary ms-5" href="{{ route('admin.insumos_medicos.create') }}"
-                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar insumo</a>
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                     buttons: [{
                             extend: 'copyHtml5',
                             text: '<i class="fa fa-copy"></i>',
-                            className: 'btn  btn-secondary mb-2',
+                            className: 'btn btn-outline-light mb-2',
                             titleAttr: 'Copiar',
                             exportOptions: {
                                 columns: columns
@@ -134,7 +134,7 @@
                             extend: 'excelHtml5',
                             text: '<i class="fas fa-file-excel"></i>',
                             titleAttr: 'Exportar a Excel',
-                            className: 'btn  btn-success mb-2',
+                            className: 'btn btn-outline-success mb-2',
                             exportOptions: {
                                 columns: columns
                             }
@@ -143,7 +143,7 @@
                             extend: 'csvHtml5',
                             text: '<i class="fa fa-file-csv"></i>',
                             titleAttr: 'Exportar a CSV',
-                            className: 'btn  btn-info mb-2',
+                            className: 'btn  btn-outline-info mb-2',
                             exportOptions: {
                                 columns: columns
                             }
@@ -152,16 +152,16 @@
                             extend: 'pdfHtml5',
                             text: '<i class="fas fa-file-pdf"></i>',
                             titleAttr: 'Exportar a PDF',
-                            className: 'btn btn-danger mb-2',
+                            className: 'btn btn-outline-danger mb-2',
                             exportOptions: {
                                 columns: columns
                             }
                         },
                         {
                             extend: 'print',
-                            text: '<i style="color:white" class="fas fa-print"></i>',
+                            text: '<i style="color:orange" class="fas fa-print"></i>',
                             titleAttr: 'Imprimir',
-                            className: 'btn btn-warning mb-2',
+                            className: 'btn btn-outline-warning mb-2',
                             exportOptions: {
                                 columns: columns
                             }

@@ -23,6 +23,15 @@ class CartController extends Controller
             }
         }
         return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products,'marcaProductos' => $Marcaproducto]);
+        
+        $texto=$request->texto;
+        
+        $products = DB::table('productos_ventas')
+                    ->select('id','nombre','id_marca','descripcion','slug','id_tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
+                    ->where('nombre','LIKE','%'.$texto.'%')
+                    ->where('slug','LIKE','%'.$texto.'%')
+                    ->paginate(20);
+        return view('shop.shop',compact('texto'))->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
     }
 
     public function cart()  {

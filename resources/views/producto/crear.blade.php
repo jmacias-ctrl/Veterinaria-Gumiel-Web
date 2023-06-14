@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Crear Producto - Veterinaria Gumiel</title>
+<title>Agregar Producto - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -22,7 +22,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Producto
+Agregar Producto
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -45,7 +45,7 @@
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('productos.index') }}"
                     style="color:black;">Productos</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Producto</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Producto</li>
     </nav>
 @endsection
 @section('content')
@@ -166,7 +166,7 @@
                     </div>
                     <hr class="my-3">
                     <button type="submit" id="btn-submit" class="btn btn-primary"
-                        style="background-color:#19A448; border-color:#19A448;">Agregar producto</button>
+                        style="background-color:#19A448; border-color:#19A448;">Agregar</button>
                 </form>
             </div>
         </div>

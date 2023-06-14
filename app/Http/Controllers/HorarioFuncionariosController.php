@@ -77,7 +77,7 @@ class HorarioFuncionariosController extends Controller
         if(count($errors) > 0)
             return back()->with(compact('errors'));
         
-        $notification = 'Los cambiosse han guardado correctamente.';
+        $notification = 'Los cambios se han guardado correctamente.';
         return back()->with(compact('notification'));
     }   
 }

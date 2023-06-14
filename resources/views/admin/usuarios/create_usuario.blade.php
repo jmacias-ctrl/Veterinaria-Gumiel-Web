@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Crear Usuario - Veterinaria Gumiel</title>
+<title>Agregar Usuario - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -23,7 +23,7 @@
         </span> </a>
 @endsection
 @section('header-title')
-    Crear Usuario
+    Agregar Usuario
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -44,8 +44,9 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{route('admin.usuarios.index')}}" style="color:black;">Usuarios</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Crear Usuario</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.usuarios.index') }}"
+                    style="color:black;">Usuarios</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Usuario</li>
     </nav>
 @endsection
 @section('content')
@@ -117,7 +118,8 @@
                         <div class="row justify-content-center align-items-center g-2">
                             @error('roles')
                                 <div class="text-danger">
-                                    <span><small>{{ _('Debes seleccionar al menos un rol') }}</small></span></div>
+                                    <span><small>{{ _('Debes seleccionar al menos un rol') }}</small></span>
+                                </div>
                             @enderror
 
                             @foreach ($roles as $rol)

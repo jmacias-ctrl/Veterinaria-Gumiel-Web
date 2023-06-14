@@ -14,7 +14,7 @@ class CartController extends Controller
         $texto=$request->texto;
         
         $products = DB::table('productos_ventas')
-                    ->select('id','nombre','id_marca','descripcion','slug','tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
+                    ->select('id','nombre','id_marca','descripcion','slug','id_tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
                     ->where('nombre','LIKE','%'.$texto.'%')
                     ->where('slug','LIKE','%'.$texto.'%')
                     ->paginate(20);

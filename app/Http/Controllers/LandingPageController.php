@@ -5,25 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
-use DataTables;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Validator;
-use App\Mail\UsuarioCreadoAUsuario;
-use App\Mail\UsuarioEliminadoNotificacionUsuario;
-use Illuminate\Support\Facades\Mail;
-use App\Notifications\NuevoUsuarioNotificacion;
-use App\Http\Requests\PostRequest;
-use App\Notifications\UsuarioRemovidoNotificacion;
-use App\Notifications\UsuarioModificacionRoles;
-use App\Notifications\GeneralNotificationForUsers;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
 use App\Models\whereyoucanfind;
 use App\Models\landingpage_config;
 use App\Models\LandingPageInicio;
 use App\Models\LandingPageGaleria;
 use App\Models\AboutUs;
+use App\Models\DisponibilidadVeterinaria;
+use Illuminate\Support\Carbon;
 use Exception;
 
 class LandingPageController extends Controller
@@ -49,9 +39,89 @@ class LandingPageController extends Controller
         $data_index = LandingPageInicio::find(1);
         $gallery_index = LandingPageGaleria::all()->toArray();
         $carrousel_index = LandingPageGaleria::skip(0)->take(4)->get();
-        return view('welcome', compact('data_index', 'gallery_index', 'carrousel_index'));
+        $landingMaps = whereYouCanFind::first();
+        $setDay = [
+            0 => 'Lunes',
+            1 => 'Martes',
+            2 => 'Miercoles',
+            3 => 'Jueves',
+            4 => 'Viernes',
+            5 => 'Sabado',
+            6 => 'Domingo',
+        ];
+        $disponibilidad = DisponibilidadVeterinaria::all()->map(function ($item) {
+            $setDay = [
+                0 => 'Lunes',
+                1 => 'Martes',
+                2 => 'Miercoles',
+                3 => 'Jueves',
+                4 => 'Viernes',
+                5 => 'Sabado',
+                6 => 'Domingo',
+            ];
+            $item->day = $setDay[$item->day];
+            $item->morning_start = Carbon::parse($item->morning_start)->format('H:i');
+            $item->morning_end = Carbon::parse($item->morning_end)->format('H:i');
+            $item->afternoon_start = Carbon::parse($item->afternoon_start)->format('H:i');
+            $item->afternoon_end = Carbon::parse($item->afternoon_end)->format('H:i');
+            return $item;
+        });
+        return view('welcome', compact('data_index', 'gallery_index', 'carrousel_index', 'disponibilidad', 'landingMaps'));
+    }
+    public function modify_horario_landingpage()
+    {
+        $horario = DisponibilidadVeterinaria::all();
+
+        if (count($horario) > 0) {
+            $horario->map(function ($horarios) {
+                $horarios->morning_start = (new Carbon($horarios->morning_start))->format('H:i');
+                $horarios->morning_end = (new Carbon($horarios->morning_end))->format('H:i');
+                $horarios->afternoon_start = (new Carbon($horarios->afternoon_start))->format('H:i');
+                $horarios->afternoon_end = (new Carbon($horarios->afternoon_end))->format('H:i');
+            });
+        }
+
+        return view('landingpage.ubication.disponibilidad_veterinaria', compact('horario'));
     }
 
+    public function update_horario_landingpage(Request $request)
+    {
+        $active = $request->input('active') ?: [];
+        $morning_start = $request->input('morning_start');
+        $morning_end = $request->input('morning_end');
+        $afternoon_start = $request->input('afternoon_start');
+        $afternoon_end = $request->input('afternoon_end');
+
+        $errors = [];
+
+        for ($i = 0; $i < 7; ++$i) {
+            if ($morning_start[$i] > $morning_end[$i]) {
+                $errors[] = 'Inconsistencia en el intervalo de las horas del turno de la mañana del día : ' . $this->days[$i] . '.';
+            }
+            if ($afternoon_start[$i] > $afternoon_end[$i]) {
+                $errors[] = 'Inconsistencia en el intervalo de las horas del turno de la tarde del día : ' . $this->days[$i] . '.';
+            }
+
+
+            DisponibilidadVeterinaria::updateOrCreate(
+                [
+                    'day' => $i,
+                ],
+                [
+                    'active' => in_array($i, $active),
+                    'morning_start' => $morning_start[$i],
+                    'morning_end' => $morning_end[$i],
+                    'afternoon_start' => $afternoon_start[$i],
+                    'afternoon_end' => $afternoon_end[$i],
+                ],
+            );
+        }
+        if (count($errors) > 0)
+            return back()->with(compact('errors'));
+
+        $notification = 'Los cambios se han guardado correctamente.';
+        return back()->with(compact('notification'));
+    }
     public function modify_landingpage_ubication()
     {
         $landingMaps = \App\Models\whereYouCanFind::first();
@@ -80,7 +150,8 @@ class LandingPageController extends Controller
         $gallery_index = LandingPageGaleria::all();
         return view('landingpage.ubication.landing_page_modify', compact('data_index', 'gallery_index'));
     }
-    public function update_website(Request $request){
+    public function update_website(Request $request)
+    {
         $rules = [
             'titulo_bienvenida' => 'required|string',
             'agenda_hora_texto' => 'required|string',
@@ -110,7 +181,7 @@ class LandingPageController extends Controller
             $index_data->titulo_bienvenida = $request->titulo_bienvenida;
             $index_data->agenda_hora_titulo = $request->agenda_hora_titulo;
             $index_data->agenda_hora_texto = $request->agenda_hora_texto;
-            if($request->hasFile('logo_1')){
+            if ($request->hasFile('logo_1')) {
                 if (isset($index_data->logo_1)) {
                     Storage::delete('public/images/logos/' . $index_data->logo_1);
                 }
@@ -119,7 +190,7 @@ class LandingPageController extends Controller
                 $imagen_path->storeAs('public/images/logos', $filename);
                 $index_data->logo_1 = $filename;
             }
-            if($request->hasFile('agenda_hora_imagen')){
+            if ($request->hasFile('agenda_hora_imagen')) {
                 if (isset($index_data->agenda_hora_imagen)) {
                     Storage::delete('public/images/' . $index_data->agenda_hora_imagen);
                 }
@@ -128,7 +199,7 @@ class LandingPageController extends Controller
                 $imagen_path2->storeAs('public/images', $filename2);
                 $index_data->agenda_hora_imagen = $filename2;
             }
-            if($request->hasFile('logo_2')){
+            if ($request->hasFile('logo_2')) {
                 if (isset($index_data->logo_2)) {
                     Storage::delete('public/images/logos/' . $index_data->logo_2);
                 }

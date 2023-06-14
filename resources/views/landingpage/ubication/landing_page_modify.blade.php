@@ -66,7 +66,7 @@
                                 role="button">Sección Nosotros</a>
                             <a class="btn btn-outline-success active" href="{{ route('landing.website.edit') }}"
                                 role="button">Landing Page</a>
-                            <a class="btn btn-outline-success" href="" role="button">Horario</a>
+                            <a class="btn btn-outline-success" href="{{ route('landing.horario.edit') }}" role="button">Horario</a>
                         </div>
                     </div>
                     <h2>Informacion</h2>

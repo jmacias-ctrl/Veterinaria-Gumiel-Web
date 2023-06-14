@@ -55,11 +55,11 @@
                     </div>
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                         @if (isset($data_index->agenda_hora_imagen))
-                            <img class="img-fluid" src="{{ asset('storage') . '/images/' .  $data_index->agenda_hora_imagen }}"
+                            <img class="img-fluid"
+                                src="{{ asset('storage') . '/images/' . $data_index->agenda_hora_imagen }}"
                                 alt="" />
                         @else
-                            <img class="img-fluid" src="{{ asset('images/vet01.png') }}"
-                                alt="" />
+                            <img class="img-fluid" src="{{ asset('images/vet01.png') }}" alt="" />
                         @endif
 
                     </div>
@@ -250,7 +250,6 @@
             </div>
         </div>
         <!-- Animal End -->
-
         <!-- Visiting Hours Start -->
         <div class="container-xxl bg-primary visiting-hours my-5 py-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container py-5">
@@ -258,34 +257,20 @@
                     <div class="col-md-6 wow fadeIn" data-wow-delay="0.3s">
                         <h1 class="display-6 text-white mb-5">Horario</h1>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <span>Lunes</span>
-                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span>Martes</span>
-                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span>Miercoles</span>
-                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span>Jueves</span>
-                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span>Viernes</span>
-                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span>Sabado</span>
-                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span>Domingo</span>
-                                <span>9:00 a 14:00 - 15:00 a 19:00</span>
-                            </li>
+                            @foreach ($disponibilidad as $item)
+                                @if ($item->active == 1)
+                                    <li class="list-group-item">
+                                        <span>{{ $item->day }}</span>
+                                        <span>{{ $item->morning_start }} a {{ $item->morning_end }} -
+                                            {{ $item->afternoon_start }} a {{ $item->afternoon_end }}</span>
+                                    </li>
+                                @else
+                                    <li class="list-group-item">
+                                        <span>{{ $item->day }}</span>
+                                        <span>Cerrado</span>
+                                    </li>
+                                @endif
+                            @endforeach
                         </ul>
                     </div>
                     <div class="col-md-6 text-light wow fadeIn" data-wow-delay="0.5s">
@@ -294,13 +279,13 @@
                             <tbody>
                                 <tr>
                                     <td>Direcion</td>
-                                    <td>Villagran 437, Cañete, Chile</td>
+                                    <td>{{$landingMaps->direccion}}</td>
                                 </tr>
                                 <tr>
                                     <td>Numero de Contacto</td>
                                     <td>
-                                        <p class="mb-2">+56977088874</p>
-                                        <p class="mb-0">veterinariagumiel@gmail.com</p>
+                                        <p class="mb-2">+56{{$landingMaps->telefono}}</p>
+                                        <p class="mb-0">{{$landingMaps->correo}}</p>
                                     </td>
                                 </tr>
                             </tbody>

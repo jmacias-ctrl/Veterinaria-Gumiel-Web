@@ -182,7 +182,9 @@ Route::group(['middleware' => ['auth','can:modificar landing page']], function (
     Route::post('/landing/gallery/add', [\App\Http\Controllers\LandingPageController::class, 'add_photo_gallery'])->name('landing.gallery.add');
     Route::post('/landing/website/update', [\App\Http\Controllers\LandingPageController::class, 'update_website'])->name('landing.website.update');
     Route::get('/landing/website/edit',[\App\Http\Controllers\LandingPageController::class, 'modify_website'])->name('landing.website.edit');
-    Route::GET('/landing/galeria/delete', [\App\Http\Controllers\LandingPageController::class, 'delete_photo_gallery'])->name('landing.gallery.delete');
+    Route::get('/landing/galeria/delete', [\App\Http\Controllers\LandingPageController::class, 'delete_photo_gallery'])->name('landing.gallery.delete');
+    Route::get('/landing/horario/edit', [\App\Http\Controllers\LandingPageController::class, 'modify_horario_landingpage'])->name('landing.horario.edit');
+    Route::post('/landing/horario/update', [\App\Http\Controllers\LandingPageController::class, 'update_horario_landingpage'])->name('landing.horario.update');
 });
 Route::group(['middleware' => ['auth','role:Admin']], function () {
 

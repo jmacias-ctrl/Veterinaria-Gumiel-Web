@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(class:LandingPageGaleriaSeeder::class);
         $this->call(class:LandingPageInicioSeeder::class);
         $this->call(class:TipoConsulta_TamaniosSeeder::class);
+        $this->call(class:DisponibilidadVeterinariaSeeder::class);
         $this->call(class:ReservarCitasSeeder::class);
     }
 }

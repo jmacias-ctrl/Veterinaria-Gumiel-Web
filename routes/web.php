@@ -193,8 +193,6 @@ Route::group(['middleware' => ['auth','can:modificar landing page']], function (
 });
 Route::group(['middleware' => ['auth','role:Admin']], function () {
 
-    
-
     Route::get('/inicio/administrador', [\App\Http\Controllers\HorarioController::class, 'index'])->name('admin');
 
     Route::get('horario', [App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');

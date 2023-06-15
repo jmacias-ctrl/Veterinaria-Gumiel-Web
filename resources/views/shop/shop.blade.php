@@ -2,13 +2,13 @@
 @section('title')
 Tienda - Veterinaria Gumiel
 @endsection
-@section('js-before')
+@section('content')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-@endsection
-@section('content')
+
+
 
 <!-- <div class="">
     <select name="" id="selectMarca" class="form-control">
@@ -57,61 +57,58 @@ Tienda - Veterinaria Gumiel
                         </div>
                     </div>
                 </div>    
-                
-
-            
                 <div class="row m-0 p-0" id="productAvailable">
-                        @foreach($products as $pro)
-                            <input type="hidden" id="input{{$pro->id}}" name="{{$pro->nombre}}" value="{{$pro->precio}}" accept="{{ $pro->imagen_path }}" alt="{{$pro->slug}}">
-                            <div class="col-xl-3 col-lg-4 col-sm-6 p-2 producto" slug="{{ $pro->slug }}" marca="{{ $pro->marca }}" data-precio="{{ $pro->precio }}" data-slug="{{ $pro->slug }}">
-                                <div class="card">
-                                    <div class="card-body p-sm-4 p-5">
-                                        <a href="{{ route('shop.show' ,['id'=>$pro->id]) }}" style="text-decoration:none;">
-                                            @if (!$pro->stock)
-                                            <div style="display:flex; justify-content:center;  position:relative;">
-                                                <img  src="/image/productos/{{ $pro->imagen_path }}"
-                                                style="height:150px; filter: grayscale(100%);"
-                                                alt="{{ $pro->imagen_path }}">
-                                            </div>
-                                            @else
-                                            <div style="display:flex; justify-content:center;  position:relative;">
-                                                <img src="/image/productos/{{ $pro->imagen_path }}"
-                                                style="height:150px;"
-                                                alt="{{ $pro->imagen_path }}">
-                                            </div>
-                                            @endif
-                                            <div>
-                                                <h5 class="text-dark m-0 overflow-ellipsis " style=" white-space: nowrap; overflow: hidden;">{{ $pro->slug }}</h5>
-                                                <span class="text-dark overflow-ellipsis font-weight-bold" style=" white-space: nowrap; overflow: hidden;">{{ $pro->marca }}</span>
-                                            </div>
-                                        </a>
-                                        <div class="mt-3 mb-2" style="display:flex;">
-                                            <p style=" pointer-events:none; margin:6px auto 6px 0;">${{number_format($pro->precio, 0, ',', '.')}}</p>
-                                            @if (!$pro->stock)
-                                            <div style="display:flex; pointer-events:none;">
-                                               <p class="my-auto font-weight-bold">Producto agotado</p>
-                                            </div>
-                                            @else
-                                            <div>
-                                                <div class="btn-group h-100">
-                                                    <button onclick="resta(this)" id="{{$pro->id}}" class="btn_add" style="padding:0 10.3px 0 10.3px; border-radius:50px;"><i class=" bi bi-dash"></i></button>
-                                                    <input id="input_sr{{$pro->id}}" type="text" maxlength="3" class="fc mx-1 w-14" style=" pointer-events:none; text-align:center; border-radius:50px; border: 1px solid lightgray" autocomplete="off" value="1" onkeypress="if(this.value.charAt(0)=='') return (event.charCode >= 49 && event.charCode <= 57); else return (event.charCode >= 48 && event.charCode <= 57);"/>
-                                                    <button onclick="suma(this)" value="{{$pro->stock}}" id="{{$pro->id}}" class="btn_add" style="padding:0 10.3px 0 10.3px; border-radius:50px;"><i class=" bi bi-plus"></i></button>
-                                                </div>    
-                                            </div>
-                                            @endif
+                    @foreach($products as $pro)
+                        <input type="hidden" id="input{{$pro->id}}" name="{{$pro->nombre}}" value="{{$pro->precio}}" accept="{{ $pro->imagen_path }}" alt="{{$pro->slug}}">
+                        <div class="col-xl-3 col-lg-4 col-sm-6 p-2 producto" slug="{{ $pro->slug }}" marca="{{ $pro->marca }}" data-precio="{{ $pro->precio }}" data-slug="{{ $pro->slug }}">
+                            <div class="card">
+                                <div class="card-body p-sm-4 p-5">
+                                    <a href="{{ route('shop.show' ,['id'=>$pro->id]) }}" style="text-decoration:none;">
+                                        @if (!$pro->stock)
+                                        <div style="display:flex; justify-content:center;  position:relative;">
+                                            <img  src="/image/productos/{{ $pro->imagen_path }}"
+                                            style="height:150px; filter: grayscale(100%);"
+                                            alt="{{ $pro->imagen_path }}">
                                         </div>
-                                        <div class="d-flex">
-                                            @if (!$pro->stock)
-                                                <input type="submit" disabled value="Agregar a carro" class="w-100 font-weight-bold" style="padding:6px; border-radius:8px; color:white; background-color:#68c387; border:1px solid white;"/>
-                                            @else
-                                                <input type="submit" onclick="agregar(this)" id="{{$pro->id}}" value="Agregar a carro" class="b_agregar w-100 font-weight-bold"/>
-                                            @endif
+                                        @else
+                                        <div style="display:flex; justify-content:center;  position:relative;">
+                                            <img src="/image/productos/{{ $pro->imagen_path }}"
+                                            style="height:150px;"
+                                            alt="{{ $pro->imagen_path }}">
                                         </div>
+                                        @endif
+                                        <div>
+                                            <h5 class="text-dark m-0 overflow-ellipsis " style=" white-space: nowrap; overflow: hidden;">{{ $pro->slug }}</h5>
+                                            <span class="text-dark overflow-ellipsis font-weight-bold" style=" white-space: nowrap; overflow: hidden;">{{ $pro->marca }}</span>
+                                        </div>
+                                    </a>
+                                    <div class="mt-3 mb-2" style="display:flex;">
+                                        <p style=" pointer-events:none; margin:6px auto 6px 0;">${{number_format($pro->precio, 0, ',', '.')}}</p>
+                                        @if (!$pro->stock)
+                                        <div style="display:flex; pointer-events:none;">
+                                            <p class="my-auto font-weight-bold">Producto agotado</p>
+                                        </div>
+                                        @else
+                                        <div>
+                                            <div class="btn-group h-100">
+                                                <button onclick="resta(this)" id="{{$pro->id}}" class="btn_add" style="padding:0 10.3px 0 10.3px; border-radius:50px;"><i class=" bi bi-dash"></i></button>
+                                                <input id="input_sr{{$pro->id}}" type="text" maxlength="3" class="fc mx-1 w-14" style=" pointer-events:none; text-align:center; border-radius:50px; border: 1px solid lightgray" autocomplete="off" value="1" onkeypress="if(this.value.charAt(0)=='') return (event.charCode >= 49 && event.charCode <= 57); else return (event.charCode >= 48 && event.charCode <= 57);"/>
+                                                <button onclick="suma(this)" value="{{$pro->stock}}" id="{{$pro->id}}" class="btn_add" style="padding:0 10.3px 0 10.3px; border-radius:50px;"><i class=" bi bi-plus"></i></button>
+                                            </div>    
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="d-flex">
+                                        @if (!$pro->stock)
+                                            <input type="submit" disabled value="Agregar a carro" class="w-100 font-weight-bold" style="padding:6px; border-radius:8px; color:white; background-color:#68c387; border:1px solid white;"/>
+                                        @else
+                                            <input type="submit" onclick="agregar(this)" id="{{$pro->id}}" value="Agregar a carro" class="b_agregar w-100 font-weight-bold"/>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+                    @endforeach
                     <div id="vacio">
                         <div class="d-flex justify-content-center px-2 mt-2">
                             <div class="col-xl-6 col-lg-6 col-sm-10 col-12 bg-white m-0 p-5 shadow" style="text-align: center; border-radius:6px; border:1px solid lightgrey;">
@@ -123,6 +120,31 @@ Tienda - Veterinaria Gumiel
                                     style="width: 150px; height: 90px; object-fit:cover;"
                                     alt="vacio.png">
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loading" style="position:absolute;">
+                        <div style="display: flex; margin:0 auto; justify-content: center;">
+                            <div class="spinner-grow text-primary mx-2" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-dark mx-2" style="opacity:1;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-secondary mx-2" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-primary mx-2" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-secondary mx-2" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-dark mx-2" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-primary mx-2" role="status">
+                                <span class="sr-only">Loading...</span>
                             </div>
                         </div>
                     </div>
@@ -139,11 +161,11 @@ Tienda - Veterinaria Gumiel
 
 
 
-
 // prueba fin
     function resta(that){
         if(document.getElementById("input_sr"+that.id).value>1){
             document.getElementById("input_sr"+that.id).value--;
+            
         }
     }
 
@@ -152,6 +174,7 @@ Tienda - Veterinaria Gumiel
         console.log(that.value);
         if(parseInt(document.getElementById("input_sr"+that.id).value, 10)<parseInt(that.value, 10)){
             document.getElementById("input_sr"+that.id).value++;
+
         }
     }
 
@@ -161,21 +184,21 @@ Tienda - Veterinaria Gumiel
         $("#busqueda").val("");
         $("#selectOrden").val("")
         $('#vacio').hide();
+        $('#loading').hide();
+        
     }window.load = def();
 
     $("#busqueda").on("keyup", function() {
         var valueBusqueda = $(this).val().toLowerCase();
-        var valueMarca = "";
         var count=0;
-        console.log("input busqueda: "+valueBusqueda);
-        console.log("input marca   : "+valueMarca);
-        $("#emptysearch").html("\""+valueBusqueda+"\"");
         $("#productAvailable .producto").filter(function() {
-            $(this).toggle(($(this).attr('slug').toLowerCase().indexOf(valueBusqueda) > -1) && ($(this).attr('marca').toLowerCase().indexOf(valueMarca) > -1))
-            if($(this).attr('slug').toLowerCase().indexOf(valueBusqueda) > -1 && $(this).attr('marca').toLowerCase().indexOf(valueMarca) > -1) count++; 
-        }); console.log("cont busqueda: "+count);
+            $(this).toggle(($(this).attr('slug').toLowerCase().indexOf(valueBusqueda) > -1))
+            if($(this).attr('slug').toLowerCase().indexOf(valueBusqueda) > -1)   count++; 
+        });
+        console.log("count: "+count);
         if(!count){
             $('#vacio').show();
+            $("#emptysearch").html("\""+valueBusqueda+"\"");
         }else{
             $('#vacio').hide();
         }
@@ -186,19 +209,19 @@ Tienda - Veterinaria Gumiel
         var divOrder = $("#productAvailable .producto").sort(function (a, b) {
             switch (value) {
                 case "orden_az":
-                    return $(a).data("slug").toLowerCase() > $(b).data("slug").toLowerCase();
+                    return $(a).data("slug").toLowerCase() > $(b).data("slug").toLowerCase()?1:-1;
                     break;
 
                 case "orden_za":
-                    return $(a).data("slug").toLowerCase() < $(b).data("slug").toLowerCase();
+                    return $(a).data("slug").toLowerCase() > $(b).data("slug").toLowerCase()?-1:1;
                     break;
 
                 case "menor_precio":
-                    return $(a).data("precio") > $(b).data("precio");
+                    return $(a).data("precio") > $(b).data("precio")?1:-1;
                     break;
 
                 case "mayor_precio":
-                    return $(a).data("precio") < $(b).data("precio");
+                    return $(a).data("precio") > $(b).data("precio")?-1:1;
                     break;
 
                 case "mejor_puntua":
@@ -208,40 +231,48 @@ Tienda - Veterinaria Gumiel
         });
         $("#productAvailable").html(divOrder);
     });
-    
-
 
     function agregar(that){
         var id=that.id;
-        var name=document.getElementById("input"+that.id).name;
-        var price=document.getElementById("input"+that.id).value;
-        var quantity=document.getElementById("input_sr"+that.id).value;
-        var image=document.getElementById("input"+that.id).accept;
-        var slug=document.getElementById("input"+that.id).alt;
+        console.log(id);
+        console.log({{$products[2]->stock}});
+        // var name=document.getElementById("input"+that.id).name;
+        // var price=document.getElementById("input"+that.id).value;
+        // var quantity=document.getElementById("input_sr"+that.id).value;
+        // var image=document.getElementById("input"+that.id).accept;
+        // var slug=document.getElementById("input"+that.id).alt;
+        // var pantalla=$(window).scrollTop()+window.innerHeight/4;
+        // document.getElementById("loading").style.top =pantalla;
+        // $("#loading").show();
+        // that.style.backgroundColor="#68c387";
+        // document.getElementById("productAvailable").style.opacity= 0.9;
+        // document.getElementById("productAvailable").style.pointerEvents = "none";
 
-        console.log(image);
-
-        axios.post("{{ route('shop.cart.store') }}", {
-                id: id,
-                name: name,
-                price: price,
-                quantity: quantity,
-                image: image,
-                slug: slug
-                })
-                .then(function(response)
-                {
-                    document.getElementById("cantcart").innerHTML=response.data.carro;
-                    toastr.remove();
-      
-                    if(response.data.tipo_mensaje=="error") toastr.error(response.data.mensaje);
-                    if(response.data.tipo_mensaje=="warning") toastr.warning(response.data.mensaje);
-                    if(response.data.tipo_mensaje=="success") toastr.success(response.data.mensaje);
-                })
-                .catch(function(error) {
-                    toastr.remove();
-                    toastr.error('La acción no se pudo realizar');
-                });
+        // axios.post("{{ route('shop.cart.store') }}", {
+        //     id: id,
+        //     name: name,
+        //     price: price,
+        //     quantity: quantity,
+        //     image: image,
+        //     slug: slug
+        // })
+        // .then(function(response)
+        // {
+        //     that.style.backgroundColor="#19A448";
+        //     document.getElementById("cantcart").innerHTML=response.data.carro;
+        //     toastr.remove();
+        //     $("#loading").hide();
+        //     document.getElementById("input_sr"+that.id).value=1;
+        //     document.getElementById("productAvailable").style.opacity= 1;
+        //     document.getElementById("productAvailable").style.pointerEvents = "auto";
+        //     if(response.data.tipo_mensaje=="error") toastr.error(response.data.mensaje);
+        //     if(response.data.tipo_mensaje=="warning") toastr.warning(response.data.mensaje);
+        //     if(response.data.tipo_mensaje=="success") toastr.success(response.data.mensaje);
+        // })
+        // .catch(function(error) {
+        //     toastr.remove();
+        //     toastr.error('La acción no se pudo realizar');
+        // });
     }
 
 </script>
@@ -255,6 +286,8 @@ Tienda - Veterinaria Gumiel
     .btn_add{
         background-color:#dbdfe3;
         color:black;
+        transition:0.2s;
+
     }
     .btn_add:hover{
         background-color: gray;
@@ -269,17 +302,22 @@ Tienda - Veterinaria Gumiel
     .b_agregar{
         color:white;
         background-color:#19A448;
-        border:1px solid white;
+        border:2px solid white;
         border-radius:8px;
         padding:6px;
+        transition:0.2s;
+        
+
     }
     .b_agregar:hover{
         background-color:#19A448;
-        border:1px solid #19A448;
+        border:2px solid #19A448;
+
     }
     .b_agregar:active{
         background-color:#68c387;
-        border:1px solid white;
+        border:2px solid white;
+
 
 
     }

@@ -173,7 +173,6 @@ CARRITO | Veterinaria Gumiel
                     toastr.error('La acción no se pudo realizar');
                     cant.style.color="black";
                     divs_loading.hidden=true;
-
                 });
             }else{
                 divs.style.pointerEvents = "auto";
@@ -272,7 +271,6 @@ CARRITO | Veterinaria Gumiel
     function deleted(that)
     {
         var id="#div"+that.id;
-        alert(id);
         Swal.fire({
             title: '¿Eliminar producto?',
             text: "¿Estás seguro? ¡no podrás revertir la acción!",

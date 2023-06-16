@@ -2,7 +2,21 @@
 @section('title')
     Inicio - Veterinaria Gumiel
 @endsection
+@section('css')
+    <style>
+        @media only screen and (min-width: 992px) {
+            #titleMobile {
+                display: none;
+            }
+        }
 
+        @media only screen and (max-width: 991px) {
+            #titleDesktop {
+                display: none;
+            }
+        }
+    </style>
+@endsection
 @section('content')
     <!DOCTYPE html>
     <html lang="es">
@@ -11,7 +25,7 @@
         <!-- Header Start -->
         <div class="container-fluid bg-dark p-0 mb-5">
             <div class="row g-0 flex-column-reverse flex-lg-row">
-                <div class="col-lg-6 p-0 wow fadeIn" data-wow-delay="0.1s">
+                <div class="col-lg-6 p-0 wow fadeIn" data-wow-delay="0.1s" id="titleDesktop">
                     <div class="header-bg h-100 d-flex flex-column justify-content-center p-5">
                         <h1 class="display-4 text-light mb-5">
                             {{ $data_index->titulo_bienvenida }}
@@ -32,6 +46,13 @@
                         <div class="owl-carousel-item">
                             <img class="img-fluid" src="{{ asset('images/carrousel/03.png') }}" alt="" />
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-0 wow fadeIn" data-wow-delay="0.1s" id="titleMobile">
+                    <div class="header-bg h-100 d-flex flex-column justify-content-center p-5">
+                        <h1 class="display-4 text-light mb-5">
+                            {{ $data_index->titulo_bienvenida }}
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -279,13 +300,13 @@
                             <tbody>
                                 <tr>
                                     <td>Direcion</td>
-                                    <td>{{$landingMaps->direccion}}</td>
+                                    <td>{{ $landingMaps->direccion }}</td>
                                 </tr>
                                 <tr>
                                     <td>Numero de Contacto</td>
                                     <td>
-                                        <p class="mb-2">+56{{$landingMaps->telefono}}</p>
-                                        <p class="mb-0">{{$landingMaps->correo}}</p>
+                                        <p class="mb-2">+56{{ $landingMaps->telefono }}</p>
+                                        <p class="mb-0">{{ $landingMaps->correo }}</p>
                                     </td>
                                 </tr>
                             </tbody>

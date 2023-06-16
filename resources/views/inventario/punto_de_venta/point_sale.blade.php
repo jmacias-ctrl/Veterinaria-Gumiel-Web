@@ -7,6 +7,10 @@
         .swal2-container {
             z-index: 10000;
         }
+
+        .modal {
+            overflow-y: auto;
+        }
     </style>
 @endsection
 @section('js-before')
@@ -86,7 +90,7 @@
                                         {{ $pro->stock }}</p>
                                     <div class="card-footer" style="background-color: white;">
                                         <div class="row">
-                                            @if($pro->stock > 0)
+                                            @if ($pro->stock > 0)
                                                 <button style="margin: 0 auto;" class="btn btn-secondary btn-sm"
                                                     onclick="addProduct({{ $pro->id }})" class="tooltip-test">
                                                     <i class="fa fa-shopping-cart"></i> Añadir
@@ -152,8 +156,9 @@
 
 
 <!-- Modal -->
-@include('inventario.punto_de_venta.modal.pagoVenta_Modal')
 @include('inventario.punto_de_venta.modal.comprobante')
+@include('inventario.punto_de_venta.modal.pagoVenta_Modal')
+
 
 @section('js-after')
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
@@ -205,23 +210,19 @@
                                 numOperacion: numOperacion,
                             })
                             .then(function(response) {
-                                $('#pagoVenta').modal('hide')
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: `Venta realizada exitosamente`,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                                $('#numVenta').html('Num. venta: '+ response.data
+                                $('#pagoVenta').modal('toggle')
+                                toastr.success('Venta realizada exitosamente')
+                                $('#numVenta').html('Num. venta: ' + response.data
                                     .nuevaVenta['id_venta']);
                                 $('#fecha').html('Fecha: ' + response.data.fecha);
                                 $('#hora').html('Hora: ' + response.data.hora);
-                                $('#nombreClienteShow').html('Nombre del Cliente: ' + response.data
+                                $('#nombreClienteShow').html('Nombre del Cliente: ' + response
+                                    .data
                                     .nuevaVenta['nombre_cliente']);
                                 $('#metodoPagoShow').html('Metodo de Pago: ' + response.data
                                     .metodoPago);
-                                $('#totalVentaShow').html('Total de la Venta: ' + new Intl.NumberFormat('es-CL', {
+                                $('#totalVentaShow').html('Total de la Venta: ' + new Intl
+                                    .NumberFormat('es-CL', {
                                         currency: 'CLP',
                                         style: 'currency'
                                     }).format(response.data.montoFinal));
@@ -232,7 +233,8 @@
                                         currency: 'CLP',
                                         style: 'currency'
                                     }).format(elementOrValue.price)
-                                    var total = elementOrValue.price * elementOrValue.quantity;
+                                    var total = elementOrValue.price * elementOrValue
+                                        .quantity;
                                     var TotalFormat = new Intl.NumberFormat('es-CL', {
                                         currency: 'CLP',
                                         style: 'currency'
@@ -255,9 +257,11 @@
 
 
                                 });
+                                setTimeout(() => {
+                                    $('#comprobanteModal').modal('show')
+                                }, 500);
+                               
 
-                                $('#comprobanteModal').modal('show')
-                                console.log(response);
                             })
                             .catch(function(error) {
                                 Swal.fire({
@@ -272,7 +276,6 @@
                     }
                 });
             });
-
             $("#searchProduct").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 $("#selectMarca").val("all")

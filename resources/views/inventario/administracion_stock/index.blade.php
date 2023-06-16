@@ -280,7 +280,7 @@
                 $("#adjuntarFactura").removeClass('d-none');
                 $("#checkStock").removeClass('d-none');
                 $("#info").removeClass('d-none');
-
+                $("#newStock").removeAttr('max');
                 $("#costoStockAgregado").prop('required', false);
                 $("#proveedor").prop('required', false);
                 $("#factura").prop('required', false);
@@ -306,6 +306,8 @@
                     $("#costoDiv").addClass('d-none');
                     $("#proveedorId").addClass('d-none');
                     $("#adjuntarFactura").addClass('d-none');
+                    const stock = $("#getStock").val();
+                    $("#newStock").attr("max", stock);
                     console.log(shownTable);
                     if (shownTable != "productosButton") {
                         $("#checkStock").addClass('d-none');
@@ -418,6 +420,7 @@
 
         function admin_product(id, tipo_item, stock) {
             $("#newStock").val("");
+            $('#getStock').val("");
             $("#costoStockAgregado").val("");
             $("#proveedor").val($("#proveedor option:first").val());
             $("#checkStockComprados").prop('checked', false);
@@ -440,6 +443,7 @@
                     $("#tipo_item").val(response.data.tipo_item);
                     $("#nombre_item").html(response.data.itemGet['nombre']);
                     $("#statusStock").html(response.data.itemGet['stock'] + " unidades");
+                    $("#getStock").val(response.data.itemGet['stock']);
                     if (parseInt(response.data.itemGet['stock']) <= 0) {
                         $("#statusStock").addClass('text-danger');
                     } else {

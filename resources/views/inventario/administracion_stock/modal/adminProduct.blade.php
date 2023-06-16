@@ -13,6 +13,7 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_item" id="id_item">
                     <input type="hidden" name="tipo_item" id="tipo_item">
+                    <input type="hidden" name="getStock" id="getStock">
                     <div class="d-flex">
                         <p class="font-weight-bold">Item:&nbsp</p>
                         <p id="nombre_item"></p>

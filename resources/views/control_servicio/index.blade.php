@@ -210,13 +210,7 @@
                             })
                             .then(function(response) {
                                 $('#pagoVenta').modal('hide')
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: `Pago realizado exitosamente`,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
+                                toastr.success('Venta realizada exitosamente')
                                 $('#numVenta').html('Num. venta: ' + response.data
                                     .nuevaVenta['id_venta']);
                                 $('#fecha').html('Fecha: ' + response.data.fecha);
@@ -257,7 +251,9 @@
                                     
                                 `);
 
-                                $('#comprobanteModal').modal('show')
+                                setTimeout(() => {
+                                    $('#comprobanteModal').modal('show')
+                                }, 500);
                                 console.log(response);
                             })
                             .catch(function(error) {

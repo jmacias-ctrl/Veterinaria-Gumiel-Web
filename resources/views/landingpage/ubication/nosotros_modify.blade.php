@@ -57,17 +57,7 @@
             <div class="card shadow p-4">
                 <form action="{{ route('landing.nosotros.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="d-flex justify-content-center">
-                        <div class="btn-group btn-group-lg" role="group">
-                            <a class="btn btn-outline-success" href="{{ route('landing.ubication.edit') }}"
-                                role="button">Información</a>
-                            <a class="btn btn-outline-success active" href="{{ route('landing.nosotros.edit') }}"
-                                role="button">Sección Nosotros</a>
-                            <a class="btn btn-outline-success" href="{{ route('landing.website.edit') }}"
-                                role="button">Landing Page</a>
-                            <a class="btn btn-outline-success" href="{{ route('landing.horario.edit') }}" role="button">Horario</a>
-                        </div>
-                    </div>
+                    @include('landingpage.ubication.botones')
 
                     <h2 class="mt-4">Información</h2>
                     <div class="row mt-3">

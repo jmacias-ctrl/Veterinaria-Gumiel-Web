@@ -96,6 +96,7 @@
                     <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="ni ni-bell-55"></i>
+
                         <span class="badge badge-danger">
                             @if ($userNotification < 99)
                                 {{ $userNotification }}
@@ -523,7 +524,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" style="color:black;" id="desktopNotification">
-                    <i class="ni ni-bell-55"></i>
+                    <i class="ni ni-bell-55 text-white"></i>
                     <span class="badge badge-danger">
                         @if ($userNotification < 99)
                             {{ $userNotification }}

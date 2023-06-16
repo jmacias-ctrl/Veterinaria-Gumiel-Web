@@ -187,9 +187,6 @@ Route::group(['middleware' => ['auth','can:modificar landing page']], function (
     Route::post('/landing/horario/update', [\App\Http\Controllers\LandingPageController::class, 'update_horario_landingpage'])->name('landing.horario.update');
 });
 Route::group(['middleware' => ['auth','role:Admin']], function () {
-
-    
-
     Route::get('/inicio/administrador', [\App\Http\Controllers\HorarioController::class, 'index'])->name('admin');
 
     Route::get('horario', [App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
@@ -202,14 +199,10 @@ Route::group(['middleware' => ['auth','role:Admin']], function () {
     //Rutas funcionarios
     Route::resource('/funcionarios', 'App\Http\Controllers\FuncionariosController');
 
-    // Route::post('/generar-comprobante', 'ComprobanteController@generarComprobante');
+    Route::post('/a', 'ComprobanteController@generarComprobante');
     Route::get('/generar-comprobante', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comprobante');
 
     Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabiliadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
-
-    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
-    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
-    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');

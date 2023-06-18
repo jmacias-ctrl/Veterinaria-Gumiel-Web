@@ -48,7 +48,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                             Inicio</a>
         </li>
         <li class="breadcrumb-item" aria-current="page"><a href="{{ route('user.profile.index') }}" style="color:black;">Perfil de {{ auth()->user()->name }}</a> </li>
-        <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Landing Page</li>
+        <li class="breadcrumb-item active" aria-current="page" style="color:white;">Trazabilidad ventas y servicios</li>
 </nav>
 @endsection
 @section('content')

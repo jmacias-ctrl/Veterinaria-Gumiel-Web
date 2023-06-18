@@ -28,6 +28,9 @@
     <!-- CSS Files -->
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <link rel="stylesheet" href="{{ asset('css') . '/breadcrums.css'}}">
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -35,6 +38,8 @@
     <script type="text/javascript">
         var baseURL = {!! json_encode(url('/')) !!}
     </script>
+
+    
 
     @yield('css-after')
     <style>
@@ -96,6 +101,7 @@
                     <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="ni ni-bell-55"></i>
+
                         <span class="badge badge-danger">
                             @if ($userNotification < 99)
                                 {{ $userNotification }}
@@ -523,7 +529,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" style="color:black;" id="desktopNotification">
-                    <i class="ni ni-bell-55"></i>
+                    <i class="ni ni-bell-55 text-white"></i>
                     <span class="badge badge-danger">
                         @if ($userNotification < 99)
                             {{ $userNotification }}

@@ -54,6 +54,7 @@
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
                         <h1>Punto de Reserva/Pago de Servicios</h1>
+                        <a class="btn btn-success" href="{{route('control_servicios.agendar')}}" role="button" style="height:45px">Agendar Cita</a>
                     </div>
                 </div>
                 @if (session()->get('success'))
@@ -65,8 +66,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Cliente</th>
+                            <th>Nombre Cliente</th>
+                            <th>Rut Cliente</th>
                             <th>Servicio</th>
+                            <th>Nombre Funcionario</th>
                             <th>Estado</th>
                             <th>Monto</th>
                             <th>¿Pagado?</th>
@@ -138,8 +141,16 @@
                         name: 'name'
                     },
                     {
+                        data: 'rut',
+                        name: 'rut'
+                    },
+                    {
                         data: 'nombre',
                         name: 'nombre'
+                    },
+                    {
+                        data: 'funcionario_id',
+                        name: 'funcionario_id'
                     },
                     {
                         data: 'status',

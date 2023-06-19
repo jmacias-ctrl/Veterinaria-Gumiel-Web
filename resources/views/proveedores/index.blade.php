@@ -67,6 +67,9 @@
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
+                            <th>Rut</th>
+                            <th>Telefono</th>
+                            <th>Coreo</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -168,6 +171,18 @@
                     {
                         data: 'nombre',
                         name: 'nombre'
+                    },
+                    {
+                        data: 'rut',
+                        name: 'rut'
+                    },
+                    {
+                        data: 'telefono',
+                        name: 'telefono'
+                    },
+                    {
+                        data: 'correo',
+                        name: 'correo'
                     },
                     {
                         data: 'action',

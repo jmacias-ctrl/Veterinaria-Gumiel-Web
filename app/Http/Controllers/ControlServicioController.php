@@ -24,8 +24,11 @@ class ControlServicioController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = db::table('reservar_citas')->join('users', 'reservar_citas.paciente_id', '=', 'users.id')->join('servicios', 'reservar_citas.tiposervicio_id', '=', 'servicios.id')->select('reservar_citas.id', 'users.name', 'servicios.nombre', 'reservar_citas.status', 'servicios.precio', 'reservar_citas.pagado')->where('pagado', '=', false)->get()->map(function ($item) {
+            $data = ReservarCitas::with('funcionario', 'paciente')->join('servicios', 'reservar_citas.tiposervicio_id', '=', 'servicios.id')->select('reservar_citas.id', 'paciente_id', 'funcionario_id', 'servicios.nombre', 'reservar_citas.status', 'servicios.precio', 'reservar_citas.pagado')->where('pagado', '=', false)->get()->map(function ($item) {
                 $item->monto = $item->precio;
+                $item->funcionario_id = $item->funcionario->name;
+                $item->name = $item->paciente->name;
+                $item->rut = $item->paciente->rut;
                 $item->precio = '$' . number_format($item->precio, 0, ',', '.');
                 if ($item->pagado == "1") {
                     $item->pagado = "Si";
@@ -42,6 +45,32 @@ class ControlServicioController extends Controller
         }
         return view('control_servicio.index');
     }
+
+    public function create(HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface)
+    {
+        $tiposervicios = tiposervicios::all();
+        $tipoconsulta_tam = servicios::all();
+
+        $tiposervicioId = old('tiposervicio_id');
+        if ($tiposervicioId) {
+            $tiposervicio = tiposervicios::find($tiposervicioId);
+            $funcionarios = $tiposervicio->users;
+        } else {
+            $funcionarios = collect();
+        }
+
+        $date = old('scheduled_date');
+        $funcionarioId = old('funcionario_id');
+
+        if ($date && $funcionarioId) {
+            $intervals = $horarioFuncionarioServiceInterface->getAvailableIntervals($date, $funcionarioId);
+        } else {
+            $intervals = null;
+        }
+
+        return view('control_servicio.reservar', compact('tiposervicios', 'funcionarios', 'intervals', 'tipoconsulta_tam'));
+    }
+
     public function pagar_reserva(Request $request)
     {
         $fecha = Carbon::now();
@@ -62,7 +91,7 @@ class ControlServicioController extends Controller
         $montoFinal = 0;
         $metodoPagoEscogido = null;
 
-        
+
 
         $itemComprado =  new items_comprados();
         $itemComprado->monto = $servicio->precio;

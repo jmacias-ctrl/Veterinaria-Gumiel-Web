@@ -149,7 +149,7 @@
                     <div class="form-group">
                         <label for="precio">Precio:</label>
                         <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio"
-                            name="precio" value="{{ $producto->precio }}" placeholder="Ej. 3200" min="0" required>
+                            name="precio" value="{{ $producto->precio }}" placeholder="Ej. 3200" min="1" oninput="this.value = Math.abs(this.value)" required>
                         @error('precio')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror

@@ -85,7 +85,8 @@ Route::group(['middleware' => ['auth','can:ver insumos medicos']], function () {
 
 Route::group(['middleware' => 'auth','can:acceso punto de venta'], function () {
     Route::get('control-servicios', [App\Http\Controllers\ControlServicioController::class, 'index'])->name('control_servicios.index');
-    Route::get('control-servicios/agendar', [App\Http\Controllers\ControlServicioController::class, 'create'])->name('control_servicios.agendar');
+    Route::get('control-servicios/agendar', [App\Http\Controllers\ControlServicioController::class, 'createR'])->name('control_servicios.agendar');
+    Route::post('control-servicios/reservar', [App\Http\Controllers\ControlServicioController::class, 'store'])->name('control_servicios.reservar');
     Route::post('control-servicios/pagar', [App\Http\Controllers\ControlServicioController::class, 'pagar_reserva'])->name('control_servicios.pagar');
 });
 

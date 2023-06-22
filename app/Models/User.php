@@ -47,21 +47,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function horario(){
-        return $this->hasOne(Horario::class,'id_users');
+    public function horario()
+    {
+        return $this->hasOne(Horario::class, 'id_users');
     }
 
-    public function scopeFuncionario($query){
+    public function scopeFuncionario($query)
+    {
         return $query->role(['Veterinario', 'Peluquero']);
     }
 
-    public function scopePaciente($query){
+    public function scopePaciente($query)
+    {
         return $query->Role('Cliente');
     }
-
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role', 'role_id', 'id');
+    }
     public function tiposervicio()
     {
         return $this->belongsTo(tiposervicios::class);
     }
-
 }

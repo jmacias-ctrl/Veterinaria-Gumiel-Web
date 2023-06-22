@@ -2,24 +2,28 @@
 <title>Agendar Hora - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        .dataTables_filter,
-        .dataTables_info {
-            display: none;
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
-        .swal2-container {
-            z-index: 10000;
+        input[type=number] {
+            -moz-appearance: textfield;
         }
     </style>
+@endsection
+@section('back-arrow')
+    <a href="{{ route('control_servicios.index') }}"> <span class="material-symbols-outlined"
+            style="font-size:40px; color:white;">
+            arrow_back
+        </span> </a>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -42,7 +46,8 @@
                 @endif
                 Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('control_servicios.index') }}">Punto de Pago / Reserva de Servicios</a> </li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('control_servicios.index') }}">Punto de Pago /
+                    Reserva de Servicios</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agendar Hora</li>
     </nav>
 @endsection
@@ -78,30 +83,47 @@
                         @endforeach
                     @endif
 
-                    <form action="{{ url('/agendar-horas') }}" method="POST">
+                    <form action="{{ url('/control-servicios/reservar') }}" method="POST">
                         @csrf
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Nombre Completo</label>
+                                <input type="text" class="form-control" name="name" id="name"
+                                    aria-describedby="helpId" value="{{ old('name') }}"
+                                    placeholder="Ej. Juan Perez Alameda" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="name">Rut</label>
+                                <input type="text" class="form-control" name="rut" id="rut"
+                                    aria-describedby="helpId" value="{{ old('rut') }}" maxlength="10"
+                                    oninput="checkRut(this)" placeholder="Ej. 13412596-2" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo</label>
+                            <input type="email" class="form-control" name="email" id="email"
+                                aria-describedby="helpId" value="{{ old('email') }}" placeholder="Ej. test@gmail.com" required>
+                        </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="tiposervicio">Tipo de servicio</label>
                                 <select name="tiposervicio_id" id="tiposervicio" style="color: gray;" class="form-select">
                                     <option selected disabled>Selecciona un tipo de servicio</option>
-                                    @foreach ($tiposervicios as $tiposervicio)
-                                        <option value="{{ $tiposervicio->id }}"
-                                            data-consulta="{{ $tiposervicio->tipoConsulta }}"
-                                            @if (old('tiposervicio_id') == $tiposervicio->id) selected @endif>{{ $tiposervicio->nombre }}
-                                        </option>
+                                    @foreach ($tiposervicios as $tiposervicio )
+                                        <option value="{{$tiposervicio->id}}" data-consulta="{{$tiposervicio->tipoConsulta}}"
+                                        @if(old('tiposervicio_id') == $tiposervicio->id) selected @endif
+                                        >{{$tiposervicio->nombre}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="funcionario">Funcionario</label>
-                                <select name="funcionario_id" style="color: gray;" id="funcionario" class="form-select"
-                                    required>
-                                    <option selected disabled>Selecciona un funcionario</option>
-                                    @foreach ($funcionarios as $funcionario)
-                                        <option value="{{ $funcionario->id }}"
-                                            @if (old('funcionario_id') == $funcionario->id) selected @endif>{{ $funcionario->nombre }}
-                                        </option>
+                                <select name="funcionario_id" style="color: gray;" id="funcionario" class="form-select" required>
+                                    <option selected disabled >Selecciona un funcionario</option>
+                                    @foreach ($funcionarios as $funcionario )
+                                        <option value="{{$funcionario->id}}"
+                                        @if(old('funcionario_id') == $funcionario->id) selected @endif
+                                        >{{$funcionario->nombre}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -113,10 +135,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                 </div>
-                                <input class="form-control datepicker" id="date" name="scheduled_date"
-                                    placeholder="Seleccionar fecha" value="{{ old('scheduled_date'), date('Y-m-d') }}"
-                                    data-date-format="yyyy-mm-dd" data-date-start-date="{{ date('Y-m-d') }}"
-                                    data-date-end-date="+30d">
+                                <input class="form-control datepicker" id="date" name="scheduled_date" placeholder="Seleccionar fecha"  value="{{old ('scheduled_date'), date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
+                            data-date-start-date="{{date('Y-m-d')}}" data-date-end-date="+30d">
                             </div>
                         </div>
                         <div class="form-group">
@@ -214,9 +234,10 @@
         </div>
     </div>
 @endsection
-@section('js-after')
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
+
+@section('scripts')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
@@ -252,5 +273,49 @@
                 });
             }
         });
+
+        function checkRut(rut) {
+            var valor = rut.value.replace('.', '');
+            valor = valor.replace('-', '');
+
+            cuerpo = valor.slice(0, -1);
+            dv = valor.slice(-1).toUpperCase();
+
+            rut.value = cuerpo + '-' + dv
+
+            if (cuerpo.length < 7) {
+                rut.setCustomValidity("RUT Incompleto");
+                return false;
+            }
+
+            suma = 0;
+            multiplo = 2;
+
+            for (i = 1; i <= cuerpo.length; i++) {
+
+                index = multiplo * valor.charAt(cuerpo.length - i);
+
+                suma = suma + index;
+
+                if (multiplo < 7) {
+                    multiplo = multiplo + 1;
+                } else {
+                    multiplo = 2;
+                }
+
+            }
+
+            dvEsperado = 11 - (suma % 11);
+
+            dv = (dv == 'K') ? 10 : dv;
+            dv = (dv == 0) ? 11 : dv;
+
+            if (dvEsperado != dv) {
+                rut.setCustomValidity("RUT Inválido");
+                return false;
+            }
+
+            rut.setCustomValidity('');
+        }
     </script>
 @endsection

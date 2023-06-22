@@ -25,26 +25,23 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::all();
-            foreach ($data as $user) {
-                $user->nombre_rol = $user->getRoleNames();
-                if (!isset($user->phone)) {
-                    $user->phone = "No Definido";
+            $users = User::with('roles')->where('id','!=',auth()->user()->id)->get()->map(function($item){
+                $item->nombre_rol = $item->getRoleNames()->first();
+                if (!isset($item->phone)) {
+                    $item->phone = "No Definido";
                 }
-            }
+                return $item;
+            });
+            $data = $users->reject(function ($user, $key) {
+                return $user->hasRole('Invitado');
+            });
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'admin.usuarios.datatable.action')
                 ->rawColumns(['action'])
                 ->toJson();
         }
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->nombre_rol = $user->getRoleNames();
-            if (!isset($user->phone)) {
-                $user->phone = "No Definido";
-            }
-        }
+        $users = [];
         return view('admin.usuarios.usuarios', compact('users'));
     }
 

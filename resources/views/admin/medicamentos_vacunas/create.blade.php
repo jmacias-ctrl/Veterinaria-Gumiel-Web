@@ -33,16 +33,8 @@ Agregar Medicamento
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.medicamentos_vacunas.index') }}"
                     style="color:black;">Medicamentos</a> </li>
@@ -137,7 +129,7 @@ Agregar Medicamento
                             <div class="col">
                                 <label for="stock" class="form-label @error('stock') is-invalid @enderror">Stock</label>
                                 <input type="integer" class="form-control" id="stock" name="stock"
-                                    placeholder="ej. 21" maxlength="11" minlength="1">
+                                    placeholder="ej. 21" oninput="this.value = Math.abs(this.value)" min="0">
                                 @error('stock')
                                     <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                                 @enderror

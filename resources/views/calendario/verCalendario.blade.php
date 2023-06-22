@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.min.css">
 @endsection
+@section('header-title')
+    Inicio
+@endsection
 @section('content')
 
     <body>
@@ -29,6 +32,8 @@
             <div class="col">
                 <div class="card shadow p-4">
                     <div class="card-header border-0 p-0 mb-4">
+                        <h1 class="text-center">Bienvenido {{Auth::user()->name}}</h1>
+                        <hr>
                         <h2 class="text-center">Trabajadores Disponible Hoy</h2>
                     </div>
                     @if (sizeof($horario) > 0)

@@ -120,7 +120,7 @@
                     <div class="form-group">
                         <label for="stock">Stock:</label>
                         <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock"
-                            name="stock" placeholder="Ej. 5 un" value="{{ $producto->stock }}" required>
+                            name="stock" min="0" oninput="this.value = Math.abs(this.value)" placeholder="Ej. 5 un" value="{{ $producto->stock }}" required>
                         @error('stock')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror
@@ -128,7 +128,7 @@
                     <div class="form-group">
                         <label for="stock">Minimo Stock:</label>
                         <input type="number" class="form-control @error('min_stock') is-invalid @enderror" id="min_stock"
-                            name="min_stock" value="{{ $producto->min_stock }}" placeholder="Ej. 2 un" required>
+                            name="min_stock" min="0" oninput="this.value = Math.abs(this.value)" value="{{ $producto->min_stock }}" placeholder="Ej. 2 un" required>
                         @error('min_stock')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror

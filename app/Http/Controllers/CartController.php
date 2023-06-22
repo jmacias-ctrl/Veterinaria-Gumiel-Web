@@ -11,7 +11,11 @@ class CartController extends Controller
     public function shop(Request $request)
 
     {   
-    
+        $cartCollection = \Cart::getContent();
+        foreach($cartCollection as $item){
+            $item['stock']=productos_ventas::find($item->id)->stock;
+            $item['marca']=Marcaproducto::find(productos_ventas::find($item->id)->id_marca)->nombre;
+        }
         $products = productos_ventas::all();
         $Marcaproducto=Marcaproducto::all();
         for($i=0; $i<count($products);$i++){
@@ -22,7 +26,7 @@ class CartController extends Controller
                  unset($products[$i]);
             }
         }
-        return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products,'marcaProductos' => $Marcaproducto]);
+        return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products,'cartCollection' => $cartCollection,'marcaProductos' => $Marcaproducto]);
         
         $texto=$request->texto;
         
@@ -93,7 +97,12 @@ class CartController extends Controller
         return response()->json([
             'tipo_mensaje' => $tipo_mensaje,
             'mensaje' => $mensaje,
-            'carro' => \Cart::getTotalQuantity()
+            'cantcarro' => \Cart::getTotalQuantity(),
+            'carro' => \Cart::getContent(),
+            'total' => \Cart::getTotal(),
+            'subtotal' => \Cart::get($request->id)->getPriceSum(),
+            'cantidad' => \Cart::getContent()[$request->id]->quantity,
+            'cantidadanterior' => $request->quantity
         ], 200);
     }
 

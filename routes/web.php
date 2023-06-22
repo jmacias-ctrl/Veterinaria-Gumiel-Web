@@ -30,9 +30,6 @@ Route::get('/servicios', function () {
     return view('servicios');
 })->name('servicios');
 
-Route::get('/verCalendario', function () {
-    return view('verCalendario');
-})->name("verCalendario")->middleware('web');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -85,6 +82,8 @@ Route::group(['middleware' => ['auth','can:ver insumos medicos']], function () {
 
 Route::group(['middleware' => 'auth','can:acceso punto de venta'], function () {
     Route::get('control-servicios', [App\Http\Controllers\ControlServicioController::class, 'index'])->name('control_servicios.index');
+    Route::get('control-servicios/agendar', [App\Http\Controllers\ControlServicioController::class, 'createR'])->name('control_servicios.agendar');
+    Route::post('control-servicios/reservar', [App\Http\Controllers\ControlServicioController::class, 'store'])->name('control_servicios.reservar');
     Route::post('control-servicios/pagar', [App\Http\Controllers\ControlServicioController::class, 'pagar_reserva'])->name('control_servicios.pagar');
 });
 
@@ -202,13 +201,6 @@ Route::group(['middleware' => ['auth','role:Admin']], function () {
 
     Route::post('/a', 'ComprobanteController@generarComprobante');
     Route::get('/generar-comprobante', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comprobante');
-
-    Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
-    Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas');
-
-    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
-    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
-    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
@@ -217,12 +209,15 @@ Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::resource('/pacientes','App\Http\Controllers\PacientesController');
     
 });
+Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios')->middleware('role_or_permission:acceso ventas|acceso punto de venta|acceso administracion de stock|Admin');
+Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas')->middleware('role_or_permission:ver gestionvet|ver gestionpeluqueria|ver citas|Admin');
 Route::get('/lector-codigos-barras', 'BarcodeController@scan')->name('barcode.scan');
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function () {
         return view('admin.home');
     })->name('veterinario');
 });
+Route::get('/inicio', [\App\Http\Controllers\HorarioController::class, 'index'])->name('inicio_panel');
 
 Route::group(['middleware' => ['role:Peluquero']], function () {
     Route::get('/inicio/peluquero', function () {
@@ -262,11 +257,14 @@ Route::post('/update', [\App\Http\Controllers\CartController::class, 'update'])-
 Route::post('/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('shop.cart.remove');
 Route::post('/clear', [\App\Http\Controllers\CartController::class, 'clear'])->name('shop.cart.clear');
 
+
+
+
 Route::any('shop/resumen-compra', [\App\Http\Controllers\CompraController::class, 'resumen_compra'])->name('shop.resumen-compra')->middleware(['role:Cliente|Invitado']);  
 Route::any('shop/checkout',[\App\Http\Controllers\CompraController::class, 'index'])->name('shop.checkout.checkout')->middleware(['role:Cliente|Invitado']);
-Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login')->middleware('guest');
+Route::get('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login'])->name('shop.checkout.login');
 Route::post('shop/checkout/login',[\App\Http\Controllers\CompraController::class, 'login_shop'])->name('login_shop');
-Route::get('shop/checkout/registro_invitado',[\App\Http\Controllers\CompraController::class, 'registro_invitado'])->name('shop.checkout.registro_invitado')->middleware('guest');
+Route::get('shop/checkout/registro_invitado',[\App\Http\Controllers\CompraController::class, 'registro_invitado'])->name('shop.checkout.registro_invitado');
 Route::post('shop/checkout/registro_invitado',[\App\Http\Controllers\CompraController::class, 'registro_invitado_shop'])->name('register_invitado');
 
 Route::get('shop/finish/{status_finish}',[\App\Http\Controllers\CompraController::class, 'finish'])->name('finish');
@@ -281,16 +279,9 @@ route::get('correo_test', function () {
 });
 
 Auth::routes();
-Route::get('/marca', [MarcasController::class, 'index'])->name('marcas');
-Route::post('/marca', [MarcasController::class, 'store'])->name('marcas');
-
-Route::get('/marca/{id}', [MarcasController::class, 'show'])->name('marcas-edit');
-Route::patch('/marca/{id}', [MarcasController::class, 'update'])->name('marcas-update');
-Route::delete('/marca/{id}', [MarcasController::class, 'destroy'])->name('marcas-destroy');
-
 
 Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
-Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
+Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->middleware('auth');
 //JSON
     Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
     Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);

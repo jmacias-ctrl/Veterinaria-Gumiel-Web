@@ -24,11 +24,11 @@ class ReservarCitas extends Model
     }
 
     public function funcionario(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'funcionario_id','id');
     }
 
     public function paciente(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'paciente_id', 'id');
     }
 
     public function cancellation(){

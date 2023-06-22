@@ -36,6 +36,7 @@ class PointSaleController extends Controller
         $cartGet = \Cart::session(auth()->user()->id)->get($request->id);
         $getQuantity = $getQuantity - $cartGet->quantity;
 
+
         if ($getQuantity != 0) {
             \Cart::session(auth()->user()->id)->update($request->id, [
                 'quantity' => $getQuantity,
@@ -44,7 +45,7 @@ class PointSaleController extends Controller
         $cartItems = \Cart::session(auth()->user()->id)->getContent();
         $total = \Cart::session(auth()->user()->id)->getTotal();
         $subtotal = \Cart::session(auth()->user()->id)->getSubTotal();
-        return response()->json(['success' => true, 'cartItems' => $cartItems, 'total' => $total, 'subTotal' => $subtotal], 200);
+        return response()->json(['success' => true, 'cartItems' => $cartItems, 'total' => $total, 'subTotal' => $subtotal, 'updatedQuantity' => $getQuantity], 200);
     }
     public function venta(Request $request)
     {
@@ -69,34 +70,34 @@ class PointSaleController extends Controller
             $itemComprado->id_venta = $nuevaVenta->id;
             $itemComprado->tipo_item = "producto";
             $itemComprado->save();
-            $montoFinal = $montoFinal + ($itemComprado->monto*$itemComprado->cantidad);
+            $montoFinal = $montoFinal + ($itemComprado->monto * $itemComprado->cantidad);
 
             $producto = productos_ventas::find($item->id);
             $producto->stock = $producto->stock - $item->quantity;
-            if($producto->stock<=0){
+            if ($producto->stock <= 0) {
                 $users = User::all();
-                foreach($users as $user){
-                    if($user->can('acceso administracion de stock')){
+                foreach ($users as $user) {
+                    if ($user->can('acceso administracion de stock')) {
                         $user->notify(new StockProductoInventario($producto, true));
                     }
-                }   
-            }else if($producto->stock<$producto->min_stock){
+                }
+            } else if ($producto->stock < $producto->min_stock) {
                 $users = User::all();
-                foreach($users as $user){
-                    if($user->can('acceso administracion de stock')){
+                foreach ($users as $user) {
+                    if ($user->can('acceso administracion de stock')) {
                         $user->notify(new StockProductoInventario($producto, false));
                     }
-                }   
+                }
             }
             $producto->save();
         }
 
-        
-        switch($request->metodoPago){
+
+        switch ($request->metodoPago) {
             case 'transferencia':
                 $transferencia = new transferencia();
                 $transferencia->banco = $request->banco;
-                $transferencia->num_operacion=$request->numOperacion;
+                $transferencia->num_operacion = $request->numOperacion;
                 $transferencia->id_operacion = $nuevaVenta->id;
                 $transferencia->save();
                 $metodoPagoEscogido = $transferencia;
@@ -114,23 +115,38 @@ class PointSaleController extends Controller
                 $tarjeta->num_operacion = $request->numOperacion;
                 $tarjeta->id_operacion = $nuevaVenta->id;
                 $tarjeta->save();
-                $metodoPagoEscogido = $tarjeta; 
-                break; 
+                $metodoPagoEscogido = $tarjeta;
+                break;
         }
         \Cart::session(auth()->user()->id)->clear();
-        return response()->json(['success' => true,'metodoPago'=>$request->metodoPago, 'fecha'=>$fecha_t,'hora'=>$hora, 'productosComprados'=>$cartGet, 'montoFinal'=>$montoFinal, 'nuevaVenta'=>$nuevaVenta], 200);
+        return response()->json(['success' => true, 'metodoPago' => $request->metodoPago, 'fecha' => $fecha_t, 'hora' => $hora, 'productosComprados' => $cartGet, 'montoFinal' => $montoFinal, 'nuevaVenta' => $nuevaVenta], 200);
     }
     public function add_product(Request $request)
     {
         $producto = productos_ventas::find($request->value);
-        \Cart::session(auth()->user()->id)->add(array(
-            'id' => $producto->id,
-            'name' => $producto->nombre,
-            'price' => $producto->precio,
-            'quantity' => $request->cantProduct,
-            'attributes' => array(),
-            'associatedModel' => $producto
-        ));
+        $quantity = $request->cantProduct;
+        $cartGet = \Cart::session(auth()->user()->id)->get($request->value);
+        if (isset($cartGet)) {
+            if ($cartGet->quantity + $quantity > $producto->stock) {
+                $quantity = 0;
+            }
+            \Cart::session(auth()->user()->id)->update($request->value, [
+                'quantity' => $quantity,
+            ]);
+        } else {
+            if ($quantity <= $producto->stock) {
+                \Cart::session(auth()->user()->id)->add(array(
+                    'id' => $producto->id,
+                    'name' => $producto->nombre,
+                    'price' => $producto->precio,
+                    'quantity' => $quantity,
+                    'attributes' => array(),
+                    'associatedModel' => $producto
+                ));
+            }
+        }
+
+
         $cartItems = \Cart::session(auth()->user()->id)->getContent();
         $total = \Cart::session(auth()->user()->id)->getTotal();
         $subtotal = \Cart::session(auth()->user()->id)->getSubTotal();
@@ -150,53 +166,55 @@ class PointSaleController extends Controller
         \Cart::session(auth()->user()->id)->clear();
         return response()->json(['success' => true], 200);
     }
-    public function mostrar_ventas(Request $request){
-        if($request->ajax()){
+    public function mostrar_ventas(Request $request)
+    {
+        if ($request->ajax()) {
             $data = db::table('trazabilidad_venta_presencials')
-            ->join('items_comprados','items_comprados.id_venta','=','trazabilidad_venta_presencials.id')
-            ->select('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta','trazabilidad_venta_presencials.metodo_pago', 'trazabilidad_venta_presencials.fecha_compra','nombre_cliente', db::raw('sum(items_comprados.monto*items_comprados.cantidad) as monto'))
-            ->groupBy('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta','trazabilidad_venta_presencials.metodo_pago','nombre_cliente','trazabilidad_venta_presencials.fecha_compra')
-            ->get()->map(function($item){
-                $carbon = Carbon::parse($item->fecha_compra);
-                $item->fecha = $carbon->format('d-m-Y');
-                $item->metodo_pago = ucfirst($item->metodo_pago);
-                $item->hora = $carbon->format('h:i:s A');
-                $item->monto = '$'.number_format($item->monto, 0, ',', '.');
-                return $item;
-            });
+                ->join('items_comprados', 'items_comprados.id_venta', '=', 'trazabilidad_venta_presencials.id')
+                ->select('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'trazabilidad_venta_presencials.metodo_pago', 'trazabilidad_venta_presencials.fecha_compra', 'nombre_cliente', db::raw('sum(items_comprados.monto*items_comprados.cantidad) as monto'))
+                ->groupBy('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'trazabilidad_venta_presencials.metodo_pago', 'nombre_cliente', 'trazabilidad_venta_presencials.fecha_compra')
+                ->get()->map(function ($item) {
+                    $carbon = Carbon::parse($item->fecha_compra);
+                    $item->fecha = $carbon->format('d-m-Y');
+                    $item->metodo_pago = ucfirst($item->metodo_pago);
+                    $item->hora = $carbon->format('h:i:s A');
+                    $item->monto = '$' . number_format($item->monto, 0, ',', '.');
+                    return $item;
+                });
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action','inventario.ventas.datatable.action')
+                ->addColumn('action', 'inventario.ventas.datatable.action')
                 ->rawColumns(['action'])
                 ->toJson();
         }
         return view('inventario.ventas.index');
     }
- 
-    public function detalle_venta(Request $request){
+
+    public function detalle_venta(Request $request)
+    {
         $venta = trazabilidad_venta_presencial::find($request->id);
         $detalle_metodo = null;
         $venta->fecha = Carbon::parse($venta->fecha_compra)->format('d-m-Y');
         $venta->hora = Carbon::parse($venta->fecha_compra)->format('h:i:s A');
-        if($venta->metodo_pago=="efectivo"){
+        if ($venta->metodo_pago == "efectivo") {
             $detalle_metodo = efectivo::where('id_operacion', '=', $venta->id)->first();
-        }else if($venta->metodo_pago=="tarjeta"){
+        } else if ($venta->metodo_pago == "tarjeta") {
             $detalle_metodo = tarjeta::where('id_operacion', '=', $venta->id)->first();
-        }else{
+        } else {
             $detalle_metodo = transferencia::where('id_operacion', '=', $venta->id)->first();
         }
-        $itemsComprado =items_comprados::with('productos_ventas','servicios')->where('id_venta', '=',$venta->id)->get()->map(function($item){
-            if($item->tipo_item=="servicio"){
+        $itemsComprado = items_comprados::with('productos_ventas', 'servicios')->where('id_venta', '=', $venta->id)->get()->map(function ($item) {
+            if ($item->tipo_item == "servicio") {
                 $item->nombre = $item->servicios->nombre;
-            }else{
+            } else {
                 $item->nombre = $item->productos_ventas->nombre;
             }
             return $item;
         });
         $montoFinal = 0;
-        foreach($itemsComprado as $item){
-            $montoFinal = $montoFinal + ($item->monto*$item->cantidad);
+        foreach ($itemsComprado as $item) {
+            $montoFinal = $montoFinal + ($item->monto * $item->cantidad);
         }
-        return response()->json(['success' => true,'itemsComprado'=>$itemsComprado, 'montoFinal'=>$montoFinal, 'venta'=>$venta, 'detalle_metodo'=>$detalle_metodo], 200);
+        return response()->json(['success' => true, 'itemsComprado' => $itemsComprado, 'montoFinal' => $montoFinal, 'venta' => $venta, 'detalle_metodo' => $detalle_metodo], 200);
     }
 }

@@ -7,6 +7,10 @@
         .swal2-container {
             z-index: 10000;
         }
+
+        .modal {
+            overflow-y: auto;
+        }
     </style>
 @endsection
 @section('js-before')
@@ -19,130 +23,118 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}" style="color:black;">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}" style="color:black;">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}" style="color:black;">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Punto de Venta</li>
     </nav>
 @endsection
 @section('content')
-    {{-- Breadcrumb  --}}
-    <div class="row">
-        <div class="col-lg mb-5">
-            <div class="card shadow p-4">
-                <h2>Productos</h2>
-                <div class="row my-2 mb-4">
-                    <div class="col-sm-7">
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><span class="material-symbols-outlined">search</span></div>
-                            </div>
-                            <input type="text" name="searchProduct" id="searchProduct" class="form-control shadow-none"
-                                placeholder="Ingrese el nombre de algún producto...">
-                        </div>
+    <div class="card shadow py-4 px-3 mt-0 mx-0">
+        <h2>Venta de Productos</h2>
+        <div class="row my-2">
+            <div class="col-sm-7">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><span class="material-symbols-outlined">search</span></div>
                     </div>
-                    <div class="col-sm">
-                        <select name="" id="selectMarca" class="form-control">
-                            <option value="all">Todas las marcas</option>
-                            @foreach ($marcaProductos as $item)
-                                <option value="{{ $item->nombre }}">{{ $item->nombre }}</option>
-                            @endforeach
-                        </select>
-
-                    </div>
-                </div>
-                <div class="row overflow-auto" style="height:500px;" id="productAvailable">
-                    @foreach ($productos as $pro)
-                        <div class="col producto" id="{{ $pro->nombre }}_{{ $pro->marcaproductos->nombre }}">
-                            <div class="card p-2" style="background-color:light-gray; margin-bottom: 20px; height: auto;">
-                                <img src="/image/productos/{{ $pro->imagen_path }}" class="card-img-top mx-auto"
-                                    style="height: 150px; width: 150px;display: block;" alt="{{ $pro->imagen_path }}">
-
-                                <div class="card-body">
-                                    <p class="text-center">{{ $pro->nombre }}</p>
-                                    <a href="{{ route('shop.show', ['id' => $pro->id]) }}">
-                                        <h6 class="card-title text-center">{{ $pro->marcaproductos->nombre }}</h6>
-                                    </a>
-
-                                    <div style="display:flex;">
-
-                                    </div>
-                                    <div class="d-flex flex-column bd-highlight mb-3">
-                                        <p class="text-center">$ {{ number_format($pro->precio, 0, ',', '.') }}</p>
-                                        <input type="number" class="form-control form-control-sm" value="1"
-                                            id="quantity_{{ $pro->id }}" name="quantity" min="1"
-                                            max="{{ $pro->stock }}">
-                                    </div>
-
-                                    <p class="text-center @if ($pro->stock < 10) text-danger @endif">Stock:
-                                        {{ $pro->stock }}</p>
-                                    <div class="card-footer" style="background-color: white;">
-                                        <div class="row">
-                                            @if($pro->stock > 0)
-                                                <button style="margin: 0 auto;" class="btn btn-secondary btn-sm"
-                                                    onclick="addProduct({{ $pro->id }})" class="tooltip-test">
-                                                    <i class="fa fa-shopping-cart"></i> Añadir
-                                                </button>
-                                            @else
-                                                <p class="text-danger">Producto no Disponible</p>
-                                            @endif
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <input type="text" name="searchProduct" id="searchProduct" class="form-control shadow-none"
+                        placeholder="Ingrese el nombre de algún producto...">
                 </div>
             </div>
+            <div class="col-sm">
+                <select name="" id="selectMarca" class="form-control">
+                    <option value="all">Todas las marcas</option>
+                    @foreach ($marcaProductos as $item)
+                        <option value="{{ $item->nombre }}">{{ $item->nombre }}</option>
+                    @endforeach
+                </select>
+
+            </div>
         </div>
-        <div class="col-lg-5">
-            <div class="card shadow p-4">
-                <h2>Venta</h2>
-                <div class="table-responsive shadow border rounded pt-3">
-                    <table class="table align-items-center table-sm mb-3">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Producto</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Precio</th>
-                                <th scope="col">Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productShown">
-                            <tr>
-                                <th>No hay productos añadidos</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="d-flex flex-wrap overflow-auto p-0" style="height:700px;" id="productAvailable">
+            <p id="notFound" class="d-none">No se ha encontrado productos, realice otra busqueda o utilice otro
+                filtro.</p>
+            @foreach ($productos as $pro)
+                <div class="producto mx-2" id="{{ $pro->nombre }}_{{ $pro->marcaproductos->nombre }}">
+                    <div class="card p-2"
+                        style="background-color:light-gray; margin-bottom: 20px; height: auto; width:220px">
+                        <img src="/image/productos/{{ $pro->imagen_path }}" class="card-img-top mx-auto"
+                            style="height: 150px; width: 150px;display: block;" alt="{{ $pro->imagen_path }}">
 
-                </div>
-                <h3>Resumen de la venta:</h3>
-                <div class="d-flex flex-column float-right">
-                    <h3 id="subTotal">Sub-total: $0</h3>
-                    <h3 id="total">Total: $0</h3>
-                    <div class="row">
-                        <div class="col">
+                        <div class="card-body">
+                            <p class="text-center text-truncate">{{ $pro->nombre }}</p>
+                            <h6 class="card-title text-center">{{ $pro->marcaproductos->nombre }}</h6>
 
-                            <button type="button" class="btn btn-danger btn-lg" onclick="cancelarVenta()">Cancelar</button>
-                            <button type="button" class="btn btn-primary btn-lg" onclick="chequearCarro()">
-                                Pagar
-                            </button>
+                            <div style="display:flex;">
+
+                            </div>
+                            <div class="d-flex flex-column bd-highlight mb-3">
+                                <p class="text-center">$ {{ number_format($pro->precio, 0, ',', '.') }}</p>
+                                <input type="number" class="form-control form-control-sm" value="1"
+                                    id="quantity_{{ $pro->id }}" name="quantity" min="1"
+                                    max="{{ $pro->stock }}">
+                            </div>
+
+                            <p class="text-center @if ($pro->stock < 10) text-danger @endif">Stock:
+                                {{ $pro->stock }}</p>
+                            <div class="card-footer" style="background-color: white;">
+                                <div class="row">
+                                    @if ($pro->stock > 0)
+                                        <button style="margin: 0 auto;" class="btn btn-secondary btn-sm"
+                                            onclick="addProduct({{ $pro->id }})" class="tooltip-test">
+                                            <i class="fa fa-shopping-cart"></i> Añadir
+                                        </button>
+                                    @else
+                                        <p class="text-danger">Producto no Disponible</p>
+                                    @endif
+                                </div>
+                            </div>
+
 
                         </div>
                     </div>
+                </div>
+            @endforeach
+        </div>
+        <hr>
+        <h3>Resumen de la venta:</h3>
+        <div class="table-responsive rounded px-3 mt-3">
+            <table class="table align-items-center border" style="width:100%;">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="productShown">
+                    <tr>
+                        <th>No hay productos añadidos</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="ms-3 mt-3">
+
+            <h3 id="subTotal">Sub-total: $0</h3>
+            <h3 id="total">Total: $0</h3>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+            <div class="row">
+                <div class="col">
+
+                    <button type="button" class="btn btn-danger btn-lg" onclick="cancelarVenta()">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="chequearCarro()">
+                        Pagar
+                    </button>
+
                 </div>
             </div>
         </div>
@@ -152,14 +144,19 @@
 
 
 <!-- Modal -->
-@include('inventario.punto_de_venta.modal.pagoVenta_Modal')
 @include('inventario.punto_de_venta.modal.comprobante')
+@include('inventario.punto_de_venta.modal.pagoVenta_Modal')
+
 
 @section('js-after')
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#metodoPagoForm').on('submit', function(e) {
@@ -179,65 +176,68 @@
                         showConfirmButton: false,
                         timer: 1500,
                     })
-                }
-                Swal.fire({
-                    title: '¿Realizar Venta?',
-                    text: "¿Estás seguro que los datos están correctos?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Realizar Venta',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
 
-                    if (result.isConfirmed) {
-                        console.log(efectivo);
-                        console.log(nombreCliente);
-                        console.log(banco);
-                        console.log(numOperacion);
-                        axios.post("{{ route('point_sale.venta') }}", {
-                                metodoPago: metodoPago,
-                                banco: banco,
-                                montoEfectivo: efectivo,
-                                vuelto: vuelto,
-                                nombreCliente: nombreCliente,
-                                numOperacion: numOperacion,
-                            })
-                            .then(function(response) {
-                                $('#pagoVenta').modal('hide')
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: `Venta realizada exitosamente`,
-                                    showConfirmButton: false,
-                                    timer: 1500
+                } else {
+                    Swal.fire({
+                        title: '¿Realizar Venta?',
+                        text: "¿Estás seguro que los datos están correctos?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Si, Realizar Venta',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+
+                        if (result.isConfirmed) {
+                            console.log(efectivo);
+                            console.log(nombreCliente);
+                            console.log(banco);
+                            console.log(numOperacion);
+                            axios.post("{{ route('point_sale.venta') }}", {
+                                    metodoPago: metodoPago,
+                                    banco: banco,
+                                    montoEfectivo: efectivo,
+                                    vuelto: vuelto,
+                                    nombreCliente: nombreCliente,
+                                    numOperacion: numOperacion,
                                 })
-                                $('#numVenta').html('Num. venta: '+ response.data
-                                    .nuevaVenta['id_venta']);
-                                $('#fecha').html('Fecha: ' + response.data.fecha);
-                                $('#hora').html('Hora: ' + response.data.hora);
-                                $('#nombreClienteShow').html('Nombre del Cliente: ' + response.data
-                                    .nuevaVenta['nombre_cliente']);
-                                $('#metodoPagoShow').html('Metodo de Pago: ' + response.data
-                                    .metodoPago);
-                                $('#totalVentaShow').html('Total de la Venta: ' + new Intl.NumberFormat('es-CL', {
-                                        currency: 'CLP',
-                                        style: 'currency'
-                                    }).format(response.data.montoFinal));
-                                $('#productosVendidos').empty();
-                                $.map(response.data.productosComprados, function(elementOrValue,
-                                    indexOrKey) {
-                                    var productMoney = new Intl.NumberFormat('es-CL', {
-                                        currency: 'CLP',
-                                        style: 'currency'
-                                    }).format(elementOrValue.price)
-                                    var total = elementOrValue.price * elementOrValue.quantity;
-                                    var TotalFormat = new Intl.NumberFormat('es-CL', {
-                                        currency: 'CLP',
-                                        style: 'currency'
-                                    }).format(total)
-                                    $("#productosVendidos").append(`
+                                .then(function(response) {
+                                    $('#pagoVenta').modal('toggle')
+                                    toastr.success('Venta realizada exitosamente')
+                                    $('#numVenta').html('Num. venta: ' + response.data
+                                        .nuevaVenta['id_venta']);
+                                    $('#fecha').html('Fecha: ' + response.data.fecha);
+                                    $('#hora').html('Hora: ' + response.data.hora);
+                                    $('#nombreClienteShow').html('Nombre del Cliente: ' +
+                                        response
+                                        .data
+                                        .nuevaVenta['nombre_cliente']);
+                                    $('#metodoPagoShow').html('Metodo de Pago: ' + response.data
+                                        .metodoPago);
+                                    $('#totalVentaShow').html('Total de la Venta: ' + new Intl
+                                        .NumberFormat('es-CL', {
+                                            currency: 'CLP',
+                                            style: 'currency'
+                                        }).format(response.data.montoFinal));
+                                    $('#productosVendidos').empty();
+                                    $.map(response.data.productosComprados, function(
+                                        elementOrValue,
+                                        indexOrKey) {
+                                        var productMoney = new Intl.NumberFormat(
+                                            'es-CL', {
+                                                currency: 'CLP',
+                                                style: 'currency'
+                                            }).format(elementOrValue.price)
+                                        var total = elementOrValue.price *
+                                            elementOrValue
+                                            .quantity;
+                                        var TotalFormat = new Intl.NumberFormat(
+                                        'es-CL', {
+                                            currency: 'CLP',
+                                            style: 'currency'
+                                        }).format(total)
+                                        $("#productosVendidos").append(`
             
                                     <tr> 
                                         
@@ -254,42 +254,54 @@
 
 
 
-                                });
+                                    });
+                                    setTimeout(() => {
+                                        $('#comprobanteModal').modal('show')
+                                    }, 500);
 
-                                $('#comprobanteModal').modal('show')
-                                console.log(response);
-                            })
-                            .catch(function(error) {
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'error',
-                                    title: `No se pudo realizar la venta`,
-                                    showConfirmButton: false,
-                                    timer: 1500
+
                                 })
-                                console.log(error);
-                            });
-                    }
-                });
-            });
+                                .catch(function(error) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'error',
+                                        title: `No se pudo realizar la venta`,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    console.log(error);
+                                });
+                        }
+                    });
+                }
 
+            });
             $("#searchProduct").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
+                $('#notFound').addClass('d-none');
                 $("#selectMarca").val("all")
                 $("#productAvailable .producto").filter(function() {
                     $(this).toggle($(this).attr('id').toLowerCase().indexOf(value) > -1)
 
                 });
-
+                if ($(".producto:visible").length <= 0) {
+                    $('#notFound').removeClass('d-none')
+                }
             });
             $("#selectMarca").on('change', function() {
                 var value = $(this).val().toLowerCase();
+                $('#notFound').addClass('d-none');
                 $("#searchProducto").val("");
+                if (value == "all") {
+                    value = "";
+                }
                 $("#productAvailable .producto").filter(function() {
                     $(this).toggle($(this).attr('id').toLowerCase().indexOf(value) > -1)
 
                 });
-
+                if ($(".producto:visible").length <= 0) {
+                    $('#notFound').removeClass('d-none')
+                }
             });
         })
 
@@ -444,6 +456,7 @@
 
         function updateProduct(value) {
             var getQuantity = $('#quantity_table_' + value).val();
+
             axios.get(" {{ route('point_sale.updateProduct') }}", {
                     params: {
                         id: value,
@@ -451,7 +464,9 @@
                     }
                 })
                 .then(res => {
+                    console.log(res.data.updatedQuantity);
                     updateTable(res.data.cartItems, res.data.total, res.data.subTotal);
+
                 })
 
                 .catch(err => {
@@ -475,14 +490,13 @@
                     currency: 'CLP',
                     style: 'currency'
                 }).format(elementOrValue.price)
+                console.log('Item: ' + elementOrValue.name + ' - Cantidad: ' + elementOrValue.quantity)
                 $("#productShown").append(`
             
-                        <tr> 
-                            
-                                                   
+                        <tr>                       
                             <td class="text-wrap">${elementOrValue.name}</td>
                             <th class ="pl-4" scope="row"><input type="number" class="form-control form-control-sm"
-                                            id="quantity_table_${elementOrValue.id}" min="1" value="${elementOrValue.quantity}" onchange="updateProduct(${elementOrValue.id})"></th>
+                                            id="quantity_table_${elementOrValue.id}" min="1" value="${elementOrValue.quantity}" onchange="updateProduct(${elementOrValue.id})" style="width:80px"></th>
                             <td>${productMoney}</td>
                             <td><button type="button" class="btn btn-outline-danger" onclick="deleteProduct(${elementOrValue.id})">Eliminar</button></td>
                          
@@ -511,7 +525,6 @@
 
         function addProduct(value) {
             var cantProducto = $("#quantity_" + value).val();
-
             axios.get(" {{ route('point_sale.addProduct') }}", {
                     params: {
                         value: value,

@@ -1,4 +1,4 @@
-<div class="modal fade" id="pagoVenta" aria-labelledby="pagoVenta" aria-hidden="true">
+<div class="modal fade" id="pagoVenta" aria-labelledby="pagoVenta" aria-hidden="true" style="overflow-y: auto;">>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

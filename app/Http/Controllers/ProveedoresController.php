@@ -48,18 +48,30 @@ class ProveedoresController extends Controller
     public function store(Request $request)
     {
         $rules = ([
-            'nombre' => 'required',
+            'nombre' => 'required|string',
+            'rut' => 'required|string',
+            'correo' => 'email',
+            'telefono' => 'integer',
         ]);
         $attributes = ([
             'nombre' => 'Nombre',
+            'rut' => 'Rut',
+            'correo' => 'Correo',
+            'telefono' => 'Telefono',
         ]);
         $message = ([
             'required' => ':attribute es obligatorio.',
+            'string' => ':attribute es invalido',
+            'email' => ':attribute es un correo invalido',
+            'telefono' => 'integer',
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
             $proveedor = new proveedores();
             $proveedor->nombre = $request->input('nombre');
+            $proveedor->rut = $request->input('rut');
+            $proveedor->correo = $request->input('correo');
+            $proveedor->telefono = $request->input('telefono');
             $proveedor->save();
 
             return redirect()->route('proveedores.index')->with('success', 'Proveedor agregado exitosamente');
@@ -102,18 +114,30 @@ class ProveedoresController extends Controller
     public function update(Request $request)
     {
         $rules = ([
-            'nombre' => 'required',
+            'nombre' => 'required|string',
+            'rut' => 'required|string',
+            'correo' => 'email',
+            'telefono' => 'integer',
         ]);
         $attributes = ([
             'nombre' => 'Nombre',
+            'rut' => 'Rut',
+            'correo' => 'Correo',
+            'telefono' => 'Telefono',
         ]);
         $message = ([
             'required' => ':attribute es obligatorio.',
+            'string' => ':attribute es invalido',
+            'email' => ':attribute es un correo invalido',
+            'telefono' => 'integer',
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
             $proveedor = proveedores::find($request->id);
             $proveedor->nombre = $request->input('nombre');
+            $proveedor->rut = $request->input('rut');
+            $proveedor->correo = $request->input('correo');
+            $proveedor->telefono = $request->input('telefono');
             $proveedor->save();
             return redirect()->route('proveedores.index')->with('success', 'Proveedor actualizado exitosamente');
         }

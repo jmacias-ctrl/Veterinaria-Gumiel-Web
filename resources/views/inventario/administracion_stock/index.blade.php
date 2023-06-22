@@ -39,16 +39,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}" style="color:black;">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}" style="color:black;">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}" style="color:black;">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Administración de Inventario</li>
     </nav>
@@ -280,7 +272,7 @@
                 $("#adjuntarFactura").removeClass('d-none');
                 $("#checkStock").removeClass('d-none');
                 $("#info").removeClass('d-none');
-
+                $("#newStock").removeAttr('max');
                 $("#costoStockAgregado").prop('required', false);
                 $("#proveedor").prop('required', false);
                 $("#factura").prop('required', false);
@@ -306,6 +298,8 @@
                     $("#costoDiv").addClass('d-none');
                     $("#proveedorId").addClass('d-none');
                     $("#adjuntarFactura").addClass('d-none');
+                    const stock = $("#getStock").val();
+                    $("#newStock").attr("max", stock);
                     console.log(shownTable);
                     if (shownTable != "productosButton") {
                         $("#checkStock").addClass('d-none');
@@ -418,6 +412,7 @@
 
         function admin_product(id, tipo_item, stock) {
             $("#newStock").val("");
+            $('#getStock').val("");
             $("#costoStockAgregado").val("");
             $("#proveedor").val($("#proveedor option:first").val());
             $("#checkStockComprados").prop('checked', false);
@@ -440,6 +435,7 @@
                     $("#tipo_item").val(response.data.tipo_item);
                     $("#nombre_item").html(response.data.itemGet['nombre']);
                     $("#statusStock").html(response.data.itemGet['stock'] + " unidades");
+                    $("#getStock").val(response.data.itemGet['stock']);
                     if (parseInt(response.data.itemGet['stock']) <= 0) {
                         $("#statusStock").addClass('text-danger');
                     } else {

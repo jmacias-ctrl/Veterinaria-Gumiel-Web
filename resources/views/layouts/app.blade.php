@@ -21,7 +21,7 @@
     @endif
     @yield('css-before')
 
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
@@ -39,8 +39,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Libraries Stylesheet -->
-    @if(Route::currentRouteName()=='agendar-horas.create')
-    <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
+    @if (Route::currentRouteName() == 'agendar-horas.create')
+        <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     @endif
     <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet" />
@@ -48,7 +48,7 @@
     <link rel="stylesheet" type="text/css" href="fullCalendar4/packages/timegrid/main.css">
     <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
     <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('css/landingpage/bootstrap.min.css') }}" rel="stylesheet" />
 
@@ -57,7 +57,7 @@
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
@@ -83,7 +83,7 @@
     <!-- Topbar Start -->
     <div class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s">
         <div class="row gx-0 d-none d-lg-flex">
-            <div class="col-lg-7 px-5 text-start">
+            <div class="col-lg-8 pl-5 pr-1 text-start">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-map-marker-alt text-primary me-2"></small>
                     <small>{{ $landingMaps->direccion }}</small>
@@ -93,7 +93,7 @@
                     <small>{{ $landingMaps->horario_header }}</small>
                 </div>
             </div>
-            <div class="col-lg-5 px-5 text-end">
+            <div class="col-lg-4 pr-5 pl-1 text-end">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-phone-alt text-primary me-2"></small>
                     <small>+56{{ $landingMaps->telefono }}</small>
@@ -122,7 +122,7 @@
     <!-- Topbar End -->
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-4 px-lg-5 wow fadeIn"
+    <nav id="head" class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-4 px-lg-5 wow fadeIn"
         data-wow-delay="0.1s">
         <a href="{{ route('inicio') }}" class="navbar-brand p-0">
             @if (isset($logo))
@@ -149,44 +149,29 @@
                 <a href="{{ route('servicios') }}"
                     class="nav-item nav-link @if (request()->routeIs('servicios')) active @endif">Servicios</a>
             </div>
-            @if (request()->routeIs('shop.*'))
-                <li class="nav-item nav-link dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="badge badge-pill badge-dark">
-                            <i class="fa fa-shopping-cart"></i> {{ \Cart::getTotalQuantity() }}
-                        </span>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
-                        style="width: 450px; padding: 0px; border-color: #9DA0A2">
-                        <ul class="list-group" style="margin: 20px;">
-                            @include('shop.partials.cart-drop')
-                        </ul>
-                    </div>
-
-                </li>
-            @endif
+            
             @guest
                 @if (Route::has('login'))
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                    <a class="pl-0 nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                 @endif
 
                 @if (Route::has('register'))
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
+                    <a class="pl-0 nav-link" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
                 @endif
             @else
                 <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" v-pre>
-                    @if (isset(Auth::user()->image))
-                        <img src="{{ asset('storage') . '/' . Auth::user()->image }}" alt=""
-                            style="width:40px; height:40px;">
-                    @else
-                        <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg"
-                            style="width:40px; height:40px;">
-                    @endif
+                    <div class="d-flex align-items-stretch">
+                        @if (isset(Auth::user()->image))
+                            <img class="align-self-stretch" src="{{ asset('storage') . '/' . Auth::user()->image }}" alt=""
+                                style="width:40px; height:40px;">
+                        @else
+                            <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg"
+                                style="width:40px; height:40px;">
+                        @endif
+                        <p class="ms-2 text-center align-self-center text-wrap">{{ explode(' ', Auth::user()->name)[0] }}</p>
+                    </div>
                 </a>
-
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     @hasrole('Admin')
                         <a class="dropdown-item" href="{{ route('admin') }}">
@@ -227,7 +212,7 @@
     @yield('content')
     <script src="{{ asset('js/horarios.js') }}" defer></script>
     <!-- Footer Start -->
-    <div class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-7">
                 <div class="col-lg-3 col-md-4">

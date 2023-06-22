@@ -22,6 +22,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.min.css">
 @endsection
+@section('header-title')
+    Inicio
+@endsection
 @section('content')
 
     <body>
@@ -29,6 +32,8 @@
             <div class="col">
                 <div class="card shadow p-4">
                     <div class="card-header border-0 p-0 mb-4">
+                        <h1 class="text-center">Bienvenido {{Auth::user()->name}}</h1>
+                        <hr>
                         <h2 class="text-center">Trabajadores Disponible Hoy</h2>
                     </div>
                     @if (sizeof($horario) > 0)
@@ -47,28 +52,31 @@
                             </thead>
                             <tbody>
                                 @foreach ($horario as $item)
-                                    <td>{{ $item->id }}</td>
-                                    <td>
-                                        @if (isset($item->image))
-                                            <img src="{{ asset('storage') . '/' . $item->image }}" alt=""
-                                                class="imageProfile">
-                                        @else
-                                            <img src="{{ asset('image/default-user-image.png') }}" alt=""
-                                                class="imageProfile m-3">
-                                        @endif
-                                    </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->role }}</td>
-                                    <td>{{ $item->morning_start }} - {{ $item->morning_end }}</td>
-                                    <td>{{ $item->afternoon_start }} - {{ $item->afternoon_end }}</td>
-                                    <td>
-                                        @if (Cache::has('user-is-online-' . $item->id))
-                                            <span class="badge text-bg-success">Conectado</span>
-                                        @else
-                                            <span class="badge text-bg-secondary">Desconectado</span>
-                                        @endif
-                                    </td>
-                                    <td><a name="" id="" class="btn btn-primary" href="#" role="button">Ver Perfil</a></td>
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        <td>
+                                            @if (isset($item->image))
+                                                <img src="{{ asset('storage') . '/' . $item->image }}" alt=""
+                                                    class="imageProfile">
+                                            @else
+                                                <img src="{{ asset('image/default-user-image.png') }}" alt=""
+                                                    class="imageProfile m-3">
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->role }}</td>
+                                        <td>{{ $item->morning_start }} - {{ $item->morning_end }}</td>
+                                        <td>{{ $item->afternoon_start }} - {{ $item->afternoon_end }}</td>
+                                        <td>
+                                            @if (Cache::has('user-is-online-' . $item->id))
+                                                <span class="badge text-bg-success">Conectado</span>
+                                            @else
+                                                <span class="badge text-bg-secondary">Desconectado</span>
+                                            @endif
+                                        </td>
+                                        <td><a name="" id="" class="btn btn-primary" href="#"
+                                                role="button">Ver Perfil</a></td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -95,7 +103,7 @@
                 paging: false,
                 "ordering": false,
                 "info": false,
-                 "dom": 'rtip'
+                "dom": 'rtip'
             });
         });
     </script>

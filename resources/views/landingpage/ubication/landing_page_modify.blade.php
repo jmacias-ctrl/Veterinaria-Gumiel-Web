@@ -55,20 +55,11 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
+                @include('landingpage.ubication.botones')
                 <form action="{{ route('landing.website.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- <input type="hidden" name="id" value="{{ Auth::user()->id }}"> -->
-                    <div class="d-flex justify-content-center">
-                        <div class="btn-group btn-group-lg" role="group">
-                            <a class="btn btn-outline-success" href="{{ route('landing.ubication.edit') }}"
-                                role="button">Información</a>
-                            <a class="btn btn-outline-success" href="{{ route('landing.nosotros.edit') }}"
-                                role="button">Sección Nosotros</a>
-                            <a class="btn btn-outline-success active" href="{{ route('landing.website.edit') }}"
-                                role="button">Landing Page</a>
-                            <a class="btn btn-outline-success" href="{{ route('landing.horario.edit') }}" role="button">Horario</a>
-                        </div>
-                    </div>
+                    
                     <h2>Informacion</h2>
                     <div class="row mt-3">
                         <div class="col">

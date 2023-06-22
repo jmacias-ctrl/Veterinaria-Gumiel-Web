@@ -17,6 +17,7 @@ use App\Models\transferencia;
 use App\Models\tarjeta;
 use App\Models\servicios;
 use App\Models\items_comprados;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class ControlServicioController extends Controller
@@ -24,8 +25,11 @@ class ControlServicioController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = db::table('reservar_citas')->join('users', 'reservar_citas.paciente_id', '=', 'users.id')->join('servicios', 'reservar_citas.tiposervicio_id', '=', 'servicios.id')->select('reservar_citas.id', 'users.name', 'servicios.nombre', 'reservar_citas.status', 'servicios.precio', 'reservar_citas.pagado')->where('pagado', '=', false)->get()->map(function ($item) {
+            $data = ReservarCitas::with('funcionario', 'paciente')->join('servicios', 'reservar_citas.tiposervicio_id', '=', 'servicios.id')->select('reservar_citas.id', 'paciente_id', 'funcionario_id', 'servicios.nombre', 'reservar_citas.status', 'servicios.precio', 'reservar_citas.pagado')->where('pagado', '=', false)->get()->map(function ($item) {
                 $item->monto = $item->precio;
+                $item->funcionario_id = $item->funcionario->name;
+                $item->name = $item->paciente->name;
+                $item->rut = $item->paciente->rut;
                 $item->precio = '$' . number_format($item->precio, 0, ',', '.');
                 if ($item->pagado == "1") {
                     $item->pagado = "Si";
@@ -42,6 +46,108 @@ class ControlServicioController extends Controller
         }
         return view('control_servicio.index');
     }
+
+    public function createR(HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface)
+    {
+        $tiposervicios = tiposervicios::all();
+        $tipoconsulta_tam = servicios::all();
+
+        $tiposervicioId = old('tiposervicio_id');
+        if ($tiposervicioId) {
+            $tiposervicio = tiposervicios::find($tiposervicioId);
+            $funcionarios = $tiposervicio->users;
+        } else {
+            $funcionarios = collect();
+        }
+
+        $date = old('scheduled_date');
+        $funcionarioId = old('funcionario_id');
+
+        if ($date && $funcionarioId) {
+            $intervals = $horarioFuncionarioServiceInterface->getAvailableIntervals($date, $funcionarioId);
+        } else {
+            $intervals = null;
+        }
+
+        return view('control_servicio.reservar', compact('tiposervicios', 'funcionarios', 'intervals', 'tipoconsulta_tam'));
+    }
+    public function store(Request $request, HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface)
+    {
+        $rules = [
+            'sheduled_time' => 'required',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'rut' => 'required|string',
+            'type' => 'required',
+            'description' => 'string',
+            'funcionario_id' => 'exists:users,id',
+            'tiposervicio_id' => 'exists:tiposervicios,id'
+        ];
+
+        $messages = [
+            'rut.required' => 'El rut es obligatorio',
+            'email.required' => 'El correo es obligatorio',
+            'email.email' => 'El correo ingresado es invalido',
+            'name.required' => 'El nombre completo del cliente es obligatorio',
+            'sheduled_time.required' => 'Debe seleccionar una hora valida para su cita.',
+            'type.required' => 'Debe seleccionar el tipo de consulta.',
+            'description.required' => 'Debe ingresar los síntomas de su mascota.'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        $validator->after(function ($validator) use ($request, $horarioFuncionarioServiceInterface) {
+            $date = $request->input('scheduled_date');
+            $funcionarioId = $request->input('funcionario_id');
+            $sheduled_time = $request->input('sheduled_time');
+            if ($date &&  $funcionarioId && $sheduled_time) {
+                $start = new Carbon($sheduled_time);
+            } else {
+                return;
+            }
+
+            if (!$horarioFuncionarioServiceInterface->isAvailableInterval($date, $funcionarioId, $start)) {
+                $validator->errors()->add(
+                    'available',
+                    'La hora seleccionada ya se encuentra reservada por otro paciente'
+                );
+            }
+        });
+        if ($validator->fails()) {
+            return redirect()->route('control_servicios.agendar')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $usuario = User::where('rut', '=', $request->rut)->first();
+        if(!isset($usuario)){
+            $usuario = new User();
+            $usuario->name = $request->name;
+            $usuario->rut = $request->rut;
+            $usuario->email = $request->email;
+            $usuario->save();
+
+            $usuario->assignRole('Invitado');
+        }
+        
+        $data = $request->only([
+            'scheduled_date',
+            'sheduled_time',
+            'type',
+            'description',
+            'funcionario_id',
+            'tiposervicio_id'
+        ]);
+        $data['paciente_id']  = $usuario->id;
+        $servicio = servicios::find($data['type']);
+        $data['type'] = $servicio->nombre;
+        $data['id_servicio'] = $servicio->id;
+        $carbonTime = Carbon::createFromFormat('H:i', $data['sheduled_time']);
+        $data['sheduled_time'] = $carbonTime->format('H:i:s');
+
+        ReservarCitas::create($data);
+
+        $notification = 'La cita se ha realizado correctamente.';
+        return redirect()->route('control_servicios.agendar')->with(compact('notification'));
+    }
+
     public function pagar_reserva(Request $request)
     {
         $fecha = Carbon::now();
@@ -62,7 +168,7 @@ class ControlServicioController extends Controller
         $montoFinal = 0;
         $metodoPagoEscogido = null;
 
-        
+
 
         $itemComprado =  new items_comprados();
         $itemComprado->monto = $servicio->precio;

@@ -47,28 +47,31 @@
                             </thead>
                             <tbody>
                                 @foreach ($horario as $item)
-                                    <td>{{ $item->id }}</td>
-                                    <td>
-                                        @if (isset($item->image))
-                                            <img src="{{ asset('storage') . '/' . $item->image }}" alt=""
-                                                class="imageProfile">
-                                        @else
-                                            <img src="{{ asset('image/default-user-image.png') }}" alt=""
-                                                class="imageProfile m-3">
-                                        @endif
-                                    </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->role }}</td>
-                                    <td>{{ $item->morning_start }} - {{ $item->morning_end }}</td>
-                                    <td>{{ $item->afternoon_start }} - {{ $item->afternoon_end }}</td>
-                                    <td>
-                                        @if (Cache::has('user-is-online-' . $item->id))
-                                            <span class="badge text-bg-success">Conectado</span>
-                                        @else
-                                            <span class="badge text-bg-secondary">Desconectado</span>
-                                        @endif
-                                    </td>
-                                    <td><a name="" id="" class="btn btn-primary" href="#" role="button">Ver Perfil</a></td>
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        <td>
+                                            @if (isset($item->image))
+                                                <img src="{{ asset('storage') . '/' . $item->image }}" alt=""
+                                                    class="imageProfile">
+                                            @else
+                                                <img src="{{ asset('image/default-user-image.png') }}" alt=""
+                                                    class="imageProfile m-3">
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->role }}</td>
+                                        <td>{{ $item->morning_start }} - {{ $item->morning_end }}</td>
+                                        <td>{{ $item->afternoon_start }} - {{ $item->afternoon_end }}</td>
+                                        <td>
+                                            @if (Cache::has('user-is-online-' . $item->id))
+                                                <span class="badge text-bg-success">Conectado</span>
+                                            @else
+                                                <span class="badge text-bg-secondary">Desconectado</span>
+                                            @endif
+                                        </td>
+                                        <td><a name="" id="" class="btn btn-primary" href="#"
+                                                role="button">Ver Perfil</a></td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -95,7 +98,7 @@
                 paging: false,
                 "ordering": false,
                 "info": false,
-                 "dom": 'rtip'
+                "dom": 'rtip'
             });
         });
     </script>

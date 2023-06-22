@@ -51,17 +51,17 @@
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" 
                         href="#mis-citas" role="tab" aria-selected="true">
-                        <i class="ni ni-calendar-grid-58 mr-2"></i>Mis citas</a>
+                        <i class="ni ni-calendar-grid-58 mr-2"></i>Citas confirmadas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0"  data-toggle="tab" 
                         href="#citas-pendientes" role="tab" aria-selected="false">
-                        <i class="ni ni-bell-55 mr-2"></i>Citas pendientes</a>
+                        <i class="ni ni-bell-55 mr-2"></i>Citas por confirmar</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 " data-toggle="tab" 
                         href="#historial" role="tab" aria-selected="false">
-                        <i class="ni ni-folder-17 mr-2 "></i>Historial</a> 
+                        <i class="ni ni-folder-17 mr-2 "></i>Historial/Citas canceladas</a> 
                     </li>
                 </ul>
             </div>

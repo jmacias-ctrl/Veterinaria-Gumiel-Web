@@ -77,6 +77,27 @@ class AdministracionInventario extends Controller
         }
         return response()->json(['success' => true, 'itemGet' => $data, 'tipo_item' => $request->tipo, 'providerLowCost'=>$low_cost_provider, 'lastStockRenew'=>$ultimo_stock_reposicion], 200);
     }
+
+    public function ver_item_codigo(Request $request){
+        $find_prod = productos_ventas::with(['marcaproductos', 'tipoproductos_ventas', 'especies'])->where('codigo', '=', $request->codigo)->first();
+        $find_insm = insumos_medicos::with('marcainsumos', 'tipoinsumos')->where('codigo', '=', $request->codigo)->first();
+        $find_med = medicamentos_vacunas::with('marca_medicamentos_vacunas', 'tipo_medicamentos_vacunas', 'especies')->where('codigo', '=', $request->codigo)->first();
+        $tipo = "none";
+        if(isset($find_prod)){
+            $data = $find_prod;
+            $tipo = "producto";
+        }else if(isset($find_insm)){
+            $data = $find_insm;
+            $tipo = "insumo";
+        }else if(isset($find_med)){
+            $data = $find_med;
+            $tipo = "medicina";
+        }else{
+            return response()->json(['success'=>false], 200);
+        }
+        return response()->json(['success'=>true, 'itemGet'=>$data, 'tipo_item'=>$tipo], 200);
+    }
+
     public function descargar_factura(Request $request){
         $trazabilidad = trazabilidad_inventario::find($request->id);
         return response()->download('public/facturas/'.$trazabilidad->factura);

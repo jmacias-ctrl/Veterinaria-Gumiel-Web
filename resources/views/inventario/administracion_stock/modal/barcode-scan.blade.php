@@ -10,8 +10,8 @@
             <div class="modal-body">
                 <p>Acerca el Codigo de Barra hacia la Camara</p>
                 <div id="reader" width="100%"></div>
-                <p id="scannedItem">Codigo Escaneado: </p>
-                <input type="text">
+                <p id="scannedItem">Codigo Escaneado: Ninguno</p>
+                <p id="errorScan" class="d-none">Item escaneado no se encuentra en la base de datos</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -27,23 +27,38 @@
             "reader", {
                 fps: 10,
                 qrbox: {
-                    width: 250,
-                    height: 250
+                    width: 350,
+                    height: 350
                 }
             },
             /* verbose= */
             false);
 
         function onScanSuccess(decodedText, decodedResult) {
-            // handle the scanned code as you like, for example:
+            html5QrcodeScanner.pause();
             $('#scannedItem').html('Codigo Escaneado: '+decodedText);
             currentPath = window.location.pathname;
-            console.log(currentPath);
-            if(currentPath=="/administracion-stock"){
-                
-            }else if(currentPath == "/inventario/punto_de_venta"){
-
-            }
+            
+            axios.get("{{ route('administracion_inventario.scan') }}", {
+                    params: {
+                        codigo: decodedText,
+                    }
+                })
+                .then(function(response) {
+                    if(response.data.success==true){
+                        cleanAdmin_ProductModal();
+                        setAdmin_ProductModal(response.data.itemGet['id'], response.data.itemGet['nombre'], response.data.tipo_item, response.data.itemGet['stock']);
+                        $('#barcodeScan').modal('toggle');
+                    }else{
+                        $("#errorScan").html('Item escaneado no se encuentra en la base de datos');
+                        $("#errorScan").removeClass('d-none');
+                        html5QrcodeScanner.resume();
+                    }
+                    
+                })
+                .catch(function(error) {
+                    $("#errorScan").html('Error al buscar el item escaneado');
+                });
         }
 
         function onScanFailure(error) {
@@ -52,6 +67,8 @@
 
         $('#barcodeScan').on('show.bs.modal', function(event) {
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            $('#errorScan').html("");
+            $('#scannedItem').html('Codigo Escaneado: Ninguno');
             $('#barcodeScan').modal('show');
         });
         $('#barcodeScan').on('hide.bs.modal', function(event) {

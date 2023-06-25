@@ -108,13 +108,15 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-end">
                 <h2 id="selected-table">Productos</h2>
-                <div class="btn-group shadow mt-3" role="group" aria-label="Basic example">
-                    <a id="historial" class="btn btn-outline-success btn-sm"
+                <div class="btn-group shadow mt-3" role="group" aria-label="Basic example"
+                    style="height: auto; width:auto;">
+                    <a id="historial" class="btn btn-outline-success"
                         href="{{ route('administracion_inventario.historial') }}" role="button"><span
                             class="material-symbols-outlined">history</span></a>
-                    <button id="barcodeScanner" class="btn btn-outline-success btn-sm" role="button"><span
+                    <button id="barcodeScanner" class="btn btn-outline-success" data-toggle="modal"
+                        data-target="#barcodeScan" role="button"><span
                             class="material-symbols-outlined">barcode_scanner</span></button>
-                    <a id="proveedoresBtn" class="btn btn-outline-success btn-sm" href="{{ route('proveedores.index') }}"
+                    <a id="proveedoresBtn" class="btn btn-outline-success" href="{{ route('proveedores.index') }}"
                         role="button"><span class="material-symbols-outlined">local_shipping</span></a>
                 </div>
             </div>
@@ -141,6 +143,7 @@
 @endsection
 @include('inventario.administracion_stock.modal.adminProduct')
 @include('inventario.administracion_stock.modal.viewProduct')
+@include('inventario.administracion_stock.modal.barcode-scan')
 <!-- Modal -->
 @section('js-after')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
@@ -162,7 +165,7 @@
         <script>
             Swal.fire({
                 icon: 'success',
-                title: '{{Session::get("successAdmin")}}',
+                title: '{{ Session::get('successAdmin') }}',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -172,7 +175,7 @@
         <script>
             Swal.fire({
                 icon: 'error',
-                title: '{{Session::get("failed")}}',
+                title: '{{ Session::get('failed') }}',
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -379,25 +382,25 @@
 
                     $('#stock').html(response.data.itemGet["stock"]);
                     console.log(response.data.providerLowCost);
-                    if(response.data.providerLowCost!=null){
+                    if (response.data.providerLowCost != null) {
                         $("#proveedorLow").html(response.data.providerLowCost['nombre']);
                         $("#costoLow").html(new Intl.NumberFormat('es-CL', {
                             currency: 'CLP',
                             style: 'currency'
-                        }).format(response.data.providerLowCost['costo'])+" x un");
-                    }else{
+                        }).format(response.data.providerLowCost['costo']) + " x un");
+                    } else {
                         $("#proveedorLow").html('ninguno');
                         $("#costoLow").html('');
                     }
 
-                    if(response.data.lastStockRenew!=null){
+                    if (response.data.lastStockRenew != null) {
                         $("#proveedorUlt").html(response.data.lastStockRenew['nombre']);
                         $("#costoUlt").html(new Intl.NumberFormat('es-CL', {
                             currency: 'CLP',
                             style: 'currency'
-                        }).format(response.data.providerLowCost['costo'])+" x un");
-                        $("#stockUlt").html(response.data.lastStockRenew['stock']+" un");
-                    }else{
+                        }).format(response.data.providerLowCost['costo']) + " x un");
+                        $("#stockUlt").html(response.data.lastStockRenew['stock'] + " un");
+                    } else {
                         $("#proveedorUlt").html('ninguno');
                         $("#costoUlt").html('');
                         $("#stockUlt").html('');
@@ -418,7 +421,7 @@
 
         }
 
-        function admin_product(id, tipo_item, stock) {
+        function cleanAdmin_ProductModal() {
             $("#newStock").val("");
             $('#getStock').val("");
             $("#costoStockAgregado").val("");
@@ -431,6 +434,23 @@
 
             $("#factura").val("");
             $('#adminProductoModal').modal('show')
+        }
+
+        function setAdmin_ProductModal(id, nombre, tipo, stock) {
+            $("#id_item").val(id);
+            $("#tipo_item").val(tipo);
+            $("#nombre_item").html(nombre);
+            $("#statusStock").html(stock + " unidades");
+            $("#getStock").val(stock);
+            if (parseInt(stock) <= 0) {
+                $("#statusStock").addClass('text-danger');
+            } else {
+                $("#statusStock").removeClass('text-danger');
+            }
+        }
+
+        function admin_product(id, tipo_item, stock) {
+            cleanAdmin_ProductModal()
 
             axios.get("{{ route('administracion_inventario.verItem') }}", {
                     params: {
@@ -439,16 +459,7 @@
                     }
                 })
                 .then(function(response) {
-                    $("#id_item").val(response.data.itemGet['id']);
-                    $("#tipo_item").val(response.data.tipo_item);
-                    $("#nombre_item").html(response.data.itemGet['nombre']);
-                    $("#statusStock").html(response.data.itemGet['stock'] + " unidades");
-                    $("#getStock").val(response.data.itemGet['stock']);
-                    if (parseInt(response.data.itemGet['stock']) <= 0) {
-                        $("#statusStock").addClass('text-danger');
-                    } else {
-                        $("#statusStock").removeClass('text-danger');
-                    }
+                    setAdmin_ProductModal(response.data.itemGet['id'], response.data.itemGet['nombre'], response.data.tipo_item, response.data.itemGet['stock']);
                 })
                 .catch(function(error) {
                     Swal.fire({

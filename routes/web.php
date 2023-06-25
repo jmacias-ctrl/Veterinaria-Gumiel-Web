@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth','can:acceso administracion de stock']], fu
     Route::get('administracion-stock/historial', [App\Http\Controllers\AdministracionInventario::class, 'historial_admin'])->name('administracion_inventario.historial');
     Route::post('administracion-stock/realizar_admin', [App\Http\Controllers\AdministracionInventario::class, 'admin_item'])->name('administracion_inventario.realizar_admin');
     Route::get('administracion-stock/ver_item', [App\Http\Controllers\AdministracionInventario::class, 'ver_item'])->name('administracion_inventario.verItem');
+    Route::get('administracion-stock/barcode_scan', [App\Http\Controllers\AdministracionInventario::class, 'ver_item_codigo'])->name('administracion_inventario.scan');
     Route::get('administracion-stock/descargar_factura', [App\Http\Controllers\AdministracionInventario::class, 'descargar_factura'])->name('administracion_inventario.descargarFactura');
 });
 
@@ -220,7 +221,9 @@ Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::resource('/pacientes','App\Http\Controllers\PacientesController');
     
 });
-Route::get('/lector-codigos-barras', 'BarcodeController@scan')->name('barcode.scan');
+Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios')->middleware('role_or_permission:acceso ventas|acceso punto de venta|acceso administracion de stock|Admin');
+Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas')->middleware('role_or_permission:ver gestionvet|ver gestionpeluqueria|ver citas|Admin');
+Route::get('/lector-codigos-barras', [\App\Http\Controllers\BarcodeController::class, 'scan'])->name('barcode.scan');
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function () {
         return view('admin.home');

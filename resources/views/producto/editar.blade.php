@@ -32,16 +32,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('productos.index') }}"
                     style="color:black;">Productos</a> </li>
@@ -120,7 +112,7 @@
                     <div class="form-group">
                         <label for="stock">Stock:</label>
                         <input type="number" class="form-control @error('stock') is-invalid @enderror" id="stock"
-                            name="stock" placeholder="Ej. 5 un" value="{{ $producto->stock }}" required>
+                            name="stock" min="0" oninput="this.value = Math.abs(this.value)" placeholder="Ej. 5 un" value="{{ $producto->stock }}" required>
                         @error('stock')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror
@@ -128,7 +120,7 @@
                     <div class="form-group">
                         <label for="stock">Minimo Stock:</label>
                         <input type="number" class="form-control @error('min_stock') is-invalid @enderror" id="min_stock"
-                            name="min_stock" value="{{ $producto->min_stock }}" placeholder="Ej. 2 un" required>
+                            name="min_stock" min="0" oninput="this.value = Math.abs(this.value)" value="{{ $producto->min_stock }}" placeholder="Ej. 2 un" required>
                         @error('min_stock')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror
@@ -149,7 +141,7 @@
                     <div class="form-group">
                         <label for="precio">Precio:</label>
                         <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio"
-                            name="precio" value="{{ $producto->precio }}" placeholder="Ej. 3200" required>
+                            name="precio" value="{{ $producto->precio }}" placeholder="Ej. 3200" min="1" oninput="this.value = Math.abs(this.value)" required>
                         @error('precio')
                             <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                         @enderror

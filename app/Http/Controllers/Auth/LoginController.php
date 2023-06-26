@@ -33,21 +33,13 @@ class LoginController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
     protected function authenticated(Request $request, $user)
     {
-        if ($user->hasRole('Admin')) {
-            return redirect()->route('admin');
-        } else if ($user->hasRole('Veterinario')) {
-            
-            return redirect()->route('veterinario');
-        }else if ($user->hasRole('Peluquero')) {
-            
-            return redirect()->route('peluquero');
-        }else if ($user->hasRole('Inventario')) {
-            
-            return redirect()->route('inventario');
+        if ($user->hasRole('Cliente') || $user->hasRole('Invitado')) {
+            return redirect()->route('inicio');
+        }else{
+            return redirect()->route('inicio_panel');
         }
 
         return redirect()->route('inicio');
-        //return property_exists($this, 'redirectTo') ? $this->redirectTo : 'admin/';
 
     }
     /**

@@ -83,7 +83,7 @@
     <!-- Topbar Start -->
     <div class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s">
         <div class="row gx-0 d-none d-lg-flex">
-            <div class="col-lg-7 px-5 text-start">
+            <div class="col-lg-8 pl-5 pr-1 text-start">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-map-marker-alt text-primary me-2"></small>
                     <small>{{ $landingMaps->direccion }}</small>
@@ -93,7 +93,7 @@
                     <small>{{ $landingMaps->horario_header }}</small>
                 </div>
             </div>
-            <div class="col-lg-5 px-5 text-end">
+            <div class="col-lg-4 pr-5 pl-1 text-end">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
                     <small class="fa fa-phone-alt text-primary me-2"></small>
                     <small>+56{{ $landingMaps->telefono }}</small>
@@ -122,7 +122,7 @@
     <!-- Topbar End -->
 
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-4 px-lg-5 wow fadeIn"
+    <nav id="head" class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-4 px-lg-5 wow fadeIn"
         data-wow-delay="0.1s">
         <a href="{{ route('inicio') }}" class="navbar-brand p-0">
             @if (isset($logo))
@@ -149,31 +149,14 @@
                 <a href="{{ route('servicios') }}"
                     class="nav-item nav-link @if (request()->routeIs('servicios')) active @endif">Servicios</a>
             </div>
-            @if (request()->routeIs('shop.*'))
-                <li class="nav-item nav-link dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="badge badge-pill badge-dark">
-                            <i class="fa fa-shopping-cart"></i> {{ \Cart::getTotalQuantity() }}
-                        </span>
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"
-                        style="width: 450px; padding: 0px; border-color: #9DA0A2">
-                        <ul class="list-group" style="margin: 20px;">
-                            @include('shop.partials.cart-drop')
-                        </ul>
-                    </div>
-
-                </li>
-            @endif
+            
             @guest
                 @if (Route::has('login'))
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                    <a class="pl-0 nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                 @endif
 
                 @if (Route::has('register'))
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
+                    <a class="pl-0 nav-link" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
                 @endif
             @else
                 <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
@@ -229,7 +212,7 @@
     @yield('content')
     <script src="{{ asset('js/horarios.js') }}" defer></script>
     <!-- Footer Start -->
-    <div class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-7">
                 <div class="col-lg-3 col-md-4">

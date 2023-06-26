@@ -141,12 +141,3 @@ CHECKOUT | Veterinaria Gumiel
 
     </script>
 
-<style>
-body{
-    background:url("/image/fondo-tienda.png");
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-size:400px;
-    backdrop-filter:blur(1px);
-        }
-</style>

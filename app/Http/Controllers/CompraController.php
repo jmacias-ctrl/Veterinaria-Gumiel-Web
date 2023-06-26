@@ -38,6 +38,12 @@ class CompraController extends Controller
     }
 
     public function resumen_compra(Request $request){
+        $response = (new Transaction)->status($request->token);
+        $compra=Compra::find($response->buyOrder);
+        $compra->token=$request->token;
+        $compra->status=$response->status;
+        $compra->save();
+
         $cartCollection = \Cart::getContent();
         $trazabilidad = new trazabilidad_venta_presencial();
         $trazabilidad->id_venta = Str::random(10);
@@ -45,6 +51,7 @@ class CompraController extends Controller
         $trazabilidad->nombre_cliente = "compra online";
         $trazabilidad->fecha_compra = Carbon::now()->toDateString();
         $trazabilidad->save();
+
         foreach($cartCollection as $item){
             $item['stock']=productos_ventas::find($item->id)->stock;
             $newItem = new items_comprados();
@@ -54,6 +61,7 @@ class CompraController extends Controller
             $newItem->id_venta = $trazabilidad->id;
             $newItem->tipo_item = "producto";
             $newItem->save();
+
             $producto = productos_ventas::find($item->id);
             $producto->stock = $producto->stock - $item->quantity;
             if($producto->stock<=0){
@@ -73,18 +81,7 @@ class CompraController extends Controller
             }
             $producto->save();
         }
-        $response = (new Transaction)->status($request->token);
-        $compra=Compra::find($response->buyOrder);
-        $compra->token=$request->token;
-        $compra->status=$response->status;
-        $compra->save();
-        $a="ids = ";
-        foreach($cartCollection as $item){
-            $venta=productos_ventas::find($item->id);
-            $venta->stock=$venta->stock-$item->quantity;
-            $venta->save();
-        
-        }
+       
         return view('shop.checkout.resumen-compra')->with(['response'=>$response])->with(['cartCollection' => $cartCollection]);
 
     }

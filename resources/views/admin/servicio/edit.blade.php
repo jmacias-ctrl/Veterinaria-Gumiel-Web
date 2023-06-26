@@ -19,16 +19,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.servicio') }}"
                     style="color:black;">Servicios</a> </li>
@@ -84,7 +76,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">$</div>
                                 <input type="number" class="form-control @error('precio') is-invalid @enderror"
-                                    name="precio" value="{{ $servicio->precio }}" id="precio" checked>
+                                    name="precio" value="{{ $servicio->precio }}" min="0" oninput="this.value = Math.abs(this.value)" id="precio" checked>
                             </div>
                             @error('precio')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
@@ -96,7 +88,7 @@
                             <label for="duracion" class="form-label">Duración</label>
                             <div class="input-group-prepend">
                                 <input type="number" class="form-control @error('duracion') is-invalid @enderror"
-                                    name="duracion" value="{{ $servicio->duracion }}" id="duracion" checked>
+                                    name="duracion" value="{{ $servicio->duracion }}" min="0" oninput="this.value = Math.abs(this.value)" id="duracion" checked>
                                 <div class="input-group-text">Minutos</div>
                             </div>
                             @error('duracion')

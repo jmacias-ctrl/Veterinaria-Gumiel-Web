@@ -28,13 +28,21 @@
     <!-- CSS Files -->
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <link rel="stylesheet" href="{{ asset('css') . '/breadcrums.css' }}">
+    <link rel="stylesheet" href="{{ asset('css') . '/uiFix.css' }}">
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <script type="text/javascript">
-        var baseURL = {!! json_encode(url('/')) !!}
+        var baseURL = {
+            !!json_encode(url('/')) !!
+        }
     </script>
+
+
 
     @yield('css-after')
     <style>
@@ -96,6 +104,7 @@
                     <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="ni ni-bell-55"></i>
+
                         <span class="badge badge-danger">
                             @if ($userNotification < 99)
                                 {{ $userNotification }}
@@ -193,25 +202,53 @@
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    @if (auth()->user()->hasRole('Admin'))
-                        <a class="nav-link @if (Route::current()->getName() == 'admin') active @endif"
-                            href="{{ route('admin') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a class="nav-link  @if (Route::current()->getName() == 'veterinario') active @endif "
-                            href="{{ route('veterinario') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @elseif (auth()->user()->hasRole('Peluquero'))
-                        <a class="nav-link  @if (Route::current()->getName() == 'peluquero') active @endif "
-                            href="{{ route('peluquero') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @elseif (auth()->user()->hasRole('Inventario'))
-                        <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
-                            href="{{ route('inventario') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @endif
-
+                    <a class="nav-link @if (Route::current()->getName() == 'inicio_panel') active @endif"
+                        href="{{ route('inicio_panel') }}"> Inicio
+                    </a>
                 </li>
+                @canany([
+                    'acceso ventas',
+                    'acceso punto de venta',
+                    'acceso administracion de stock',
+                    'ver gestionvet',
+                    'ver gestionpeluqueria',
+                    'ver citas',
+                    ])
+
+                    <li class="nav-item  @if (Route::currentRouteName() == 'trazabilidad-ventas-y-servicios' || Route::currentRouteName() == 'dashboard-citas') active @endif" >
+                    
+                    <a class="nav-link
+                        collapse-links @if (Route::current()->getName() == 'admin') active @endif" data-toggle="collapse"
+                        href="#dashboardCollapse" role="button" aria-expanded="false"
+                        aria-controls="dashboardCollapse">
+                        <i class="ni ni-tv-2 text-green"></i> Dashboard
+                        </a>
+
+                        <div class="collapse" id="dashboardCollapse">
+                            <div class="card card-body" id="dropdown">
+                                @canany(['acceso ventas', 'acceso punto de venta', 'acceso administracion de stock'])
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3"
+                                                href="{{ route('trazabilidad-ventas-y-servicios') }}"
+                                                id="link-dropdown">Dashboard Ventas y Servicios</a>
+                                        </li>
+                                    </ul>
+                                @endcanany
+                                @canany(['ver gestionvet', 'ver gestionpeluqueria', 'ver citas'])
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3" href="{{ route('dashboard-citas') }}"
+                                                id="link-dropdown">Dashboard Citas</a>
+                                        </li>
+                                    </ul>
+                                @endcanany
+
+
+                            </div>
+                        </div>
+                    </li>
+                @endcanany
                 @can('ver usuario')
                     @if (Route::currentRouteName() == 'admin.usuarios.index')
                         <li class="nav-item  active">
@@ -479,6 +516,12 @@
                                             Page</a>
                                     </li>
                                 </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('landing.horario.*')) active @endif"
+                                            href="{{ route('landing.horario.edit') }}" id="link-dropdown">Horario Landing Page</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </li>
@@ -523,7 +566,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" style="color:black;" id="desktopNotification">
-                    <i class="ni ni-bell-55"></i>
+                    <i class="ni ni-bell-55 text-white"></i>
                     <span class="badge badge-danger">
                         @if ($userNotification < 99)
                             {{ $userNotification }}
@@ -657,7 +700,9 @@
 </script>
 <script>
     function checkForNewNotifications() {
-        var notificationCount = {!! json_encode($userNotification, JSON_HEX_TAG) !!}
+        var notificationCount = {
+            !!json_encode($userNotification, JSON_HEX_TAG) !!
+        }
         setInterval(() => {
             axios({
                 method: 'get',

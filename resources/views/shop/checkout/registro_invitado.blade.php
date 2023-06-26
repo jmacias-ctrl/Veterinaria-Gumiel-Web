@@ -133,14 +133,3 @@ LOGIN SHOP | Veterinaria Gumiel
 
 
 
-<style> 
-    body{
-        background:url("/image/fondo-tienda.png");
-        background-repeat: repeat;
-        background-attachment: fixed;
-        background-size:450px;
-        backdrop-filter:blur(1px);
-        background-color:white;
-        height: 100%;
-    }
-</style>

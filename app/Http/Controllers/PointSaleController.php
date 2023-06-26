@@ -123,14 +123,19 @@ class PointSaleController extends Controller
     }
     public function add_product(Request $request)
     {
-        $producto = productos_ventas::find($request->value);
+        if ($request->has('codigo')) {
+            $producto = productos_ventas::where('codigo','=', $request->codigo)->first();
+        }
+        if($request->has('value')){
+            $producto = productos_ventas::find($request->value);
+        }
         $quantity = $request->cantProduct;
-        $cartGet = \Cart::session(auth()->user()->id)->get($request->value);
+        $cartGet = \Cart::session(auth()->user()->id)->get($producto->id);
         if (isset($cartGet)) {
             if ($cartGet->quantity + $quantity > $producto->stock) {
                 $quantity = 0;
             }
-            \Cart::session(auth()->user()->id)->update($request->value, [
+            \Cart::session(auth()->user()->id)->update($producto->id, [
                 'quantity' => $quantity,
             ]);
         } else {

@@ -255,7 +255,10 @@ class UserController extends Controller
     {
         return view('users.perfil_usuario');
     }
-
+    public function user_profile_cliente()
+    {
+        return view('users.perfil_cliente');
+    }
     public function modify_user_profile()
     {
         return view('users.modify_perfil_usuario');
@@ -350,7 +353,12 @@ class UserController extends Controller
                 }
                 $user->save();
                 db::commit();
-                return redirect()->route('user.profile.index')->with('success', 'Tus datos fueron modificado exitosamente');
+                if(auth()->user()->hasAnyRole(['Cliente', 'Invitado'])){
+                    return redirect()->route('mi-perfil')->with('success', 'Tus datos fueron modificado exitosamente');
+                }else{
+                    return redirect()->route('user.profile.index')->with('success', 'Tus datos fueron modificado exitosamente');
+                }
+                
             } catch (QueryException $exception) {
                 DB::rollBack();
                 toastr()->error('Oops! Something went wrong!', 'Oops!');

@@ -206,6 +206,10 @@ class AdministracionInventario extends Controller
             if ($request->adminOption == "Agregar" && $request->proveedor == "new") {
                 $proveedor = new proveedores();
                 $proveedor->nombre = $request->nuevoProveedor;
+                $proveedor->rut = $request->nuevoRutProveedor;
+                if(isset($proveedor->telefono)){
+                    $proveedor->telefono = $request->telefonoProveedor;
+                }
                 $proveedor->save();
                 $proveedor = $proveedor->id;
             } else if ($request->adminOption == "Agregar") {

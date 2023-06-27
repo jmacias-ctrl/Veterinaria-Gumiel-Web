@@ -1,6 +1,6 @@
 @extends('layouts.form')
 @section('title')
-Registrarse - Veterinaria Gumiel
+    Registrarse - Veterinaria Gumiel
 @endsection
 @section('content')
     <div class="container mt--8 pb-5">
@@ -48,6 +48,22 @@ Registrarse - Veterinaria Gumiel
                                 </div>
                             </div>
                             <div class="form-group">
+                                <div class="input-group input-group-alternative mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                                    </div>
+                                    <input id="rut" type="text" placeholder="Rut"
+                                        class="form-control @error('rut') is-invalid @enderror" name="rut"
+                                        value="{{ old('rut') }}" required oninput="checkRut(this)" max="10" autocomplete="rut">
+
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="input-group input-group-alternative">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
@@ -68,13 +84,16 @@ Registrarse - Veterinaria Gumiel
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                     </div>
-                                    <input id="password-confirm" placeholder="Confirmar Contraseña" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                    <input id="password-confirm" placeholder="Confirmar Contraseña" type="password"
+                                        class="form-control" name="password_confirmation" required
+                                        autocomplete="new-password">
                                 </div>
                             </div>
                             <!--<div class="text-muted font-italic"><small>password strength: <span
-                                        class="text-success font-weight-700">strong</span></small></div> !-->
+                                            class="text-success font-weight-700">strong</span></small></div> !-->
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary mt-4" style="background-color:#19A448; border-color:#19A448">Registrarse</button>
+                                <button type="submit" class="btn btn-primary mt-4"
+                                    style="background-color:#19A448; border-color:#19A448">Registrarse</button>
                             </div>
                         </form>
                     </div>
@@ -83,3 +102,48 @@ Registrarse - Veterinaria Gumiel
         </div>
     </div>
 @endsection
+<script>
+    function checkRut(rut) {
+        var valor = rut.value.replace('.', '');
+        valor = valor.replace('-', '');
+
+        cuerpo = valor.slice(0, -1);
+        dv = valor.slice(-1).toUpperCase();
+
+        rut.value = cuerpo + '-' + dv
+
+        if (cuerpo.length < 7) {
+            rut.setCustomValidity("RUT Incompleto");
+            return false;
+        }
+
+        suma = 0;
+        multiplo = 2;
+
+        for (i = 1; i <= cuerpo.length; i++) {
+
+            index = multiplo * valor.charAt(cuerpo.length - i);
+
+            suma = suma + index;
+
+            if (multiplo < 7) {
+                multiplo = multiplo + 1;
+            } else {
+                multiplo = 2;
+            }
+
+        }
+
+        dvEsperado = 11 - (suma % 11);
+
+        dv = (dv == 'K') ? 10 : dv;
+        dv = (dv == 0) ? 11 : dv;
+
+        if (dvEsperado != dv) {
+            rut.setCustomValidity("RUT Inválido");
+            return false;
+        }
+
+        rut.setCustomValidity('');
+    }
+</script>

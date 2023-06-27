@@ -155,22 +155,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @if (Session::has('successAdmin'))
         <script>
-            Swal.fire({
-                icon: 'success',
-                title: '{{ Session::get('successAdmin') }}',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toastr.success('{{ Session::get('successAdmin') }}')
         </script>
     @endif
     @if (Session::has('failed'))
         <script>
-            Swal.fire({
-                icon: 'error',
-                title: '{{ Session::get('failed') }}',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toastr.error('{{ Session::get('failed') }}');
         </script>
     @endif
     <script>
@@ -315,11 +305,11 @@
             $("#proveedor").on("change", function() {
                 var value = $("#proveedor").val();
                 if (value == "new") {
-                    $("#nuevoProveedorDiv").removeClass('d-none');
-                    $("#nuevoProveedor").prop('required', true);
+                    $(".proveedorForm").removeClass('d-none');
+                    $(".proveedorInput").prop('required', true);
                 } else {
-                    $("#nuevoProveedorDiv").addClass('d-none');
-                    $("#nuevoProveedor").prop('required', false);
+                    $(".proveedorForm").addClass('d-none');
+                    $(".proveedorInput").prop('required', false);
                 }
             });
         });
@@ -441,6 +431,50 @@
             }
         }
 
+        function checkRut(rut) {
+            var valor = rut.value.replace('.', '');
+            valor = valor.replace('-', '');
+
+            cuerpo = valor.slice(0, -1);
+            dv = valor.slice(-1).toUpperCase();
+
+            rut.value = cuerpo + '-' + dv
+
+            if (cuerpo.length < 7) {
+                rut.setCustomValidity("RUT Incompleto");
+                return false;
+            }
+
+            suma = 0;
+            multiplo = 2;
+
+            for (i = 1; i <= cuerpo.length; i++) {
+
+                index = multiplo * valor.charAt(cuerpo.length - i);
+
+                suma = suma + index;
+
+                if (multiplo < 7) {
+                    multiplo = multiplo + 1;
+                } else {
+                    multiplo = 2;
+                }
+
+            }
+
+            dvEsperado = 11 - (suma % 11);
+
+            dv = (dv == 'K') ? 10 : dv;
+            dv = (dv == 0) ? 11 : dv;
+
+            if (dvEsperado != dv) {
+                rut.setCustomValidity("RUT Inválido");
+                return false;
+            }
+
+            rut.setCustomValidity('');
+        }
+
         function admin_product(id, tipo_item, stock) {
             cleanAdmin_ProductModal()
 
@@ -451,7 +485,8 @@
                     }
                 })
                 .then(function(response) {
-                    setAdmin_ProductModal(response.data.itemGet['id'], response.data.itemGet['nombre'], response.data.tipo_item, response.data.itemGet['stock']);
+                    setAdmin_ProductModal(response.data.itemGet['id'], response.data.itemGet['nombre'], response.data
+                        .tipo_item, response.data.itemGet['stock']);
                 })
                 .catch(function(error) {
                     Swal.fire({

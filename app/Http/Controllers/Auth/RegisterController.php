@@ -49,11 +49,22 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $checkUser = User::where('email', '=', $data['email'])->first();
+        if (isset($checkUser) && $checkUser->hasRole('Invitado')) {
+            return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'rut' => ['required', 'string'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        } else {
+            return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'rut' => ['required', 'string'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        }
     }
 
     /**
@@ -64,20 +75,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $checkUser = User::where('correo', '=', $data['correo']);
-        if(isset($checkUser) && $checkUser->hasRole('Invitado')){
+        $checkUser = User::where('email', '=', $data['email'])->first();
+        if (isset($checkUser) && $checkUser->hasRole('Invitado')) {
             $checkUser->name = $data['name'];
+            $checkUser->rut = $data['rut'];
             $checkUser->password = Hash::make($data['password']);
             $checkUser->save();
             $checkUser->syncRoles(['Cliente']);
             return $checkUser;
-        }else{
+        } else {
+            dd("test");
             return User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
+                'rut' => $data['rut'],
                 'password' => Hash::make($data['password']),
             ])->assignRole('Cliente');
         }
-        
     }
 }

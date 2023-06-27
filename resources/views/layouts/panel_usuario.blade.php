@@ -459,7 +459,15 @@
                     <li class="nav-item active">
                         <a class="nav-link @if (request()->routeIs('ventas.*')) active @endif"
                             href="{{ route('ventas.index') }}">
-                            <i class="ni ni-money-coins text-green"></i> Ventas
+                            <i class="ni ni-money-coins text-green"></i> Historial de Ventas
+                        </a>
+                    </li>
+                @endcan
+                @can('acceso ventas')
+                    <li class="nav-item active">
+                        <a class="nav-link @if (request()->routeIs('pedidos_online.*')) active @endif"
+                            href="{{ route('pedidos_online.index') }}">
+                            <i class="ni ni-single-copy-04 text-green"></i> Pedidos Online
                         </a>
                     </li>
                 @endcan

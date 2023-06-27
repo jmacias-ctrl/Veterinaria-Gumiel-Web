@@ -25,10 +25,6 @@
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
                 fps: 10,
-                qrbox: {
-                    width: 350,
-                    height: 350
-                }
             },
             /* verbose= */
             false);

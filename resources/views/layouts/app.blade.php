@@ -149,7 +149,7 @@
                 <a href="{{ route('servicios') }}"
                     class="nav-item nav-link @if (request()->routeIs('servicios')) active @endif">Servicios</a>
             </div>
-            
+
             @guest
                 @if (Route::has('login'))
                     <a class="pl-0 nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
@@ -163,36 +163,27 @@
                     aria-haspopup="true" aria-expanded="false" v-pre>
                     <div class="d-flex align-items-stretch">
                         @if (isset(Auth::user()->image))
-                            <img class="align-self-stretch" src="{{ asset('storage') . '/' . Auth::user()->image }}" alt=""
-                                style="width:40px; height:40px;">
+                            <img class="align-self-stretch" src="{{ asset('storage') . '/' . Auth::user()->image }}"
+                                alt="" style="width:40px; height:40px;">
                         @else
                             <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg"
                                 style="width:40px; height:40px;">
                         @endif
-                        <p class="ms-2 text-center align-self-center text-wrap">{{ explode(' ', Auth::user()->name)[0] }}</p>
+                        <p class="ms-2 text-center align-self-center text-wrap">{{ explode(' ', Auth::user()->name)[0] }}
+                        </p>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    @hasrole('Admin')
-                        <a class="dropdown-item" href="{{ route('admin') }}">
-                            {{ __('Panel de Administrador') }}
+                    @hasanyrole('Cliente|Invitado')
+                        <a class="dropdown-item" href="{{ route('mi-perfil') }}">
+                            {{ __('Ver mi Perfil') }}
                         </a>
-                    @endhasrole
-                    @hasrole('Veterinario')
-                        <a class="dropdown-item" href="{{ route('veterinario') }}">
-                            {{ __('Panel de Veterinario') }}
+                    @else
+                        <a class="dropdown-item" href="{{ route('inicio_panel') }}">
+                            {{ __('Acceder al Panel') }}
                         </a>
-                    @endhasrole
-                    @hasrole('Peluquero')
-                        <a class="dropdown-item" href="{{ route('peluquero') }}">
-                            {{ __('Panel de Peluquero') }}
-                        </a>
-                    @endhasrole
-                    @hasrole('Inventario')
-                        <a class="dropdown-item" href="{{ route('inventario') }}">
-                            {{ __('Panel de Inventario') }}
-                        </a>
-                    @endhasrole
+                    @endhasanyrole
+
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -212,7 +203,8 @@
     @yield('content')
     <script src="{{ asset('js/horarios.js') }}" defer></script>
     <!-- Footer Start -->
-    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn"
+        data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-7">
                 <div class="col-lg-3 col-md-4">

@@ -48,8 +48,10 @@ class CompraController extends Controller
         $trazabilidad = new trazabilidad_venta_presencial();
         $trazabilidad->id_venta = Str::random(10);
         $trazabilidad->metodo_pago = 'online';
-        $trazabilidad->nombre_cliente = "compra online";
+        $trazabilidad->estado = 'pagado';
+        $trazabilidad->nombre_cliente = auth()->user()->name;;
         $trazabilidad->fecha_compra = Carbon::now()->toDateString();
+        $trazabilidad->id_cliente = auth()->user()->id;
         $trazabilidad->save();
 
         foreach($cartCollection as $item){

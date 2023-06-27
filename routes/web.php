@@ -200,8 +200,7 @@ Route::group(['middleware' => ['auth','role:Admin']], function () {
     //Rutas funcionarios
     Route::resource('/funcionarios', 'App\Http\Controllers\FuncionariosController');
 
-    Route::post('/a', 'ComprobanteController@generarComprobante');
-    Route::get('/generar-comprobante', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comprobante');
+
 });
 Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
@@ -245,6 +244,8 @@ Route::group(['middleware' => ['auth','can:acceso punto de venta']], function ()
     Route::get('inventario/punto_de_venta/update', [App\Http\Controllers\PointSaleController::class, 'update_product'])->name('point_sale.updateProduct');
     Route::get('inventario/punto_de_venta/clear', [App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');
     Route::get('inventario/punto_de_venta/remove', [App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
+    Route::get('inventario/pedidos-online', [App\Http\Controllers\PointSaleController::class, 'pedidos_online'])->name('pedidos_online.index');
+    Route::post('inventario/pedidos-online/cambiar-estado', [App\Http\Controllers\PointSaleController::class, 'cambiar_estado_pedido'])->name('pedidos_online.cambiar_estado');
 });
 Route::group(['middleware' => ['auth','can:acceso ventas']], function () {
     Route::get('inventario/detalle_venta', [App\Http\Controllers\PointSaleController::class, 'detalle_venta'])->name('ventas.detalle');
@@ -278,7 +279,9 @@ Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class, 'ch
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
 });
-
+Route::get('/mi-perfil', [App\Http\Controllers\UserController::class, 'user_profile_cliente'])->name('mi-perfil')->middleware('auth');
+Route::get('/pedidos', [App\Http\Controllers\PointSaleController::class, 'mis_pedidos'])->name('mis-pedidos')->middleware('auth');
+Route::get('/ver-pedido', [App\Http\Controllers\PointSaleController::class, 'ver_pedido'])->name('ver-pedido')->middleware('auth');
 Auth::routes();
 
 Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');

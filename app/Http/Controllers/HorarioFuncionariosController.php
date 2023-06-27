@@ -62,7 +62,7 @@ class HorarioFuncionariosController extends Controller
                 }
                 if($afternoon_start[$i] == $afternoon_end[$i]){
                     if (isset($active[$i]) && $active[$i]) {
-                        $errors [] ='Inconsistencia en el intervalo de las horas del turno de la tarde del día : '. $this->days[$i] .'.';
+                        $errors [$i] ='Inconsistencia en el intervalo de las horas del turno de la tarde del día : '. $this->days[$i] .'.';
                     }else{
                         $active[$i] = false;
                     }

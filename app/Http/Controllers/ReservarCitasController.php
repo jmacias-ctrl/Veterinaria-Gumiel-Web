@@ -17,7 +17,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
-
+use Illuminate\Support\Facades\DB;
+use DataTables;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Cita;
 
 class ReservarCitasController extends Controller
 {
@@ -68,6 +71,19 @@ class ReservarCitasController extends Controller
                 ->get();
     
         } elseif ($user->hasRole('Cliente')) {
+            // Cliente
+            $confirmedCita = ReservarCitas::where('status', 'Confirmada')
+                ->where('paciente_id', $user->id)
+                ->get();
+    
+            $pendingCita = ReservarCitas::where('status', 'Reservada')
+                ->where('paciente_id', $user->id)
+                ->get();
+    
+            $oldCita = ReservarCitas::whereIn('status', ['Atendida', 'Cancelada'])
+                ->where('paciente_id', $user->id)
+                ->get();
+        } elseif ($user->hasRole('Invitado')) {
             // Cliente
             $confirmedCita = ReservarCitas::where('status', 'Confirmada')
                 ->where('paciente_id', $user->id)
@@ -141,7 +157,7 @@ class ReservarCitasController extends Controller
             if($date &&  $funcionarioId && $sheduled_time){
                 $start = new Carbon($sheduled_time);
             }else{
-                return;
+                return view('ReservarCitas.index_cliente');
             }
 
             if (!$horarioFuncionarioServiceInterface->isAvailableInterval($date, $funcionarioId, $start)) {
@@ -267,4 +283,181 @@ class ReservarCitasController extends Controller
         
         return redirect('/miscitas')->with(compact('notification'));
     }
+
+    public function login(){
+        return view('ReservarCitas.login');
+    }
+
+    public function registro_invitado(){
+        return view('ReservarCitas.registro_invitado');
+    }
+
+    public function login_citas(Request $request){
+        $credentials = $request->only('email', 'password');
+
+        
+        $rules = [
+            'email'  => 'required|email',
+            'password' => 'required|min:7' //cambiar a 8 (para probar cliente demo)
+        ];
+        $attributes = [
+            'email' => 'Correo',
+            'password' => 'Contraseña',
+        ];
+        $message = [
+            'required' => ':attribute es obligatorio.',
+            'min' => ':attribute invalida, debe ser minimo :min.',
+            'email' => ':attribute invalida, ingrese :attribute nuevamente.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message, $attributes);
+        if ($validator->passes()) {
+            if(!auth()->attempt(['email' => $request->email, 'password' => $request->password])){
+                return back()->withErrors(['message' => 'Email o Contraseña incorrectos, vuelva a intentarlo.']); 
+            }
+            return redirect('/guardar-cita');
+       
+        }if (Auth::attempt($credentials)) {
+            // La autenticación fue exitosa
+            return redirect('/guardar-cita');
+        } else {
+            // La autenticación falló
+            return redirect()->back()->withErrors(['message' => 'Credenciales inválidas']);
+        }
+    }
+
+    public function registro_invitado_citas(Request $request)
+    {   
+        $rules = [
+            'nombre' => 'required|string',
+            'rut'  => 'required|string|max:10',
+            'email_register'  => 'required|email',
+            'telefono' => 'required|digits:9'
+        ];
+        $attributes = [
+            'nombre' => 'Nombre',
+            'rut' => 'Rut',
+            'email_register' => 'Correo',
+            'telefono' => 'Teléfono',
+        ];
+        $message = [
+            'required' => ':attribute es obligatorio.',
+            'integer' => ':attribute no es un numero de teléfono, ingrese nuevamente',
+            'digits' => ':attribute invalido, :attribute debe ser :digits dígitos',
+            'max' => ':attribute invalido, debe ser máximo :max',
+            'email' => ':attribute invalido, ingrese :attribute nuevamente'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message, $attributes);
+        if ($validator->passes()) {
+            try {
+                db::beginTransaction();
+                $role=Role::where('name', '=', 'Invitado')->get();
+                $rol = array(
+                    $role[0]->id => $role[0]->name
+                );
+                $user = new User;
+                $user->name = $request->nombre;
+                $user->rut =  $request->rut;
+                $user->email = $request->email_register;
+                $user->phone = $request->telefono;
+                $user->save();
+                db::commit();
+                $user->assignRole($rol);
+                auth()->login($user);
+                return redirect('/guardar-cita');
+            } catch (QueryException $exception) {
+                DB::rollBack();
+                return back()->withInput();
+            }
+
+        }return back()->withErrors($validator)->withInput();
+        
+    }
+
+//     public function guardarCita(Request $request)
+// {
+//     // Obtener los datos de la cita desde el formulario de solicitud
+//     $tiposervicioId = $request->input('tiposervicio_id');
+//     $funcionarioId = $request->input('funcionario_id');
+//     $scheduledDate = $request->input('scheduled_date');
+//     $scheduledTime = $request->input('sheduled_time');
+//     $description = $request->input('description');
+//     // ... Obtener el resto de los datos de la cita ...
+
+//     // Crear la nueva cita y guardarla en la base de datos
+//     $cita = new ReservarCitas();
+//     $cita->tiposervicio_id = $tiposervicioId;
+//     $cita->funcionario_id = $funcionarioId;
+//     $cita->scheduled_date = $scheduledDate;
+//     $cita->sheduled_time = $scheduledTime;
+//     $cita->description = $description;
+//     // ... Establecer el resto de los atributos de la cita ...
+//     $cita->save();
+
+//     // Puedes redirigir al usuario a una página de éxito o mostrar un mensaje de confirmación
+//     $notification = 'La cita se ha confirmado correctamente.';
+//     return redirect('/miscitas')->with(compact('notification'));
+// }
+
+public function guardarCita(Request $request, HorarioFuncionarioServiceInterface $horarioFuncionarioServiceInterface){
+    $rules = [
+        'sheduled_time'=> 'required',
+        'type'=> 'required',
+        'description' => 'required',
+        'funcionario_id' =>'exists:users,id',
+        'tiposervicio_id' => 'exists:tiposervicios,id'
+    ];
+
+    $messages=[
+        'sheduled_time.required' => 'Debe seleccionar una hora valida para su cita.',
+        'type.required' => 'Debe seleccionar el tipo de consulta.',
+        'description.required'=> 'Debe ingresar los síntomas de su mascota.'
+    ];
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    $validator->after(function ($validator) use ($request, $horarioFuncionarioServiceInterface){
+
+        $date = $request-> input('scheduled_date');
+        $funcionarioId = $request->input('funcionario_id');
+        $sheduled_time = $request->input('sheduled_time');
+        if($date &&  $funcionarioId && $sheduled_time){
+            $start = new Carbon($sheduled_time);
+        }else{
+            return view('ReservarCitas.index_cliente');
+        }
+
+        if (!$horarioFuncionarioServiceInterface->isAvailableInterval($date, $funcionarioId, $start)) {
+            $validator->errors()->add(
+                'available', 'La hora seleccionada ya se encuentra reservada por otro paciente'
+            );
+        }
+    });
+
+    if ($validator->fails()) {
+        return back()
+                    ->withErrors($validator)
+                    ->withInput();
+    }
+
+    $data = $request->only([
+        'scheduled_date',
+        'sheduled_time',
+        'type',
+        'description',
+        'funcionario_id',
+        'tiposervicio_id'
+    ]);
+    $data['paciente_id']  = auth()->id();
+    $servicio = servicios::find($data['type']);
+    $data['type'] = $servicio->nombre;
+    $data['id_servicio'] = $servicio->id;
+    $carbonTime = Carbon::createFromFormat('H:i', $data['sheduled_time']);
+    $data['sheduled_time'] = $carbonTime->format('H:i:s');
+
+    ReservarCitas::create($data);
+
+    $notification = 'La cita se ha realizado correctamente.';
+    return back()->with(compact('notification'));
+} 
 }

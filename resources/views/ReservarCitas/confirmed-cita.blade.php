@@ -7,6 +7,8 @@
                         <th scope="col">Tipo Servicio</th>
                         @if (auth()->user()->hasRole('Cliente'))
                         <th scope="col">Funcionario</th>
+                        @elseif (auth()->user()->hasRole('Invitado'))
+                        <th scope="col">Funcionario</th>
                         @elseif(auth()->user()->hasRole('Veterinario'))
                         <th scope="col">Paciente</th>
                         @elseif (auth()->user()->hasRole('Peluquero'))
@@ -17,6 +19,8 @@
                         @if (auth()->user()->hasRole('Veterinario'))
                         <th scope="col">Tipo</th>
                         @elseif (auth()->user()->hasRole('Cliente'))
+                        <th scope="col">Tipo / Tamaño</th>
+                        @elseif (auth()->user()->hasRole('Invitado'))
                         <th scope="col">Tipo / Tamaño</th>
                         @elseif (auth()->user()->hasRole('Peluquero'))
                         <th scope="col">Tamaño</th>
@@ -34,6 +38,8 @@
                     <td>{{ $cita->description }}</td>
                     <td>{{ $cita->tiposervicio->nombre }}</td>
                     @if (auth()->user()->hasRole('Cliente'))
+                    <td>{{ $cita->funcionario->name }}</td>
+                    @elseif (auth()->user()->hasRole('Invitado'))
                     <td>{{ $cita->funcionario->name }}</td>
                     @elseif (auth()->user()->hasRole('Veterinario'))
                     <td>{{ $cita->paciente->name }}</td>

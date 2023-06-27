@@ -27,9 +27,7 @@
 @endsection
 
 @section('js-before')
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
 
@@ -188,9 +186,40 @@
                     </div>
                 
                     <br>
-                    <button type="submit" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;">Guardar</button>
+                    <div class="pb-5 pr-5 pl-5">
+                        
+                            @guest
+                                <form id="login" action="{{ route('ReservarCitas.login')}}" method="get">
+                                    {{csrf_field()}}
+                                    <input type="submit" id="btn-login" value="Agendar" class="btn btn-block font-weight-bold" style="color:pink; background-color:#19A448; border-color:#19A448;"/>
+                                </form>
+                            @else
+                                <form id="guardar" action="" method="POST">
+                                {{csrf_field()}}
+                                <input type="submit" id="submitButton" value="Guardar" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;"/>
+                                </form>
+                            @endguest
+                        
+                    </div>
 
-                    <button type="button" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;" id="btnprueba"  data-bs-target="#OpcionesInv">Boton de prueba</button>
+                    <p>otro boton</p>
+
+                    <div class="pb-5 pr-5 pl-5">
+                        @guest <!-- Verifica si el usuario no ha iniciado sesión -->
+                            <p>Debes iniciar sesión o ingresar como invitado para guardar la hora médica.</p>
+                            <a href="{{ route('ReservarCitas.login') }}" class="btn btn-block font-weight-bold" style="color: pink; background-color: #19A448; border-color: #19A448;">Iniciar sesión</a>
+                        @else
+                            <form id="guardar" action="" method="POST">
+                            {{csrf_field()}}
+                            <input type="submit" id="submitButton" value="Guardar" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;"/>
+                            </form>                        
+                        @endguest
+                    </div>
+                    
+                    
+                   
+
+                    <!-- <button type="button" class="btn btn-sm btn-primary" style="background-color:#19A448; border-color:#19A448;" id="btnprueba"  data-bs-target="#OpcionesInv">Boton de prueba</button> -->
                     
                 </form>
             </div>
@@ -215,6 +244,9 @@
         // Verificar si los campos del formulario están llenos
         if (verificarFormularioCompleto()) {
           // Si el formulario está completo, mostrar el modal
+
+        
+
           $('#OpcionesInv').modal('show');
         } else {
           // Si el formulario no está completo, mostrar un mensaje de error o realizar otra acción
@@ -239,6 +271,9 @@
           text: mensaje,
         });
       }
+
     });
   </script>
+
+
 @endsection

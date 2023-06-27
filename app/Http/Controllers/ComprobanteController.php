@@ -1,24 +1,28 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Comprobante;
 
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
 
 class ComprobanteController extends Controller
 {
-    // public function show($id)
-    // {
-    //     $comprobante = Comprobante::findOrFail($id);
-    //     return view('comprobante', ['comprobante' => $comprobante]);
-    // }
+    public function generarComprobante($id)
+    {
+        $data = [];
+        // $html = view('pdf.comprobante-pago', compact('data'))->render();
 
-    public function generarComprobante(){
-        $comprobante = new Comprobante(); // cambiarlo por la instancia de una cosa real
-        $comprobante->numero = '0001';
-        $comprobante->fecha = '2021-10-01';
-        $comprobante->cliente = 'Juan Perez';
-        $comprobante->monto = '100.00';
-        return view('comprobante', ['comprobante' => $comprobante]);
+        $html = "<p>Comprobante N{$id}</p>";
+        $dompdf = new Dompdf();
+
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $dompdf->stream('ejemplo.pdf');
+
+        return response()->make($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="ejemplo.pdf"',
+        ]);
     }
 }

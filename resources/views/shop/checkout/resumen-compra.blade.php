@@ -118,7 +118,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                 @include('pdf.comprobante-pago')
 
                 <div class="text-center">
-                    <button href="{{ route('testing') }}" class="btn btn-danger m-4" type="button">
+                    <button href="{{ route('testing', ['id' => $id]) }}" class="btn btn-danger m-4" type="button">
                         <i class="fas fa-file-pdf"></i> Descargar Comprobante de pago
                     </button>
                 </div>

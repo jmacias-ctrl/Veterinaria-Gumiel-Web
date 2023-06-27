@@ -15,6 +15,7 @@ class ComprobanteDePago extends Mailable
 
     public $response;
     public $cartCollection;
+    public $user;
 
     /**
      * Create a new message instance.
@@ -25,6 +26,7 @@ class ComprobanteDePago extends Mailable
     {
         $this->response = $data['response'];
         $this->cartCollection = $data['cartCollection'];
+        $this->user = $data['user'];
     }
 
     /**
@@ -34,6 +36,6 @@ class ComprobanteDePago extends Mailable
      */
     public function build()
     {
-        return $this->subject('Comprobante de pago')->view('emails.comprobante_pago')->with('response', $this->response)->with('cartCollection', $this->cartCollection);
+        return $this->subject('Comprobante de pago')->view('emails.comprobante_pago')->with('response', $this->response)->with('cartCollection', $this->cartCollection)->with('user', $this->user);
     }
 }

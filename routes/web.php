@@ -202,32 +202,19 @@ Route::group(['middleware' => ['auth','role:Admin']], function () {
     //Rutas funcionarios
     Route::resource('/funcionarios', 'App\Http\Controllers\FuncionariosController');
 
-
     Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
-    Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas');
+    Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas');    
 
-    Route::get('/testing', [\App\Http\Controllers\TestingController::class, 'index'] )->name('testing');
-    
-    Route::get('/generate-pdf', function(){
-        $html = view('pdf.comprobante-pago')->render();
-        $dompdf = new Dompdf();
-
-        $dompdf->loadHtml($html);
-        $dompdf->render();
-
-        $dompdf->stream('ejemplo.pdf');
-    } )->name('generate-pdf');
-
-    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
-    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
-    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
+    Route::get('/generar-comprobante-pago/{id}', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comrpobante-pago');
 });
+
+Route::get('/testing/{id}', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('testing');
+
 Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
     Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
     //Rutas pacientes
     Route::resource('/pacientes','App\Http\Controllers\PacientesController');
-    
 });
 Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios')->middleware('role_or_permission:acceso ventas|acceso punto de venta|acceso administracion de stock|Admin');
 Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas')->middleware('role_or_permission:ver gestionvet|ver gestionpeluqueria|ver citas|Admin');

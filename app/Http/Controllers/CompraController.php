@@ -101,25 +101,32 @@ class CompraController extends Controller
 
         $user = User::find(auth()->user()->id);
 
-        //Generar el PDF
-        $pdf = \PDF::loadView('pdf.comprobante-pago', compact('response', 'cartCollection', 'user'));
-
-        //Enviar correo
-        $pdf->download("main.pdf");
+        $fecha = Carbon::now()->toDateString();
+        $hora = Carbon::now()->toTimeString();
 
         $data = [
             'response' => $response,
             'cartCollection' => $cartCollection,
+            'user' => $user,
+            'fecha' => $fecha,
+            'hora' => $hora,
+            'items_comprados' => $items_comprados,
+        ];
+
+        //Generar el PDF
+        $pdf = \PDF::loadView('pdf.comprobante-pago', compact('response', 'cartCollection', 'user', 'items_comprados', 'fecha', 'hora'));
+
+        $data = [
+            'response' => $response,
+            'cartCollection' => $cartCollection,
+            'user' => $user,
         ];
         
         $correo = new ComprobanteDePago($data);
-
-        // adjuntamos el pdf
         $correo->attachData($pdf->output(), 'comprobante.pdf');
+        Mail::to($user->email)->send($correo);
 
-        Mail::to($user)->send($correo);
-
-        return view('shop.checkout.resumen-compra')->with(['response' => $response])->with(['cartCollection' => $cartCollection]);
+        return view('shop.checkout.resumen-compra')->with(['response' => $response])->with(['cartCollection' => $cartCollection])->with(['user' => $user]);
     }
 
     public function finish($status_finish)

@@ -25,7 +25,7 @@ class CreateReservarCitasTable extends Migration
             $table->unsignedBigInteger('funcionario_id');
             $table->foreign('funcionario_id')->references('id')->on('users')->onDelete('cascade');
 
-            //funcionario
+            //paciente
             $table->unsignedBigInteger('paciente_id');
             $table->foreign('paciente_id')->references('id')->on('users')->onDelete('cascade');
             

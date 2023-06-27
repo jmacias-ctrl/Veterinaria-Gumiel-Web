@@ -16,10 +16,11 @@ class HorarioFuncionarioService implements HorarioFuncionarioServiceInterface {
 
     public function isAvailableInterval($date, $funcionarioId, Carbon $start){
         $exists = ReservarCitas::where('funcionario_id', $funcionarioId)
-                ->where('scheduled_date', $date )
+                ->where('scheduled_date', $date)
                 ->where('sheduled_time', $start->format('H:i:s'))
+                ->where('status','!=','Cancelada')
                 ->exists();
-            return !$exists;
+        return !$exists;
     }
 
     public function getAvailableIntervals($date, $funcionarioId){
@@ -69,4 +70,6 @@ class HorarioFuncionarioService implements HorarioFuncionarioServiceInterface {
 
         return $intervalos;
     }
+
+
 }

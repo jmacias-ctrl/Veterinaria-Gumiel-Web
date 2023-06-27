@@ -50,8 +50,9 @@ class HorarioFuncionariosController extends Controller
         $afternoon_end = $request->input('afternoon_end');
 
         
-
+        
         $errors = [];
+    
         for($i=0; $i<7;++$i){
             
                 if($morning_start[$i] > $morning_end[$i]){
@@ -60,12 +61,17 @@ class HorarioFuncionariosController extends Controller
                 if($afternoon_start[$i] > $afternoon_end[$i]){
                     $errors [] ='Inconsistencia en el intervalo de las horas del turno de la tarde del día : '. $this->days[$i] .'.';
                 }
-                if($afternoon_start[$i] == $afternoon_end[$i]){
-                    if (isset($active[$i]) && $active[$i]) {
-                        $errors [] ='Inconsistencia en el intervalo de las horas del turno de la tarde del día : '. $this->days[$i] .'.';
-                    }else{
-                        $active[$i] = false;
+                if($morning_start[$i] == $morning_end[$i] || $afternoon_start[$i] == $afternoon_end[$i]){
+                    // if (isset($active[$i]) && $active[$i]) {
+                    //     $errors [$i] ='Inconsistencia en el intervalo de las horas (Horas iguales) : '. $this->days[$i] .'.'.$active[$i];
+                    // }else{
+                    //     $active[$i] = false;
+                    // }
+
+                    if (in_array($i, $active) == 1) {
+                        $errors [] ='Inconsistencia en el intervalo de las horas (Turnos iguales) : '. $this->days[$i] .'.';
                     }
+                   
                 }
             
 

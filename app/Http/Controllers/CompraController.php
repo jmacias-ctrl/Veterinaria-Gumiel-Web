@@ -99,18 +99,6 @@ class CompraController extends Controller
             $producto->save();
         }
 
-        $response = (new Transaction)->status($request->token);
-        $compra = Compra::find($response->buyOrder);
-        $compra->token = $request->token;
-        $compra->status = $response->status;
-        $compra->save();
-        $a = "ids = ";
-        foreach ($cartCollection as $item) {
-            $venta = productos_ventas::find($item->id);
-            $venta->stock = $venta->stock - $item->quantity;
-            $venta->save();
-        }
-
         $user = User::find(auth()->user()->id);
 
         //Generar el PDF

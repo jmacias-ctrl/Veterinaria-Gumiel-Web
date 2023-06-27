@@ -4,7 +4,7 @@
     <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
         <h1 class="font-weight-bold m-0"><i class="bi bi-card-checklist mr-3"></i>Resumen de compra</h1>
         <div class="font-weight-bold m-0">
-            <h5 class="m-0">Hola {{$user->name}}</h5>
+            <h5 class="m-0">Hola {{$userGet->name}}</h5>
         </div>
     </div>
 </div>

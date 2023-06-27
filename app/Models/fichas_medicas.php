@@ -12,6 +12,7 @@ class fichas_medicas extends Model
     use HasFactory;
 
     protected $table = 'fichas_medicas';
+    
     protected $fillable = [
         'nombre_paciente',
         'propietario',

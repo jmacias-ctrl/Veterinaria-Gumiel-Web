@@ -7,10 +7,12 @@ use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ComprobanteController;
+use App\Http\Controllers\TestingController;
 use app\Http\Controllers\CartController;
 use App\Mail\ConfirmacionHora;
 use Illuminate\Support\Facades\Mail;
 use app\Http\Controllers\CompraController;
+use Dompdf\Dompdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -201,6 +203,24 @@ Route::group(['middleware' => ['auth','role:Admin']], function () {
     Route::resource('/funcionarios', 'App\Http\Controllers\FuncionariosController');
 
 
+    Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
+    Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas');
+
+    Route::get('/testing', [\App\Http\Controllers\TestingController::class, 'index'] )->name('testing');
+    
+    Route::get('/generate-pdf', function(){
+        $html = view('pdf.comprobante-pago')->render();
+        $dompdf = new Dompdf();
+
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $dompdf->stream('ejemplo.pdf');
+    } )->name('generate-pdf');
+
+    // Route::get('perfil', [App\Http\Controllers\UserController::class, 'user_profile'])->name('user.profile.index');
+    // Route::get('perfil/edit', [App\Http\Controllers\UserController::class, 'modify_user_profile'])->name('user.profile.modify');
+    // Route::post('perfil/update', [App\Http\Controllers\UserController::class, 'update_user_profile'])->name('user.profile.update');
 });
 Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');

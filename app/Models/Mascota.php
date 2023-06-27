@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Mascota extends Model
 {
     use HasFactory;
+
+    // si creo un fillable
 }

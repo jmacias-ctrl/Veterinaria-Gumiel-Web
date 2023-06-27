@@ -132,7 +132,7 @@
             <h1>Comprobante de pago</h1>
             <img class="" src="{{asset('image/confirmed.png')}}" id="cancel" alt="confirmed">
 
-            <pre style="font-size: 20px">Estimado/a <b>{{$user->name}}</b>,
+            <pre style="font-size: 20px">Estimado/a <b>{{Auth::user()->name}}</b>,
 
                 Gracias por confiar en <b>{{ "Veterinaria Gumiel" }}</b>. Adjunto a este correo encontrarás el comprobante de pago por la compra que realizaste.
 

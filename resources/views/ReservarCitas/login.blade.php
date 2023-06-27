@@ -12,7 +12,7 @@ Ingresar
                 <div class="text-center text-muted mb-4">
                     <h3>Inicio de Sesión</h3>
                 </div>
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('login_citas') }}">
                     @csrf
 
                     <input type="hidden" name="redirectTo" value="{{ url('/agendar-horas') }}">

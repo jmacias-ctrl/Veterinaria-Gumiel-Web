@@ -308,7 +308,6 @@ Route::post('/agendar-hora/registro_invitado',[\App\Http\Controllers\ReservarCit
 //JSON
     Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
     Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
-    Route::get('/guardar-cita', [App\Http\Controllers\ReservarCitasController::class, 'guardarCita']);
 
 Route::middleware('auth')->group(function(){
     Route::get('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');

@@ -210,6 +210,6 @@ class ControlServicioController extends Controller
         $showItemBought['name'] = $servicio->nombre;
         $showItemBought['price'] = $servicio->precio;
         $showItemBought['quantity'] = 1;
-        return response()->json(['success' => true, 'metodoPago' => $request->metodoPago, 'fecha' => $fecha_t, 'hora' => $hora, 'servicioPagado' => $showItemBought, 'montoFinal' => $montoFinal, 'nuevaVenta' => $nuevaVenta], 200);
+        return response()->json(['success' => true, 'metodoPago' => $request->metodoPago, 'fecha' => $fecha_t, 'hora' => $hora, 'servicioPagado' => $showItemBought, 'montoFinal' => $montoFinal, 'nuevaVenta' => $nuevaVenta, 'ventaId'=>$nuevaVenta->id], 200);
     }
 }

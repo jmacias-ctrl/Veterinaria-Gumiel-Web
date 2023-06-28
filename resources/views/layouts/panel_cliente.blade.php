@@ -6,7 +6,7 @@
                     <span class="material-icons" style="position:relative; top:6px;">person</span>Mi Perfil</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('mis-pedidos') }}" style="@if (request()->routeIs('/mis-pedidos')) color:black; @endif">
+                <a class="nav-link" href="{{ route('mis-pedidos') }}" style="@if (request()->routeIs('mis-pedidos')) color:black; @endif">
                     <span class="material-icons" style="position:relative; top:6px">list_alt</span> Mis Pedidos</a>
             </li>
             <li class="nav-item">
@@ -14,7 +14,7 @@
                     <span class="material-icons"style="position:relative; top:6px">schedule</span> Agendar hora</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('Agendar') }}" style="@if (request()->routeIs('/miscitas')) color:black; @endif">
+                <a class="nav-link" href="{{ route('Agendar') }}" style="@if (request()->routeIs('Agendar')) color:black; @endif">
                     <span class="material-icons" style="position:relative; top:6px">calendar_month</span> Mis citas</a>
             </li>
         </ul>

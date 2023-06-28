@@ -45,13 +45,14 @@
                 </div>
                 <hr>
 
-                <div class="d-flex justify-content-center" style="display:none;">
+                <div class="d-flex justify-content-center">
 
-                    <form class="form-inline d-none">
+                    <form class="form-inline" action="{{route('point_sale.enviar_comprobante')}}" method="POST">
+                        @csrf
+                        <input type="hidden" id="ventaId" name="ventaId">
                         <label for="email_cliente" class="form-label mr-4">Enviar comprobante por correo</label>
                         <div class="form-group mb-2">
-                            <input type="email" class="form-control" id="email_cliente" name="email_cliente"
-                                value="email@example.com">
+                            <input type="email" class="form-control" id="email_cliente" name="email_cliente" placeholder="email@example.com" required>
                         </div>
                         <button type="submit" class="btn btn-primary mb-2">Enviar</button>
                     </form>

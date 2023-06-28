@@ -17,6 +17,8 @@
                 </div>
             </form>
         @endif
+        <a name="" id="" class="btn btn-outline-danger" href="{{route('ventas.comprobante', ['ventaId'=>$id])}}" role="button"><span
+            class="material-symbols-outlined">download</span></a>
         <button type="button" class="btn btn-sm btn-secondary @if(request()->routeIs('pedidos_online.index')) ml-3 @endif" onclick="verDetalle({{ $id }})"><span
                 class="material-symbols-outlined">info</span></button>
     </td>

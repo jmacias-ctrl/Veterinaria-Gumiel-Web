@@ -196,10 +196,6 @@
                     }).then((result) => {
 
                         if (result.isConfirmed) {
-                            console.log(efectivo);
-                            console.log(nombreCliente);
-                            console.log(banco);
-                            console.log(numOperacion);
                             axios.post("{{ route('point_sale.venta') }}", {
                                     metodoPago: metodoPago,
                                     banco: banco,
@@ -209,7 +205,8 @@
                                     numOperacion: numOperacion,
                                 })
                                 .then(function(response) {
-                                    $('#pagoVenta').modal('toggle')
+                                    $('#pagoVenta').modal('toggle');
+                                    $('#ventaId').val(response.data.ventaId);
                                     toastr.success('Venta realizada exitosamente')
                                     $('#numVenta').html('Num. venta: ' + response.data
                                         .nuevaVenta['id_venta']);

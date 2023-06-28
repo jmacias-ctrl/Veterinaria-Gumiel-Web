@@ -99,8 +99,6 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 <span class="m-0">Email Cliente:</span>
                                 <span class="m-0">{{Auth::user()->email}}</span>
                             </div>
-
-                            <button class="btn btn-danger m-4" type="button"><i class="fas fa-file-pdf"></i> Descargar Comprobante de pago</button>
                         
                         </div>
                     </div>

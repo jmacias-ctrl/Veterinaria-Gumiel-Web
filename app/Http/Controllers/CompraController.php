@@ -95,7 +95,6 @@ class CompraController extends Controller
                 'stock' => $producto->stock,];
 
             array_push($items_comprados, $_item);
-
             $producto->save();
         }
 
@@ -112,7 +111,6 @@ class CompraController extends Controller
             'hora' => $hora,
             'items_comprados' => $items_comprados,
         ];
-
         //Generar el PDF
         $pdf = \PDF::loadView('pdf.comprobante-pago', compact('response', 'cartCollection', 'user', 'items_comprados', 'fecha', 'hora'));
 
@@ -124,7 +122,7 @@ class CompraController extends Controller
         
         $correo = new ComprobanteDePago($data);
         $correo->attachData($pdf->output(), 'comprobante.pdf');
-        Mail::to($user->email)->send($correo);
+        Mail::to($user->email)->queue($correo);
 
         return view('shop.checkout.resumen-compra')->with(['response' => $response])->with(['cartCollection' => $cartCollection])->with(['user' => $user]);
     }

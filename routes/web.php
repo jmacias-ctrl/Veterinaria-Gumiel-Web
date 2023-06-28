@@ -254,10 +254,12 @@ Route::group(['middleware' => ['auth','can:acceso punto de venta']], function ()
     Route::get('inventario/punto_de_venta/remove', [App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
     Route::get('inventario/pedidos-online', [App\Http\Controllers\PointSaleController::class, 'pedidos_online'])->name('pedidos_online.index');
     Route::post('inventario/pedidos-online/cambiar-estado', [App\Http\Controllers\PointSaleController::class, 'cambiar_estado_pedido'])->name('pedidos_online.cambiar_estado');
+    Route::post('inventario/enviar-comprobante', [App\Http\Controllers\PointSaleController::class, 'enviar_comprobante'])->name('point_sale.enviar_comprobante');
 });
 Route::group(['middleware' => ['auth','can:acceso ventas']], function () {
     Route::get('inventario/detalle_venta', [App\Http\Controllers\PointSaleController::class, 'detalle_venta'])->name('ventas.detalle');
     Route::get('inventario/ventas', [App\Http\Controllers\PointSaleController::class, 'mostrar_ventas'])->name('ventas.index');
+    Route::get('inventario/ventas/comprobante/{ventaId}', [App\Http\Controllers\PointSaleController::class, 'descarga_comprobante'])->name('ventas.comprobante');
 });
 Route::get('/shop', [\App\Http\Controllers\CartController::class, 'shop'])->name('shop.shop');
 Route::get('shop/cart', [\App\Http\Controllers\CartController::class, 'cart'])->name('shop.cart.index');
@@ -314,7 +316,9 @@ Route::middleware('auth')->group(function(){
 
     
 });
-
+Route::get('comprobante-test', function(){
+    return view('pdf.comprobante-inventario');
+});
 Route ::get('horas', function(){
     return view('emails.confirm_horas');
 });

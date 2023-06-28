@@ -33,20 +33,7 @@
 @section('content')
 
 <div class="form-row">
-    <div class="col-md-3">
-        <div class="card m-3">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('agendar-horas.create') }}">
-                    <span class="material-icons"style="position:relative; top:6px">schedule</span> Agendar hora</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if (request()->routeIs('/miscitas')) active @endif" href="{{route('Agendar')}}">
-                    <span class="material-icons" style="position:relative; top:6px">calendar_month</span> Mis citas</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    @include('layouts.panel_cliente')
     <div class="col-md-9">
         <div class="card shadow me-3">
             <div class="card-header border-0">

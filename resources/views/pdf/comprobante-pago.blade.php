@@ -1,10 +1,10 @@
-<!-- <link rel="stylesheet" href="{{ asset('css/landingpage/bootstrap.min.css') }}"> -->
+<link rel="stylesheet" href="{{ public_path().'/css/landingpage/bootstrap.min.css' }}">
 
 <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">
     <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
         <h1 class="font-weight-bold m-0"><i class="bi bi-card-checklist mr-3"></i>Resumen de compra</h1>
         <div class="font-weight-bold m-0">
-            <img src="{{ asset('image/logo2.jpg') }}" alt="Icono" class="mr-3" width="300">
+            <img src="{{  public_path().'/image/logo2.jpg' }}" alt="Icono" class="mr-3" width="300">
         </div>
     </div>
 </div>

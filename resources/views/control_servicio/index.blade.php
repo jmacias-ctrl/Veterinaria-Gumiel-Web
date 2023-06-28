@@ -213,6 +213,7 @@
                             })
                             .then(function(response) {
                                 $('#pagoVenta').modal('hide')
+                                $('#ventaId').val(response.data.ventaId);
                                 toastr.success('Venta realizada exitosamente')
                                 $('#numVenta').html('Num. venta: ' + response.data
                                     .nuevaVenta['id_venta']);

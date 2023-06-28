@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 class CartController extends Controller
 {
     public function shop(Request $request)
-
     {   
         
         $texto=$request->texto;

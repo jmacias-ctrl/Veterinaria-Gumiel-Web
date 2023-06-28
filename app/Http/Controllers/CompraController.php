@@ -103,14 +103,6 @@ class CompraController extends Controller
         $fecha = Carbon::now()->toDateString();
         $hora = Carbon::now()->toTimeString();
 
-        $data = [
-            'response' => $response,
-            'cartCollection' => $cartCollection,
-            'user' => $user,
-            'fecha' => $fecha,
-            'hora' => $hora,
-            'items_comprados' => $items_comprados,
-        ];
         //Generar el PDF
         $pdf = \PDF::loadView('pdf.comprobante-pago', compact('response', 'cartCollection', 'user', 'items_comprados', 'fecha', 'hora'));
 

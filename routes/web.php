@@ -9,6 +9,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ComprobanteController;
 use App\Http\Controllers\TestingController;
 use app\Http\Controllers\CartController;
+use app\Http\Controllers\MascotaController;
 use App\Mail\ConfirmacionHora;
 use Illuminate\Support\Facades\Mail;
 use app\Http\Controllers\CompraController;
@@ -308,13 +309,21 @@ Route::post('/agendar-hora/registro_invitado',[\App\Http\Controllers\ReservarCit
 Route::middleware('auth')->group(function(){
     Route::get('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');
     Route::get('/miscitas/{ReservarCita}',[App\Http\Controllers\ReservarCitasController::class, 'show']);
+
     Route::post('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'cancel']);
     Route::get('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'formCancel']);
+
     Route::post('/miscitas/{ReservarCita}/confirm',[App\Http\Controllers\ReservarCitasController::class, 'confirm']);
 
+    Route::post('/miscitas/generar-ficha-medica',[App\Http\Controllers\FichasMedicasController::class, 'generarFichaMedica']);
+    Route::get('/miscitas/{ReservarCita}/generar-ficha-medica',[App\Http\Controllers\FichasMedicasController::class, 'formFichaMedica']);
 
+    // Route::post('/miscitas',[App\Http\Controllers\FichasMedicasController::class, 'generarFichaMedica']);
 
-    
+    //generamos la ruta post para guardar los  datos de mascotas
+
+    Route::post('/guardar-datos-mascota', [App\Http\Controllers\MascotaController::class, 'guardarDatosMascota'])->name('guardar.datos.mascota');
+
 });
 Route::get('comprobante-test', function(){
     return view('pdf.comprobante-inventario');

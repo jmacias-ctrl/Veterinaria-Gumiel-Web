@@ -18,11 +18,11 @@ class ComprobanteController extends Controller
         $dompdf->loadHtml($html);
         $dompdf->render();
 
-        $dompdf->stream('ejemplo.pdf');
+        $dompdf->stream('comprobante-pago.pdf');
 
         return response()->make($dompdf->output(), 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="ejemplo.pdf"',
+            'Content-Disposition' => 'inline; filename="comprobante-pago.pdf"',
         ]);
     }
 }

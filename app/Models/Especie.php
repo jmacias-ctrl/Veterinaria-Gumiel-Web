@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Especie extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['id', 'nombre', 'created_at', 'updated_at'];
 }

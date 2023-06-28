@@ -1,5 +1,5 @@
 <div class="modal fade" id="barcodeScan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Escaner de Codigo de Barras</h5>
@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <p>Acerca el Codigo de Barra hacia la Camara</p>
-                <div id="reader" width="100%"></div>
+                <div id="reader" width="300px;"></div>
                 <p id="scannedItem">Codigo Escaneado: Ninguno</p>
                 <p id="errorScan" class="d-none text-danger">Item escaneado no se encuentra en la base de datos</p>
             </div>
@@ -25,10 +25,6 @@
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
                 fps: 10,
-                qrbox: {
-                    width: 350,
-                    height: 350
-                }
             },
             /* verbose= */
             false);

@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-center">
     <td>
         @if (request()->routeIs('pedidos_online.index') && $estado != 'entregado')
-            <form action="{{route('pedidos_online.cambiar_estado')}}" method="POST">
+            <form action="{{ route('pedidos_online.cambiar_estado') }}" method="POST">
                 @csrf
-                <input type="hidden" name="id" value="{{$id}}">
+                <input type="hidden" name="id" value="{{ $id }}">
                 <div class="input-group mr-3">
                     <select class="form-select form-select-sm" name="estado" id="estado" required>
                         <option selected value="">Cambiar Estado</option>
@@ -17,9 +17,12 @@
                 </div>
             </form>
         @endif
-        <a name="" id="" class="btn btn-outline-danger" href="{{route('ventas.comprobante', ['ventaId'=>$id])}}" role="button"><span
-            class="material-symbols-outlined">download</span></a>
-        <button type="button" class="btn btn-sm btn-secondary @if(request()->routeIs('pedidos_online.index')) ml-3 @endif" onclick="verDetalle({{ $id }})"><span
-                class="material-symbols-outlined">info</span></button>
+        @if (!request()->routeIs('pedidos_online.index'))
+            <a name="" id="" class="btn btn-outline-danger"
+                href="{{ route('ventas.comprobante', ['ventaId' => $id]) }}" role="button"><span
+                    class="material-symbols-outlined">download</span></a>
+        @endif
+        <button type="button" class="btn btn-sm btn-secondary @if (request()->routeIs('pedidos_online.index')) ml-3 @endif"
+            onclick="verDetalle({{ $id }})"><span class="material-symbols-outlined">info</span></button>
     </td>
 </div>

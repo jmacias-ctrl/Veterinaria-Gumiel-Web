@@ -295,15 +295,14 @@ class PointSaleController extends Controller
         if ($request->ajax()) {
             $data = db::table('trazabilidad_venta_presencials')
                 ->join('items_comprados', 'items_comprados.id_venta', '=', 'trazabilidad_venta_presencials.id')
-                ->select('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'trazabilidad_venta_presencials.fecha_compra', db::raw('sum(items_comprados.monto*items_comprados.cantidad) as monto'))
+                ->select('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'trazabilidad_venta_presencials.fecha_compra','trazabilidad_venta_presencials.estado', db::raw('sum(items_comprados.monto*items_comprados.cantidad) as monto'))
                 ->where('id_cliente', '=', auth()->user()->id)
-                ->groupBy('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'trazabilidad_venta_presencials.fecha_compra')
+                ->groupBy('trazabilidad_venta_presencials.id', 'trazabilidad_venta_presencials.id_venta', 'trazabilidad_venta_presencials.fecha_compra','trazabilidad_venta_presencials.estado')
                 ->get()->map(function ($item) {
                     $carbon = Carbon::parse($item->fecha_compra);
                     $item->fecha = $carbon->format('d-m-Y');
                     $item->hora = $carbon->format('h:i:s A');
                     $item->monto = '$' . number_format($item->monto, 0, ',', '.');
-                    $item->estado = "Entregado";
                     return $item;
                 });
 

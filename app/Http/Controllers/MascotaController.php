@@ -22,7 +22,7 @@ class MascotaController extends Controller
         $mascota = new Mascota();
         $mascota->id_cliente = $request->input('id_cliente');
         $mascota->nombre = $request->input('nombre');
-        $mascota->especie = $request->input('especie');
+        $mascota->id_especie = $request->input('especie');
         $mascota->sexo = $request->input('sexo');
         $mascota->fecha_nacimiento = $request->input('fecha_nacimiento');
 

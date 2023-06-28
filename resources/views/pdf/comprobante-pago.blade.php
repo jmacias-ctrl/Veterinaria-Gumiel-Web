@@ -85,40 +85,7 @@
                 <span class="m-0">Monto Pagado:</span>
                 <span class="m-0">${{ number_format($response->getAmount(), 0, ',', '.') }}</span>
             </div>
-            <!-- <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                <span class="m-0">Codigo de Autorización:</span>
-                <span class="m-0">{{$response->getAuthorizationCode()}}</span>
-            </div> -->
-            <!-- <div id="num_cuotas">
-                <div id="num_cuotas" class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                    <span class="m-0">Numero de Cuotas:</span>
-                    <span id="num_cuotas_span" class="m-0">{{$response->getInstallmentsNumber()}}</span>
-                </div>
-            </div> -->
-            <!-- <div id="mon_cuotas">
-                <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                    <span class="m-0">Monto de Cuotas:</span>
-                    <span id="mon_cuotas_span" class="m-0">${{ number_format($response->getInstallmentsAmount(), 0, ',', '.') }}</span>
-                </div>
-            </div> -->
-            <!-- <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                <span class="m-0">Numero de Tarjeta:</span>
-                <span class="m-0">**** **** **** {{$response->getCardDetail()['card_number']}}</span>
-            </div> -->
-            <!-- <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                <span class="m-0">Fecha de Expiración:</span>
-                <span id="fecha_targeta" class="m-0"></span>
-            </div> -->
             
         </div>
     </div>
-    <!-- <div id="rechazada">
-        <div class="col-12" style="display:flex; justify-content:center">
-            <i class="bi bi-x-circle" style="color:red; font-size:80px;"></i>
-        </div>
-        <div class="col-12 p-4" style="display:flex; justify-content:center">
-            <h2>Compra Fallida</h2>
-        </div>
-        <div id="texto" class="col-12" style="text-align: center;"></div>
-    </div> -->
 </div>

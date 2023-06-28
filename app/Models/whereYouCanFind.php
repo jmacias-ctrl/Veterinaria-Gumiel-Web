@@ -19,7 +19,6 @@ class WhereYouCanFind extends Model
         'horario_header',
         'correo',
         'whatsapp',
-        'twitter',
         'nombre',
 
         // 'aboutUs'

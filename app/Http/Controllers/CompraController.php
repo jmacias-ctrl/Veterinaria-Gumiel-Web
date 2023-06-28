@@ -114,7 +114,7 @@ class CompraController extends Controller
         
         $correo = new ComprobanteDePago($data);
         $correo->attachData($pdf->output(), 'comprobante.pdf');
-        Mail::to($user->email)->queue($correo);
+        Mail::to($user->email)->send($correo);
 
         return view('shop.checkout.resumen-compra')->with(['response' => $response])->with(['cartCollection' => $cartCollection])->with(['user' => $user]);
     }

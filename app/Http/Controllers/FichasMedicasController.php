@@ -84,6 +84,9 @@ class FichasMedicasController extends Controller
             }
         }
 
+        $reserva = ReservarCitas::find($request->input('id_hora_reservada'));
+        $reserva->status = 'Atendida';
+        $reserva->save();
         //Podriamos mandar un correo de la cita :D
 
         // if ($ReservarCita->status == 'Confirmada') {

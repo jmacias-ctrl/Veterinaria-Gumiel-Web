@@ -29,7 +29,6 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                     </div>
                 </div>
                 <div class="bg-white shadow p-4" style="border-radius: 15px;">
-                    <!-- resumen de compra -->
                     <div id="aceptada">
                         <div class="col-12" style="display:flex; justify-content:center">
                             <i class="bi bi-check-circle" style="color:green; font-size:80px;"></i>
@@ -101,7 +100,6 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 <span class="m-0">{{Auth::user()->email}}</span>
                             </div>
                         
-                        
                         </div>
                     </div>
                     <div id="rechazada">
@@ -114,6 +112,13 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                         <div id="texto" class="col-12" style="text-align: center;"></div>
                     </div>
                 </div>
+
+                <!--<div class="text-center">
+                    <button href="" class="btn btn-danger m-4" type="button">
+                        <i class="fas fa-file-pdf"></i> Descargar Comprobante de pago
+                    </button>
+                </div>-->
+
             </div>
             <div class="col-lg-5 p-0 pl-lg-1">
                 <div class="row bg-white shadow m-0">

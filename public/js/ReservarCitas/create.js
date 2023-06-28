@@ -104,6 +104,76 @@ function getRadioIntervaloHTML(intervalo){
             </div>`;
 }
 
+function deleteStorage(){
+    localStorage.clear();
+}
+
+function GuardarInputs() {
+    localStorage.clear();
+
+    let tiposervicio = $('#tiposervicio').val();
+    localStorage.setItem('tiposervicio', tiposervicio);
+
+    let funcionario = $('#funcionario').val();
+    localStorage.setItem('funcionario', funcionario);
+
+    let date = $('#date').val();
+    localStorage.setItem('date', date);
+
+    let sheduled_time = $('input[name="sheduled_time"]:checked').val();
+    localStorage.setItem('sheduled_time', sheduled_time);
+
+    let type = $('input[name="type"]:checked').val();
+    localStorage.setItem('type', type);
+
+    let description = $('#description').val();
+    localStorage.setItem('description', description);
+
+    console.log(tiposervicio + ' ' + funcionario + ' ' + date + ' ' + sheduled_time + ' ' + type + ' ' +
+        description);
+}
+
+$(document).ready(function () {
+    let tiposervicio = localStorage.getItem('tiposervicio');
+    if (tiposervicio.length !=0) {
+        $('#tiposervicio').val(tiposervicio);
+        const url = `/obtener-usuarios/${tiposervicio}/funcionarios`;
+        $.getJSON(url, onFuncionariosLoaded);
+    }
+
+    let funcionario = localStorage.getItem('funcionario');
+    if (funcionario.length !=0) {
+        $('#funcionario').val(funcionario);
+    }
+
+    let date = localStorage.getItem('date');
+    if (date.length != 0) {
+        $('#date').val(date);
+    }
+
+    let sheduled_time = localStorage.getItem('sheduled_time');
+    if (sheduled_time.length != 0) {
+        setTimeout(() => {
+            $('input[name="sheduled_time"]').val([sheduled_time]);
+            console.log("Delayed for 1 second.");
+          }, 3000);
+    }
+
+    let type = localStorage.getItem('type');
+    if (type.length != 0) {
+        setTimeout(() => {
+            $('input[name="type"]').val([type]);
+            console.log("Delayed for 1 second.");
+          }, 2000);
+    }
+
+    let description = localStorage.getItem('description');
+    if (description.length != 0) {
+        console.log(' dsds');
+        $('#description').val(description);
+    }
 
 
-
+    console.log(tiposervicio + ' ' + funcionario + ' ' + date + ' ' + sheduled_time + ' ' + type + ' ' +
+        description);
+});

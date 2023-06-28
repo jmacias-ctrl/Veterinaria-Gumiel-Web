@@ -7,10 +7,13 @@ use App\Http\Controllers\MarcaproductoController;
 use App\Http\Controllers\ProductosVentaController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ComprobanteController;
+use App\Http\Controllers\TestingController;
 use app\Http\Controllers\CartController;
+use app\Http\Controllers\MascotaController;
 use App\Mail\ConfirmacionHora;
 use Illuminate\Support\Facades\Mail;
 use app\Http\Controllers\CompraController;
+use Dompdf\Dompdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +95,7 @@ Route::group(['middleware' => ['auth','can:acceso administracion de stock']], fu
     Route::get('administracion-stock/historial', [App\Http\Controllers\AdministracionInventario::class, 'historial_admin'])->name('administracion_inventario.historial');
     Route::post('administracion-stock/realizar_admin', [App\Http\Controllers\AdministracionInventario::class, 'admin_item'])->name('administracion_inventario.realizar_admin');
     Route::get('administracion-stock/ver_item', [App\Http\Controllers\AdministracionInventario::class, 'ver_item'])->name('administracion_inventario.verItem');
+    Route::get('administracion-stock/barcode_scan', [App\Http\Controllers\AdministracionInventario::class, 'ver_item_codigo'])->name('administracion_inventario.scan');
     Route::get('administracion-stock/descargar_factura', [App\Http\Controllers\AdministracionInventario::class, 'descargar_factura'])->name('administracion_inventario.descargarFactura');
 });
 
@@ -162,6 +166,7 @@ Route::group(['middleware' => ['auth','can:ver usuario']], function () {
     Route::get('usuarios/roles/{id}', [App\Http\Controllers\UserController::class, 'modify_roles'])->name('admin.usuarios.roles')->middleware(['can:asignar roles usuario']);
     Route::get('usuarios/add', [App\Http\Controllers\UserController::class, 'add_user'])->name('admin.usuarios.add')->middleware(['can:ingresar usuario']);
     Route::post('usuarios/store', [App\Http\Controllers\UserController::class, 'store_user'])->name('admin.usuarios.store')->middleware(['can:ingresar usuario']);
+    Route::post('usuarios/asignar-servicio', [App\Http\Controllers\UserController::class, 'assign_service'])->name('admin.usuarios.asignar_servicio')->middleware(['can:ver usuario']);
     Route::post('usuarios/roles/update', [App\Http\Controllers\UserController::class, 'update_roles'])->name('admin.usuarios.update.roles')->middleware(['can:asignar roles usuario']);
 });
 Route::group(['middleware' => ['auth','can:ver roles']], function () {
@@ -199,19 +204,23 @@ Route::group(['middleware' => ['auth','role:Admin']], function () {
     //Rutas funcionarios
     Route::resource('/funcionarios', 'App\Http\Controllers\FuncionariosController');
 
-    Route::post('/a', 'ComprobanteController@generarComprobante');
-    Route::get('/generar-comprobante', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comprobante');
+    Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios');
+    Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas');    
+
+    Route::get('/generar-comprobante-pago/{id}', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('generar-comrpobante-pago');
 });
+
+Route::get('/testing/{id}', [\App\Http\Controllers\ComprobanteController::class, 'generarComprobante'] )->name('testing');
+
 Route::group(['middleware' => ['role:Veterinario|Peluquero']], function () {
     Route::get('horariofuncionarios',[App\Http\Controllers\HorarioFuncionariosController::class, 'edit'])->name('admin.horariofuncionarios.edit');
     Route::post('horariofuncionarios/store',[App\Http\Controllers\HorarioFuncionariosController::class, 'store'])->name('admin.horariofuncionarios.store');
     //Rutas pacientes
     Route::resource('/pacientes','App\Http\Controllers\PacientesController');
-    
 });
 Route::get('/trazabilidad-ventas-y-servicios', [\App\Http\Controllers\TrazabilidadController::class, 'generarTrazabilidadVentasYServicios'] )->name('trazabilidad-ventas-y-servicios')->middleware('role_or_permission:acceso ventas|acceso punto de venta|acceso administracion de stock|Admin');
 Route::get('/dashboard-citas', [\App\Http\Controllers\TrazabilidadController::class, 'generarDashboardCitas'] )->name('dashboard-citas')->middleware('role_or_permission:ver gestionvet|ver gestionpeluqueria|ver citas|Admin');
-Route::get('/lector-codigos-barras', 'BarcodeController@scan')->name('barcode.scan');
+Route::get('/lector-codigos-barras', [\App\Http\Controllers\BarcodeController::class, 'scan'])->name('barcode.scan');
 Route::group(['middleware' => ['role:Veterinario']], function () {
     Route::get('/inicio/veterinario', function () {
         return view('admin.home');
@@ -244,10 +253,14 @@ Route::group(['middleware' => ['auth','can:acceso punto de venta']], function ()
     Route::get('inventario/punto_de_venta/update', [App\Http\Controllers\PointSaleController::class, 'update_product'])->name('point_sale.updateProduct');
     Route::get('inventario/punto_de_venta/clear', [App\Http\Controllers\PointSaleController::class, 'clear_products'])->name('point_sale.clear');
     Route::get('inventario/punto_de_venta/remove', [App\Http\Controllers\PointSaleController::class, 'remove_product'])->name('point_sale.removeProduct');
+    Route::get('inventario/pedidos-online', [App\Http\Controllers\PointSaleController::class, 'pedidos_online'])->name('pedidos_online.index');
+    Route::post('inventario/pedidos-online/cambiar-estado', [App\Http\Controllers\PointSaleController::class, 'cambiar_estado_pedido'])->name('pedidos_online.cambiar_estado');
+    Route::post('inventario/enviar-comprobante', [App\Http\Controllers\PointSaleController::class, 'enviar_comprobante'])->name('point_sale.enviar_comprobante');
 });
 Route::group(['middleware' => ['auth','can:acceso ventas']], function () {
     Route::get('inventario/detalle_venta', [App\Http\Controllers\PointSaleController::class, 'detalle_venta'])->name('ventas.detalle');
     Route::get('inventario/ventas', [App\Http\Controllers\PointSaleController::class, 'mostrar_ventas'])->name('ventas.index');
+    Route::get('inventario/ventas/comprobante/{ventaId}', [App\Http\Controllers\PointSaleController::class, 'descarga_comprobante'])->name('ventas.comprobante');
 });
 Route::get('/shop', [\App\Http\Controllers\CartController::class, 'shop'])->name('shop.shop');
 Route::get('shop/cart', [\App\Http\Controllers\CartController::class, 'cart'])->name('shop.cart.index');
@@ -277,24 +290,44 @@ Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class, 'ch
 route::get('correo_test', function () {
     return view('emails.usuario_eliminado');
 });
-
+Route::get('/mi-perfil', [App\Http\Controllers\UserController::class, 'user_profile_cliente'])->name('mi-perfil')->middleware('auth');
+Route::get('/pedidos', [App\Http\Controllers\PointSaleController::class, 'mis_pedidos'])->name('mis-pedidos')->middleware('auth');
+Route::get('/ver-pedido', [App\Http\Controllers\PointSaleController::class, 'ver_pedido'])->name('ver-pedido')->middleware('auth');
 Auth::routes();
 
 Route::get('/agendar-horas/create',[App\Http\Controllers\ReservarCitasController::class, 'create'])->name('agendar-horas.create');
-Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store'])->middleware('auth');
+Route::post('/agendar-horas',[App\Http\Controllers\ReservarCitasController::class, 'store']);
+Route::get('/agendar-hora/login',[\App\Http\Controllers\ReservarCitasController::class, 'login'])->name('ReservarCitas.login');
+Route::post('/agendar-hora/login',[\App\Http\Controllers\ReservarCitasController::class, 'login_citas'])->name('login_citas');
+Route::get('/agendar-hora/registro_invitado',[\App\Http\Controllers\ReservarCitasController::class, 'registro_invitado'])->name('ReservarCitas.registro_invitado');
+Route::post('/agendar-hora/registro_invitado',[\App\Http\Controllers\ReservarCitasController::class, 'registro_invitado_citas'])->name('registro_invitado');
+
 //JSON
     Route::get('/obtener-usuarios/{tiposervicio_id}/funcionarios', [App\Http\Controllers\Api\tiposerviciosController::class, 'obtenerUsuarios']);
     Route::get('/horariofuncionarios/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
+
 Route::middleware('auth')->group(function(){
     Route::get('/miscitas',[App\Http\Controllers\ReservarCitasController::class, 'index'])->name('Agendar');
     Route::get('/miscitas/{ReservarCita}',[App\Http\Controllers\ReservarCitasController::class, 'show']);
+
     Route::post('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'cancel']);
     Route::get('/miscitas/{ReservarCita}/cancel',[App\Http\Controllers\ReservarCitasController::class, 'formCancel']);
+
     Route::post('/miscitas/{ReservarCita}/confirm',[App\Http\Controllers\ReservarCitasController::class, 'confirm']);
 
-    
-});
+    Route::post('/miscitas/generar-ficha-medica',[App\Http\Controllers\FichasMedicasController::class, 'generarFichaMedica']);
+    Route::get('/miscitas/{ReservarCita}/generar-ficha-medica',[App\Http\Controllers\FichasMedicasController::class, 'formFichaMedica']);
 
+    // Route::post('/miscitas',[App\Http\Controllers\FichasMedicasController::class, 'generarFichaMedica']);
+
+    //generamos la ruta post para guardar los  datos de mascotas
+
+    Route::post('/guardar-datos-mascota', [App\Http\Controllers\MascotaController::class, 'guardarDatosMascota'])->name('guardar.datos.mascota');
+
+});
+Route::get('comprobante-test', function(){
+    return view('pdf.comprobante-inventario');
+});
 Route ::get('horas', function(){
     return view('emails.confirm_horas');
 });

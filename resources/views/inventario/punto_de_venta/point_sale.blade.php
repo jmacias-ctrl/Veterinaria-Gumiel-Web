@@ -31,7 +31,49 @@
 @endsection
 @section('content')
     <div class="card shadow py-4 px-3 mt-0 mx-0">
-        <h2>Venta de Productos</h2>
+        <h3>Resumen de la venta:</h3>
+        <p>Puede utilizar un lector de codigo de barras</p>
+        <p id="scannedProduct">Ultimo Codigo Escaneado: </p>
+        <div class="table-responsive rounded px-3 mt-3">
+            <table class="table align-items-center border" style="width:100%;">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="productShown">
+                    <tr>
+                        <th>No hay productos añadidos</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="ms-3 mt-3">
+
+            <h3 id="subTotal">Sub-total: $0</h3>
+            <h3 id="total">Total: $0</h3>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+            <div class="row">
+                <div class="col">
+
+                    <button type="button" class="btn btn-danger btn-lg" onclick="cancelarVenta()">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="chequearCarro()">
+                        Pagar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <h2>Productos</h2>
         <div class="row my-2">
             <div class="col-sm-7">
                 <div class="input-group mb-2">
@@ -40,6 +82,9 @@
                     </div>
                     <input type="text" name="searchProduct" id="searchProduct" class="form-control shadow-none"
                         placeholder="Ingrese el nombre de algún producto...">
+                    <button id="barcodeScanner" class="btn btn-outline-success" data-toggle="modal"
+                        data-target="#barcodeScan" role="button"><span
+                            class="material-symbols-outlined">barcode_scanner</span></button>
                 </div>
             </div>
             <div class="col-sm">
@@ -49,7 +94,6 @@
                         <option value="{{ $item->nombre }}">{{ $item->nombre }}</option>
                     @endforeach
                 </select>
-
             </div>
         </div>
         <div class="d-flex flex-wrap overflow-auto p-0" style="height:700px;" id="productAvailable">
@@ -98,46 +142,7 @@
             @endforeach
         </div>
         <hr>
-        <h3>Resumen de la venta:</h3>
-        <div class="table-responsive rounded px-3 mt-3">
-            <table class="table align-items-center border" style="width:100%;">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Producto</th>
-                        <th scope="col">Cantidad</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody id="productShown">
-                    <tr>
-                        <th>No hay productos añadidos</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tbody>
-            </table>
 
-        </div>
-        <div class="ms-3 mt-3">
-
-            <h3 id="subTotal">Sub-total: $0</h3>
-            <h3 id="total">Total: $0</h3>
-        </div>
-
-        <div class="d-flex flex-column align-items-center">
-            <div class="row">
-                <div class="col">
-
-                    <button type="button" class="btn btn-danger btn-lg" onclick="cancelarVenta()">Cancelar</button>
-                    <button type="button" class="btn btn-primary btn-lg" onclick="chequearCarro()">
-                        Pagar
-                    </button>
-
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 <!-- Button trigger modal -->
@@ -145,6 +150,7 @@
 
 <!-- Modal -->
 @include('inventario.punto_de_venta.modal.comprobante')
+@include('inventario.punto_de_venta.modal.barcode-scan')
 @include('inventario.punto_de_venta.modal.pagoVenta_Modal')
 
 
@@ -190,10 +196,6 @@
                     }).then((result) => {
 
                         if (result.isConfirmed) {
-                            console.log(efectivo);
-                            console.log(nombreCliente);
-                            console.log(banco);
-                            console.log(numOperacion);
                             axios.post("{{ route('point_sale.venta') }}", {
                                     metodoPago: metodoPago,
                                     banco: banco,
@@ -203,7 +205,8 @@
                                     numOperacion: numOperacion,
                                 })
                                 .then(function(response) {
-                                    $('#pagoVenta').modal('toggle')
+                                    $('#pagoVenta').modal('toggle');
+                                    $('#ventaId').val(response.data.ventaId);
                                     toastr.success('Venta realizada exitosamente')
                                     $('#numVenta').html('Num. venta: ' + response.data
                                         .nuevaVenta['id_venta']);
@@ -233,10 +236,10 @@
                                             elementOrValue
                                             .quantity;
                                         var TotalFormat = new Intl.NumberFormat(
-                                        'es-CL', {
-                                            currency: 'CLP',
-                                            style: 'currency'
-                                        }).format(total)
+                                            'es-CL', {
+                                                currency: 'CLP',
+                                                style: 'currency'
+                                            }).format(total)
                                         $("#productosVendidos").append(`
             
                                     <tr> 
@@ -377,6 +380,44 @@
                 $('#numOperacion').prop('required', true);
             }
         }
+        var barcode = '';
+        var interval;
+        document.addEventListener('keydown', function(evt) {
+            if (interval)
+                clearInterval(interval);
+            if (evt.code == 'Enter') {
+                if (barcode) {
+                    barcodeScanner_physical(barcode);
+                    barcode = '';
+                    return;
+                }
+            }
+            if(evt.key !='Shift'){
+                barcode += evt.key;
+            }
+            interval = setInterval(()=>barcode = '', 20);
+        });
+
+        function barcodeScanner_physical(input) {
+            var cantProducto = 1;
+            var codigoEscaneado = input;
+            axios.get(" {{ route('point_sale.addProduct') }}", {
+                    params: {
+                        codigo: codigoEscaneado,
+                        cantProduct: cantProducto,
+                    }
+                })
+                .then(res => {
+                    if (res.data.success == true) {
+                        updateTable(res.data.cartItems, res.data.total, res.data.subTotal);
+                    }
+                    $("#scannedProduct").html('Ultimo Codigo Escaneado: '+ codigoEscaneado);
+
+                })
+
+                .catch(err => {
+                })
+        }
 
         function cancelarVenta() {
             Swal.fire({
@@ -464,13 +505,11 @@
                     }
                 })
                 .then(res => {
-                    console.log(res.data.updatedQuantity);
                     updateTable(res.data.cartItems, res.data.total, res.data.subTotal);
 
                 })
 
                 .catch(err => {
-                    console.error(err);
 
                     $(`#errorText${err.response.data.errors2}`).removeClass('d-none');
                     Swal.fire({

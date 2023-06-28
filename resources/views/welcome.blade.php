@@ -20,7 +20,9 @@
 @section('content')
     <!DOCTYPE html>
     <html lang="es">
-
+    @php
+        $random = rand(0, 5);
+    @endphp
     <body>
         <!-- Header Start -->
         <div class="container-fluid bg-dark p-0 mb-5">
@@ -35,16 +37,11 @@
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="owl-carousel header-carousel">
                         <div class="owl-carousel-item">
-                            <img class="img-fluid" src="{{ asset('images/carrousel/01.png') }}" alt="" />
-                        </div>
-                        <div class="owl-carousel-item">
-                            <img class="img-fluid" src="{{ asset('images/carrousel/02.png') }}" alt="" />
-                        </div>
-                        <div class="owl-carousel-item">
-                            <img class="img-fluid" src="{{ asset('images/carrousel/03.png') }}" alt="" />
-                        </div>
-                        <div class="owl-carousel-item">
-                            <img class="img-fluid" src="{{ asset('images/carrousel/03.png') }}" alt="" />
+                            @if (isset($gallery_index[0]))
+                                <img class="img-fluid" src="{{ asset($gallery_index[0]['imagen']) }}" alt="" style="height:450px; object-fit: cover;"/>
+                            @else
+                                <img class="img-fluid" src="{{ asset('images/carrousel/01.png') }}" alt="" />
+                            @endif
                         </div>
                     </div>
                 </div>

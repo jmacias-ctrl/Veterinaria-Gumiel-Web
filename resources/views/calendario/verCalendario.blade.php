@@ -47,7 +47,6 @@
                                     <th>Turno Mañana</th>
                                     <th>Turno Tarde</th>
                                     <th>Estado</th>
-                                    <th>Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,8 +73,6 @@
                                                 <span class="badge text-bg-secondary">Desconectado</span>
                                             @endif
                                         </td>
-                                        <td><a name="" id="" class="btn btn-primary" href="#"
-                                                role="button">Ver Perfil</a></td>
                                     </tr>
                                 @endforeach
                             </tbody>

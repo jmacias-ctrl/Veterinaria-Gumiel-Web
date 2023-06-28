@@ -17,7 +17,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
-
+use Illuminate\Support\Facades\DB;
+use DataTables;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Cita;
 
 class ReservarCitasController extends Controller
 {
@@ -68,6 +71,19 @@ class ReservarCitasController extends Controller
                 ->get();
     
         } elseif ($user->hasRole('Cliente')) {
+            // Cliente
+            $confirmedCita = ReservarCitas::where('status', 'Confirmada')
+                ->where('paciente_id', $user->id)
+                ->get();
+    
+            $pendingCita = ReservarCitas::where('status', 'Reservada')
+                ->where('paciente_id', $user->id)
+                ->get();
+    
+            $oldCita = ReservarCitas::whereIn('status', ['Atendida', 'Cancelada'])
+                ->where('paciente_id', $user->id)
+                ->get();
+        } elseif ($user->hasRole('Invitado')) {
             // Cliente
             $confirmedCita = ReservarCitas::where('status', 'Confirmada')
                 ->where('paciente_id', $user->id)
@@ -141,7 +157,7 @@ class ReservarCitasController extends Controller
             if($date &&  $funcionarioId && $sheduled_time){
                 $start = new Carbon($sheduled_time);
             }else{
-                return;
+                return view('ReservarCitas.index_cliente');
             }
 
             if (!$horarioFuncionarioServiceInterface->isAvailableInterval($date, $funcionarioId, $start)) {
@@ -267,4 +283,91 @@ class ReservarCitasController extends Controller
         
         return redirect('/miscitas')->with(compact('notification'));
     }
+
+    public function login(){
+        return view('ReservarCitas.login');
+    }
+
+    public function registro_invitado(){
+        return view('ReservarCitas.registro_invitado');
+    }
+
+    public function login_citas(Request $request){
+        $credentials = $request->only('email', 'password');
+
+        
+        $rules = [
+            'email'  => 'required|email',
+            'password' => 'required|min:7' //cambiar a 8 (para probar cliente demo)
+        ];
+        $attributes = [
+            'email' => 'Correo',
+            'password' => 'Contraseña',
+        ];
+        $message = [
+            'required' => ':attribute es obligatorio.',
+            'min' => ':attribute invalida, debe ser minimo :min.',
+            'email' => ':attribute invalida, ingrese :attribute nuevamente.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message, $attributes);
+        if ($validator->passes()) {
+            if(!auth()->attempt(['email' => $request->email, 'password' => $request->password])){
+                return back()->withErrors(['message' => 'Email o Contraseña incorrectos, vuelva a intentarlo.']); 
+            }
+            return redirect('agendar-horas/create');
+        }
+        
+        return redirect('agendar-horas/create');
+    }
+
+    public function registro_invitado_citas(Request $request)
+    {   
+        $rules = [
+            'nombre' => 'required|string',
+            'rut'  => 'required|string|max:10',
+            'email_register'  => 'required|email',
+            'telefono' => 'required|digits:9'
+        ];
+        $attributes = [
+            'nombre' => 'Nombre',
+            'rut' => 'Rut',
+            'email_register' => 'Correo',
+            'telefono' => 'Teléfono',
+        ];
+        $message = [
+            'required' => ':attribute es obligatorio.',
+            'integer' => ':attribute no es un numero de teléfono, ingrese nuevamente',
+            'digits' => ':attribute invalido, :attribute debe ser :digits dígitos',
+            'max' => ':attribute invalido, debe ser máximo :max',
+            'email' => ':attribute invalido, ingrese :attribute nuevamente'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message, $attributes);
+        if ($validator->passes()) {
+            try {
+                db::beginTransaction();
+                $role=Role::where('name', '=', 'Invitado')->get();
+                $rol = array(
+                    $role[0]->id => $role[0]->name
+                );
+                $user = new User;
+                $user->name = $request->nombre;
+                $user->rut =  $request->rut;
+                $user->email = $request->email_register;
+                $user->phone = $request->telefono;
+                $user->save();
+                db::commit();
+                $user->assignRole($rol);
+                auth()->login($user);
+                return redirect('agendar-horas/create');
+            } catch (QueryException $exception) {
+                DB::rollBack();
+                return back()->withInput();
+            }
+
+        }return back()->withErrors($validator)->withInput();
+        
+    }
+
 }

@@ -165,6 +165,7 @@ Route::group(['middleware' => ['auth','can:ver usuario']], function () {
     Route::get('usuarios/roles/{id}', [App\Http\Controllers\UserController::class, 'modify_roles'])->name('admin.usuarios.roles')->middleware(['can:asignar roles usuario']);
     Route::get('usuarios/add', [App\Http\Controllers\UserController::class, 'add_user'])->name('admin.usuarios.add')->middleware(['can:ingresar usuario']);
     Route::post('usuarios/store', [App\Http\Controllers\UserController::class, 'store_user'])->name('admin.usuarios.store')->middleware(['can:ingresar usuario']);
+    Route::post('usuarios/asignar-servicio', [App\Http\Controllers\UserController::class, 'assign_service'])->name('admin.usuarios.asignar_servicio')->middleware(['can:ver usuario']);
     Route::post('usuarios/roles/update', [App\Http\Controllers\UserController::class, 'update_roles'])->name('admin.usuarios.update.roles')->middleware(['can:asignar roles usuario']);
 });
 Route::group(['middleware' => ['auth','can:ver roles']], function () {

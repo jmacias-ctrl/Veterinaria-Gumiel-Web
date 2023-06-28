@@ -20,7 +20,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                         <li class="breadcrumb-item active" aria-current="page">Data</li>
                     </ol>
                 </nav>
-                <!-- <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">
+                <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">
                     <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
                         <h1 class="font-weight-bold m-0"><i class="bi bi-card-checklist mr-3"></i>Resumen de compra</h1>
                         <div class="font-weight-bold m-0">
@@ -113,15 +113,13 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                         </div>
                         <div id="texto" class="col-12" style="text-align: center;"></div>
                     </div>
-                </div> -->
+                </div>
 
-                @include('pdf.comprobante-pago')
-
-                <div class="text-center">
-                    <button href="{{ route('testing', ['id' => $id]) }}" class="btn btn-danger m-4" type="button">
+                <!--<div class="text-center">
+                    <button href="" class="btn btn-danger m-4" type="button">
                         <i class="fas fa-file-pdf"></i> Descargar Comprobante de pago
                     </button>
-                </div>
+                </div>-->
 
             </div>
             <div class="col-lg-5 p-0 pl-lg-1">

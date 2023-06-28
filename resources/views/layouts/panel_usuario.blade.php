@@ -273,12 +273,6 @@
                                         href="{{ route('admin.roles.index') }}" id="link-dropdown">Roles</a>
                                 </li>
                             </ul>
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
-                                        href="{{ url('funcionarios') }}" id="link-dropdown">Funcionario</a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                     </li>

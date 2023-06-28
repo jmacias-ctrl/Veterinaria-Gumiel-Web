@@ -32,6 +32,8 @@
 @section('content')
     <div class="card shadow py-4 px-3 mt-0 mx-0">
         <h3>Resumen de la venta:</h3>
+        <p>Puede utilizar un lector de codigo de barras</p>
+        <p id="scannedProduct">Ultimo Codigo Escaneado: </p>
         <div class="table-responsive rounded px-3 mt-3">
             <table class="table align-items-center border" style="width:100%;">
                 <thead class="thead-light">
@@ -140,7 +142,7 @@
             @endforeach
         </div>
         <hr>
-        
+
     </div>
 @endsection
 <!-- Button trigger modal -->
@@ -381,6 +383,44 @@
                 $('#numOperacion').prop('required', true);
             }
         }
+        var barcode = '';
+        var interval;
+        document.addEventListener('keydown', function(evt) {
+            if (interval)
+                clearInterval(interval);
+            if (evt.code == 'Enter') {
+                if (barcode) {
+                    barcodeScanner_physical(barcode);
+                    barcode = '';
+                    return;
+                }
+            }
+            if(evt.key !='Shift'){
+                barcode += evt.key;
+            }
+            interval = setInterval(()=>barcode = '', 20);
+        });
+
+        function barcodeScanner_physical(input) {
+            var cantProducto = 1;
+            var codigoEscaneado = input;
+            axios.get(" {{ route('point_sale.addProduct') }}", {
+                    params: {
+                        codigo: codigoEscaneado,
+                        cantProduct: cantProducto,
+                    }
+                })
+                .then(res => {
+                    if (res.data.success == true) {
+                        updateTable(res.data.cartItems, res.data.total, res.data.subTotal);
+                    }
+                    $("#scannedProduct").html('Ultimo Codigo Escaneado: '+ codigoEscaneado);
+
+                })
+
+                .catch(err => {
+                })
+        }
 
         function cancelarVenta() {
             Swal.fire({
@@ -468,13 +508,11 @@
                     }
                 })
                 .then(res => {
-                    console.log(res.data.updatedQuantity);
                     updateTable(res.data.cartItems, res.data.total, res.data.subTotal);
 
                 })
 
                 .catch(err => {
-                    console.error(err);
 
                     $(`#errorText${err.response.data.errors2}`).removeClass('d-none');
                     Swal.fire({

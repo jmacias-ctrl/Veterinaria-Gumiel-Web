@@ -112,7 +112,8 @@
                         role="button"><span class="material-symbols-outlined">local_shipping</span></a>
                 </div>
             </div>
-
+            <p>Puede utilizar un lector de codigo de barras</p>
+            <p id="scannedProduct">Ultimo Codigo Escaneado: </p>
         </div>
         <div class="card-body">
             <div class="spinner-border mb-3 align-items-center text-success" id="loading-table" role="status">
@@ -473,6 +474,45 @@
             }
 
             rut.setCustomValidity('');
+        }
+        var barcode = '';
+        var interval;
+        document.addEventListener('keydown', function(evt) {
+            if (interval)
+                clearInterval(interval);
+            if (evt.code == 'Enter') {
+                if (barcode) {
+                    barcodeScanner_physical(barcode);
+                    barcode = '';
+                    return;
+                }
+            }
+            if (evt.key != 'Shift') {
+                barcode += evt.key;
+            }
+            interval = setInterval(() => barcode = '', 20);
+        });
+
+        function barcodeScanner_physical(input) {
+            var cantProducto = 1;
+            var codigoEscaneado = input;
+            axios.get("{{ route('administracion_inventario.scan') }}", {
+                    params: {
+                        codigo: codigoEscaneado,
+                    }
+                })
+                .then(function(response) {
+                    if (response.data.success == true) {
+                        cleanAdmin_ProductModal();
+                        setAdmin_ProductModal(response.data.itemGet['id'], response.data.itemGet['nombre'], response
+                            .data.tipo_item, response.data.itemGet['stock']);
+                        $("#scannedProduct").html('Ultimo Codigo Escaneado: ' + codigoEscaneado);
+                    }
+
+                })
+                .catch(function(error) {
+                    $("#scannedProduct").html('Ultimo Codigo Escaneado: ' + codigoEscaneado);
+                });
         }
 
         function admin_product(id, tipo_item, stock) {

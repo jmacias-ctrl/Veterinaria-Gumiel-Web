@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use App\Models\User;
+use App\Models\tiposervicios;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\UsuarioCreadoAUsuario;
@@ -25,11 +26,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('roles')->where('id','!=',auth()->user()->id)->get()->map(function($item){
+            $users = User::with('roles')->leftJoin('tiposervicios','tiposervicios.id', '=', 'users.tiposervicio_id')->where('users.id','!=',auth()->user()->id)->select('users.*', 'tiposervicios.nombre')->get()->map(function($item){
                 $item->nombre_rol = $item->getRoleNames()->first();
                 if (!isset($item->phone)) {
                     $item->phone = "No Definido";
                 }
+                $item->gestionvet = $item->can('ver gestionvet');
+                $item->gestionpeluq = $item->can('ver gestionpeluqueria');
                 return $item;
             });
             $data = $users->reject(function ($user, $key) {
@@ -42,9 +45,15 @@ class UserController extends Controller
                 ->toJson();
         }
         $users = [];
-        return view('admin.usuarios.usuarios', compact('users'));
+        $tipo_servicio = tiposervicios::all();
+        return view('admin.usuarios.usuarios', compact('users', 'tipo_servicio'));
     }
-
+    public function assign_service(Request $request){
+        $user = User::find($request->id_user);
+        $user->tiposervicio_id = $request->tipoServicio;
+        $user->save();
+        return redirect()->route('admin.usuarios.index')->with('success', 'Se ha asignado el servicio a' . $request->nombre . ' de manera satisfactoria');
+    }
     public function delete(Request $request)
     {
         $user = User::find($request->id);

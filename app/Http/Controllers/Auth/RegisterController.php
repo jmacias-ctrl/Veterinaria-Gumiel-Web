@@ -51,19 +51,55 @@ class RegisterController extends Controller
     {
         $checkUser = User::where('email', '=', $data['email'])->first();
         if (isset($checkUser) && $checkUser->hasRole('Invitado')) {
-            return Validator::make($data, [
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255'],
-                'rut' => ['required', 'string'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-            ]);
+            return Validator::make(
+                $data,
+                [
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'string', 'email', 'max:255'],
+                    'rut' => ['required', 'string'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                ],
+                [
+                    'required' => ':attribute es obligatorio',
+                    'string' => ':attribute es invalido',
+                    'email' => ':attribute no es un correo valido',
+                    'max' => ':attribute debe ser máximo :max',
+                    'unique' => ':attribute ya se encuentra registrado',
+                    'min' => ':attribute debe ser mínimo :min',
+                    'confirmed' => 'Contraseña no se ha confirmado'
+                ],
+                [
+                    'name' => 'Nombre',
+                    'email' => 'Correo',
+                    'rut' => 'Rut',
+                    'password' => 'Contraseña'
+                ]
+            );
         } else {
-            return Validator::make($data, [
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'rut' => ['required', 'string'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-            ]);
+            return Validator::make(
+                $data,
+                [
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'rut' => ['required', 'string'],
+                    'password' => ['required', 'string', 'min:8', 'confirmed'],
+                ],
+                [
+                    'required' => ':attribute es obligatorio',
+                    'string' => ':attribute es invalido',
+                    'email' => ':attribute no es un correo valido',
+                    'max' => ':attribute debe ser máximo :max',
+                    'unique' => ':attribute ya se encuentra registrado',
+                    'min' => ':attribute debe ser mínimo :min',
+                    'confirmed' => 'Contraseña no se ha confirmado'
+                ],
+                [
+                    'name' => 'Nombre',
+                    'email' => 'Correo',
+                    'rut' => 'Rut',
+                    'password' => 'Contraseña'
+                ]
+            );
         }
     }
 

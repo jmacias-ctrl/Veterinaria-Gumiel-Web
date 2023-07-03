@@ -81,7 +81,7 @@
     <!-- Spinner End -->
 
     <!-- Topbar Start -->
-    <div class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s">
+    <div  id="c_fluid"class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s">
         <div class="row gx-0 d-none d-lg-flex">
             <div class="col-lg-8 pl-5 pr-1 text-start">
                 <div class="h-100 d-inline-flex align-items-center py-3 me-4">
@@ -123,7 +123,7 @@
 
     <!-- Navbar Start -->
     <nav id="head" class="navbar navbar-expand-lg bg-white navbar-light sticky-top py-lg-0 px-4 px-lg-5 wow fadeIn"
-        data-wow-delay="0.1s">
+        data-wow-delay="0.1s" style="min-width:360px;">
         <a href="{{ route('inicio') }}" class="navbar-brand p-0">
             @if (isset($logo))
                 <img class="img-fluid me-3" src="{{ asset('storage') . '/images/logos/' . $logo }}" alt="Icon" />
@@ -210,7 +210,7 @@
     @yield('content')
     <script src="{{ asset('js/horarios.js') }}" defer></script>
     <!-- Footer Start -->
-    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" style="min-width:360px;" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-7">
                 <div class="col-lg-3 col-md-4">

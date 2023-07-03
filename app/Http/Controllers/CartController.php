@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\productos_ventas;
 use App\Models\Marcaproducto;
+use App\Models\tipoproductos_ventas;
+use App\Models\Especie;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
@@ -18,24 +20,36 @@ class CartController extends Controller
         }
         $products = productos_ventas::all();
         $Marcaproducto=Marcaproducto::all();
+        $Tipoproducto=tipoproductos_ventas::all();
+        $Tipoespecie=Especie::all();
+
         for($i=0; $i<count($products);$i++){
             $products[$i]->marca=Marcaproducto::find($products[$i]->id_marca)->nombre;
+            $products[$i]->tipo=tipoproductos_ventas::find($products[$i]->id_tipo)->nombre;
+            $products[$i]->enfoque_especie=Especie::find($products[$i]->producto_enfocado)->nombre;
             if($products[$i]->stock==0){
                 $stockcero=$products[$i];
                 $products["ss".$i]=$stockcero;
                  unset($products[$i]);
             }
+
         }
-        return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products,'cartCollection' => $cartCollection,'marcaProductos' => $Marcaproducto]);
+        return view('shop.shop')->withTitle('GUMIEL TIENDA | TIENDA')->with([
+            'products' => $products,
+            'cartCollection' => $cartCollection,
+            'marcaProductos' => $Marcaproducto,
+            'tipoProductos' => $Tipoproducto,
+            'tipoEspecies' => $Tipoespecie
+        ]);
         
-        $texto=$request->texto;
+        // $texto=$request->texto;
         
-        $products = DB::table('productos_ventas')
-                    ->select('id','nombre','id_marca','descripcion','slug','id_tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
-                    ->where('nombre','LIKE','%'.$texto.'%')
-                    ->where('slug','LIKE','%'.$texto.'%')
-                    ->paginate(20);
-        return view('shop.shop',compact('texto'))->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
+        // $products = DB::table('productos_ventas')
+        //             ->select('id','nombre','id_marca','descripcion','slug','id_tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
+        //             ->where('nombre','LIKE','%'.$texto.'%')
+        //             ->where('slug','LIKE','%'.$texto.'%')
+        //             ->paginate(20);
+        // return view('shop.shop',compact('texto'))->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
     }
 
     public function cart()  {
@@ -88,7 +102,7 @@ class CartController extends Controller
                 )
             ));
         }elseif (!($stock-$cant)){
-            $tipo_mensaje='error';
+            $tipo_mensaje='danger';
             $mensaje='No es posible Agregar más unidades de este Producto.';
         }else{
             $tipo_mensaje='warning';

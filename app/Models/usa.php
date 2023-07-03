@@ -6,24 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\fichas_medicas;
-use App\Models\medicamentos_vacunas;
+use App\Models\insumos_medicos;
 
-class utiliza extends Model
+class usa extends Model
 {
     use HasFactory;
 
-    protected $table = 'utilizas';
-    protected $fillable = ['id_ficha_medica', 'id_medicamento_vacuna'];
+    protected $table = 'usas';
+    protected $fillable = ['id_ficha_medica', 'id_insumo_medico'];
 
-    // Relación con el modelo FichaMedica
     public function fichaMedica()
     {
         return $this->belongsTo(fichas_medicas::class, 'id_ficha_medica');
     }
 
-    // Relación con el modelo MedicamentoVacuna
     public function medicamentoVacuna()
     {
-        return $this->belongsTo(medicamentos_vacunas::class, 'id_medicamento_vacuna');
+        return $this->belongsTo(insumos_medicos::class, 'id_insumo_medico');
     }
 }

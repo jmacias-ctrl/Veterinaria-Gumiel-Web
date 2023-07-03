@@ -54,7 +54,12 @@
                         @if (auth()->user()->hasRole('Admin'))
                             <a href="{{ url('/miscitas/'.$cita->id) }}" class="btn btn-sm btn-outline-primary" title="Ver cita">Ver</button>
                         @endif
-                        <a href="{{ url('/miscitas/'.$cita->id.'/generar-ficha-medica') }}" class="btn btn-sm btn-outline-primary" title="Cancelar cita">Generar ficha medica</button>
+                        @if (auth()->user()->hasRole('Veterinario'))
+                            <a href="{{ url('/miscitas/'.$cita->id.'/generar-ficha-medica') }}" class="btn btn-sm btn-outline-primary" title="Cancelar cita">Generar ficha medica</button>
+                        @endif
+                        @if (auth()->user()->hasRole('Cliente'))
+                            <!-- <a href="{{ url('/miscitas/'.$cita->id.'/generar-ficha-medica') }}" class="btn btn-sm btn-outline-primary" title="Cancelar cita">Generar UWU</button> -->
+                        @endif
                         <a href="{{ url('/miscitas/'.$cita->id.'/cancel') }}" class="btn btn-sm btn-outline-danger" title="Cancelar cita">Cancelar</button>
                     </td>
                 </tr>

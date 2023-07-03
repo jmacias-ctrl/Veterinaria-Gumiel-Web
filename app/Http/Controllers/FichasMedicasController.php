@@ -14,6 +14,8 @@ use App\Models\tiposervicios;
 use App\Models\User;
 use App\Models\Mascota;
 use App\Models\Especie;
+use App\Models\utiliza;
+use App\Models\usa;
 use App\Models\medicamentos_vacunas;
 use App\Models\fichas_medicas;
 use App\Models\insumos_medicos;
@@ -68,6 +70,14 @@ class FichasMedicasController extends Controller
 
         //actualizamos el stock de los medicamentos
         foreach ($_POST['medicamentos'] as $medicamentoId => $cantidad) {
+
+            if ($cantidad != 0) {
+                $utiliza = new utiliza();
+                $utiliza->id_ficha_medica = $fichas_medicas->id;
+                $utiliza->id_medicamento_vacuna = $medicamentoId;
+                $utiliza->save();
+            }
+            
             $medicamento = medicamentos_vacunas::find($medicamentoId);
             if ($medicamento) {
                 $medicamento->stock -= $cantidad;
@@ -77,6 +87,13 @@ class FichasMedicasController extends Controller
 
         //actualizamos el stock de los insumos
         foreach ($_POST['insumos'] as $insumoId => $cantidad) {
+            if($cantidad != 0){
+                $usa = new usa();
+                $usa->id_ficha_medica = $fichas_medicas->id;
+                $usa->id_insumo_medico = $insumoId;
+                $usa->save();
+            }
+
             $insumo = insumos_medicos::find($insumoId);
             if ($insumo) {
                 $insumo->stock -= $cantidad;
@@ -87,6 +104,7 @@ class FichasMedicasController extends Controller
         $reserva = ReservarCitas::find($request->input('id_hora_reservada'));
         $reserva->status = 'Atendida';
         $reserva->save();
+
         //Podriamos mandar un correo de la cita :D
 
         // if ($ReservarCita->status == 'Confirmada') {

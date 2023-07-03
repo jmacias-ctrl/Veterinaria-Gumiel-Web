@@ -31,16 +31,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Ventas</li>
     </nav>
@@ -54,6 +46,7 @@
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
                         <h1>Punto de Reserva/Pago de Servicios</h1>
+                        <a class="btn btn-success" href="{{route('control_servicios.agendar')}}" role="button" style="height:45px">Agendar Cita</a>
                     </div>
                 </div>
                 @if (session()->get('success'))
@@ -65,8 +58,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Cliente</th>
+                            <th>Nombre Cliente</th>
+                            <th>Rut Cliente</th>
                             <th>Servicio</th>
+                            <th>Nombre Funcionario</th>
                             <th>Estado</th>
                             <th>Monto</th>
                             <th>¿Pagado?</th>
@@ -138,8 +133,16 @@
                         name: 'name'
                     },
                     {
+                        data: 'rut',
+                        name: 'rut'
+                    },
+                    {
                         data: 'nombre',
                         name: 'nombre'
+                    },
+                    {
+                        data: 'funcionario_id',
+                        name: 'funcionario_id'
                     },
                     {
                         data: 'status',
@@ -210,13 +213,8 @@
                             })
                             .then(function(response) {
                                 $('#pagoVenta').modal('hide')
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: `Pago realizado exitosamente`,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
+                                $('#ventaId').val(response.data.ventaId);
+                                toastr.success('Venta realizada exitosamente')
                                 $('#numVenta').html('Num. venta: ' + response.data
                                     .nuevaVenta['id_venta']);
                                 $('#fecha').html('Fecha: ' + response.data.fecha);
@@ -257,7 +255,9 @@
                                     
                                 `);
 
-                                $('#comprobanteModal').modal('show')
+                                setTimeout(() => {
+                                    $('#comprobanteModal').modal('show')
+                                }, 500);
                                 console.log(response);
                             })
                             .catch(function(error) {

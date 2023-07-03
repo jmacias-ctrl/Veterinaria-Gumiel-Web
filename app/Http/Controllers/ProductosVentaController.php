@@ -28,17 +28,17 @@ class ProductosVentaController extends Controller
      */
     public function index_productos(Request $request)
     {
-        if($request->ajax()){
-            $data = productos_ventas::with(['marcaproductos','tipoproductos_ventas', 'especies'])->get()->map(function($producto){
+        if ($request->ajax()) {
+            $data = productos_ventas::with(['marcaproductos', 'tipoproductos_ventas', 'especies'])->get()->map(function ($producto) {
                 $producto->id_marca = $producto->marcaproductos->nombre;
                 $producto->id_tipo = $producto->tipoproductos_ventas->nombre;
                 $producto->producto_enfocado = $producto->especies->nombre;
-                $producto->precio = '$'.number_format($producto->precio, 0, ',', '.');
+                $producto->precio = '$' . number_format($producto->precio, 0, ',', '.');
                 return $producto;
             });
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action','producto.datatable.action')
+                ->addColumn('action', 'producto.datatable.action')
                 ->rawColumns(['action'])
                 ->toJson();
         }
@@ -67,24 +67,24 @@ class ProductosVentaController extends Controller
     {
         $rules = ([
             'nombre' => 'required',
-            'codigo'=> 'string|required|unique:App\Models\productos_ventas,codigo',
+            'codigo' => 'string|required|unique:App\Models\productos_ventas,codigo',
             'marca' => 'required',
-            'slug'=>'required',
+            'slug' => 'required',
             'descripcion' => 'required',
             'tipo' => 'required',
             'stock' => 'required|integer',
             'min_stock' => 'required|integer',
             'producto_enfocado' => 'required',
-            'precio' => 'required|integer',
+            'precio' => 'required|integer|min:1',
             'imagen_path' => 'required|mimes:jpg,jpeg,png',
         ]);
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
-            'codigo'=>'Codigo',
-            'slug'=>'Slug',
+            'codigo' => 'Codigo',
+            'slug' => 'Slug',
             'descripcion' => 'Descripcion',
-            'min_stock'=>'Minimo Stock',
+            'min_stock' => 'Minimo Stock',
             'tipo' => 'Tipo',
             'stock' => 'Stock',
             'producto_enfocado' => 'Enfoque del Producto',
@@ -95,7 +95,7 @@ class ProductosVentaController extends Controller
             'required' => ':attribute es obligatorio.',
             'integer' => ':attribute no es un numero, ingrese nuevamente',
             'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg',
-            'unique'=> ':attribute ya se encuentra registrado'
+            'unique' => ':attribute ya se encuentra registrado',
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
@@ -112,7 +112,10 @@ class ProductosVentaController extends Controller
             $producto->id_tipo = $request->input('tipo');
             $producto->stock = $request->input('stock');
             $producto->producto_enfocado = $request->input('producto_enfocado');
-            $producto->precio = $request->input('precio');
+
+            // $producto->precio = $request->input('precio');
+            $producto->precio = $request->input('precio') < 0 ? 1 : $request->input('precio');
+
             $producto->imagen_path = $imagen_path->store('public/image/productos');
             $filename = time() . '.' . $imagen_path->getClientOriginalExtension();
 
@@ -168,27 +171,27 @@ class ProductosVentaController extends Controller
     {
         $rules = ([
             'nombre' => 'required',
-            'codigo'=> [
+            'codigo' => [
                 'string',
                 'required',
                 Rule::unique('productos_ventas', 'codigo')->ignore($request->id),
             ],
             'marca' => 'required',
-            'slug'=>'required',
+            'slug' => 'required',
             'descripcion' => 'required',
             'tipo' => 'required',
             'stock' => 'required|integer',
             'min_stock' => 'required|integer',
             'producto_enfocado' => 'required',
-            'precio' => 'required|integer',
+            'precio' => 'required|integer|min:1',
         ]);
         $attributes = ([
             'nombre' => 'Nombre',
             'marca' => 'Marca',
             'codigo' => 'Codigo',
-            'slug'=>'Slug',
+            'slug' => 'Slug',
             'descripcion' => 'Descripcion',
-            'min_stock'=>'Minimo Stock',
+            'min_stock' => 'Minimo Stock',
             'tipo' => 'Tipo',
             'stock' => 'Stock',
             'producto_enfocado' => 'Enfoque del Producto',
@@ -197,7 +200,7 @@ class ProductosVentaController extends Controller
         $message = ([
             'required' => ':attribute es obligatorio.',
             'integer' => ':attribute no es un numero, ingrese nuevamente',
-            'unique'=> ':attribute ya se encuentra registrado',
+            'unique' => ':attribute ya se encuentra registrado',
         ]);
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
@@ -218,7 +221,10 @@ class ProductosVentaController extends Controller
             $prod->id_tipo = $request->input('tipo');
             $prod->stock = $request->input('stock');
             $prod->producto_enfocado = $request->input('producto_enfocado');
-            $prod->precio = $request->input('precio');
+
+            // $prod->precio = $request->input('precio');
+            $prod->precio = $request->input('precio') < 0 ? 1 : $request->input('precio');
+
             $prod->save();
             return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
         }
@@ -239,5 +245,4 @@ class ProductosVentaController extends Controller
 
         return response()->json(['success' => true], 200);
     }
-
 }

@@ -1,9 +1,11 @@
-<div class="modal fade" id="comprobanteModal" data-backdrop="static" data-keyboard="false" aria-labelledby="comprobanteModal" aria-hidden="true">
+<div class="modal fade" id="comprobanteModal" data-backdrop="static" data-keyboard="false" aria-labelledby="comprobanteModal"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Comprobante de Venta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload()">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    onclick="location.reload()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -17,44 +19,48 @@
                 </ul>
                 </ul>
                 <h3 class="mt-2">Productos</h3>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nombre del Producto</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Precio Unitario</th>
-                            <th scope="col">Precio Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productosVendidos">
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col" id="totalVentaShow">Total de la venta:</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre del Producto</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Precio Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productosVendidos">
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col" id="totalVentaShow">Total de la venta:</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
                 <hr>
-                
-                <div class="d-flex justify-content-center" style="display:none;">
-                    
-                    <form class="form-inline d-none">
+
+                <div class="d-flex justify-content-center">
+
+                    <form class="form-inline" action="{{route('point_sale.enviar_comprobante')}}" method="POST">
+                        @csrf
+                        <input type="hidden" id="ventaId" name="ventaId">
                         <label for="email_cliente" class="form-label mr-4">Enviar comprobante por correo</label>
                         <div class="form-group mb-2">
-                            <input type="email" class="form-control" id="email_cliente" name="email_cliente"
-                                value="email@example.com">
+                            <input type="email" class="form-control" id="email_cliente" name="email_cliente" placeholder="email@example.com" required>
                         </div>
                         <button type="submit" class="btn btn-primary mb-2">Enviar</button>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload()">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    onclick="location.reload()">Cerrar</button>
             </div>
             </form>
         </div>

@@ -37,16 +37,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Modificar Landing Page</li>
     </nav>
@@ -55,20 +47,11 @@
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
+                @include('landingpage.ubication.botones')
                 <form action="{{ route('landing.website.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- <input type="hidden" name="id" value="{{ Auth::user()->id }}"> -->
-                    <div class="d-flex justify-content-center">
-                        <div class="btn-group btn-group-lg" role="group">
-                            <a class="btn btn-outline-success" href="{{ route('landing.ubication.edit') }}"
-                                role="button">Información</a>
-                            <a class="btn btn-outline-success" href="{{ route('landing.nosotros.edit') }}"
-                                role="button">Sección Nosotros</a>
-                            <a class="btn btn-outline-success active" href="{{ route('landing.website.edit') }}"
-                                role="button">Landing Page</a>
-                            <a class="btn btn-outline-success" href="{{ route('landing.horario.edit') }}" role="button">Horario</a>
-                        </div>
-                    </div>
+                    
                     <h2>Informacion</h2>
                     <div class="row mt-3">
                         <div class="col">

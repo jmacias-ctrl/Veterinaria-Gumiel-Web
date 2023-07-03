@@ -26,10 +26,10 @@ class CreateTrazabilidadInventariosTable extends Migration
             $table->string('factura')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_producto')->references('id')->on('productos_ventas');
-            $table->foreign('id_insumo')->references('id')->on('insumos_medicos');
-            $table->foreign('id_medicina')->references('id')->on('medicamentos_vacunas');
-            $table->foreign('id_proveedor')->references('id')->on('proveedores');
+            $table->foreign('id_producto')->references('id')->on('productos_ventas')->onDelete('SET NULL')->onUpdate('CASCADE');;
+            $table->foreign('id_insumo')->references('id')->on('insumos_medicos')->onDelete('SET NULL')->onUpdate('CASCADE');;
+            $table->foreign('id_medicina')->references('id')->on('medicamentos_vacunas')->onDelete('SET NULL')->onUpdate('CASCADE');;
+            $table->foreign('id_proveedor')->references('id')->on('proveedores')->onDelete('SET NULL')->onUpdate('CASCADE');;
         });
     }
 

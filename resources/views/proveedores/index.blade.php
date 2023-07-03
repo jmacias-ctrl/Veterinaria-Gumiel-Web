@@ -27,16 +27,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Proveedores</li>
     </nav>
@@ -67,6 +59,9 @@
                         <tr>
                             <th>#</th>
                             <th>Nombre</th>
+                            <th>Rut</th>
+                            <th>Telefono</th>
+                            <th>Coreo</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -168,6 +163,18 @@
                     {
                         data: 'nombre',
                         name: 'nombre'
+                    },
+                    {
+                        data: 'rut',
+                        name: 'rut'
+                    },
+                    {
+                        data: 'telefono',
+                        name: 'telefono'
+                    },
+                    {
+                        data: 'correo',
+                        name: 'correo'
                     },
                     {
                         data: 'action',

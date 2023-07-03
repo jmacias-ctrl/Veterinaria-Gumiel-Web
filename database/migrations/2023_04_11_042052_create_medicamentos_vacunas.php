@@ -25,9 +25,9 @@ class CreateMedicamentosVacunas extends Migration
             $table->integer('stock');
             $table->timestamps();
 
-            $table->foreign('id_marca')->references('id')->on('marca_medicamentos_vacunas');
-            $table->foreign('id_tipo')->references('id')->on('tipo_medicamentos_vacunas');
-            $table->foreign('medicamentos_enfocados')->references('id')->on('especies');
+            $table->foreign('id_marca')->references('id')->on('marca_medicamentos_vacunas')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('id_tipo')->references('id')->on('tipo_medicamentos_vacunas')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('medicamentos_enfocados')->references('id')->on('especies')->onDelete('SET NULL')->onUpdate('CASCADE');
         });
     }
 

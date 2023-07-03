@@ -28,9 +28,9 @@ class CreateProductosVentasTable extends Migration
             $table->string('imagen_path');
             $table->timestamps();
 
-            $table->foreign('id_marca')->references('id')->on('marcaproductos');
-            $table->foreign('producto_enfocado')->references('id')->on('especies');
-            $table->foreign('id_tipo')->references('id')->on('tipoproductos_ventas');
+            $table->foreign('id_marca')->references('id')->on('marcaproductos')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('producto_enfocado')->references('id')->on('especies')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('id_tipo')->references('id')->on('tipoproductos_ventas')->onDelete('SET NULL')->onUpdate('CASCADE');
         });
     }
 

@@ -21,7 +21,7 @@
     @endif
     @yield('css-before')
 
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
@@ -39,8 +39,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Libraries Stylesheet -->
-    @if(Route::currentRouteName()=='agendar-horas.create')
-    <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
+    @if (Route::currentRouteName() == 'agendar-horas.create')
+        <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     @endif
     <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet" />
@@ -48,7 +48,7 @@
     <link rel="stylesheet" type="text/css" href="fullCalendar4/packages/timegrid/main.css">
     <link rel="stylesheet" href="utils/css/jquery.timepicker.min.css">
     <script type="text/javascript" src="utils/js/jquery.datetimepicker.full.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('css/landingpage/bootstrap.min.css') }}" rel="stylesheet" />
 
@@ -57,7 +57,7 @@
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link href="{{ asset('js/plugins/nucleo/css/nucleo.css') }}" rel="stylesheet" />
     <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet" />
@@ -149,7 +149,7 @@
                 <a href="{{ route('servicios') }}"
                     class="nav-item nav-link @if (request()->routeIs('servicios')) active @endif">Servicios</a>
             </div>
-            
+
             @guest
                 @if (Route::has('login'))
                     <a class="pl-0 nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
@@ -161,36 +161,29 @@
             @else
                 <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" v-pre>
-                    @if (isset(Auth::user()->image))
-                        <img src="{{ asset('storage') . '/' . Auth::user()->image }}" alt=""
-                            style="width:40px; height:40px;">
-                    @else
-                        <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg"
-                            style="width:40px; height:40px;">
-                    @endif
+                    <div class="d-flex align-items-stretch">
+                        @if (isset(Auth::user()->image))
+                            <img class="align-self-stretch" src="{{ asset('storage') . '/' . Auth::user()->image }}"
+                                alt="" style="width:40px; height:40px;">
+                        @else
+                            <img src="{{ asset('image/default-user-image.png') }}" alt="profileImg"
+                                style="width:40px; height:40px;">
+                        @endif
+                        <p class="ms-2 text-center align-self-center text-wrap">{{ explode(' ', Auth::user()->name)[0] }}
+                        </p>
+                    </div>
                 </a>
-
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    @hasrole('Admin')
-                        <a class="dropdown-item" href="{{ route('admin') }}">
-                            {{ __('Panel de Administrador') }}
+                    @hasanyrole('Cliente|Invitado')
+                        <a class="dropdown-item" href="{{ route('mi-perfil') }}">
+                            {{ __('Ver mi Perfil') }}
                         </a>
-                    @endhasrole
-                    @hasrole('Veterinario')
-                        <a class="dropdown-item" href="{{ route('veterinario') }}">
-                            {{ __('Panel de Veterinario') }}
+                    @else
+                        <a class="dropdown-item" href="{{ route('inicio_panel') }}">
+                            {{ __('Acceder al Panel') }}
                         </a>
-                    @endhasrole
-                    @hasrole('Peluquero')
-                        <a class="dropdown-item" href="{{ route('peluquero') }}">
-                            {{ __('Panel de Peluquero') }}
-                        </a>
-                    @endhasrole
-                    @hasrole('Inventario')
-                        <a class="dropdown-item" href="{{ route('inventario') }}">
-                            {{ __('Panel de Inventario') }}
-                        </a>
-                    @endhasrole
+                    @endhasanyrole
+
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -210,7 +203,8 @@
     @yield('content')
     <script src="{{ asset('js/horarios.js') }}" defer></script>
     <!-- Footer Start -->
-    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn" style="min-width:360px;" data-wow-delay="0.1s">
+    <div id="foot" class="container-fluid footer bg-dark text-light footer mt-5 pt-5 wow fadeIn"
+        data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-7">
                 <div class="col-lg-3 col-md-4">

@@ -13,6 +13,7 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_item" id="id_item">
                     <input type="hidden" name="tipo_item" id="tipo_item">
+                    <input type="hidden" name="getStock" id="getStock">
                     <div class="d-flex">
                         <p class="font-weight-bold">Item:&nbsp</p>
                         <p id="nombre_item"></p>
@@ -63,9 +64,17 @@
                         </div>
 
                     </div>
-                    <div class="form-group d-none" id="nuevoProveedorDiv">
-                        <label for="nuevoProveedor">Nombre del Proveedor</label>
-                        <input type="text" class="form-control" id="nuevoProveedor" name="nuevoProveedor">
+                    <div class="form-group proveedorForm d-none">
+                        <label for="nuevoProveedor">Nombre del Proveedor*</label>
+                        <input type="text" class="form-control proveedorInput" id="nuevoProveedor" name="nuevoProveedor">
+                    </div>
+                    <div class="form-group proveedorForm d-none">
+                        <label for="rutProveedor">Rut del Proveedor*</label>
+                        <input type="text" class="form-control proveedorInput" id="nuevoRutProveedor" oninput="checkRut(this)" max="10" name="nuevoRutProveedor">
+                    </div>
+                    <div class="form-group proveedorForm d-none">
+                        <label for="telefonoProveedor">Telefono del Proveedor</label>
+                        <input type="integer" class="form-control proveedorInput" id="telefonoProveedor" name="telefonoProveedor">
                     </div>
                     <div class="form-group" id="adjuntarFactura">
                         <label for="factura">Adjuntar Factura</label>

@@ -28,13 +28,21 @@
     <!-- CSS Files -->
     <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <link rel="stylesheet" href="{{ asset('css') . '/breadcrums.css' }}">
+    <link rel="stylesheet" href="{{ asset('css') . '/uiFix.css' }}">
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <script type="text/javascript">
-        var baseURL = {!! json_encode(url('/')) !!}
+        var baseURL = {
+            !!json_encode(url('/')) !!
+        }
     </script>
+
+
 
     @yield('css-after')
     <style>
@@ -73,7 +81,7 @@
     @yield('styles')
 </head>
 
-<body class="">
+<body id="mainContent">
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
             <!-- Toggler -->
@@ -96,6 +104,7 @@
                     <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="ni ni-bell-55"></i>
+
                         <span class="badge badge-danger">
                             @if ($userNotification < 99)
                                 {{ $userNotification }}
@@ -193,25 +202,53 @@
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    @if (auth()->user()->hasRole('Admin'))
-                        <a class="nav-link @if (Route::current()->getName() == 'admin') active @endif"
-                            href="{{ route('admin') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a class="nav-link  @if (Route::current()->getName() == 'veterinario') active @endif "
-                            href="{{ route('veterinario') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @elseif (auth()->user()->hasRole('Peluquero'))
-                        <a class="nav-link  @if (Route::current()->getName() == 'peluquero') active @endif "
-                            href="{{ route('peluquero') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @elseif (auth()->user()->hasRole('Inventario'))
-                        <a class="nav-link @if (Route::current()->getName() == 'inventario') active @endif"
-                            href="{{ route('inventario') }}"><i class="ni ni-tv-2 text-green"></i> Dashboard
-                        </a>
-                    @endif
-
+                    <a class="nav-link @if (Route::current()->getName() == 'inicio_panel') active @endif"
+                        href="{{ route('inicio_panel') }}"> Inicio
+                    </a>
                 </li>
+                @canany([
+                    'acceso ventas',
+                    'acceso punto de venta',
+                    'acceso administracion de stock',
+                    'ver gestionvet',
+                    'ver gestionpeluqueria',
+                    'ver citas',
+                    ])
+
+                    <li class="nav-item  @if (Route::currentRouteName() == 'trazabilidad-ventas-y-servicios' || Route::currentRouteName() == 'dashboard-citas') active @endif" >
+                    
+                    <a class="nav-link
+                        collapse-links @if (Route::current()->getName() == 'admin') active @endif" data-toggle="collapse"
+                        href="#dashboardCollapse" role="button" aria-expanded="false"
+                        aria-controls="dashboardCollapse">
+                        <i class="ni ni-tv-2 text-green"></i> Dashboard
+                        </a>
+
+                        <div class="collapse" id="dashboardCollapse">
+                            <div class="card card-body" id="dropdown">
+                                @canany(['acceso ventas', 'acceso punto de venta', 'acceso administracion de stock'])
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3"
+                                                href="{{ route('trazabilidad-ventas-y-servicios') }}"
+                                                id="link-dropdown">Dashboard Ventas y Servicios</a>
+                                        </li>
+                                    </ul>
+                                @endcanany
+                                @canany(['ver gestionvet', 'ver gestionpeluqueria', 'ver citas'])
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3" href="{{ route('dashboard-citas') }}"
+                                                id="link-dropdown">Dashboard Citas</a>
+                                        </li>
+                                    </ul>
+                                @endcanany
+
+
+                            </div>
+                        </div>
+                    </li>
+                @endcanany
                 @can('ver usuario')
                     @if (Route::currentRouteName() == 'admin.usuarios.index')
                         <li class="nav-item  active">
@@ -234,12 +271,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link ms-3" @if (request()->routeIs('admin.roles.*')) active @endif
                                         href="{{ route('admin.roles.index') }}" id="link-dropdown">Roles</a>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link ms-3 @if (request()->routeIs('admin.horario.*')) active @endif"
-                                        href="{{ url('funcionarios') }}" id="link-dropdown">Funcionario</a>
                                 </li>
                             </ul>
                         </div>
@@ -422,7 +453,15 @@
                     <li class="nav-item active">
                         <a class="nav-link @if (request()->routeIs('ventas.*')) active @endif"
                             href="{{ route('ventas.index') }}">
-                            <i class="ni ni-money-coins text-green"></i> Ventas
+                            <i class="ni ni-money-coins text-green"></i> Historial de Ventas
+                        </a>
+                    </li>
+                @endcan
+                @can('acceso ventas')
+                    <li class="nav-item active">
+                        <a class="nav-link @if (request()->routeIs('pedidos_online.*')) active @endif"
+                            href="{{ route('pedidos_online.index') }}">
+                            <i class="ni ni-single-copy-04 text-green"></i> Pedidos Online
                         </a>
                     </li>
                 @endcan
@@ -479,6 +518,12 @@
                                             Page</a>
                                     </li>
                                 </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link ms-3 @if (request()->routeIs('landing.horario.*')) active @endif"
+                                            href="{{ route('landing.horario.edit') }}" id="link-dropdown">Horario Landing Page</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </li>
@@ -523,7 +568,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" style="color:black;" id="desktopNotification">
-                    <i class="ni ni-bell-55"></i>
+                    <i class="ni ni-bell-55 text-white"></i>
                     <span class="badge badge-danger">
                         @if ($userNotification < 99)
                             {{ $userNotification }}
@@ -603,105 +648,12 @@
 </nav>
 <!-- End Navbar -->
 <!-- Header -->
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-primary pb-7 pt-5 pt-md-8">
     <div class="container-fluid">
         @yield('breadcrumbs')
         <a class="h3 ml-5 mt-3 mb-0 text-white text-uppercase" href="{{ url()->full() }}" id="headerMobile">
             <p class="ml-3 font-weight-bold" text-center> @yield('header-title')</p>
         </a>
-        <div class="header-body">
-
-            <!-- Card stats
-@can('ver estadisticas')
-<div class="row">
-<div class="col-xl-3 col-lg-6">
-<div class="card card-stats mb-4 mb-xl-0">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                <span class="h2 font-weight-bold mb-0">350,897</span>
-            </div>
-            <div class="col-auto">
-                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-            </div>
-        </div>
-        <p class="mt-3 mb-0 text-muted text-sm">
-            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-            <span class="text-nowrap">Since last month</span>
-        </p>
-    </div>
-</div>
-</div>
-<div class="col-xl-3 col-lg-6">
-<div class="card card-stats mb-4 mb-xl-0">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                <span class="h2 font-weight-bold mb-0">2,356</span>
-            </div>
-            <div class="col-auto">
-                <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                    <i class="fas fa-chart-pie"></i>
-                </div>
-            </div>
-        </div>
-        <p class="mt-3 mb-0 text-muted text-sm">
-            <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-            <span class="text-nowrap">Since last week</span>
-        </p>
-    </div>
-</div>
-</div>
-<div class="col-xl-3 col-lg-6">
-<div class="card card-stats mb-4 mb-xl-0">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                <span class="h2 font-weight-bold mb-0">924</span>
-            </div>
-            <div class="col-auto">
-                <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                    <i class="fas fa-users"></i>
-                </div>
-            </div>
-        </div>
-        <p class="mt-3 mb-0 text-muted text-sm">
-            <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-            <span class="text-nowrap">Since yesterday</span>
-        </p>
-    </div>
-</div>
-</div>
-<div class="col-xl-3 col-lg-6">
-<div class="card card-stats mb-4 mb-xl-0">
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                <span class="h2 font-weight-bold mb-0">49,65%</span>
-            </div>
-            <div class="col-auto">
-                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                    <i class="fas fa-percent"></i>
-                </div>
-            </div>
-        </div>
-        <p class="mt-3 mb-0 text-muted text-sm">
-            <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-            <span class="text-nowrap">Since last month</span>
-        </p>
-    </div>
-</div>
-</div>
-</div>
-@endcan
--->
-        </div>
     </div>
 
     <script src="{{ asset('js/horarios.js') }}" defer></script>
@@ -750,7 +702,9 @@
 </script>
 <script>
     function checkForNewNotifications() {
-        var notificationCount = {!! json_encode($userNotification, JSON_HEX_TAG) !!}
+        var notificationCount = {
+            !!json_encode($userNotification, JSON_HEX_TAG) !!
+        }
         setInterval(() => {
             axios({
                 method: 'get',
@@ -774,7 +728,7 @@
             }).catch(err => {
                 console.error(err);
             });
-        }, 2500);
+        }, 3500);
     }
 </script>
 @yield('js-after')

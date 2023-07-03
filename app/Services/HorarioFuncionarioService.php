@@ -15,11 +15,27 @@ class HorarioFuncionarioService implements HorarioFuncionarioServiceInterface {
     }
 
     public function isAvailableInterval($date, $funcionarioId, Carbon $start){
-        $exists = ReservarCitas::where('funcionario_id', $funcionarioId)
-                ->where('scheduled_date', $date )
-                ->where('sheduled_time', $start->format('H:i:s'))
-                ->exists();
-            return !$exists;
+        $closest = ReservarCitas::join('servicios', 'reservar_citas.id_servicio', '=', 'servicios.id')
+                ->where('funcionario_id', $funcionarioId)
+                ->where('scheduled_date', $date)
+                ->where('sheduled_time', '<=' ,$start->format('H:i:s'))
+                ->where('status','!=','Cancelada')
+                ->where('status','!=','Atendida')
+                ->select('sheduled_time', 'duracion')
+                ->orderBy('sheduled_time', 'DESC')
+                ->first();
+        if(!isset($closest)){
+            return true;
+        }
+        $fecha = $date.' '.$closest->sheduled_time; 
+        $fecha_b = Carbon::parse($date.' '.$start->format('H:i:s'));
+        $start = Carbon::parse($fecha);
+        $end = Carbon::parse($fecha)->addMinutes($closest->duracion);
+        if($start->lte($fecha_b) && $end->gte($fecha_b)){
+            return false;
+        }
+        return true;
+        
     }
 
     public function getAvailableIntervals($date, $funcionarioId){
@@ -69,4 +85,6 @@ class HorarioFuncionarioService implements HorarioFuncionarioServiceInterface {
 
         return $intervalos;
     }
+
+
 }

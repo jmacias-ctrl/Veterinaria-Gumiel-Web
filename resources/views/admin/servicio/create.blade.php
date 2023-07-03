@@ -89,7 +89,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">$</div>
                                     <input type="number" class="form-control @error('precio') is-invalid @enderror"
-                                        id="precio" name="precio" placeholder="Ej. 2500" required>
+                                        id="precio" name="precio" min="0" oninput="this.value = Math.abs(this.value)" placeholder="Ej. 2500" required>
                                     
                                 </div>
                                 @error('precio')
@@ -103,7 +103,7 @@
 
                                 <div class="input-group-prepend">
                                     <input type="number" class="form-control @error('duracion') is-invalid @enderror"
-                                        id="duracion" name="duracion" placeholder="Ej. 120 min" required>
+                                        id="duracion" name="duracion" min="0" oninput="this.value = Math.abs(this.value)" placeholder="Ej. 120 min" required>
                                     <div class="input-group-text">Minutos</div>
                                 </div>
                                 @error('duracion')

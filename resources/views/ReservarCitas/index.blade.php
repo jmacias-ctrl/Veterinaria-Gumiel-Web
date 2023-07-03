@@ -15,16 +15,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Pacientes</li>
     </nav>
@@ -51,17 +43,17 @@
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" 
                         href="#mis-citas" role="tab" aria-selected="true">
-                        <i class="ni ni-calendar-grid-58 mr-2"></i>Mis citas</a>
+                        <i class="ni ni-calendar-grid-58 mr-2"></i>Citas confirmadas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0"  data-toggle="tab" 
                         href="#citas-pendientes" role="tab" aria-selected="false">
-                        <i class="ni ni-bell-55 mr-2"></i>Citas pendientes</a>
+                        <i class="ni ni-bell-55 mr-2"></i>Citas por confirmar</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mb-sm-3 mb-md-0 " data-toggle="tab" 
                         href="#historial" role="tab" aria-selected="false">
-                        <i class="ni ni-folder-17 mr-2 "></i>Historial</a> 
+                        <i class="ni ni-folder-17 mr-2 "></i>Historial/Citas canceladas</a> 
                     </li>
                 </ul>
             </div>

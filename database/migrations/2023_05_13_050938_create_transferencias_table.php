@@ -20,7 +20,7 @@ class CreateTransferenciasTable extends Migration
             $table->integer('num_operacion');
             $table->timestamps();
 
-            $table->foreign('id_operacion')->references('id')->on('trazabilidad_venta_presencials');
+            $table->foreign('id_operacion')->references('id')->on('trazabilidad_venta_presencials')->onDelete('CASCADE')->onUpdate('CASCADE');
         });
     }
 

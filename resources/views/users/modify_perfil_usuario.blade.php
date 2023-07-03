@@ -37,16 +37,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('user.profile.index') }}"
                     style="color:black;">Perfil de {{ auth()->user()->name }}</a> </li>
@@ -87,7 +79,7 @@
                         <div class="col">
                             <label for="name" class="form-label">Nombre</label>
                             <input type="text" id="name" name="name"
-                                class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Pedro"
+                                class="form-control @error('name') is-invalid @enderror" placeholder="Ej. Pedro"
                                 aria-label="name" value="{{ Auth::user()->name }}" required>
                             @error('name')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>

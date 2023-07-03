@@ -27,16 +27,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Usuarios</li>
     </nav>
@@ -78,6 +70,7 @@
         </div>
     </div>
 @endsection
+@include('admin.usuarios.modal.servicio_asignado')
 @section('js-after')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
@@ -209,7 +202,14 @@
         $('#myInput').on('keyup', function() {
             $('#table').dataTable().fnFilter(this.value);
         });
-
+        function asignar_tipo_servicio(id, nombre, tipo_servicio){
+            $('#usuarioAsignar').html('Asignar tipo de servicio a '+nombre);
+            let getTipoServicio = tipo_servicio==''? "Ninguno":tipo_servicio;
+            let getId = id;
+            $('#tipoServicioUsuarioAsignado').html('Tipo de servicio asignado: '+getTipoServicio)
+            $('#id_user').val(getId);
+            $('#tipoServicioAsignado').modal('toggle');
+        }
         function deleted(id_get) {
             var form = $(this).parents(form);
             Swal.fire({

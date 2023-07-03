@@ -22,8 +22,8 @@ class CreateFichasMedicasTable extends Migration
             $table->text('observacion');
             $table->text('procedimiento');
 
-            $table->foreign('id_hora_reservada')->references('id')->on('reservar_citas');
-            $table->foreign('id_mascota')->references('id')->on('mascotas');
+            $table->foreign('id_hora_reservada')->references('id')->on('reservar_citas')->onDelete('CASCADE')->onUpdate('CASCADE');;
+            $table->foreign('id_mascota')->references('id')->on('mascotas')->onDelete('CASCADE')->onUpdate('CASCADE');;
             $table->timestamps();
         });
     }

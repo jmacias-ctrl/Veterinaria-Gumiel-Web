@@ -24,8 +24,8 @@ class CreateTrazabilidadVentaPresencialsTable extends Migration
             $table->unsignedBigInteger('id_operador')->nullable();    
             $table->timestamps();
             
-            $table->foreign('id_operador')->references('id')->on('users');
-            $table->foreign('id_cliente')->references('id')->on('users');
+            $table->foreign('id_operador')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('id_cliente')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('CASCADE');
             
         });
     }

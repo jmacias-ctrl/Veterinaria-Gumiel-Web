@@ -43,20 +43,20 @@ class LandingPageController extends Controller
         $setDay = [
             0 => 'Lunes',
             1 => 'Martes',
-            2 => 'Miercoles',
+            2 => 'Miércoles',
             3 => 'Jueves',
             4 => 'Viernes',
-            5 => 'Sabado',
+            5 => 'Sábado',
             6 => 'Domingo',
         ];
         $disponibilidad = DisponibilidadVeterinaria::all()->map(function ($item) {
             $setDay = [
                 0 => 'Lunes',
                 1 => 'Martes',
-                2 => 'Miercoles',
+                2 => 'Miércoles',
                 3 => 'Jueves',
                 4 => 'Viernes',
-                5 => 'Sabado',
+                5 => 'Sábado',
                 6 => 'Domingo',
             ];
             $item->day = $setDay[$item->day];

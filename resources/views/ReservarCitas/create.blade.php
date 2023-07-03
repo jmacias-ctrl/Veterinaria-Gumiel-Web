@@ -31,10 +31,10 @@
 @endsection
 @section('content')
 
-<div class="form-row">
+<div class="form-row px-5 py-2">
     @include('layouts.panel_cliente')
     <div class="col-md-9">
-        <div class="card shadow me-3">
+        <div class="card shadow me-3 mt-3">
             <div class="card-header border-2">
                 <div class="row align-items-center">
                     <div class="col">

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Categorias as ModelsCategorias;
+
 use Illuminate\Database\Seeder;
+// use App\Models\Categorias as modelCategorias;
 
 class Categorias extends Seeder
 {
@@ -14,6 +15,9 @@ class Categorias extends Seeder
      */
     public function run()
     {
-        ModelsCategorias::factory(10)->create();
+        // modelCategorias::create([
+        //     'nombre'=>'Agujas'
+        // ]);
+
     }
 }

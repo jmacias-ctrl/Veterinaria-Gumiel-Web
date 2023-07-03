@@ -105,7 +105,7 @@ CARRITO | Veterinaria Gumiel
                             <form action="{{ route('shop.checkout.checkout')}}" method="POST">
                                 {{csrf_field()}}
                                 <div onclick="cero()">
-                                    <input type="submit" value="Ir a pagar" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                    <input type="submit" value="Ir a pagar" class="btn btn-block font-weight-bold" @if(sizeof($cartCollection)<=0) disabled @endif style="color:white; background-color:#19A448; border-color:#19A448;"/>
                                 </div> 
                             </form>    
                         
@@ -113,7 +113,7 @@ CARRITO | Veterinaria Gumiel
                         <form action="{{ route('shop.checkout.login')}}" method="get">
                                 {{csrf_field()}}
                                 <div onclick="cero()">
-                                    <input type="submit" value="Ir a pagar" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                    <input type="submit" value="Ir a pagar" class="btn btn-block font-weight-bold" @if(sizeof($cartCollection)<=0) disabled @endif  style="color:white; background-color:#19A448; border-color:#19A448;"/>
                                 </div>
                             </form>    
                         @endif

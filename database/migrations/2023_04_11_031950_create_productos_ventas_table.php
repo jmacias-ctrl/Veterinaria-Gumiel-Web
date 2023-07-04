@@ -17,7 +17,7 @@ class CreateProductosVentasTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('codigo')->unique()->nullable();
-            $table->unsignedBigInteger('id_marca')->nullable();
+            $table->BigInteger('id_marca')->unsigned()->nullable();
             $table->text('descripcion');
             $table->string('slug')->nullable();
             $table->unsignedBigInteger('id_tipo')->nullable();
@@ -26,11 +26,12 @@ class CreateProductosVentasTable extends Migration
             $table->unsignedBigInteger('producto_enfocado')->nullable();
             $table->integer('precio');
             $table->string('imagen_path');
+            $table->string('subcategoria')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_marca')->references('id')->on('marcaproductos')->onDelete('SET NULL')->onUpdate('CASCADE');
-            $table->foreign('producto_enfocado')->references('id')->on('especies')->onDelete('SET NULL')->onUpdate('CASCADE');
-            $table->foreign('id_tipo')->references('id')->on('tipoproductos_ventas')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('id_marca')->references('id')->on('marcaproductos');
+            $table->foreign('producto_enfocado')->references('id')->on('especies');
+            $table->foreign('id_tipo')->references('id')->on('tipoproductos_ventas');
         });
     }
 

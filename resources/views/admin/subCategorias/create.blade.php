@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Agregar Especie - Veterinaria Gumiel</title>
+<title>Agregar Subcategoria - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet"
@@ -17,13 +17,13 @@
     </style>
 @endsection
 @section('back-arrow')
-    <a href="{{ route('admin.especies.index') }}"> <span class="material-symbols-outlined"
+    <a href="{{ route('admin.subcategorias.index') }}"> <span class="material-symbols-outlined"
             style="font-size:40px; color:white;">
             arrow_back
         </span> </a>
 @endsection
 @section('header-title')
-    Agregar Especie
+    Agregar Subcategoria
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -36,24 +36,24 @@
                 <a href="{{ route('inicio_panel') }}" style="color:black;">
                     Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.especies.index') }}"
-                    style="color:black;">Especie</a> </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Especie</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.subcategorias.index') }}"
+                    style="color:black;">Subcategoria</a> </li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Subcategoria</li>
     </nav>
 @endsection
 @section('content')
     <div class="row">
         <div class="col">
             <div class="card shadow p-4">
-                <form action="{{ route('admin.especies.store') }}" method="POST">
+                <form action="{{ route('admin.subcategorias.store') }}" method="POST">
                     @csrf
                     <div id="RoleWindow">
-                        <h5 class="mt-4">Información de la Especie:</h5>
+                        <h5 class="mt-4">Información de la Subcategoria:</h5>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre del Especie</label>
+                                <label for="nombre" class="form-label">Nombre del Subcategoria</label>
                                 <input type="text" id="nombre" name="nombre"
-                                    class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Gatos"
+                                    class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Cachorro"
                                     aria-label="Nombre" required>
 
                                 @error('nombre')
@@ -62,7 +62,20 @@
                             </div>
                         </div>
                         <br>
-
+                        <div class="form-group">
+                            <label for="Categoria">Categoria:</label>
+                            <select class="form-select @error('categoria') is-invalid @enderror" aria-label="Default select example" id="categoria" name="categoria" required>
+                                <option @if (old('categoria')) selected @endif disabled>Seleccione una Categoria</option>
+                                @foreach ($Categorias as $Categoria)
+                                <option value="{{ $Categoria->id }}" @if (old('categoria')==$Categoria->id) selected @endif>
+                                    {{ $Categoria->nombre }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('categoria')
+                            <div class="text-danger"><span><small>{{ $message }}</small></span></div>
+                            @enderror
+                        </div>
                         <input class="btn btn-primary" id="btn-submit"
                             style="background-color:#19A448; border-color:#19A448;" type="submit" value="Agregar">
 
@@ -84,7 +97,7 @@
                 e.preventDefault();
                 var form = $(this).parents(form);
                 Swal.fire({
-                    title: 'Agregar Nueva Especie',
+                    title: 'Agregar Nueva Subcategoria',
                     text: "¿Estás seguro de que todos los datos están correctos?",
                     icon: 'warning',
                     showCancelButton: true,

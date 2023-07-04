@@ -22,13 +22,13 @@ class CreateInsumosMedicosTable extends Migration
             $table->integer('stock');
             $table->timestamps();
 
-            $table->foreign('id_tipo')->references('id')->on('tipoinsumos')->onDelete('SET NULL')->onUpdate('CASCADE');
-            $table->foreign('id_marca')->references('id')->on('marca_insumos')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('id_tipo')->references('id')->on('tipoinsumos');
+            $table->foreign('id_marca')->references('id')->on('marca_insumos');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations
      *
      * @return void
      */

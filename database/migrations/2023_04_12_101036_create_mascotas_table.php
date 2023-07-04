@@ -25,8 +25,8 @@ class CreateMascotasTable extends Migration
             $table->date('fecha_nacimiento');
             $table->timestamps();
 
-            $table->foreign('id_especie')->references('id')->on('especies')->onDelete('SET NULL')->onUpdate('CASCADE');
-            $table->foreign('id_cliente')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('CASCADE');
+            $table->foreign('id_especie')->references('id')->on('especies');
+            $table->foreign('id_cliente')->references('id')->on('users');
         });
     }
 

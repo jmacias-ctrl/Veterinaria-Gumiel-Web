@@ -147,6 +147,26 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="Subcategoria">Subcategoria:</label>
+                        <div class="row justify-content-center align-items-center g-2">
+                            @foreach ($subcategorias as $sub)
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" value="{{ $sub->id }}" name="subcategoria{{ $sub->id }}">
+                                        <label class="form-check-label" for="">
+                                            @foreach ($categorias as $cat)
+                                                @if ($cat->id==$sub->id_categoria)
+                                                    {{$cat->nombre}}:{{ $sub->nombre }}
+                                                @endif
+                                            @endforeach                                        
+                                            
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="form-group">
 
                         <label for="imagen_path">Imagen:</label>
                         @if ($producto->imagen_path)

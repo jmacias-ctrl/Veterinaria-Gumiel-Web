@@ -2,84 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TipoCategorias;
+use App\Models\Categorias;
 use Illuminate\Http\Request;
+use App\Models\TipoCategorias;
+use Illuminate\Support\Facades\Validator;
+use DataTables;
+
 
 class TipoCategoriasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax()){
+           
+            $data = TipoCategorias::all();
+            foreach($data as $d){
+                $d->id_categoria = Categorias::find($d->id_categoria)->nombre;
+            }
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', 'admin.subcategorias.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+        return view('admin.subcategorias.subcategorias');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $Categorias = Categorias::all();
+        return view('admin.subcategorias.create', compact('Categorias'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        
+        $rule = [
+            'nombre' => 'required|string',
+            'categoria' => 'required',
+        ];
+
+        $message = ['required' => 'El :attribute es obligatorio'];
+        $validator = Validator::make($request->all(), $rule, $message);
+        if ($validator->passes()) {
+            $subcategoria = new TipoCategorias();
+            $subcategoria->nombre = $request->nombre;
+            $subcategoria->id_categoria = $request->input('categoria');
+
+            $subcategoria->save();
+            return redirect()->route('admin.subcategorias.index')->with('success', 'La subcategoria ' . $request->nombre . ' fue agregado de manera satisfactoria');;
+        }
+        return back()->withErrors($validator)->withInput();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TipoCategorias  $tipoCategorias
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TipoCategorias $tipoCategorias)
+    public function delete(Request $request)
     {
-        //
+        $subcategoria = TipoCategorias::find($request->id);
+        $subcategoria->delete();
+        return response()->json(['success' => true], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TipoCategorias  $tipoCategorias
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TipoCategorias $tipoCategorias)
+    public function edit(Request $request)
     {
-        //
+
+        $subcategoria = TipoCategorias::find($request->id);
+        return view('admin.subcategorias.edit', compact('subcategoria'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TipoCategorias  $tipoCategorias
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, TipoCategorias $tipoCategorias)
+    public function update(Request $request)
     {
-        //
-    }
+        $rule = [
+            'nombre' => 'required|string',
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TipoCategorias  $tipoCategorias
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TipoCategorias $tipoCategorias)
-    {
-        //
+        $message = ['required' => 'El :attribute es obligatorio'];
+        $validator = Validator::make($request->all(), $rule, $message);
+        if ($validator->passes()) {
+            $subcategoria = TipoCategorias::find($request->id);
+            $subcategoria->nombre = $request->nombre;
+            $subcategoria->save();
+            return redirect()->route('admin.subcategorias.index')->with('success', 'La subcategoria ' . $request->nombre . ' fue modificado de manera satisfactoria');;
+        }
+        return back()->withErrors($validator)->withInput();
     }
 }

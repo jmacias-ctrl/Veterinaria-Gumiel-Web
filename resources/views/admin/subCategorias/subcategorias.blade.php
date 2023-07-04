@@ -1,5 +1,5 @@
 @extends('layouts.panel_usuario')
-<title>Gestión Productos - Veterinaria Gumiel</title>
+<title>Gestión Subcategorias - Veterinaria Gumiel</title>
 @section('css-before')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
@@ -10,18 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .dataTables_filter,
-        .dataTables_info {
-            display: none;
-        }
-    </style>
 @endsection
 @section('js-before')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('header-title')
-    Gestión de Productos
+    Gestión de Subcategorias
 @endsection
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
@@ -30,7 +24,7 @@
                 <a href="{{ route('inicio_panel') }}" style="color:black;">
                     Inicio</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Productos</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color:white;">Subcategorias</li>
     </nav>
 @endsection
 @section('content')
@@ -41,33 +35,20 @@
             <div class="card shadow p-4">
                 <div class="card-header border-0 p-0 mb-4">
                     <div class="d-flex justify-content-between">
-                        <h1>Listado de Productos</h1>
-                        @can('ingresar productos')
-                            <div class="float-right"><a class="btn btn-primary mr-auto float-right"
-                                    href="{{ route('productos.crear') }}" role="button"
-                                    style="background-color:#19A448; border-color:#19A448;">Agregar</a></div>
+                        <h1>Listado de Subcategorias</h1>
+                        @can('ingresar subcategorias')
+                            <a class="btn btn-primary ms-5" href="{{ route('admin.subcategorias.create') }}"
+                                style="background-color:#19A448; border-color:#19A448;" role="button">Agregar</a>
                         @endcan
                     </div>
                 </div>
-                @if (session()->get('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session()->get('success') }}
-                    </div>
-                @endif
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;" id="table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Slug</th>
-                            <th>Marca</th>
-                            <th>Tipo</th>
-                            <th>Min Stock</th>
-                            <th>Stock</th>
-                            <th>Producto enfocado</th>
-                            <th>Precio</th>
-                            <th>Acciones</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">categoria</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                 </table>
@@ -75,6 +56,7 @@
         </div>
     </div>
 @endsection
+
 @section('js-after')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
@@ -89,15 +71,12 @@
     <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     <script>
         $(document).ready(function() {
-            let columns = [0, 1, 2, 3, 4, 5, 6];
             var table = $("#table").DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 },
-                dom: 'Bfrtip',
                 responsive: true,
                 "language": {
                     "search": "Buscar:",
@@ -109,98 +88,21 @@
                         "next": ">",
                     },
                 },
-                buttons: {
-                    buttons: [{
-                            extend: 'copyHtml5',
-                            text: '<i class="fa fa-copy"></i>',
-                            className: 'btn btn-outline-light mb-2',
-                            titleAttr: 'Copiar',
-                            exportOptions: {
-                                columns: columns
-                            }
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            text: '<i class="fas fa-file-excel"></i>',
-                            titleAttr: 'Exportar a Excel',
-                            className: 'btn btn-outline-success mb-2',
-                            exportOptions: {
-                                columns: columns
-                            }
-                        },
-                        {
-                            extend: 'csvHtml5',
-                            text: '<i class="fa fa-file-csv"></i>',
-                            titleAttr: 'Exportar a CSV',
-                            className: 'btn  btn-outline-info mb-2',
-                            exportOptions: {
-                                columns: columns
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            text: '<i class="fas fa-file-pdf"></i>',
-                            titleAttr: 'Exportar a PDF',
-                            className: 'btn btn-outline-danger mb-2',
-                            exportOptions: {
-                                columns: columns
-                            }
-                        },
-                        {
-                            extend: 'print',
-                            text: '<i style="color:orange" class="fas fa-print"></i>',
-                            titleAttr: 'Imprimir',
-                            className: 'btn btn-outline-warning mb-2',
-                            exportOptions: {
-                                columns: columns
-                            }
-                        }
-                    ]
-                },
                 ajax: {
-                    url: "{{ route('productos.index') }}",
+                    url: "{{ route('admin.subcategorias.index') }}",
                     type: 'GET',
                 },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
-                    }, 
-                    {
-                        data: 'codigo',
-                        name: 'codigo'
                     },
                     {
                         data: 'nombre',
                         name: 'nombre'
                     },
-
                     {
-                        data: 'slug',
-                        name: 'slug'
-                    },
-                    {
-                        data: 'id_marca',
-                        name: 'id_marca'
-                    },
-                    {
-                        data: 'id_tipo',
-                        name: 'id_tipo'
-                    },
-                    {
-                        data: 'min_stock',
-                        name: 'min_stock'
-                    },
-                    {
-                        data: 'stock',
-                        name: 'stock'
-                    },
-                    {
-                        data: 'producto_enfocado',
-                        name: 'producto_enfocado'
-                    },
-                    {
-                        data: 'precio',
-                        name: 'precio'
+                        data: 'id_categoria',
+                        name: 'id_categoria'
                     },
                     {
                         data: 'action',
@@ -210,40 +112,38 @@
                     }
                 ]
             });
-            $('#myInput').on('keyup', function() {
-                $('#table').dataTable().fnFilter(this.value);
-            });
         });
 
         function deleted(id_get) {
 
             Swal.fire({
-                title: '¿Eliminar Producto?',
+                title: '¿Eliminar SubCategoria?',
                 text: "¿Estás seguro? ¡no podrás revertir la acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar',
+                confirmButtonText: 'Si, eliminar',
                 cancelButtonText: 'Cancelar'
+
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    axios.post("{{ route('productos.delete') }}", {
+                    axios.post("{{ route('admin.subcategorias.delete') }}", {
                             id: id_get
                         })
                         .then(function(response) {
-                            console.log(response.data.id);
-                            toastr.success('¡Producto eliminado correctamente!')
+
+                            toastr.success('Subcategoria eliminado correctamente!')
 
                         })
                         .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar'+error)
+                            toastr.error('La acción no se pudo realizar')
                         })
                         .finally(function() {
                             Swal.fire({
                                 icon: 'success',
-                                title: '¡Producto eliminado correctamente!',
+                                title: 'Subcategoria eliminado correctamente!',
                                 showConfirmButton: false,
                                 timer: 1500
                             })

@@ -51,9 +51,35 @@ Tienda - Veterinaria Gumiel
                 </div>
                 <div class="row m-0">
                     <div id="filtros" style="padding:12px 8px 8px 0; width: 300px; padding-bottom: 8px;" >
-                        <div id="barra_filtro" class="shadow" style="background-color:#dbdfe3; border-radius:2px;">
+                        <div id="barra_categorias" class="shadow" style="background-color:#dbdfe3; border-radius:2px;">
                             <div style="display:flex; padding:22px;">
                                 <i style="color:gray; font-size:29px; -webkit-text-stroke: 1px; margin-right: 6px;" class="bi bi-filter"></i>
+                                <h1 class="font-weight-bold" style="color:gray; font-size:24px;">Categorias </h1>
+                            </div>
+                            <div id="categorias_aplicados" style="padding:0 20px; display:none;"></div>
+                            <div class="accordion accordion-flush">
+                                @foreach ($categorias as $cat)
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cat{{$cat->id}}" aria-expanded="false" aria-controls="cat{{$cat->id}}">
+                                                <h1 class="font-weight-bold text-dark">{{$cat->nombre}}</h1>
+                                            </button>
+                                        </h2>
+                                        <div id="cat{{$cat->id}}" class="accordion-collapse accordionCat collapse" style="transition:0.5s" aria-labelledby="cat{{$cat->id}}">
+                                            <div id="c{{$cat->id}}" class="accordion-body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="margin:0 20px 0 20px;">
+                                @endforeach
+                            </div>
+                            <div style="padding:20px;">
+                                <a id="aplicar_categorias" onclick="aplicar_categorias()" class="bg-secondary pb-2 pt-1 btn btn-block font-weight-bold text-white border border-secondary" style="border-radius:5px;">Aplicar Categorias</a>
+                            </div>
+                        </div>
+                        <div id="barra_filtro" class="shadow" style="margin-top:12px; background-color:#dbdfe3; border-radius:2px;">
+                            <div style="display:flex; padding:22px;">
+                                <i style="transform: rotate(180deg); color:gray; font-size:29px; -webkit-text-stroke: 1px; margin-right: 6px;" class="bi bi-filter"></i>
                                 <h1 class="font-weight-bold" style="color:gray; font-size:24px;">Filtros </h1>
                             </div>
                             <div id="filtros_aplicados" style="padding:0 20px; display:none;"></div>
@@ -68,7 +94,7 @@ Tienda - Veterinaria Gumiel
                                         <div class="accordion-body">
                                             @foreach($marcaProductos as $marca)
                                                 <div class="form-check">
-                                                    <input class="checkbox form-check-input check-marca" type="checkbox" value="{{$marca->id}}" name="{{$marca->nombre}}">
+                                                    <input class="checkbox form-check-input check-filtro check-marca" type="checkbox" value="{{$marca->id}}" name="{{$marca->nombre}}">
                                                     <label class="form-check-label" for="flexCheckDefault">
                                                         {{$marca->nombre}}
                                                     </label>
@@ -88,7 +114,7 @@ Tienda - Veterinaria Gumiel
                                         <div class="accordion-body">
                                             @foreach($tipoProductos as $tipo)
                                                 <div class="form-check mt-1">
-                                                    <input class="checkbox form-check-input check-tipo" type="checkbox" value="{{$tipo->id}}" name="{{$tipo->nombre}}">
+                                                    <input class="checkbox form-check-input check-tipo check-filtro " type="checkbox" value="{{$tipo->id}}" name="{{$tipo->nombre}}">
                                                     <label class="form-check-label" for="flexCheckDefault">
                                                         {{$tipo->nombre}}
                                                     </label>
@@ -108,7 +134,7 @@ Tienda - Veterinaria Gumiel
                                         <div class="accordion-body">
                                             @foreach($tipoEspecies as $especie)
                                                 <div class="form-check">
-                                                    <input class="checkbox form-check-input check-especie" type="checkbox" value="{{$especie->id}}" name="{{$especie->nombre}}">
+                                                    <input class="checkbox form-check-input check-especie check-filtro" type="checkbox" value="{{$especie->id}}" name="{{$especie->nombre}}">
                                                     <label class="form-check-label" for="flexCheckDefault">
                                                         {{$especie->nombre}}
                                                     </label>
@@ -134,7 +160,7 @@ Tienda - Veterinaria Gumiel
                                             <div id="checks" style="margin-top:20px;">
                                                 @for ($i = 0; $i < 5; $i++)
                                                     <div class="form-check">
-                                                        <input class="checkbox form-check-input check-precio" type="checkbox">
+                                                        <input class="checkbox form-check-input check-precio check-filtro" type="checkbox">
                                                         <label class="precio-check" for="flexCheckDefault">
                                                         </label>
                                                     </div> 
@@ -146,14 +172,15 @@ Tienda - Veterinaria Gumiel
                                 <hr style="margin:0 20px 0 20px;">
                             </div>
                             <div style="padding:20px;">
-                                <a id="aplicar_filtro" onclick="aplicar_filtros()" class="bg-secondary pb-2 pt-1 btn btn-block font-weight-bold text-white border border-secondary" style="border-radius:5px;">Aplicar</a>
+                                <a id="aplicar_filtro" onclick="aplicar_filtros()" class="bg-secondary pb-2 pt-1 btn btn-block font-weight-bold text-white border border-secondary" style="border-radius:5px;">Aplicar Filtros</a>
                             </div>
                         </div>
                     </div>
+
                     <div id="for_pro" class="col p-0" >
                         <div class="row m-0" style="padding-top:12px;" id="productAvailable">
                             @foreach($products as $pro)
-                                <div class="col_productos producto col" style="padding:0 0 8px 8px;" data-slug="{{ $pro->slug }}" data-marca="{{ $pro->id_marca }}" data-tipo_producto="{{$pro->id_tipo}}" data-especie="{{$pro->producto_enfocado }}" data-precio="{{ $pro->precio }}">
+                                <div class="col_productos producto col" style="padding:0 0 8px 8px;" data-slug="{{ $pro->slug }}" data-marca="{{ $pro->id_marca }}" data-tipo_producto="{{$pro->id_tipo}}" data-especie="{{$pro->producto_enfocado }}" data-precio="{{ $pro->precio }}" data-subcategoria="{{ $pro->subcategoria }}">
                                     <div class="card">
                                         <div class="card-body">
                                             <a href="{{ route('shop.show' ,['id'=>$pro->id]) }}" style="text-decoration:none;">
@@ -176,7 +203,7 @@ Tienda - Veterinaria Gumiel
                                                 </div>
                                             </a>
                                             <div class="mt-3 mb-2" style="display:flex;">
-                                                <p style=" pointer-events:none; margin:6px auto 6px 0;">${{number_format($pro->precio, 0, ',', '.')}}</p>
+                                                <p style=" pointer-events:none; margin:3px auto 3px 0;">${{number_format($pro->precio, 0, ',', '.')}}</p>
                                                 @if (!$pro->stock)
                                                 <div style="display:flex; pointer-events:none;">
                                                     <p class="my-auto font-weight-bold">Producto agotado</p>
@@ -184,9 +211,9 @@ Tienda - Veterinaria Gumiel
                                                 @else
                                                 <div>
                                                     <div class="btn-group h-100">
-                                                        <button onclick="resta(this)" id="{{$pro->id}}" class="btn_add" style="padding:0 10.3px 0 10.3px; border-radius:50px;"><i class=" bi bi-dash"></i></button>
-                                                        <input id="input_sr{{$pro->id}}" type="text" maxlength="3" class="fc mx-1 w-14" style=" pointer-events:none; text-align:center; border-radius:50px; border: 1px solid lightgray" autocomplete="off" value="1" onkeypress="if(this.value.charAt(0)=='') return (event.charCode >= 49 && event.charCode <= 57); else return (event.charCode >= 48 && event.charCode <= 57);"/>
-                                                        <button onclick="suma(this)" value="{{$pro->stock}}" id="{{$pro->id}}" class="btn_add" style="padding:0 10.3px 0 10.3px; border-radius:50px;"><i class=" bi bi-plus"></i></button>
+                                                        <button onclick="resta(this)" id="{{$pro->id}}" class="my-auto btn_add" style="width:30px; height:30px; padding:0; border-radius:50px;"><i class=" bi bi-dash"></i></button>
+                                                        <input id="input_sr{{$pro->id}}" type="text" maxlength="3" class="fc mx-1 w-12" style="height:32px; pointer-events:none; text-align:center; border-radius:50px; border: 1px solid lightgray" autocomplete="off" value="1" />
+                                                        <button onclick="suma(this)" value="{{$pro->stock}}" id="{{$pro->id}}" class="my-auto btn_add" style="width:30px; height:30px; padding:0; border-radius:50px;"><i class=" bi bi-plus"></i></button>
                                                     </div>
                                                 </div>
                                                 @endif
@@ -271,6 +298,7 @@ Tienda - Veterinaria Gumiel
                     <div style="height:100%; overflow-y:scroll;">
                         <div id="for">
                             @foreach($cartCollection as $item)
+                            
                                 <div class="row m-0 my-2 mx-2 p-3" style="background-color:white; border-radius:5px; border: 2px solid #ebebeb;">
                                     <div class="p-0 col-3 m-auto" >
                                         <div style="position: relative;">
@@ -278,13 +306,13 @@ Tienda - Veterinaria Gumiel
                                             <div class="bg-dark w-7 top-0 h-7 d-flex" style="position: absolute; border-radius:50px; text-align:center;">
                                                 <span id="cantfor{{$item->id}}" style="margin:auto;  color:white;">{{ $item->quantity }}</span>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="col-9 p-0" >
                                         <h3 class="overflow-ellipsis" style=" white-space: nowrap; overflow: hidden;">
                                             {{$item->attributes->slug}}
                                         </h3>
+                                        
                                         <spam style="font-size:12px;">precio: ${{number_format($item->price, 0, ',', '.')}}</spam><br>
                                         <spam id="subfor{{$item->id}}" style="font-size:12px;">subtotal: ${{number_format(\Cart::get($item->id)->getPriceSum(), 0, ',', '.')}}</spam>
                                     </div>
@@ -420,13 +448,10 @@ Tienda - Veterinaria Gumiel
             </div>
         </div>
     </div> -->
-    
-
-
-
-
 
 <script>
+    var max=0,min=parseInt(document.getElementsByClassName('producto')[0].dataset.precio),num_intervalo=5,cards = [],cards_cat=[],cards_filtro=[];
+
     function init_barra()
     {
        
@@ -572,7 +597,6 @@ Tienda - Veterinaria Gumiel
         }
     }
 
-    var max=0,min=parseInt(document.getElementsByClassName('producto')[0].dataset.precio),num_intervalo=5,cards = [];
     function init_filtro()
     {
 
@@ -658,6 +682,30 @@ Tienda - Veterinaria Gumiel
 
     }
 
+    function init_barra_categorias()
+    {
+        var categorias =<?php echo $categorias ?>;
+        var subcategorias =<?php echo $subcategorias ?>;
+        
+        for (let i = 0; i < categorias.length; i++) {
+            document.getElementById("c"+categorias[i].id).innerHTML="";
+            for(let j = 0; j < subcategorias.length; j++){
+                if (subcategorias[j].id_categoria==categorias[i].id) {
+                    document.getElementById("c"+categorias[i].id).innerHTML+=
+                    '<div class="form-check mt-1">'+
+                        '<input class="checkbox check-subcat form-check-input" type="checkbox" value='+subcategorias[j].id+' name='+subcategorias[j].nombre+' id='+subcategorias[j].id_categoria+'>'+
+                        '<label class="form-check-label" for="flexCheckDefault">'+
+                            subcategorias[j].nombre+
+                        '</label>'+
+                    '</div>';
+                }    
+            }
+        }console.log(subcategorias);
+        console.log(categorias);
+        document.getElementsByClassName("accordionCat")[0].className += " show";
+
+    }   
+
     // captura cambio de tamaño navegador
     window.addEventListener("resize", function()
     {
@@ -669,30 +717,17 @@ Tienda - Veterinaria Gumiel
 
     window.onscroll = function() 
     {
-        if((document.getElementById("barra_filtro").getBoundingClientRect().height+12+document.getElementById("barra").getBoundingClientRect().height+document.getElementById("barra").getBoundingClientRect().top)<window.innerHeight){
-            document.getElementById("barra_filtro").style.top=(12+document.getElementById("barra").getBoundingClientRect().height+document.getElementById("barra").getBoundingClientRect().top);
-           
-            
-        }else{
-            document.getElementById("barra_filtro").style.top=(window.innerHeight-document.getElementById("barra_filtro").getBoundingClientRect().height);
-            
-        }
         document.getElementById("barra").style.top=(2+document.getElementById("head").getBoundingClientRect().height+document.getElementById("head").getBoundingClientRect().y);
-       
     };
     
     function def()
     {
-        if((document.getElementById("barra_filtro").getBoundingClientRect().height+12+document.getElementById("barra").getBoundingClientRect().height+document.getElementById("barra").getBoundingClientRect().top)<window.innerHeight){
-            document.getElementById("barra_filtro").style.top=(12+document.getElementById("barra").getBoundingClientRect().height+document.getElementById("barra").getBoundingClientRect().top);
-        }else{
-            document.getElementById("barra_filtro").style.top=(window.innerHeight-document.getElementById("barra_filtro").getBoundingClientRect().height);
-            
-        }
+        
         document.getElementById("barra").style.top=(2+document.getElementById("head").getBoundingClientRect().height+document.getElementById("head").getBoundingClientRect().y);
 
         init_barra();
         init_filtro();
+        init_barra_categorias();
         $("#busqueda").val("");
         $("#selectOrden_barra").val("");
         $('#vacio').hide();
@@ -701,6 +736,7 @@ Tienda - Veterinaria Gumiel
         $('#nv').hide();
         document.getElementById('cuerpo_resumen').style.display="none";
         for(var j=0;j<document.getElementsByClassName('producto').length;j++){ cards[j]=true;}
+        for(var j=0;j<document.getElementsByClassName('producto').length;j++){ cards_cat[j]=true;}
         for(var i=0; i<document.getElementsByClassName("checkbox").length; i++){ document.getElementsByClassName("checkbox")[i].checked =false; }
 
     }window.load = def();
@@ -714,7 +750,13 @@ Tienda - Veterinaria Gumiel
         var precios_final = [];
         var precio = [];
         var aplicados = [];
-    
+        
+
+        
+        document.getElementById("categorias_aplicados").style.display="none";
+        for(var i=0; i<document.getElementsByClassName("check-subcat").length; i++){ document.getElementsByClassName("check-subcat")[i].checked =false; }
+
+
         document.getElementById("busqueda").value="";
         document.getElementById('error_rango').style.display="none";
 
@@ -911,8 +953,7 @@ Tienda - Veterinaria Gumiel
             $('#vacio').hide();
 
         }
-        console.log(cards);
-
+        
     }
 
     function borrar_filtros()
@@ -920,8 +961,115 @@ Tienda - Veterinaria Gumiel
         document.getElementById('input_min').value="";
         document.getElementById('input_max').value="";
         document.getElementById('checks').style.display="";
-        for(var i=0; i<document.getElementsByClassName("checkbox").length; i++){ document.getElementsByClassName("checkbox")[i].checked =false; }
+        for(var i=0; i<document.getElementsByClassName("check-filtro").length; i++){ document.getElementsByClassName("check-filtro")[i].checked =false; }
         aplicar_filtros();
+    }
+
+    function aplicar_categorias()
+    {
+        var cat=[];
+        var aplicados_cat=[];
+        var categorias =<?php echo $categorias ?>;
+
+
+        document.getElementById("filtros_aplicados").style.display="none";
+        document.getElementById('input_min').value="";
+        document.getElementById('input_max').value="";
+        document.getElementById('checks').style.display="";
+        for(var i=0; i<document.getElementsByClassName("check-filtro").length; i++){ document.getElementsByClassName("check-filtro")[i].checked =false; }
+        for(var j=0;j<document.getElementsByClassName('producto').length;j++){
+            document.getElementsByClassName('producto')[j].style.display="";
+        }
+        for (let i = 0; i < document.getElementsByClassName("check-subcat").length; i++) {
+            if(document.getElementsByClassName("check-subcat")[i].checked){
+                for (let j = 0; j < categorias.length; j++) {
+                    if(categorias[j].id==document.getElementsByClassName("check-subcat")[i].id){
+                        aplicados_cat.push(categorias[j].nombre+": "+document.getElementsByClassName("check-subcat")[i].name);
+                        break;
+                    }
+                    
+                }
+                cat.push(document.getElementsByClassName("check-subcat")[i].value);
+            }
+            
+        }
+     
+        if(aplicados_cat.length>0){
+            document.getElementById("categorias_aplicados").style.display="";
+            document.getElementById("categorias_aplicados").innerHTML="";
+            document.getElementById("categorias_aplicados").innerHTML="<div style='display:flex; justify-content:space-between; padding:0 0 20px 0;'><h1 class='font-weight-bold text-dark' style='padding-top:1px;'>Categorias Aplicadas</h1> <button onclick='borrar_categorias()'><i class='bi bi-x' style='color:black; font-size:24px;margin-top: 0px;'></i></button></div>";
+            for(var i=0;i<aplicados_cat.length;i++){
+                document.getElementById("categorias_aplicados").innerHTML+="<p style='font-size:10px; font-weight:bold; display:inline-block; background-color:white; padding:5px 10px 5px 10px; margin:0 5px 5px 0; border-radius:10px; border:2px solid gray;'>"+aplicados_cat[i]+"</p>";
+            }
+            document.getElementById("categorias_aplicados").innerHTML+="<hr style='margin-top:16px;'>";
+
+        }else{
+            document.getElementById("categorias_aplicados").style.display="none";
+
+        }
+        let sentencias =document.getElementsByClassName('producto')[0].getAttribute("data-subcategoria").split("-");
+        if(sentencias[(sentencias.length-1)]=="")
+        {
+            sentencias.pop();
+        } 
+
+        for (let i = 0; i < cards.length; i++) {
+            
+            let sentencias =document.getElementsByClassName('producto')[i].getAttribute("data-subcategoria").split("-");
+            if(sentencias[(sentencias.length-1)]==""){ sentencias.pop(); }
+            for (let j = 0; j < sentencias.length; j++) {
+                if(cat.length!=0){
+                    for (let k = 0; k < cat.length; k++) {
+                        if(sentencias[j]==cat[k]||sentencias[j]==""){
+                            document.getElementsByClassName('producto')[i].style.display="";
+                            break;
+                        }else{
+                            document.getElementsByClassName('producto')[i].style.display="none";
+                        }
+                    
+                    }
+                }else{
+
+                    document.getElementsByClassName('producto')[i].style.display="";
+
+                }
+            }
+            
+            
+        }
+
+        for(var j=0;j<document.getElementsByClassName('producto').length;j++){
+            if(document.getElementsByClassName('producto')[j].style.display==="none"){
+                cards[j]=false;
+
+            }else{
+                cards[j]=true;
+
+            }
+        }
+
+        var vacio=true;
+        for(var i=0;i<cards_cat.length;i++){
+            if(cards_cat[i]===true){
+                vacio=false;
+                break;
+                
+            }
+        }
+        if(vacio){
+            $('#vacio').show();
+
+        }else{
+            $('#vacio').hide();
+
+        }
+        
+    }
+
+    function borrar_categorias()
+    {
+        for(var i=0; i<document.getElementsByClassName("check-subcat").length; i++){ document.getElementsByClassName("check-subcat")[i].checked =false; }
+        aplicar_categorias();
     }
 
     $("#input_min").on("keyup", function()
@@ -974,7 +1122,8 @@ Tienda - Veterinaria Gumiel
     });
     
     
-    $("#selectOrden_barra").on('change', function(){
+    $("#selectOrden_barra").on('change', function()
+    {
         var value=$("#selectOrden_barra").val();
         var divOrder = $("#productAvailable .producto").sort(function (a, b) {
             switch (value) {
@@ -1138,6 +1287,9 @@ Tienda - Veterinaria Gumiel
 
 
 <style>
+    .accordion-body{
+        padding-top: 0 !important;
+    }
 
     .fc:focus{
         outline: none;

@@ -2,84 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categorias;
 use Illuminate\Http\Request;
+use App\Models\Categorias;
+use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 class CategoriasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax()){
+            $data = Categorias::all();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', 'admin.categorias.datatable.action')
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+        return view('admin.categorias.categorias');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.categorias.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $rule = [
+            'nombre' => 'required|string',
+        ];
+
+        $message = ['required' => 'El :attribute es obligatorio'];
+        $validator = Validator::make($request->all(), $rule, $message);
+        if ($validator->passes()) {
+            $categoria = new Categorias();
+            $categoria->nombre = $request->nombre;
+            $categoria->save();
+            return redirect()->route('admin.categorias.index')->with('success', 'La categoria ' . $request->nombre . ' fue agregado de manera satisfactoria');;
+        }
+        return back()->withErrors($validator)->withInput();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Categorias $categorias)
+    public function delete(Request $request)
     {
-        //
+        $categoria = Categorias::find($request->id);
+        $categoria->delete();
+        return response()->json(['success' => true], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Categorias $categorias)
+    public function edit(Request $request)
     {
-        //
+
+        $categoria = Categorias::find($request->id);
+        return view('admin.categorias.edit', compact('categoria'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Categorias $categorias)
+    public function update(Request $request)
     {
-        //
-    }
+        $rule = [
+            'nombre' => 'required|string',
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Categorias $categorias)
-    {
-        //
+        $message = ['required' => 'El :attribute es obligatorio'];
+        $validator = Validator::make($request->all(), $rule, $message);
+        if ($validator->passes()) {
+            $categoria = Categorias::find($request->id);
+            $categoria->nombre = $request->nombre;
+            $categoria->save();
+            return redirect()->route('admin.categorias.index')->with('success', 'La categoria ' . $request->nombre . ' fue modificado de manera satisfactoria');;
+        }
+        return back()->withErrors($validator)->withInput();
     }
 }

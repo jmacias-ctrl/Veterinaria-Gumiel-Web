@@ -40,6 +40,8 @@ class DatabaseSeeder extends Seeder
         $this->call(class:DisponibilidadVeterinariaSeeder::class);
         $this->call(class:ReservarCitasSeeder::class);
         $this->call(class: ItemsCompradosSeeder::class);
+        $this->call(class: CategoriasSeeder::class);
+        $this->call(class: TipoCategoriasSeeder::class);
 
 
     }

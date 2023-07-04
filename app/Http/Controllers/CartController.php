@@ -1,17 +1,20 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Categorias;
 use Illuminate\Http\Request;
 use App\Models\productos_ventas;
 use App\Models\Marcaproducto;
 use App\Models\tipoproductos_ventas;
 use App\Models\Especie;
+use App\Models\TipoCategorias;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
     public function shop(Request $request)
-    {   
+    {
+        
         $cartCollection = \Cart::getContent();
         foreach($cartCollection as $item){
             $item['stock']=productos_ventas::find($item->id)->stock;
@@ -21,6 +24,8 @@ class CartController extends Controller
         $Marcaproducto=Marcaproducto::all();
         $Tipoproducto=tipoproductos_ventas::all();
         $Tipoespecie=Especie::all();
+        $Categorias=Categorias::all();
+        $Subcategorias=TipoCategorias::all();
 
         for($i=0; $i<count($products);$i++){
             $products[$i]->marca=Marcaproducto::find($products[$i]->id_marca)->nombre;
@@ -38,17 +43,11 @@ class CartController extends Controller
             'cartCollection' => $cartCollection,
             'marcaProductos' => $Marcaproducto,
             'tipoProductos' => $Tipoproducto,
-            'tipoEspecies' => $Tipoespecie
+            'tipoEspecies' => $Tipoespecie,
+            'categorias' => $Categorias,
+            'subcategorias' => $Subcategorias
         ]);
         
-        // $texto=$request->texto;
-        
-        // $products = DB::table('productos_ventas')
-        //             ->select('id','nombre','id_marca','descripcion','slug','id_tipo','stock','min_stock','producto_enfocado','precio','imagen_path')
-        //             ->where('nombre','LIKE','%'.$texto.'%')
-        //             ->where('slug','LIKE','%'.$texto.'%')
-        //             ->paginate(20);
-        // return view('shop.shop',compact('texto'))->withTitle('GUMIEL TIENDA | TIENDA')->with(['products' => $products]);
     }
 
     public function cart()  {

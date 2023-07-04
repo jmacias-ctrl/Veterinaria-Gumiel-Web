@@ -24,6 +24,7 @@ class productos_ventasFactory extends Factory
             'stock'=> $this->faker->numberBetween(15,30),
             'min_stock'=> $this->faker->numberBetween(5,10),
             'precio'=> $this->faker->numberBetween(1000, 25000),
+            'subcategoria'=> $this->faker->numberBetween(1, 2),
             'imagen_path' => $this->faker->randomElement(['seresto-collar.png','correa-automatica.png','arnes-perro.png','colonia-amarilla.png'])
         ];
     }

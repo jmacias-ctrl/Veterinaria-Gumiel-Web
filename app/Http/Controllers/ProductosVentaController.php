@@ -213,6 +213,7 @@ class ProductosVentaController extends Controller
                 $imagen->move($rutaGuardarImg, $imagenProducto);
                 $prod->imagen_path = "$imagenProducto";
             }
+            $prod->codigo = $request->input('codigo');
             $prod->nombre = $request->input('nombre');
             $prod->id_marca = $request->input('marca');
             $producto->slug = $request->input('slug');

@@ -131,6 +131,26 @@ Agregar Producto
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label for="Subcategoria">Subcategoria:</label>
+                    <div class="row justify-content-center align-items-center g-2">
+                        @foreach ($subcategorias as $sub)
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" value="{{ $sub->id }}" name="subcategoria{{ $sub->id }}">
+                                    <label class="form-check-label" for="">
+                                        @foreach ($categorias as $cat)
+                                            @if ($cat->id==$sub->id_categoria)
+                                                {{$cat->nombre}}:{{ $sub->nombre }}
+                                            @endif
+                                        @endforeach                                        
+                                        
+                                    </label>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="precio">Precio:</label>
 
                     <input type="number" class="form-control @error('precio') is-invalid @enderror" id="precio" name="precio" value="{{ old('precio') }}" placeholder="Ej. 3200" min="1" oninput="this.value = Math.abs(this.value)" required>
@@ -159,6 +179,8 @@ Agregar Producto
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+
     $(document).ready(function() {
         $('#btn-submit').on('click', function(e) {
             e.preventDefault();

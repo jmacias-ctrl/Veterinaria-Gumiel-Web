@@ -345,8 +345,9 @@
                     'ver servicios',
                     'ver insumos medicos',
                     'ver medicamentos',
-                    'ver
-                    especies',
+                    'ver especies',
+                    'ver categorias',
+                    'ver subcategorias',
                     ])
                     <li class="nav-item">
                         <a class="nav-link collapse-links" data-toggle="collapse" href="#mantenedoresCollapse"
@@ -426,6 +427,24 @@
                                             <a class="nav-link ms-3 @if (request()->routeIs('admin.especies.*')) active @endif"
                                                 href="{{ route('admin.especies.index') }}"
                                                 id="link-dropdown">Especies</a>
+                                        </li>
+                                    </ul>
+                                @endcan
+                                @can('ver categorias')
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.categorias.*')) active @endif"
+                                                href="{{ route('admin.categorias.index') }}"
+                                                id="link-dropdown">Categorias</a>
+                                        </li>
+                                    </ul>
+                                @endcan
+                                @can('ver subcategorias')
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link ms-3 @if (request()->routeIs('admin.subcategorias.*')) active @endif"
+                                                href="{{ route('admin.subcategorias.index') }}"
+                                                id="link-dropdown">Subcategorias</a>
                                         </li>
                                     </ul>
                                 @endcan

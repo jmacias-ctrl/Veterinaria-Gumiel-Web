@@ -54,7 +54,7 @@
                                     </div>
                                     <input id="rut" type="text" placeholder="Rut"
                                         class="form-control @error('rut') is-invalid @enderror" name="rut"
-                                        value="{{ old('rut') }}" required oninput="checkRut(this)" max="10" autocomplete="rut">
+                                        value="{{ old('rut') }}" required oninput="checkRut(this)" maxlength="10" autocomplete="rut">
 
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">

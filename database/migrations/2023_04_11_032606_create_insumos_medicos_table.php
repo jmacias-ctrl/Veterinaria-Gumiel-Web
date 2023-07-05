@@ -17,8 +17,8 @@ class CreateInsumosMedicosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('codigo')->unique()->nullable();
-            $table->unsignedBigInteger('id_marca');
-            $table->unsignedBigInteger('id_tipo');
+            $table->unsignedBigInteger('id_marca')->nullable();
+            $table->unsignedBigInteger('id_tipo')->nullable();
             $table->integer('stock');
             $table->timestamps();
 
@@ -28,7 +28,7 @@ class CreateInsumosMedicosTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations
      *
      * @return void
      */

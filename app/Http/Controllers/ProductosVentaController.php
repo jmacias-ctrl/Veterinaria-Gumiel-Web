@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorias;
+use App\Models\CategoriasProducto;
 use App\Models\User;
 use App\Models\productos_ventas;
 use App\Models\Marcaproducto;
@@ -13,6 +15,8 @@ use App\Models\transferencia;
 use App\Models\tarjeta;
 use App\Models\Especie;
 use App\Models\items_comprados;
+use App\Models\TipoCategorias;
+use Database\Seeders\CategoriaProducto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -36,6 +40,7 @@ class ProductosVentaController extends Controller
                 $producto->precio = '$' . number_format($producto->precio, 0, ',', '.');
                 return $producto;
             });
+
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'producto.datatable.action')
@@ -53,9 +58,11 @@ class ProductosVentaController extends Controller
     public function create()
     {
         $MarcaProductos = Marcaproducto::all();
+        $categorias = Categorias::all();
+        $subcategorias = TipoCategorias::all();
         $TipoProductos = tipoproductos_ventas::all();
         $especies = Especie::all();
-        return view('producto.crear', compact('MarcaProductos', 'TipoProductos', 'especies'));
+        return view('producto.crear', compact('MarcaProductos', 'TipoProductos', 'especies','categorias','subcategorias'));
     }
     /**
      * Store a newly created resource in storage.
@@ -97,6 +104,7 @@ class ProductosVentaController extends Controller
             'mimes' => ':attribute debe ser en archivo tipo .jpg, .png o .jpeg',
             'unique' => ':attribute ya se encuentra registrado',
         ]);
+
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
             $imagen_path = $request->file('imagen_path');
@@ -113,6 +121,15 @@ class ProductosVentaController extends Controller
             $producto->stock = $request->input('stock');
             $producto->producto_enfocado = $request->input('producto_enfocado');
 
+            $sub="";
+            foreach ($request->request as $key => $req) {
+                if (strncmp($key, "subcategoria", 12) === 0){
+                    $sub=$sub.$req."-";
+                }
+            }
+            $producto->subcategoria=$sub;
+
+
             // $producto->precio = $request->input('precio');
             $producto->precio = $request->input('precio') < 0 ? 1 : $request->input('precio');
 
@@ -126,6 +143,15 @@ class ProductosVentaController extends Controller
             $producto->imagen_path = $filename;
             // Guarda el producto en la base de datos
             $producto->save();
+
+            foreach ($request->request as $key => $req) {
+                if (strncmp($key, "subcategoria", 12) === 0){
+                    $catPro = new CategoriasProducto();
+                    $catPro->id_producto = $producto->id;
+                    $catPro->id_categoria = (int)   $req;
+                    $catPro->save();
+                }
+            }
 
             return redirect()->route('productos.index')->with('success', 'Producto agregado exitosamente');
         }
@@ -157,7 +183,9 @@ class ProductosVentaController extends Controller
         $MarcaProductos = Marcaproducto::all();
         $TipoProductos = tipoproductos_ventas::all();
         $especies = Especie::all();
-        return view('producto.editar', compact('MarcaProductos', 'TipoProductos', 'especies', 'producto'));
+        $categorias = Categorias::all();
+        $subcategorias = TipoCategorias::all();
+        return view('producto.editar', compact('MarcaProductos', 'TipoProductos', 'especies', 'producto','categorias','subcategorias'));
     }
 
     /**
@@ -213,6 +241,7 @@ class ProductosVentaController extends Controller
                 $imagen->move($rutaGuardarImg, $imagenProducto);
                 $prod->imagen_path = "$imagenProducto";
             }
+            $prod->codigo = $request->input('codigo');
             $prod->nombre = $request->input('nombre');
             $prod->id_marca = $request->input('marca');
             $producto->slug = $request->input('slug');
@@ -222,10 +251,35 @@ class ProductosVentaController extends Controller
             $prod->stock = $request->input('stock');
             $prod->producto_enfocado = $request->input('producto_enfocado');
 
+            $sub="";
+            foreach ($request->request as $key => $req) {
+                if (strncmp($key, "subcategoria", 12) === 0){
+                    $sub=$sub.$req."-";
+                }
+            }
+            $prod->subcategoria=$sub;
+
+           
             // $prod->precio = $request->input('precio');
             $prod->precio = $request->input('precio') < 0 ? 1 : $request->input('precio');
 
             $prod->save();
+
+            $categoriaProducto = CategoriasProducto::all()->where('id_producto', '=', $prod->id);
+            foreach ($categoriaProducto as $key => $catpro) {
+                
+                $cp = CategoriasProducto::findOrFail($catpro->id);
+                $cp->delete();
+            }
+            foreach ($request->request as $key => $req) {
+                if (strncmp($key, "subcategoria", 12) === 0){
+                    $catPro = new CategoriasProducto();
+                    $catPro->id_producto = $prod->id;
+                    $catPro->id_categoria = (int)   $req;
+                    $catPro->save();
+                }
+            }
+
             return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente');
         }
         return back()->withErrors($validator)->withInput();
@@ -239,10 +293,19 @@ class ProductosVentaController extends Controller
      */
     public function destroy(Request $request)
     {
+        $categoriaProducto = CategoriasProducto::all()->where('id_producto', '=', $request->id);
+        foreach ($categoriaProducto as $key => $catpro) {
+            
+            $cp = CategoriasProducto::findOrFail($catpro->id);
+            $cp->delete();
+        }
+        
         $producto = productos_ventas::findOrFail($request->id);
         Storage::delete('public/image/productos/' . $producto->imagen_path);
         $producto->delete();
 
-        return response()->json(['success' => true], 200);
+        
+
+        return response()->json(['success' => true,'id'=>$request->id], 200);
     }
 }

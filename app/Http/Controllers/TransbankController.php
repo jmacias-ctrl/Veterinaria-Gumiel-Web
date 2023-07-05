@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class TransbankController extends Controller
 {
     public function __construct(){
-        if (app()->environment('production')) {
+        /*if (app()->environment('production')) {
             Webpayplus::configureForProduction(
                 env('WEBPAY_PLUS_CC'),
                 env('WEBPAY_PLUS_API_KEY')
@@ -23,7 +23,8 @@ class TransbankController extends Controller
         }else{
             Webpayplus::configureForTesting();
             
-        }
+        }*/
+        Webpayplus::configureForTesting();
     }
 
     public function checkout(){

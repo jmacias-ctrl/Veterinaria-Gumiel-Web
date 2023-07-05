@@ -17,15 +17,16 @@ class CreateProductosVentasTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('codigo')->unique()->nullable();
-            $table->unsignedBigInteger('id_marca');
+            $table->BigInteger('id_marca')->unsigned()->nullable();
             $table->text('descripcion');
             $table->string('slug')->nullable();
-            $table->unsignedBigInteger('id_tipo');
+            $table->unsignedBigInteger('id_tipo')->nullable();
             $table->integer('stock');
             $table->integer('min_stock')->nullable();
-            $table->unsignedBigInteger('producto_enfocado');
+            $table->unsignedBigInteger('producto_enfocado')->nullable();
             $table->integer('precio');
             $table->string('imagen_path');
+            $table->string('subcategoria')->nullable();
             $table->timestamps();
 
             $table->foreign('id_marca')->references('id')->on('marcaproductos');

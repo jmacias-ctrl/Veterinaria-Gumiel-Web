@@ -172,6 +172,9 @@ class PointSaleController extends Controller
         if ($request->has('value')) {
             $producto = productos_ventas::find($request->value);
         }
+        if(!isset($producto)){
+            return response()->json(['success' => false], 200);
+        }
         $quantity = $request->cantProduct;
         $cartGet = \Cart::session(auth()->user()->id)->get($producto->id);
         if (isset($cartGet)) {

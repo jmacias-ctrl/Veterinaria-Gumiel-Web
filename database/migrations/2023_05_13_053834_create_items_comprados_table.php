@@ -23,9 +23,9 @@ class CreateItemsCompradosTable extends Migration
             $table->integer('cantidad');
             $table->timestamps();
 
-            $table->foreign('id_producto')->references('id')->on('productos_ventas');
-            $table->foreign('id_servicio')->references('id')->on('servicios');
-            $table->foreign('id_venta')->references('id')->on('trazabilidad_venta_presencials');
+            $table->foreign('id_producto')->references('id')->on('productos_ventas')->onDelete('SET NULL')->onUpdate('SET NULL');
+            $table->foreign('id_servicio')->references('id')->on('servicios')->onDelete('SET NULL')->onUpdate('SET NULL');
+            $table->foreign('id_venta')->references('id')->on('trazabilidad_venta_presencials')->onDelete('CASCADE')->onUpdate('CASCADE');
         });
     }
 

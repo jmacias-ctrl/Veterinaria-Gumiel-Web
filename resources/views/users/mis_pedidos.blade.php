@@ -27,7 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 @endsection
 @section('content')
-    <div class="form-row">
+    <div class="form-row px-5 py-2">
         @include('layouts.panel_cliente')
         <div class="col-md-9 mt-3">
             <div class="card shadow me-3">

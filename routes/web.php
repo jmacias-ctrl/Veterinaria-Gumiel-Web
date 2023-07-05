@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductosVentaController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ComprobanteController;
 use App\Http\Controllers\TestingController;
+use app\Http\Controllers\CategoriasController;
 use app\Http\Controllers\CartController;
 use app\Http\Controllers\MascotaController;
 use App\Mail\ConfirmacionHora;
@@ -120,6 +121,24 @@ Route::group(['middleware' => ['auth','can:ver medicamentos vacunas']], function
     Route::post('admin/marcamedicamentos_vacunas/store', [\App\Http\Controllers\MarcaMedicamentoController::class, 'store'])->name('admin.marcamedicamentos_vacunas.store')->middleware(['can:ingresar medicamentos vacunas']);
     Route::get('admin/marcamedicamentos_vacunas/edit', [\App\Http\Controllers\MarcaMedicamentoController::class, 'edit'])->name('admin.marcamedicamentos_vacunas.edit')->middleware(['can:modificar medicamentos vacunas']);
     Route::post('admin/marcamedicamentos_vacunas/update', [\App\Http\Controllers\MarcaMedicamentoController::class, 'update'])->name('admin.marcamedicamentos_vacunas.update')->middleware(['can:modificar medicamentos vacunas']);
+});
+
+Route::group(['middleware' => ['auth','can:ver categorias']], function () {
+    Route::get('categorias', [App\Http\Controllers\CategoriasController::class, 'index'])->name('admin.categorias.index');
+    Route::get('categorias/create', [App\Http\Controllers\CategoriasController::class, 'create'])->name('admin.categorias.create')->middleware(['can:ingresar categorias']);
+    Route::get('categorias/edit/{id}', [App\Http\Controllers\CategoriasController::class, 'edit'])->name('admin.categorias.edit')->middleware(['can:modificar categorias']);
+    Route::post('categorias/update', [App\Http\Controllers\CategoriasController::class, 'update'])->name('admin.categorias.update')->middleware(['can:modificar categorias']);
+    Route::post('categorias/store', [App\Http\Controllers\CategoriasController::class, 'store'])->name('admin.categorias.store')->middleware(['can:ingresar categorias']);
+    Route::post('categorias/delete', [App\Http\Controllers\CategoriasController::class, 'delete'])->name(('admin.categorias.delete'))->middleware(['can:eliminar categorias']);
+});
+
+Route::group(['middleware' => ['auth','can:ver subcategorias']], function () {
+    Route::get('subcategorias', [App\Http\Controllers\TipoCategoriasController::class, 'index'])->name('admin.subcategorias.index');
+    Route::get('subcategorias/create', [App\Http\Controllers\TipoCategoriasController::class, 'create'])->name('admin.subcategorias.create')->middleware(['can:ingresar subcategorias']);
+    Route::get('subcategorias/edit/{id}', [App\Http\Controllers\TipoCategoriasController::class, 'edit'])->name('admin.subcategorias.edit')->middleware(['can:modificar subcategorias']);
+    Route::post('subcategorias/update', [App\Http\Controllers\TipoCategoriasController::class, 'update'])->name('admin.subcategorias.update')->middleware(['can:modificar subcategorias']);
+    Route::post('subcategorias/store', [App\Http\Controllers\TipoCategoriasController::class, 'store'])->name('admin.subcategorias.store')->middleware(['can:ingresar subcategorias']);
+    Route::post('subcategorias/delete', [App\Http\Controllers\TipoCategoriasController::class, 'delete'])->name(('admin.subcategorias.delete'))->middleware(['can:eliminar subcategorias']);
 });
 
 Route::group(['middleware' => ['auth','can:ver especies']], function () {

@@ -233,12 +233,12 @@
                             id: id_get
                         })
                         .then(function(response) {
-
+                            console.log(response.data.id);
                             toastr.success('¡Producto eliminado correctamente!')
 
                         })
                         .catch(function(error) {
-                            toastr.error('La acción no se pudo realizar')
+                            toastr.error('La acción no se pudo realizar'+error)
                         })
                         .finally(function() {
                             Swal.fire({

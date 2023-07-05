@@ -93,8 +93,8 @@
                     <div class="col-lg-6">
                         <p><span class="text-primary me-2">#</span>Servicios</p>
                         <h1 class="display-5 mb-0">
-                            Nuestra <span class="text-primary">Veterinaria</span>
-                            Ofrece los siguientes servicios:
+                            Nuestra <span class="text-primary">veterinaria</span>
+                            ofrece los siguientes servicios:
                         </h1>
                     </div>
                 </div>
@@ -105,11 +105,10 @@
                                 style="opacity: 0.3" />
                             <h1 class="display-1">01</h1>
                             <h4 class="text-white mb-3">Veterinaria</h4>
-                            <p>Realizamos consultas medicas para diagnosticar
-                                y tratar cualquier problema de salud de tus mascotas. Tambien contamos con un amplio
-                                catalogo de vacunas para prevenir diversas enfermedades.</p>
-                            <a class="btn btn-outline-light px-4 mt-3" href="{{ route('agendar-horas.create') }}">Reserva
-                                Aqui Tu Hora</a>
+                            <p>Realizamos consultas médicas para diagnosticar
+                                y tratar cualquier problema de salud de tus mascotas. También contamos con un amplio
+                                catálogo de vacunas para prevenir diversas enfermedades.</p>
+                            <a class="btn btn-outline-light px-4 mt-3" href="{{ route('agendar-horas.create') }}">Reserva Tu Hora</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -117,10 +116,9 @@
                             <img class="img-fluid" src="{{ asset('images/peluqueria.png') }}" alt=""
                                 style="opacity: 0.3" />
                             <h1 class="display-1">02</h1>
-                            <h4 class="text-white mb-3">Peluqueria</h4>
+                            <h4 class="text-white mb-3">Peluquería</h4>
                             <p>Ofrecemos servicios de peluquería para mantener a tus mascotas limpias y bien arregladas.</p>
-                            <a class="btn btn-outline-light px-4 mt-3" href="{{ route('agendar-horas.create') }}">Reserva
-                                Aqui Tu Hora</a>
+                            <a class="btn btn-outline-light px-4 mt-3" href="{{ route('agendar-horas.create') }}">Reserva Tu Hora</a>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
@@ -145,7 +143,7 @@
                 <div class="row g-5 mb-5 align-items-end wow fadeInUp" data-wow-delay="0.1s">
                     <div class="col-lg-6">
                         <h1 class="display-5 mb-0">
-                            Galeria
+                            Galería
                         </h1>
                     </div>
                 </div>
@@ -292,15 +290,15 @@
                         </ul>
                     </div>
                     <div class="col-md-6 text-light wow fadeIn" data-wow-delay="0.5s">
-                        <h1 class="display-6 text-white mb-5">Infomacion</h1>
+                        <h1 class="display-6 text-white mb-5">Infomación</h1>
                         <table class="table">
                             <tbody>
                                 <tr>
-                                    <td>Direcion</td>
+                                    <td>Dirección</td>
                                     <td>{{ $landingMaps->direccion }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Numero de Contacto</td>
+                                    <td>Contacto</td>
                                     <td>
                                         <p class="mb-2">+56{{ $landingMaps->telefono }}</p>
                                         <p class="mb-0">{{ $landingMaps->correo }}</p>

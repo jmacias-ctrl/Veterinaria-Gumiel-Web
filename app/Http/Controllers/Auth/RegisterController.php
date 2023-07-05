@@ -120,7 +120,6 @@ class RegisterController extends Controller
             $checkUser->syncRoles(['Cliente']);
             return $checkUser;
         } else {
-            dd("test");
             return User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],

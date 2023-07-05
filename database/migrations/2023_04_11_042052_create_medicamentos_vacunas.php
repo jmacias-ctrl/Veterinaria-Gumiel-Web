@@ -17,9 +17,9 @@ class CreateMedicamentosVacunas extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('codigo')->unique()->nullable();
-            $table->unsignedBigInteger('id_marca');
-            $table->unsignedBigInteger('id_tipo');
-            $table->unsignedBigInteger('medicamentos_enfocados');
+            $table->unsignedBigInteger('id_marca')->nullable();
+            $table->unsignedBigInteger('id_tipo')->nullable();
+            $table->unsignedBigInteger('medicamentos_enfocados')->nullable();
             $table->integer('mililitros')->nullable();
             $table->integer('gramos')->nullable();
             $table->integer('stock');

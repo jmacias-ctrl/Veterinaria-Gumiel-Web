@@ -15,8 +15,8 @@ class LandingPageInicioSeeder extends Seeder
     public function run()
     {
         LandingPageInicio::create([
-            'titulo_bienvenida'=>"Servicios de Veterinaria y Peluqueria",
-            'agenda_hora_titulo'=>"Agenda Tu Hora",
+            'titulo_bienvenida'=>"Servicios de Veterinaria y Peluquería",
+            'agenda_hora_titulo'=>"Agenda tu hora",
             'agenda_hora_texto'=>"¿Tu mascota necesita una consulta veterinaria o un corte de pelo? ¡Estás en el lugar correcto! Puedes solicitar una hora con nuestros expertos de manera fácil y rápida",
         ]);
     }

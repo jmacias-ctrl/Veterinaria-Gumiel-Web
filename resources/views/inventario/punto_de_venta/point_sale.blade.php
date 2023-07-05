@@ -168,8 +168,8 @@
             $('#metodoPagoForm').on('submit', function(e) {
                 e.preventDefault();
                 var form = $(this).parents(form);
-                var efectivo = $('#montoEfectivo').val();
-                var total = $('#monto').val();
+                var efectivo = parseInt($('#montoEfectivo').val());
+                var total = parseInt($('#monto').val());
                 var metodoPago = $('#metodoPago').val();
                 var nombreCliente = $('#nombreCliente').val();
                 var numOperacion = $('#numOperacion').val();
@@ -529,7 +529,6 @@
                     currency: 'CLP',
                     style: 'currency'
                 }).format(elementOrValue.price)
-                console.log('Item: ' + elementOrValue.name + ' - Cantidad: ' + elementOrValue.quantity)
                 $("#productShown").append(`
             
                         <tr>                       

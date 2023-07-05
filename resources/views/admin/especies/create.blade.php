@@ -36,7 +36,7 @@
                 <a href="{{ route('inicio_panel') }}" style="color:black;">
                     Inicio</a>
             </li>
-            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.insumos_medicos.index') }}"
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.especies.index') }}"
                     style="color:black;">Especie</a> </li>
             <li class="breadcrumb-item active" aria-current="page" style="color:white;">Agregar Especie</li>
     </nav>

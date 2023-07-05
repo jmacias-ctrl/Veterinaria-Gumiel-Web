@@ -20,7 +20,7 @@ class CreateEfectivosTable extends Migration
             $table->integer('vuelto');
             $table->timestamps();
 
-            $table->foreign('id_operacion')->references('id')->on('trazabilidad_venta_presencials');
+            $table->foreign('id_operacion')->references('id')->on('trazabilidad_venta_presencials')->onDelete('CASCADE')->onUpdate('CASCADE');
         });
     }
 

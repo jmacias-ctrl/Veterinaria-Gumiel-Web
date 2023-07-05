@@ -9,17 +9,17 @@ CARRITO | Veterinaria Gumiel
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <div class="container p-0">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center px-4 py-4">
             <div id="div_productos" class="col-lg-8 p-0 pr-2 pb-2">
                 <nav aria-label="breadcrumb" >
                     <ol class="m-0  breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+                        <li class="breadcrumb-item"><a href="{{route('inicio')}}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('shop.shop')}}">Tienda</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                     </ol>
                 </nav>
                 <div class="bg-white shadow d-flex pr-4" style="border-bottom-width: 2px; border-radius: 20px;">
-                    <a class="navbar-brand m-4" href="{{ route('inicio') }}"><img src="{{ asset('images/logoGumiel.png') }}"
+                    <a class="navbar-brand m-4" href="{{ route('inicio') }}"><img src="{{ asset('image/logo.png') }}"
                             style="width:80px;" /></a>
                     <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
                         <h1 class="font-weight-bold m-0">Carro de Compras</h1>

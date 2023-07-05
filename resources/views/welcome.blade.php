@@ -105,9 +105,9 @@
                                 style="opacity: 0.3" />
                             <h1 class="display-1">01</h1>
                             <h4 class="text-white mb-3">Veterinaria</h4>
-                            <p>Realizamos consultas medicas para diagnosticar
-                                y tratar cualquier problema de salud de tus mascotas. Tambien contamos con un amplio
-                                catalogo de vacunas para prevenir diversas enfermedades.</p>
+                            <p>Realizamos consultas médicas para diagnosticar
+                                y tratar cualquier problema de salud de tus mascotas. También contamos con un amplio
+                                catálogo de vacunas para prevenir diversas enfermedades.</p>
                             <a class="btn btn-outline-light px-4 mt-3" href="{{ route('agendar-horas.create') }}">Reserva Tu Hora</a>
                         </div>
                     </div>

@@ -49,9 +49,9 @@
                     <a href="{{route('agendar-horas.create')}}" style="text-decoration:none;">
                         <img class="img-fluid mb-3" src="{{ asset('images/veterinaria.png') }}" alt="Icon" />
                         <h5 class="mb-3">Veterinaria</h5>
-                        <span>Realizamos consultas medicas para diagnosticar
-                            y tratar cualquier problema de salud de tus mascotas. Tambien contamos con un amplio
-                            catalogo de vacunas para prevenir diversas enfermedades.</span>
+                        <span>Realizamos consultas médicas para diagnosticar
+                            y tratar cualquier problema de salud de tus mascotas. También contamos con un amplio
+                            catálogo de vacunas para prevenir diversas enfermedades.</span>
                     </a>
                 </div>
 

@@ -54,7 +54,7 @@ Tienda - Veterinaria Gumiel
                         <div id="barra_categorias" class="shadow" style="background-color:#dbdfe3; border-radius:2px;">
                             <div style="display:flex; padding:22px;">
                                 <i style="color:gray; font-size:29px; -webkit-text-stroke: 1px; margin-right: 6px;" class="bi bi-filter"></i>
-                                <h1 class="font-weight-bold" style="color:gray; font-size:24px;">Categorias </h1>
+                                <h1 class="font-weight-bold" style="color:gray; font-size:24px;">Categorías </h1>
                             </div>
                             <div id="categorias_aplicados" style="padding:0 20px; display:none;"></div>
                             <div class="accordion accordion-flush">

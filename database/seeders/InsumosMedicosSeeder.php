@@ -32,14 +32,14 @@ class InsumosMedicosSeeder extends Seeder
         ]);
         Insumos_medicos::create([
             'nombre'=>'Gasas',
-            'codigo'=>65737828,
+            'codigo'=>7806130010284,
             'id_marca'=>3,
             'id_tipo'=>2,
             'stock'=>30,
         ]);
         Insumos_medicos::create([
             'nombre'=>'Jeringas',
-            'codigo'=>94737284,
+            'codigo'=>4968420726121,
             'id_marca'=>1,
             'id_tipo'=>3,
             'stock'=>10,

@@ -27,6 +27,9 @@ class ProductosVentaSeeder extends Seeder
         Marcaproducto::create([
             'nombre'=>'Seresto',
         ]);
+        Marcaproducto::create([
+            'nombre'=>'Pedigree',
+        ]);
         productos_ventas::create([
             'nombre' => 'COLONIA ANIMAL HEALTH AMARILLA 150 ML',
             'id_marca' => 1,
@@ -40,6 +43,20 @@ class ProductosVentaSeeder extends Seeder
             'precio' => 3499,
             'subcategoria' => 2,
             'imagen_path' => 'colonia-amarilla.png'
+        ]);
+        productos_ventas::create([
+            'nombre' => 'PEDIGREE SENIOR SABOR CARNE 100G',
+            'id_marca' => 5,
+            'codigo'=> 7797453971768,
+            'descripcion' => 'Pedigree Sobre Senior sabor carne en salsa con ingredientes naturales es alimento húmedo 100% completo y balanceado cocido al vapor, que contiene suaves trocitos en salsa y ha sido formulado para perros adultos mayores a 7 años, aportando vitalidad y energía en cada porción.',
+            'id_tipo' =>  3, 
+            'slug'=>'Pedigree-Senior-Carne-100',
+            'min_stock'=>'6',
+            'stock' => '10',
+            'producto_enfocado' => 2,
+            'precio' => 1499,
+            'subcategoria' => 2,
+            'imagen_path' => 'pedigree.png'
         ]);
         productos_ventas::create([
             'nombre' => 'Arnes de cuerpo para perros incluye correa talla s macho',

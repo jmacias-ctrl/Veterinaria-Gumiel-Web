@@ -30,7 +30,7 @@ class ProductosVentaSeeder extends Seeder
         productos_ventas::create([
             'nombre' => 'COLONIA ANIMAL HEALTH AMARILLA 150 ML',
             'id_marca' => 1,
-            'codigo'=> 98432742,
+            'codigo'=> 6951749406025,
             'descripcion' => 'Colonia para perros con naturales acordes florales y toques de envolvente calidez. Fragancia especialmente formulada para cachorros desde los 2 meses de edad. No altera el olfato del animal.',
             'id_tipo' =>  1, 
             'slug'=>'Colonia-Health-Amarilla-150',

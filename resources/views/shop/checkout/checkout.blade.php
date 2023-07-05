@@ -10,14 +10,14 @@ CHECKOUT | Veterinaria Gumiel
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <div class="container pt-2">
+    <div class="container px-4 py-4">
         <div class="row justify-content-center">
             <div class="col-lg-7 p-0 pr-lg-1">
                 <nav aria-label="breadcrumb" >
-                    <ol class="m-0 breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+                    <ol class="m-0  breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('inicio') }}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('shop.shop') }}">Tienda</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                     </ol>
                 </nav>
                 <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">

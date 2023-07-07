@@ -34,6 +34,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ($user->hasRole('Cliente') || $user->hasRole('Invitado')) {
+            if($user->hasRole('Invitado')){
+                $user->syncRoles(['Cliente']);
+            }
             return redirect()->route('inicio');
         }else{
             return redirect()->route('inicio_panel');

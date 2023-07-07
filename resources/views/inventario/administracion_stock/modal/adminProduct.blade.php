@@ -70,7 +70,7 @@
                     </div>
                     <div class="form-group proveedorForm d-none">
                         <label for="rutProveedor">Rut del Proveedor*</label>
-                        <input type="text" class="form-control proveedorInput" id="nuevoRutProveedor" oninput="checkRut(this)" max="10" name="nuevoRutProveedor">
+                        <input type="text" class="form-control proveedorInput" id="nuevoRutProveedor" oninput="checkRut(this)" maxlength="10" name="nuevoRutProveedor">
                     </div>
                     <div class="form-group proveedorForm d-none">
                         <label for="telefonoProveedor">Telefono del Proveedor</label>

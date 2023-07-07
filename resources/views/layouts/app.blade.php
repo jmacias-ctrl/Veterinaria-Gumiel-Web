@@ -152,11 +152,11 @@
 
             @guest
                 @if (Route::has('login'))
-                    <a class="pl-0 nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                    <a class="pl-0 nav-link" href="{{ route('login') }}">{{ __('INICIAR SESION') }}</a>
                 @endif
 
                 @if (Route::has('register'))
-                    <a class="pl-0 nav-link" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
+                    <a class="pl-0 nav-link" href="{{ route('register') }}">{{ __('REGISTRARSE') }}</a>
                 @endif
             @else
                 <a id="navbarDropdown" class="nav-link" href="#" role="button" data-bs-toggle="dropdown"

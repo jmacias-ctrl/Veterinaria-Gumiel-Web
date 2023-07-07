@@ -46,20 +46,6 @@ Modificacion del Perfil {{ Auth::user()->name }}
 @section('content')
 <section class="trazabilidad-productos-y-servicios">
   <div class="container">
-
-
-    <!-- <div class="row mt-4">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">Console</div>
-          <div class="card-body text-center">
-            <p class="display-4">{{$aux}}</p>
-            <p class="display-4">{{"uwu"}}</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
     <div class="row mt-4">
       <div class="col-md-6">
         <div class="card">
@@ -110,7 +96,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                 </tbody>
               </table>
 
-              <a href="/control-servicios" class="btn btn-success m-4">Ir a Control de Servicios</a>
+              <a href="{{route('Agendar')}}" class="btn btn-success m-4">Ir mis citas</a>
 
             </div>
           </div>
@@ -169,7 +155,7 @@ Modificacion del Perfil {{ Auth::user()->name }}
                 </tbody>
               </table>
 
-              <a href="/control-servicios" class="btn btn-success m-4">Ir a Control de Servicios</a>
+              <a href="{{route('Agendar')}}" class="btn btn-success m-4">Ir a mis citas</a>
 
             </div>
           </div>

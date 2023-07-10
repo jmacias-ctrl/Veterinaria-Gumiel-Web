@@ -1,28 +1,21 @@
-@extends('layouts.appshop')
+@extends('layouts.app')
 @section('title')
 CARRITO | Veterinaria Gumiel
 @endsection
 @section('content')
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-    <div class="container p-0">
-        <div class="row justify-content-center">
-            <div id="div_productos" class="col-lg-8 p-0 pr-2 pb-2">
-                <nav aria-label="breadcrumb" >
-                    <ol class="m-0  breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
-                    </ol>
-                </nav>
-                <div class="bg-white shadow d-flex pr-4" style="border-bottom-width: 2px; border-radius: 20px;">
-                    <a class="navbar-brand m-4" href="{{ route('inicio') }}"><img src="{{ asset('images/logoGumiel.png') }}"
-                            style="width:80px;" /></a>
+    <div class="container p-0" style="min-width: 360px;">
+        <div class="row justify-content-center m-0">
+            <div id="div_productos" class="col-lg-8 pl-0 pr-0 pr-lg-2 pb-2">
+                
+                <div class="shadow d-flex pr-4 mt-3" style=" border-radius: 20px; background-color:#f3f4f5;">
+                    <span class="navbar-brand m-4" style="font-size:40px; -webkit-text-stroke: 1px;"><i class="bi bi-cart"></i></span>
                     <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
-                        <h1 class="font-weight-bold m-0">Carro de Compras</h1>
+                        <h1 class="font-weight-bold m-0" style="font-size:25px;">Carrito de Compras</h1>
                         <div class="font-weight-bold m-0">
                             @if (!Auth::check())
                                 <h5 class="m-0">Bienvenido</h5>
@@ -34,10 +27,10 @@ CARRITO | Veterinaria Gumiel
                 </div>
                 <div id="carro" class="col-12 p-0">
                     @foreach($cartCollection as $item)
-                        <div id="div{{$item->id}}" class="row m-0 mt-3 bg-white" style="border-radius:20px; border:2px solid lightgray;">
+                        <div id="div{{$item->id}}" class="row mx-2 mx-lg-0 mt-3 bg-white" style="border-radius:20px; border:2px solid lightgray;">
                             <div class="col-1  d-flex p-0">
                                 <div id="dsr{{$item->id}}" style="display:block;">
-                                    <div class="card w-100 h-100 border-0" style="border-radius:20px;">
+                                    <div class="card w-100 h-100 border-0" style="background-color:transparent">
                                         <button id="{{$item->id}}_btns" name="{{$item->stock}}" value="{{ $item->quantity }}" style="margin:auto; outline: none;"><i class="btnsor fa fa-angle-up btn-edit"></i></button>
                                         <div style="padding:0 auto; text-align:center; position:relative;">
                                             <div id="{{$item->id}}_icon" class="w-100 h-100 p-1" hidden style="position:absolute;">
@@ -75,28 +68,28 @@ CARRITO | Veterinaria Gumiel
                 </div>
             </div>
             <div class="col-lg-4 p-0 pl-2">
-                <div  class="shadow border mb-3 p-5 card">
+                <div id="resumen"  class="shadow mt-3 p-5" style="background-color:#f3f4f5;">
                     <div class="m-0 p-0" style="display:flex; justify-content:end;">
                             <button onclick="deletedAll()"><i class="m-auto btn-wAll fa fa-trash" ></i></button>
                         
                     </div> 
                     <div class="row m-0 p-0 pb-4 pt-5">
-                        <h2 class="p-0 font-weight-bold">Resumen</h2>
+                        <h2 class="p-0 font-weight-bold" style="font-size:25px;">Resumen</h2>
                     </div>
                     <div  class="row p-0">
-                        <div class="col-6" >
+                        <div class="col-6 pr-0" >
                             <h5 class="m-0">SubTotal :</h5>
                         </div>
-                        <div class="col-6" >
+                        <div class="col-6 pl-0" >
                             <h5 id="subtotal" class="m-0 float-right">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h5>
                         </div>
                     </div>
                     <hr class="mt-3 mb-3">
                     <div  class="row pb-4">
-                        <div class="col-6 ">
+                        <div class="col-6 pr-0">
                             <h4 class="m-0 d-flex align-items-center">Total :</h4>
                         </div>
-                        <div class="col-6 ">
+                        <div class="col-6 pl-0">
                             <h4 id="total" class="m-0 float-right">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h4>
                         </div>
                     </div>
@@ -105,7 +98,7 @@ CARRITO | Veterinaria Gumiel
                             <form action="{{ route('shop.checkout.checkout')}}" method="POST">
                                 {{csrf_field()}}
                                 <div onclick="cero()">
-                                    <input type="submit" value="Ir a pagar" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                    <input type="submit" value="Ir a pagar" class="btn-comprar btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448; border-radius:7px;"/>
                                 </div> 
                             </form>    
                         
@@ -113,13 +106,13 @@ CARRITO | Veterinaria Gumiel
                         <form action="{{ route('shop.checkout.login')}}" method="get">
                                 {{csrf_field()}}
                                 <div onclick="cero()">
-                                    <input type="submit" value="Ir a pagar" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                                    <input type="submit" value="Ir a pagar" class="btn-comprar btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448; border-radius:7px;"/>
                                 </div>
                             </form>    
                         @endif
                     </div>
-                    <div class="m-3 d-flex">
-                        <a href="{{route('shop.shop')}}" class="m-auto a-dec font-weight-bold ">Seguir comprando</a>
+                    <div class="m-3 d-flex" style="text-align:center;">
+                        <a href="{{route('shop.shop')}}" class="m-auto a-dec font-weight-bold " style="color:#19A448;">Seguir comprando</a>
                     </div>
 
 
@@ -138,7 +131,25 @@ CARRITO | Veterinaria Gumiel
 
 
 <script>
+
+    window.onscroll = function() 
+    {
+
+        
+    };
+
+
+
+    function def(){      
+
+
+        if({{\Cart::getTotal()}}==0){
+            document.querySelector(".btn-comprar").disabled = true;
+            toastr.warning('Agregue al menos un Producto al Carrito de Compras para poder Continuar con la Compra.', 'Carrito vacío!',{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
+        }
+    }window.load = def();
     
+
     const btn_sr = document.querySelectorAll(".btnsor");
     const onclick = function (evento) {
         var id_btn=this.parentElement.id;
@@ -161,7 +172,6 @@ CARRITO | Veterinaria Gumiel
                     sor: id_btn.slice(-1)
                 })
                 .then(function(response) {
-                    console.log(response.data);
                     divs.style.pointerEvents = "auto";
                     divs_loading.hidden=true;
                     cant.style.color="black";
@@ -170,7 +180,7 @@ CARRITO | Veterinaria Gumiel
                     document.getElementById("total").innerHTML="$"+response.data.total.toLocaleString('de-DE');
                     document.getElementById("preciototal"+response.data.id).innerHTML="Precio Total: $"+response.data.sumatotal.toLocaleString('de-DE');
                 }).catch(function(error) {
-                    toastr.error('La acción no se pudo realizar');
+                    toastr.error('La acción no se pudo realizar',"Error",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
                     cant.style.color="black";
                     divs_loading.hidden=true;
                 });
@@ -179,8 +189,9 @@ CARRITO | Veterinaria Gumiel
                 cant.style.color="black";
                 divs_loading.hidden=true;
                 toastr.remove();
-                toastr.error('No hay mas stock de este producto.');}
+                toastr.error('No hay más stock de este producto.',"Error",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
             }
+        }
 
             if(id_btn.slice(-1)=="r"){        
                 if(parseInt(cant.value)>1){
@@ -190,7 +201,6 @@ CARRITO | Veterinaria Gumiel
                     sor: id_btn.slice(-1)
                 })
                 .then(function(response) {
-                    console.log(response.data);
                     divs.style.pointerEvents = "auto";
                     divs_loading.hidden=true;
                     cant.style.color="black";
@@ -199,7 +209,7 @@ CARRITO | Veterinaria Gumiel
                     document.getElementById("total").innerHTML="$"+response.data.total.toLocaleString('de-DE');
                     document.getElementById("preciototal"+response.data.id).innerHTML="Precio Total: $"+response.data.sumatotal.toLocaleString('de-DE');
                 }).catch(function(error) {
-                    toastr.error('La acción no se pudo realizar');
+                    toastr.error('La acción no se pudo realizar',"Error",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
                     cant.style.color="black";
                     divs_loading.hidden=true;
                 });
@@ -208,35 +218,35 @@ CARRITO | Veterinaria Gumiel
                 cant.style.color="black";
                 divs_loading.hidden=true;
                 toastr.remove();
-                toastr.error('Minimo 1 producto en carrito.');
+                toastr.error('Minimo un producto en carrito.',"Error",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
             }
         }
+     
     }
     
     btn_sr.forEach(boton => {
     	boton.addEventListener("click", onclick);
     });
     
-    function def(){           
-        if({{\Cart::getTotal()}}==0){
-            document.querySelector(".btn-comprar").disabled = true;
-            toastr.warning('Agregue al menos un Producto al Carrito de Compras para poder Continuar con la Compra.', 'Carro Vacio!', {timeOut: 5000});
-        }
-    }window.load = def();
+
     
     function cero(){
         if(document.querySelector(".btn-comprar").disabled){
             toastr.remove();
-            toastr.error('Agregue al menos un Producto al Carrito para poder Continuar con la Compra.', 'Carro Vacio!', {timeOut: 5000});
+            toastr.error('Agregue al menos un Producto al Carrito para poder Continuar con la Compra.', 'Carrito vacío!',{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
+        
+        
+        
+        
         }
     }
 
     function deletedAll()
     {
-        if({{\Cart::getTotal()}}==0)
+        if({{\Cart::getTotal()}}==0||document.getElementById("total").innerHTML==="$0")
         {
             toastr.remove();
-            toastr.error('¡Carrito vacio!');
+            toastr.error('¡Carrito vacío!',"Error",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
         }else{
             Swal.fire({
                 title: '¿Vaciar carrito?',
@@ -257,11 +267,11 @@ CARRITO | Veterinaria Gumiel
                         document.getElementById("subtotal").innerHTML="$"+response.data.total.toLocaleString('de-DE');
                         document.getElementById("total").innerHTML="$"+response.data.total.toLocaleString('de-DE');
                         toastr.remove();
-                        toastr.success(response.data.mensaje);
+                        toastr.success(response.data.mensaje,"Éxito",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
                     })
                     .catch(function(error) {
                         toastr.remove();
-                        toastr.error('La acción no se pudo realizar');
+                        toastr.error('La acción no se pudo realizar',"Error",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
                     });
                 }
             });
@@ -287,17 +297,19 @@ CARRITO | Veterinaria Gumiel
                 })
                 .then(function(response)
                 {
-                    console.log(response.data);
-
+                    
+                    if(response.data.total===0){
+                        document.querySelector(".btn-comprar").disabled = true;
+                    }
                     $(id).remove();
                     document.getElementById("subtotal").innerHTML="$"+response.data.total.toLocaleString('de-DE');
                     document.getElementById("total").innerHTML="$"+response.data.total.toLocaleString('de-DE');
                     toastr.remove();
-                    toastr.success('¡Producto eliminado con exito!');
+                    toastr.success('¡Producto eliminado con éxito!',"Éxito",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
                 })
                 .catch(function(error) {
                     toastr.remove();
-                    toastr.error('La acción no se pudo realizar');
+                    toastr.error('La acción no se pudo realizar',"Error",{"progressBar": "true","positionClass": "toast-top-right","timeOut": "20000","extendedTimeOut": "0"});
                 });
             }
         });
@@ -305,4 +317,61 @@ CARRITO | Veterinaria Gumiel
     
 
 </script>
+
+
 @endsection
+
+<style>
+
+.a-dec {
+            color: #19a448;
+        }
+        .a-dec:visited {
+            color: #19a448;
+        }
+        .a-dec:active {
+            color: #2e7646;
+            text-decoration:underline;}
+        .a-dec:hover {
+            color: #2e7646;
+        }
+        .btn-w{
+            color:black;
+        }
+        .btn-w:hover{
+            color:red;
+            outline: none;
+        }
+        .btn-w:focus{
+
+            
+            color:black;
+            outline: none;
+        }
+        .btn-edit{
+            color:lightgray;
+        }
+        .btn-edit:hover{
+            color:black;
+        }
+        .btn-wAll{
+            color:black;
+            font-size: 20px;
+
+        }
+        .btn-wAll:hover{
+            color:red;
+            outline: none;    
+        }
+        .btn-wAll:active{
+            color:black;
+            outline: none;
+            font-size: 19px;
+        }
+        body{
+            background:url("/image/fondo-tienda.png");
+            background-repeat: repeat;
+            background-attachment: fixed;
+            background-size:400px;
+        }
+</style>

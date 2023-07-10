@@ -1,28 +1,22 @@
-@extends('layouts.appshop')
+@extends('layouts.app')
 @section('title')
 RESUMEN DE COMPRA | Veterinaria Gumiel
 @endsection
 @section('js-before')
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
 
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <div class="container pt-2 h-100">
-        <div class="row justify-content-center">
-            <div class="col-lg-7 p-0 pr-lg-1">
-                <nav aria-label="breadcrumb" >
-                    <ol class="m-0 breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
-                    </ol>
-                </nav>
-                <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <div class="container p-0 pt-2" style="min-width: 360px;">
+        <div class="row justify-content-center m-0">
+            <div class="col-lg-7 pl-0 pt-3 pr-0 pr-lg-2">
+                <div class="shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="background-color:#f3f4f5 ; border-radius: 15px;">
                     <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
-                        <h1 class="font-weight-bold m-0"><i class="bi bi-card-checklist mr-3"></i>Resumen de compra</h1>
+                        <h1 class="font-weight-bold m-0" style="font-size: 25px;"><i class="bi bi-card-checklist mr-3"></i>Resumen de compra</h1>
                         <div class="font-weight-bold m-0">
                             <h5 class="m-0">Hola {{Auth::user()->name}}</h5>
                         </div>
@@ -30,16 +24,16 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                 </div>
                 <div class="bg-white shadow p-4" style="border-radius: 15px;">
                     <div id="aceptada">
-                        <div class="col-12" style="display:flex; justify-content:center">
+                        <div class="col-12 px-4" style="display:flex; justify-content:center">
                             <i class="bi bi-check-circle" style="color:green; font-size:80px;"></i>
                         </div>
-                        <div class="col-12 p-4" style="display:flex; justify-content:center">
+                        <div class="col-12 px-4 pb-4" style="display:flex; justify-content:center">
                             <h2>Compra Exitosa</h2>
                         </div>
                         <div class="col-12 p-4 bg-light bg-ligth shadow" style="border-radius: 15px;">
-                            <div><h2 class=" pl-3 pr-3 font-weight-normal">Detalles de Compra</h2></div>
+                            <div><h2 class=" px-1 font-weight-normal">Detalles de Compra</h2></div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Numero de Orden:</span>
+                                <span class="m-0">Número de Orden:</span>
                                 <span class="m-0">{{$response->getBuyOrder()}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
@@ -47,7 +41,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 <span class="m-0">${{ number_format($response->getAmount(), 0, ',', '.') }}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Codigo de Autorización:</span>
+                                <span class="m-0">Código de autorización:</span>
                                 <span class="m-0">{{$response->getAuthorizationCode()}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
@@ -64,7 +58,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                             </div>
                             <div id="num_cuotas">
                                 <div id="num_cuotas" class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                    <span class="m-0">Numero de Cuotas:</span>
+                                    <span class="m-0">Número de Cuotas:</span>
                                     <span id="num_cuotas_span" class="m-0">{{$response->getInstallmentsNumber()}}</span>
                                 </div>
                             </div>
@@ -75,28 +69,28 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Numero de Targeta:</span>
+                                <span class="m-0">Número de Tarjeta:</span>
                                 <span class="m-0">**** **** **** {{$response->getCardDetail()['card_number']}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
                                 <span class="m-0">Fecha de Expiración:</span>
                                 <span id="fecha_targeta" class="m-0"></span>
                             </div>
-                            <div><h2 class="mt-5 pl-3 pr-3 font-weight-normal">Detalles de Cliente</h2></div>
+                            <div><h2 class="mt-5 px-1 font-weight-normal">Detalles de Cliente</h2></div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Tipo Cliente:</span>
+                                <span class="m-0">Tipo de Cliente:</span>
                                 <span class="m-0">{{Auth::user()->roles[0]->name}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Nombre Cliente:</span>
+                                <span class="m-0">Nombre:</span>
                                 <span class="m-0">{{Auth::user()->name}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Rut Cliente:</span>
+                                <span class="m-0">Rut:</span>
                                 <span class="m-0">{{Auth::user()->rut}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Email Cliente:</span>
+                                <span class="m-0">Correo electrónico:</span>
                                 <span class="m-0">{{Auth::user()->email}}</span>
                             </div>
                         
@@ -113,23 +107,18 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                     </div>
                 </div>
 
-                <!--<div class="text-center">
-                    <button href="" class="btn btn-danger m-4" type="button">
-                        <i class="fas fa-file-pdf"></i> Descargar Comprobante de pago
-                    </button>
-                </div>-->
 
             </div>
-            <div class="col-lg-5 p-0 pl-lg-1">
-                <div class="row bg-white shadow m-0">
+            <div class="col-lg-5 pt-3 px-0">
+                <div class="row shadow m-0" style="background-color: #f3f4f5;">
                    
-                    <h2 class="m-0 p-2 pr-4 pl-4  font-weight-normal" style="border-bottom-width: 3px;">
-                        <i class="bi bi-cart-check mr-2" style="font-size:30px;"></i>
+                    <h2 class="m-0 p-4  font-weight-normal" style="border-bottom-width: 3px; font-size: 25px;">
+                        <i class="bi bi-cart-check mr-2" style="font-size:25px;"></i>
                         Mis Productos ( {{\Cart::getTotalQuantity()}} )
                     </h2>
                 
                     @foreach($cartCollection as $item)
-                        <div class="row m-0 pt-3 pb-3 pr-4 pl-4" style="border-bottom-width: 2px;">
+                        <div class="row m-0 pt-3 pb-3 pr-4 pl-4 bg-white" style="border-bottom-width: 2px;">
                             <div class="p-0 col-3 m-auto" >
                                 <div style="position: relative;">
                                     <img style="max-height:80px;" src="/image/productos/{{ $item->attributes->image }}">
@@ -154,17 +143,17 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                             <h3 class="font-weight-normal m-0">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h3>
                         </div>
                         <div class="d-flex justify-content-between pt-4">
-                            <h3 class="m-0">Total a pagar:</h3>
-                            <h3 class="m-0">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h3>
+                            <h3 class="m-0" style="font-size:18px;">Total a pagar:</h3>
+                            <h3 class="m-0" style="font-size:18px;">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h3>
                         </div>
                     </div>
-                    <div class="p-4">
+                    <div class="px-5 pt-2 pb-5">
                         <form id="form_finish" class="m-0" action="{{route('finish',['status_finish'=>$response->getResponseCode()])}}" method="get">
                             {{csrf_field()}}
-                            <input type="submit" id="button_finish" value="" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448;"/>
+                            <input type="submit" id="button_finish" value="" class="btn btn-block font-weight-bold" style="color:white; background-color:#19A448; border-color:#19A448; border-radius: 8px;"/>
                         </form>
                         <div id="hid" class="row pt-4">
-                            <a href="/shop" class="a-dec font-weight-bold w-10" style="text-align: center;">Finalizar</a>
+                            <a class="a-dec font-weight-bold w-10" style="text-align: center; border-radius: 8px;">Finalizar</a>
                         </div> 
                     </div>
                 </div>
@@ -199,7 +188,6 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                     break;
                 case "NC":
                     texto_tipo="Venta Crédito";
-                    //no pude hacer la prueba aca
                     break;
                 case "SI":
                     texto_tipo="Venta Crédito";
@@ -254,11 +242,6 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
         }
     }window.load = wload();
 
-</script>
-
-@endsection
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
     function resumen_error() {
         Swal.fire({
             title: 'Rechazado',
@@ -269,3 +252,16 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
         });
     }
 </script>
+
+
+
+<style>
+    body{
+        background:url("/image/fondo-tienda.png");
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size:400px;
+
+    }
+</style>
+@endsection

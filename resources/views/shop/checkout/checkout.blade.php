@@ -1,36 +1,29 @@
-@extends('layouts.appshop')
+@extends('layouts.app')
 @section('title')
 CHECKOUT | Veterinaria Gumiel
 @endsection
 @section('js-before')
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
 @section('content')
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-    <div class="container pt-2">
-        <div class="row justify-content-center">
+    <div class="container p-0 pt-2" style="min-width: 360px;">
+        <div class="row justify-content-center m-0">
             <div class="col-lg-7 p-0 pr-lg-1">
-                <nav aria-label="breadcrumb" >
-                    <ol class="m-0 breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
-                    </ol>
-                </nav>
-                <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">
+                <div class="shadow d-flex pr-5 pl-5 pt-4 pb-4 my-4" style="border-radius: 15px; background-color:#f3f4f5;">
                     <div class="align-items-center" style="display: flex; justify-content: space-between; width:100%;">
-                        <h1 class="font-weight-bold m-0"><i class="bi bi-wallet2 mr-3"></i>Metodo de pago</h1>
+                        <h1 class="font-weight-bold m-0" style="font-size: 23px;"><i class="bi bi-wallet2 mr-2"></i>Método de pago</h1>
                         <div class="font-weight-bold m-0">
                             <h5 class="m-0">Hola {{Auth::user()->name}}</h5>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white shadow d-flex justify-content-between pr-5 pl-5 pt-3 pb-3" style="border-radius: 15px;">
+                <div class="shadow d-flex justify-content-between px-5 py-3 mx-2 mx-lg-0" style=" border-radius: 15px;">
                     <div style="margin:auto 0;">
-                        <input type="radio" name="Tipo" onchange="toggleButton(this)"  id="webpayplus" value="webpayplus">
+                        <input type="radio" name="Tipo" onchange="toggleButton(this)" id="webpayplus" value="webpayplus">
                         <span>Webpay plus</span>
                     </div>
                     <div class="d-flex">
@@ -42,21 +35,21 @@ CHECKOUT | Veterinaria Gumiel
                                 </div>
                             </div>
                         </div>
-                        <div id="check" hidden class="w-8 mt-auto mb-auto ml-3">
-                            <span style="color:#19A448"><i class="fa-2x bi bi-check-lg"></i></span>
+                        <div id="check" hidden class="w-8 ml-3" style="margin-top: -6px !important; margin-bottom: -6px !important;">
+                            <span style="color:#19A448; font-size:35px;"><i class="bi bi-check"></i></span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5 p-0 pl-lg-1">
-                <div class="row bg-white shadow m-0">
-                    <h2 class="m-0 p-2 pr-4 pl-4  font-weight-normal" style="border-bottom-width: 3px;">
-                        <i class="bi bi-cart-check mr-2" style="font-size:30px;"></i>
+            <div class="col-lg-5 pr-0 pl-0 pl-lg-4">
+                <div class="row shadow my-4 mx-0" style=" background-color:#f3f4f5;">
+                    <h2 class="m-0 p-4  font-weight-normal" style="border-bottom-width: 3px; font-size: 23px;">
+                        <i class="bi bi-cart-check mr-2" style="font-size:27px;"></i>
                         Mis Productos ( {{\Cart::getTotalQuantity()}} )
                     </h2>
                 
                     @foreach($cartCollection as $item)
-                        <div class="row m-0 pt-3 pb-3 pr-4 pl-4" style="border-bottom-width: 2px;">
+                        <div class="row m-0 pt-3 pb-3 pr-4 pl-4 bg-white" style="border-bottom-width: 2px;">
                             <div class="p-0 col-3 m-auto" >
                                 <div style="position: relative;">
                                     <img style="max-height:80px;" src="/image/productos/{{ $item->attributes->image }}">
@@ -100,25 +93,15 @@ CHECKOUT | Veterinaria Gumiel
          
 
                     
-<!-- pruebasssss -->
 
-      
-
-
-
-
-<!-- fin pruebasssssss -->
 <script>
+    
     function unselect() {
         document.getElementById('submitButton').disabled = true;
         document.querySelectorAll('[name=Tipo]').forEach((x) => x.checked = false);
     }window.load = unselect();
 
-</script>
 
-@endsection
-
-<script>
 
     function toggleButton(that){
         document.getElementById("loading").hidden = false;
@@ -141,3 +124,14 @@ CHECKOUT | Veterinaria Gumiel
 
     </script>
 
+
+    <style>
+        body{
+            background:url("/image/fondo-tienda.png");
+            background-repeat: repeat;
+            background-attachment: fixed;
+            background-size:400px;
+        }
+    </style>
+
+@endsection

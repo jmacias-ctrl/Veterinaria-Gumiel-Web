@@ -169,7 +169,7 @@
                         @csrf
                         <div class="row mt-1">
                             <div class="col">
-                                <label for="titulo_imagen" class="form-label">Titulo de la imagen</label>
+                                <label for="titulo_imagen" class="form-label">Título de la imagen</label>
                                 <input type="text" id="titulo_imagen" name="titulo_imagen"
                                     class="form-control @error('titulo_imagen') is-invalid @enderror"
                                     placeholder="Operacion a un paciente perro" aria-label="titulo_imagen" required>
@@ -192,13 +192,13 @@
                     </form>
                     <hr>
                 @else
-                <p>Limite de Imagenes Superado</p>
+                <p>Límite de Imagenes Superado</p>
                 @endif
 
-                <div class="row">
-                    @foreach ($gallery_index as $item)
-                        <div class="col d-flex align-items-stretch">
-                            <div class="card mb-5" style="width: 18rem;">
+                    
+                        <div class="d-inline-flex align-items-stretch">
+                            @foreach ($gallery_index as $item)
+                            <div class="card mb-5 mr-3" style="width: 15rem;">
                                 <img src="@if ($item->id <= 6) {{ asset($item->imagen) }} @else {{ asset('storage') . '/images/galeria/' . $item->imagen }} @endif"
                                     class="card-img-top shadow" alt="...">
                                 <div class="card-body">
@@ -207,9 +207,9 @@
                                         class="btn btn-outline-danger">Eliminar</a>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
-                    @endforeach
-                </div>
+                    
             </div>
         </div>
     </div>

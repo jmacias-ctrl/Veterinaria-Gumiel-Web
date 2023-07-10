@@ -50,7 +50,7 @@
                     <h5 class="mt-4">Información del Tipo</h5>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="Nombre" class="form-label">Nombre</label>
+                            <label for="Nombre" class="form-label">Nombre *</label>
                             <input minlength="4" type="text" id="nombre" name="nombre"
                                 class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Peluquería"
                                 aria-label="Nombre" required>

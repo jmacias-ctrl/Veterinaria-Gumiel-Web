@@ -210,23 +210,27 @@
                     'acceso ventas',
                     'acceso punto de venta',
                     'acceso administracion de stock',
-                    'ver gestionvet',
+                    'ver
+                    gestionvet',
                     'ver gestionpeluqueria',
                     'ver citas',
                     ])
 
-                    <li class="nav-item  @if (Route::currentRouteName() == 'trazabilidad-ventas-y-servicios' || Route::currentRouteName() == 'dashboard-citas') active @endif" >
-                    
-                    <a class="nav-link
-                        collapse-links @if (Route::current()->getName() == 'admin') active @endif" data-toggle="collapse"
-                        href="#dashboardCollapse" role="button" aria-expanded="false"
-                        aria-controls="dashboardCollapse">
-                        <i class="ni ni-tv-2 text-green"></i> Dashboard
+                    <li class="nav-item  @if (Route::currentRouteName() == 'trazabilidad-ventas-y-servicios' || Route::currentRouteName() == 'dashboard-citas') active @endif">
+
+                        <a class="nav-link
+                        collapse-links @if (Route::current()->getName() == 'admin') active @endif"
+                            data-toggle="collapse" href="#dashboardCollapse" role="button" aria-expanded="false"
+                            aria-controls="dashboardCollapse">
+                            <i class="ni ni-tv-2 text-green"></i> Dashboard
                         </a>
 
                         <div class="collapse" id="dashboardCollapse">
                             <div class="card card-body" id="dropdown">
-                                @canany(['acceso ventas', 'acceso punto de venta', 'acceso administracion de stock'])
+                                @if (auth()->user()->hasRole('Admin') ||
+                                        auth()->user()->can('acceso ventas') ||
+                                        auth()->user()->can('acceso punto de venta') ||
+                                        auth()->user()->can('acceso administracion de stock'))
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3"
@@ -234,16 +238,18 @@
                                                 id="link-dropdown">Dashboard Ventas y Servicios</a>
                                         </li>
                                     </ul>
-                                @endcanany
-                                @canany(['ver gestionvet', 'ver gestionpeluqueria', 'ver citas'])
+                                @endif
+                                @if (auth()->user()->hasRole('Admin') ||
+                                        auth()->user()->can('ver gestionvet') ||
+                                        auth()->user()->can('ver gestionpeluqueria') ||
+                                        auth()->user()->can('ver citas'))
                                     <ul class="navbar-nav">
                                         <li class="nav-item">
                                             <a class="nav-link ms-3" href="{{ route('dashboard-citas') }}"
                                                 id="link-dropdown">Dashboard Citas</a>
                                         </li>
                                     </ul>
-                                @endcanany
-
+                                @endif
 
                             </div>
                         </div>
@@ -345,7 +351,8 @@
                     'ver servicios',
                     'ver insumos medicos',
                     'ver medicamentos',
-                    'ver especies',
+                    'ver
+                    especies',
                     'ver categorias',
                     'ver subcategorias',
                     ])
@@ -540,7 +547,8 @@
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
                                         <a class="nav-link ms-3 @if (request()->routeIs('landing.horario.*')) active @endif"
-                                            href="{{ route('landing.horario.edit') }}" id="link-dropdown">Horario Landing Page</a>
+                                            href="{{ route('landing.horario.edit') }}" id="link-dropdown">Horario
+                                            Landing Page</a>
                                     </li>
                                 </ul>
                             </div>

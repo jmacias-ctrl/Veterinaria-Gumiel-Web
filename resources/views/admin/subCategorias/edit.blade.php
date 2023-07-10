@@ -43,7 +43,7 @@
                     <div class="row mt-3">
                         <input type="hidden" name="id" value="{{ $subcategoria->id }}">
                         <div class="col">
-                            <label for="nombre" class="form-label">Nombre del Subcategoria</label>
+                            <label for="nombre" class="form-label">Nombre del Subcategoria *</label>
                             <input type="text" id="nombre" name="nombre"
                                 class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Cachorro"
                                 aria-label="Nombre" value="{{ $subcategoria->nombre }}" required>

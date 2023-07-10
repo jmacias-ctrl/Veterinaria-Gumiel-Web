@@ -50,7 +50,7 @@
                     <h5 class="mt-4">Informacion de la marca </h5>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="Nombre" class="form-label @error('nombre') is-invalid @enderror">Nombre</label>
+                            <label for="Nombre" class="form-label @error('nombre') is-invalid @enderror">Nombre *</label>
                             <input minlength="4" type="text" id="nombre" name="nombre" class="form-control"
                                 placeholder="Ej. Shinova" aria-label="Nombre" required>
                             @error('nombre')

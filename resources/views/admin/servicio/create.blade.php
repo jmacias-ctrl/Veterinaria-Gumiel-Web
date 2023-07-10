@@ -50,7 +50,7 @@
                         <h5 class="mt-4">Información del Servicio</h5>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre</label>
+                                <label for="nombre" class="form-label">Nombre *</label>
                                 <input type="text" id="nombre" name="nombre"
                                     class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Consulta + Vacuna"
                                     aria-label="Nombre" required>
@@ -59,7 +59,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <h5 class="mt-4">Tipo</h5>
+                        <h5 class="mt-4">Tipo *</h5>
                         <div class="row justify-content-center align-items-center g-2">
                             <div class="col">
                                 <select class="form-select @error('id_tipo') is-invalid @enderror"
@@ -77,7 +77,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="precio" class="form-label">Precio</label>
+                                <label for="precio" class="form-label">Precio *</label>
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">$</div>
                                     <input type="number" class="form-control @error('precio') is-invalid @enderror"
@@ -91,7 +91,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="duracion" class="form-label">Duración</label>
+                                <label for="duracion" class="form-label">Duración *</label>
 
                                 <div class="input-group-prepend">
                                     <input type="number" class="form-control @error('duracion') is-invalid @enderror"

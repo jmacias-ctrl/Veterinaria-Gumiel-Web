@@ -51,7 +51,7 @@
                         <h2 class="mt-4">Información Personal</h2>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre</label>
+                                <label for="nombre" class="form-label">Nombre *</label>
                                 <input type="text" id="nombre" name="nombre"
                                     class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Pedro"
                                     aria-label="Nombre" value="{{ old('nombre') }}" required>
@@ -60,7 +60,7 @@
                                 @enderror
                             </div>
                             <div class="col">
-                                <label for="apellido" class="form-label">Apellido</label>
+                                <label for="apellido" class="form-label">Apellido *</label>
                                 <input type="text" id="apellido" name="apellido"
                                     class="form-control @error('apellido') is-invalid @enderror" placeholder="Ej. Ignacio"
                                     aria-label="Apellido" value="{{ old('apellido') }}" required>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="rut" class="form-label">Rut</label>
+                                <label for="rut" class="form-label">Rut *</label>
                                 <input type="text" class="form-control @error('rut') is-invalid @enderror" id="rut"
                                     name="rut" placeholder="Ej. 12345678-9" value="{{ old('rut') }}" maxlength="10" oninput="checkRut(this)" required>
                                 @error('rut')
@@ -81,7 +81,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="email" class="form-label">Correo</label>
+                                <label for="email" class="form-label">Correo *</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" name="email" placeholder="Ej. email@gmail.com"
                                     value="{{ old('email') }}" required>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="telefono" class="form-label">Teléfono</label>
+                                <label for="telefono" class="form-label">Teléfono *</label>
                                 <div class="input-group">
                                     <div class="input-group-text">+56</div>
                                     <input type="number" class="form-control @error('telefono') is-invalid @enderror"
@@ -106,7 +106,7 @@
                         </div>
                         <h5 class='my-4'>La contraseña será por defecto el rut sin el digito verificador</h5>
                         <hr class="mt-4">
-                        <h5 class="mt-4">Roles</h5>
+                        <h5 class="mt-4">Roles *</h5>
                         <div class="row justify-content-center align-items-center g-2">
                             @error('roles')
                                 <div class="text-danger">

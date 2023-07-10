@@ -51,7 +51,7 @@
                         <h5 class="mt-4">Información de la Subcategoria:</h5>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre del Subcategoria</label>
+                                <label for="nombre" class="form-label">Nombre del Subcategoria *</label>
                                 <input type="text" id="nombre" name="nombre"
                                     class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Cachorro"
                                     aria-label="Nombre" required>
@@ -63,7 +63,7 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <label for="Categoria">Categoria:</label>
+                            <label for="Categoria">Categoria *</label>
                             <select class="form-select @error('categoria') is-invalid @enderror" aria-label="Default select example" id="categoria" name="categoria" required>
                                 <option @if (old('categoria')) selected @endif disabled>Seleccione una Categoria</option>
                                 @foreach ($Categorias as $Categoria)

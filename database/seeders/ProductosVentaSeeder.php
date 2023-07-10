@@ -41,7 +41,6 @@ class ProductosVentaSeeder extends Seeder
             'stock' => '18',
             'producto_enfocado' => 2,
             'precio' => 3499,
-            'subcategoria' => 2,
             'imagen_path' => 'colonia-amarilla.png'
         ]);
         productos_ventas::create([
@@ -69,7 +68,6 @@ class ProductosVentaSeeder extends Seeder
             'stock' => '30',
             'producto_enfocado' => 2,
             'precio' => 5999,
-            'subcategoria' => 2,
             'imagen_path' => 'arnes-perro.png'
         ]);
         productos_ventas::create([
@@ -83,7 +81,6 @@ class ProductosVentaSeeder extends Seeder
             'stock' => '30',
             'producto_enfocado' => 2,
             'precio' => 6499,
-            'subcategoria' => 1,
             'imagen_path' => 'correa-automatica.png'
         ]);
         productos_ventas::create([
@@ -97,7 +94,6 @@ class ProductosVentaSeeder extends Seeder
             'stock' => '20',
             'producto_enfocado' => 2,
             'precio' => 34990,
-            'subcategoria' => 1,
             'imagen_path' => 'seresto-collar.png'
         ]);
         

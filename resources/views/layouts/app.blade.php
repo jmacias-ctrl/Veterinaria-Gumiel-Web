@@ -173,15 +173,19 @@
                         </p>
                     </div>
                 </a>
+                
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    @hasanyrole('Cliente|Invitado')
+                    @hasanyrole('Cliente')
                         <a class="dropdown-item" href="{{ route('mi-perfil') }}">
                             {{ __('Ver mi Perfil') }}
                         </a>
                     @else
+                    @hasanyrole('!Invitado')
+
                         <a class="dropdown-item" href="{{ route('inicio_panel') }}">
                             {{ __('Acceder al Panel') }}
                         </a>
+                    @endhasanyrole
                     @endhasanyrole
 
                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -194,6 +198,8 @@
                         @csrf
                     </form>
                 </div>
+                
+
             @endguest
 
         </div>

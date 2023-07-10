@@ -22,16 +22,15 @@ use App\Mail\ComprobanteDePago;
 
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class CompraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
+
+        
         $cartCollection = \Cart::getContent();
         foreach ($cartCollection as $item) {
             $item['stock'] = productos_ventas::find($item->id)->stock;
@@ -127,8 +126,13 @@ class CompraController extends Controller
         return view('shop.checkout.resumen-compra')->with(['response' => $response])->with(['cartCollection' => $cartCollection])->with(['user' => $user]);
     }
 
+ 
+
     public function finish($status_finish)
-    {
+    {   
+        if(strtolower(Auth::user()->roles[0]->name)==="invitado"){
+            Auth::logout();
+        }
         if (!$status_finish) {
             \Cart::clear();
             return redirect()->route('shop.shop');
@@ -149,6 +153,7 @@ class CompraController extends Controller
 
     public function login_shop(Request $request)
     {
+ 
         $rules = [
             'email'  => 'required|email',
             'password' => 'required|min:7' //cambiar a 8 (para probar cliente demo)
@@ -165,8 +170,13 @@ class CompraController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
+
             if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-                return back()->withErrors(['message' => 'Email o Contraseña incorrectos, vuelva a intentarlo.']);
+                return back()->withErrors(['message' => 'Email o Contraseña incorrectos, vuelve a intentarlo.']);
+            }
+            if(strtolower(Auth::user()->roles[0]->name)!="cliente"){
+                return back()->withErrors(['message' => 'Para poder seguir con la compra tienes que registrarte como cliente, vuelve a intentarlo.']);
+
             }
             return redirect()->route('shop.checkout.checkout');
         }
@@ -197,6 +207,12 @@ class CompraController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $message, $attributes);
         if ($validator->passes()) {
+            foreach(User::all() as $user){
+                if($user->email===$request->email_register){
+                    return back()->withErrors(['message' => 'Este correo ya se registro anteriormente como invitado, utiliza otro correo o regístrate como cliente.']);
+                }
+            }
+
             try {
                 db::beginTransaction();
                 $role = Role::where('name', '=', 'Invitado')->get();

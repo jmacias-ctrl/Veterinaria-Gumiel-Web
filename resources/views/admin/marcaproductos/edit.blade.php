@@ -43,7 +43,7 @@
                     <div class="row mt-3">
                         <div class="col">
                             <input type="hidden" name="id" value="{{ $marcaproductos->id }}">
-                            <label for="nombre" class="form-label">Nombre</label>
+                            <label for="nombre" class="form-label">Nombre *</label>
                             <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                                 value="{{ $marcaproductos->nombre }}" id="nombre" checked>
                             @error('nombre')

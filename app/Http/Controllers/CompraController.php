@@ -39,82 +39,90 @@ class CompraController extends Controller
         return view('shop.checkout.checkout')->withTitle('GUMIEL TIENDA | CHECKOUT')->with(['cartCollection' => $cartCollection]);
     }
 
-    public function resumen_compra(Request $request){
+    public function resumen_compra(Request $request)
+    {
         $response = (new Transaction)->status($request->token);
-        $compra=Compra::find($response->buyOrder);
-        $compra->token=$request->token;
-        $compra->status=$response->status;
+        $compra = Compra::find($response->buyOrder);
+        $compra->token = $request->token;
+        $compra->status = $response->status;
         $compra->save();
 
+        $user = User::find(auth()->user()->id);
+        
         $cartCollection = \Cart::getContent();
-        $trazabilidad = new trazabilidad_venta_presencial();
-        $trazabilidad->id_venta = Str::random(10);
-        $trazabilidad->metodo_pago = 'online';
-        $trazabilidad->estado = 'pagado';
-        $trazabilidad->nombre_cliente = auth()->user()->name;;
-        $trazabilidad->fecha_compra = Carbon::now()->toDateString();
-        $trazabilidad->id_cliente = auth()->user()->id;
-        $trazabilidad->save();
 
-        $items_comprados = array();
+        if ($compra->status == "AUTHORIZED") {
+            $trazabilidad = new trazabilidad_venta_presencial();
+            $trazabilidad->id_venta = Str::random(10);
+            $trazabilidad->metodo_pago = 'online';
+            $trazabilidad->estado = 'pagado';
+            $trazabilidad->nombre_cliente = auth()->user()->name;;
+            $trazabilidad->fecha_compra = Carbon::now()->toDateString();
+            $trazabilidad->id_cliente = auth()->user()->id;
+            $trazabilidad->save();
 
-        foreach ($cartCollection as $item) {
-            $item['stock'] = productos_ventas::find($item->id)->stock;
-            $newItem = new items_comprados();
-            $newItem->monto = $item->price;
-            $newItem->cantidad = $item->quantity;
-            $newItem->id_producto = $item->id;
-            $newItem->id_venta = $trazabilidad->id;
-            $newItem->tipo_item = "producto";
-            $newItem->save();
+            $items_comprados = array();
 
-            $producto = productos_ventas::find($item->id);
-            $producto->stock = $producto->stock - $item->quantity;
-            if ($producto->stock <= 0) {
-                $users = User::all();
-                foreach ($users as $user) {
-                    if ($user->can('acceso administracion de stock')) {
-                        $user->notify(new StockProductoInventario($producto, true));
+            foreach ($cartCollection as $item) {
+                $item['stock'] = productos_ventas::find($item->id)->stock;
+                $newItem = new items_comprados();
+                $newItem->monto = $item->price;
+                $newItem->cantidad = $item->quantity;
+                $newItem->id_producto = $item->id;
+                $newItem->id_venta = $trazabilidad->id;
+                $newItem->tipo_item = "producto";
+                $newItem->save();
+
+                $producto = productos_ventas::find($item->id);
+                $producto->stock = $producto->stock - $item->quantity;
+                if ($producto->stock <= 0) {
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        if ($user->can('acceso administracion de stock')) {
+                            $user->notify(new StockProductoInventario($producto, true));
+                        }
+                    }
+                } else if ($producto->stock < $producto->min_stock) {
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        if ($user->can('acceso administracion de stock')) {
+                            $user->notify(new StockProductoInventario($producto, false));
+                        }
                     }
                 }
-            } else if ($producto->stock < $producto->min_stock) {
-                $users = User::all();
-                foreach ($users as $user) {
-                    if ($user->can('acceso administracion de stock')) {
-                        $user->notify(new StockProductoInventario($producto, false));
-                    }
-                }
+
+                $_item = [
+                    'id' => $item->id,
+                    'name' => $producto->nombre,
+                    'price' => $item->price,
+                    'quantity' => $item->quantity,
+                    'attributes' => $item->attributes,
+                    'stock' => $producto->stock,
+                ];
+
+                array_push($items_comprados, $_item);
+                $producto->save();
             }
 
-            $_item = [
-                'id' => $item->id,
-                'name' => $producto->nombre,
-                'price' => $item->price,
-                'quantity' => $item->quantity,
-                'attributes' => $item->attributes,
-                'stock' => $producto->stock,];
+            
 
-            array_push($items_comprados, $_item);
-            $producto->save();
+            $fecha = Carbon::now()->toDateString();
+            $hora = Carbon::now()->toTimeString();
+
+            //Generar el PDF
+            $pdf = \PDF::loadView('pdf.comprobante-pago', compact('response', 'cartCollection', 'user', 'items_comprados', 'fecha', 'hora'));
+
+            $data = [
+                'response' => $response,
+                'cartCollection' => $cartCollection,
+                'user' => $user,
+            ];
+
+            $correo = new ComprobanteDePago($data);
+            $correo->attachData($pdf->output(), 'comprobante.pdf');
+            Mail::to($user->email)->send($correo);
         }
 
-        $user = User::find(auth()->user()->id);
-
-        $fecha = Carbon::now()->toDateString();
-        $hora = Carbon::now()->toTimeString();
-
-        //Generar el PDF
-        $pdf = \PDF::loadView('pdf.comprobante-pago', compact('response', 'cartCollection', 'user', 'items_comprados', 'fecha', 'hora'));
-
-        $data = [
-            'response' => $response,
-            'cartCollection' => $cartCollection,
-            'user' => $user,
-        ];
-        
-        $correo = new ComprobanteDePago($data);
-        $correo->attachData($pdf->output(), 'comprobante.pdf');
-        Mail::to($user->email)->send($correo);
 
         return view('shop.checkout.resumen-compra')->with(['response' => $response])->with(['cartCollection' => $cartCollection])->with(['user' => $user]);
     }

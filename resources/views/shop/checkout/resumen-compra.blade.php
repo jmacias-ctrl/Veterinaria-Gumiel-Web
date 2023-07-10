@@ -15,9 +15,9 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
             <div class="col-lg-7 p-0 pr-lg-1">
                 <nav aria-label="breadcrumb" >
                     <ol class="m-0 breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+                        <li class="breadcrumb-item"><a href="{{route('inicio')}}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="#">Checkout</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Resumen de Compra</li>
                     </ol>
                 </nav>
                 <div class="bg-white shadow d-flex pr-5 pl-5 pt-4 pb-4 mb-2" style="border-radius: 15px;">
@@ -39,7 +39,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                         <div class="col-12 p-4 bg-light bg-ligth shadow" style="border-radius: 15px;">
                             <div><h2 class=" pl-3 pr-3 font-weight-normal">Detalles de Compra</h2></div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Numero de Orden:</span>
+                                <span class="m-0">Número de Orden:</span>
                                 <span class="m-0">{{$response->getBuyOrder()}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
@@ -47,7 +47,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 <span class="m-0">${{ number_format($response->getAmount(), 0, ',', '.') }}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Codigo de Autorización:</span>
+                                <span class="m-0">Código de Autorización:</span>
                                 <span class="m-0">{{$response->getAuthorizationCode()}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
@@ -64,7 +64,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                             </div>
                             <div id="num_cuotas">
                                 <div id="num_cuotas" class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                    <span class="m-0">Numero de Cuotas:</span>
+                                    <span class="m-0">Número de Cuotas:</span>
                                     <span id="num_cuotas_span" class="m-0">{{$response->getInstallmentsNumber()}}</span>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Numero de Targeta:</span>
+                                <span class="m-0">Número de Tarjeta:</span>
                                 <span class="m-0">**** **** **** {{$response->getCardDetail()['card_number']}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
@@ -96,7 +96,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                                 <span class="m-0">{{Auth::user()->rut}}</span>
                             </div>
                             <div class="d-flex justify-content-between mt-4 p-2 pl-3 pr-3 bg-white" style="border-radius: 15px;">
-                                <span class="m-0">Email Cliente:</span>
+                                <span class="m-0">Correo Cliente:</span>
                                 <span class="m-0">{{Auth::user()->email}}</span>
                             </div>
                         
@@ -150,7 +150,7 @@ RESUMEN DE COMPRA | Veterinaria Gumiel
                     @endforeach
                     <div class="row m-0 pr-5 pl-5 pt-4 pb-4">
                         <div class="d-flex justify-content-between pb-4" style="border-bottom-width: 2px;">
-                            <h3 class="font-weight-normal m-0">SubTotal :</h3>
+                            <h3 class="font-weight-normal m-0">Sub Total :</h3>
                             <h3 class="font-weight-normal m-0">${{ number_format(\Cart::getTotal(), 0, ',', '.') }}</h3>
                         </div>
                         <div class="d-flex justify-content-between pt-4">

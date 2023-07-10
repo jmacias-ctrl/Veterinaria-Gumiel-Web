@@ -43,7 +43,7 @@
                     <div class="row mt-3">
                         <input type="hidden" name="id" value="{{ $especie->id }}">
                         <div class="col">
-                            <label for="nombre" class="form-label">Nombre del Especie</label>
+                            <label for="nombre" class="form-label">Nombre del Especie *</label>
                             <input type="text" id="nombre" name="nombre"
                                 class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Gatos"
                                 aria-label="Nombre" value="{{ $especie->nombre }}" required>

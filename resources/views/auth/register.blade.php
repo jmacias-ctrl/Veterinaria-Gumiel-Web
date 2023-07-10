@@ -4,7 +4,6 @@
 @endsection
 @section('content')
     <div class="container mt--8 pb-5">
-        <!-- Table -->
         <div class="row justify-content-center">
             <div class="col-lg-6 col-md-8">
                 <div class="card bg-secondary shadow border-0">
@@ -23,7 +22,7 @@
                                     <input id="name" type="text"
                                         class="form-control @error('name') is-invalid @enderror" name="name"
                                         value="{{ old('name') }}" required autocomplete="name" autofocus
-                                        placeholder="Nombre">
+                                        placeholder="Nombre *">
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -36,7 +35,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                     </div>
-                                    <input id="email" type="email" placeholder="Correo"
+                                    <input id="email" type="email" placeholder="Correo *"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
                                         value="{{ old('email') }}" required autocomplete="email">
 
@@ -52,7 +51,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-badge"></i></span>
                                     </div>
-                                    <input id="rut" type="text" placeholder="Rut"
+                                    <input id="rut" type="text" placeholder="Rut  *"
                                         class="form-control @error('rut') is-invalid @enderror" name="rut"
                                         value="{{ old('rut') }}" required oninput="checkRut(this)" maxlength="10" autocomplete="rut">
 
@@ -68,7 +67,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                     </div>
-                                    <input id="password" type="password" placeholder="Contraseña"
+                                    <input id="password" type="password" placeholder="Contraseña *"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
                                         required autocomplete="new-password">
 
@@ -84,7 +83,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                     </div>
-                                    <input id="password-confirm" placeholder="Confirmar Contraseña" type="password"
+                                    <input id="password-confirm" placeholder="Confirmar Contraseña *" type="password"
                                         class="form-control" name="password_confirmation" required
                                         autocomplete="new-password">
                                 </div>
@@ -102,48 +101,4 @@
         </div>
     </div>
 @endsection
-<script>
-    function checkRut(rut) {
-        var valor = rut.value.replace('.', '');
-        valor = valor.replace('-', '');
-
-        cuerpo = valor.slice(0, -1);
-        dv = valor.slice(-1).toUpperCase();
-
-        rut.value = cuerpo + '-' + dv
-
-        if (cuerpo.length < 7) {
-            rut.setCustomValidity("RUT Incompleto");
-            return false;
-        }
-
-        suma = 0;
-        multiplo = 2;
-
-        for (i = 1; i <= cuerpo.length; i++) {
-
-            index = multiplo * valor.charAt(cuerpo.length - i);
-
-            suma = suma + index;
-
-            if (multiplo < 7) {
-                multiplo = multiplo + 1;
-            } else {
-                multiplo = 2;
-            }
-
-        }
-
-        dvEsperado = 11 - (suma % 11);
-
-        dv = (dv == 'K') ? 10 : dv;
-        dv = (dv == 0) ? 11 : dv;
-
-        if (dvEsperado != dv) {
-            rut.setCustomValidity("RUT Inválido");
-            return false;
-        }
-
-        rut.setCustomValidity('');
-    }
-</script>
+<script src="{{asset('js/verificacionRut.js')}}"></script>

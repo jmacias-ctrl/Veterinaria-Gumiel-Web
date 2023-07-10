@@ -32,16 +32,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                @if (auth()->user()->hasRole('Admin'))
-                    <a href="{{ route('admin') }}" style="color:black;">
-                    @elseif(auth()->user()->hasRole('Veterinario'))
-                        <a href="{{ route('veterinario') }}">
-                        @elseif (auth()->user()->hasRole('Peluquero'))
-                            <a href="{{ route('peluquero') }}">
-                            @elseif (auth()->user()->hasRole('Inventario'))
-                                <a href="{{ route('inventario') }}">
-                @endif
-                Inicio</a>
+                <a href="{{ route('inicio_panel') }}" style="color:black;">
+                    Inicio</a>
             </li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{ route('admin.servicio') }}"
                     style="color:black;">Servicios</a> </li>
@@ -58,7 +50,7 @@
                         <h5 class="mt-4">Información del Servicio</h5>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre</label>
+                                <label for="nombre" class="form-label">Nombre *</label>
                                 <input type="text" id="nombre" name="nombre"
                                     class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Consulta + Vacuna"
                                     aria-label="Nombre" required>
@@ -67,7 +59,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <h5 class="mt-4">Tipo</h5>
+                        <h5 class="mt-4">Tipo *</h5>
                         <div class="row justify-content-center align-items-center g-2">
                             <div class="col">
                                 <select class="form-select @error('id_tipo') is-invalid @enderror"
@@ -85,7 +77,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="precio" class="form-label">Precio</label>
+                                <label for="precio" class="form-label">Precio *</label>
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">$</div>
                                     <input type="number" class="form-control @error('precio') is-invalid @enderror"
@@ -99,7 +91,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="duracion" class="form-label">Duración</label>
+                                <label for="duracion" class="form-label">Duración *</label>
 
                                 <div class="input-group-prepend">
                                     <input type="number" class="form-control @error('duracion') is-invalid @enderror"

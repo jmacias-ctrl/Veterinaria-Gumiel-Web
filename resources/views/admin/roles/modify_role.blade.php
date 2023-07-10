@@ -40,7 +40,7 @@
                         <input type="hidden" name="id" value="{{ $rol->id }}">
                         <div class="row mt-3">
                             <div class="col-3">
-                                <label for="Nombre" class="form-label">Nombre</label>
+                                <label for="Nombre" class="form-label">Nombre *</label>
                                 <input type="text" id="nombre" name="nombre" class="form-control"
                                     placeholder="Ej. Logistica" aria-label="Nombre" value="{{ $rol->name }}" required>
                             </div>

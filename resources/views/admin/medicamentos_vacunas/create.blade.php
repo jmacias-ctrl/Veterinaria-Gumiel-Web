@@ -51,7 +51,7 @@ Agregar Medicamento
                         <h5 class="mt-4">Información del Medicamento</h5>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nomcodigobre" class="form-label">Código</label>
+                                <label for="nomcodigobre" class="form-label">Código *</label>
                                 <input type="text" id="codigo" name="codigo"
                                     class="form-control @error('codigo') is-invalid @enderror" placeholder="Ej. 84372721"
                                     aria-label="codigo" value="{{ old('codigo') }}" required>
@@ -63,7 +63,7 @@ Agregar Medicamento
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre</label>
+                                <label for="nombre" class="form-label">Nombre *</label>
                                 <input type="text" id="nombre" name="nombre"
                                     class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. "
                                     aria-label="Nombre" required>
@@ -75,7 +75,7 @@ Agregar Medicamento
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="marca" class="form-label">Marca</label>
+                                <label for="marca" class="form-label">Marca *</label>
                                 <select class="form-select @error('marca') is-invalid @enderror"
                                     aria-label="Default select example" name="marca" id="marca">
                                     <option selected disabled>Selecciona una opcion</option>
@@ -91,7 +91,7 @@ Agregar Medicamento
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="marca" class="form-label">Tipo</label>
+                                <label for="marca" class="form-label">Tipo *</label>
                                 <select class="form-select @error('id_tipo') is-invalid @enderror"
                                     aria-label="Default select example" name="id_tipo" id="id_tipo">
                                     <option selected disabled>Selecciona un Tipo</option>
@@ -107,7 +107,7 @@ Agregar Medicamento
                         </div>
                         <div class="row mt-3">
                             <div class="form-group">
-                                <label for="medicamento_enfocado">Medicamento enfocado:</label>
+                                <label for="medicamento_enfocado">Medicamento enfocado *</label>
                                 <select class="form-select @error('medicamento_enfocado') is-invalid @enderror"
                                     aria-label="Default select example" id="medicamento_enfocado"
                                     name="medicamento_enfocado" required>
@@ -127,7 +127,7 @@ Agregar Medicamento
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="stock" class="form-label @error('stock') is-invalid @enderror">Stock</label>
+                                <label for="stock" class="form-label @error('stock') is-invalid @enderror">Stock *</label>
                                 <input type="integer" class="form-control" id="stock" name="stock"
                                     placeholder="ej. 21" oninput="this.value = Math.abs(this.value)" min="0">
                                 @error('stock')

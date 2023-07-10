@@ -42,7 +42,7 @@
             <h5 class="my-4">Información del Rol</h5>
             <div class="row mt-3">
                 <div class="col">
-                    <label for="nombre" class="form-label">Nombre</label>
+                    <label for="nombre" class="form-label">Nombre *</label>
                     <input type="text"  class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Braun" aria-label="nombre"
                         value="{{ $marcaInsumo->nombre }}" id="nombre" name="nombre" required>
                     @error('nombre')

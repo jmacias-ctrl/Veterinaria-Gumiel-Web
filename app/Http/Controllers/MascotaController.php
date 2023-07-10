@@ -31,6 +31,6 @@ class MascotaController extends Controller
 
         $notification = 'La mascota se registro correctamente.';
 
-        return redirect('/miscitas')->with(compact('notification'));
+        return back()->with(compact('notification'));
     }
 }

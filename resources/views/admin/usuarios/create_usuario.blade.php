@@ -51,7 +51,7 @@
                         <h2 class="mt-4">Información Personal</h2>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="nombre" class="form-label">Nombre</label>
+                                <label for="nombre" class="form-label">Nombre *</label>
                                 <input type="text" id="nombre" name="nombre"
                                     class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Pedro"
                                     aria-label="Nombre" value="{{ old('nombre') }}" required>
@@ -60,7 +60,7 @@
                                 @enderror
                             </div>
                             <div class="col">
-                                <label for="apellido" class="form-label">Apellido</label>
+                                <label for="apellido" class="form-label">Apellido *</label>
                                 <input type="text" id="apellido" name="apellido"
                                     class="form-control @error('apellido') is-invalid @enderror" placeholder="Ej. Ignacio"
                                     aria-label="Apellido" value="{{ old('apellido') }}" required>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="rut" class="form-label">Rut</label>
+                                <label for="rut" class="form-label">Rut *</label>
                                 <input type="text" class="form-control @error('rut') is-invalid @enderror" id="rut"
                                     name="rut" placeholder="Ej. 12345678-9" value="{{ old('rut') }}" maxlength="10" oninput="checkRut(this)" required>
                                 @error('rut')
@@ -81,7 +81,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="email" class="form-label">Correo</label>
+                                <label for="email" class="form-label">Correo *</label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror"
                                     id="email" name="email" placeholder="Ej. email@gmail.com"
                                     value="{{ old('email') }}" required>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col">
-                                <label for="telefono" class="form-label">Teléfono</label>
+                                <label for="telefono" class="form-label">Teléfono *</label>
                                 <div class="input-group">
                                     <div class="input-group-text">+56</div>
                                     <input type="number" class="form-control @error('telefono') is-invalid @enderror"
@@ -106,7 +106,7 @@
                         </div>
                         <h5 class='my-4'>La contraseña será por defecto el rut sin el digito verificador</h5>
                         <hr class="mt-4">
-                        <h5 class="mt-4">Roles</h5>
+                        <h5 class="mt-4">Roles *</h5>
                         <div class="row justify-content-center align-items-center g-2">
                             @error('roles')
                                 <div class="text-danger">
@@ -143,25 +143,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{asset('js/verificacionRut.js')}}"></script>
     <script>
-        var Fn = {
-            validaRut: function(rutCompleto) {
-                if (!/^[0-9]+-[0-9kK]{1}$/.test(rutCompleto))
-                    return false;
-                var tmp = rutCompleto.split('-');
-                var digv = tmp[1];
-                var rut = tmp[0];
-                if (digv == 'K') digv = 'k';
-                return (Fn.dv(rut) == digv);
-            },
-            dv: function(T) {
-                var M = 0,
-                    S = 1;
-                for (; T; T = Math.floor(T / 10))
-                    S = (S + T % 10 * (9 - M++ % 6)) % 11;
-                return S ? S - 1 : 'k';
-            }
-        }
         $(document).ready(function() {
             $('#btn-submit').on('click', function(e) {
                 var rut = document.getElementById('rut').value;
@@ -193,48 +176,5 @@
 
             });
         })
-        function checkRut(rut) {
-            var valor = rut.value.replace('.', '');
-            valor = valor.replace('-', '');
-
-            cuerpo = valor.slice(0, -1);
-            dv = valor.slice(-1).toUpperCase();
-
-            rut.value = cuerpo + '-' + dv
-
-            if (cuerpo.length < 7) {
-                rut.setCustomValidity("RUT Incompleto");
-                return false;
-            }
-
-            suma = 0;
-            multiplo = 2;
-
-            for (i = 1; i <= cuerpo.length; i++) {
-
-                index = multiplo * valor.charAt(cuerpo.length - i);
-
-                suma = suma + index;
-
-                if (multiplo < 7) {
-                    multiplo = multiplo + 1;
-                } else {
-                    multiplo = 2;
-                }
-
-            }
-
-            dvEsperado = 11 - (suma % 11);
-
-            dv = (dv == 'K') ? 10 : dv;
-            dv = (dv == 0) ? 11 : dv;
-
-            if (dvEsperado != dv) {
-                rut.setCustomValidity("RUT Inválido");
-                return false;
-            }
-
-            rut.setCustomValidity('');
-        }
     </script>
 @endsection

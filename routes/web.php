@@ -211,15 +211,6 @@ Route::group(['middleware' => ['auth','can:modificar landing page']], function (
 });
 Route::group(['middleware' => ['auth','role:Admin']], function () {
 
-    Route::get('/inicio/administrador', [\App\Http\Controllers\HorarioController::class, 'index'])->name('admin');
-
-    Route::get('horario', [App\Http\Controllers\HorariosController::class, 'index'])->name('admin.horario.index');
-    Route::post('horario/store', [App\Http\Controllers\HorariosController::class, 'store'])->name('admin.horario.store');
-    Route::get('admin/horario/add', [App\Http\Controllers\HorariosController::class, 'add'])->name('admin.horario.add');
-    Route::get('admin/horario/show', [App\Http\Controllers\HorariosController::class, 'show']);
-    Route::post('admin/horario/edit/{id}', [App\Http\Controllers\HorariosController::class, 'edit']);
-    Route::post('admin/horario/delete/{id}', [App\Http\Controllers\HorariosController::class, 'delete']);
-    Route::post('admin/horario/actualizar/{horarios}', [App\Http\Controllers\HorariosController::class, 'update']);
     //Rutas funcionarios
     Route::resource('/funcionarios', 'App\Http\Controllers\FuncionariosController');
 
@@ -305,10 +296,6 @@ Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class, 'ch
 
 // Route::post('/webpayplus',[\App\Http\Controllers\TransbankController::class,'checkout']);
 
-
-route::get('correo_test', function () {
-    return view('emails.usuario_eliminado');
-});
 Route::get('/mi-perfil', [App\Http\Controllers\UserController::class, 'user_profile_cliente'])->name('mi-perfil')->middleware('auth');
 Route::get('/pedidos', [App\Http\Controllers\PointSaleController::class, 'mis_pedidos'])->name('mis-pedidos')->middleware('auth');
 Route::get('/ver-pedido', [App\Http\Controllers\PointSaleController::class, 'ver_pedido'])->name('ver-pedido')->middleware('auth');

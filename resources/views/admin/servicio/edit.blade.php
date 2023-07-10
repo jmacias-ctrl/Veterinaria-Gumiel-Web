@@ -41,7 +41,7 @@
                     <div class="row mt-3">
                         <div class="col">
                             <input type="hidden" name="id" value="{{ $servicio->id }}">
-                            <label for="nombre"class="form-label">Nombre</label>
+                            <label for="nombre"class="form-label">Nombre *</label>
                             <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre"
                                 value="{{ $servicio->nombre }}" id="nombre" checked>
                             @error('nombre')
@@ -51,7 +51,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="nombre" class="form-label">Tipo</label>
+                            <label for="nombre" class="form-label">Tipo *</label>
                             <select class="form-select @error('id_tipo') is-invalid @enderror"
                                 aria-label="Default select example" name="id_tipo" id="id_tipo">
                                 @foreach ($tiposervicios as $tipo)
@@ -72,7 +72,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="precio" class="form-label">Precio</label>
+                            <label for="precio" class="form-label">Precio *</label>
                             <div class="input-group-prepend">
                                 <div class="input-group-text">$</div>
                                 <input type="number" class="form-control @error('precio') is-invalid @enderror"
@@ -85,7 +85,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="duracion" class="form-label">Duración</label>
+                            <label for="duracion" class="form-label">Duración *</label>
                             <div class="input-group-prepend">
                                 <input type="number" class="form-control @error('duracion') is-invalid @enderror"
                                     name="duracion" value="{{ $servicio->duracion }}" min="0" oninput="this.value = Math.abs(this.value)" id="duracion" checked>

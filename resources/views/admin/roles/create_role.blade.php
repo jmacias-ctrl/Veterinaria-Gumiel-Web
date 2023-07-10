@@ -38,7 +38,7 @@ Agregar Rol
                     <h2 class="mt-4">Información del Rol</h2>
                     <div class="row mt-3">
                         <div class="col">
-                            <label for="nombre" class="form-label">Nombre</label>
+                            <label for="nombre" class="form-label">Nombre *</label>
                             <input type="text" id="nombre" name="nombre"
                                 class="form-control @error('nombre') is-invalid @enderror" placeholder="Ej. Logistica"
                                 aria-label="Nombre" required>

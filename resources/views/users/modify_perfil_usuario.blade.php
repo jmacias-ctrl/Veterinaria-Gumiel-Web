@@ -90,7 +90,7 @@
                         <div class="col">
                             <label for="rut" class="form-label">Rut</label>
                             <input type="text" class="form-control @error('rut') is-invalid @enderror" id="rut"
-                                name="rut" placeholder="Ej. 12345678-9" value="{{ Auth::user()->rut }}" required>
+                                name="rut" placeholder="Ej. 12345678-9" value="{{ Auth::user()->rut }}" oninput="checkRut(this)" maxlength="10" required>
                             @error('rut')
                                 <div class="text-danger"><span><small>{{ $message }}</small></span></div>
                             @enderror
@@ -113,7 +113,7 @@
                             <div class="input-group">
                                 <div class="input-group-text">+56</div>
                                 <input type="number" class="form-control @error('telefono') is-invalid @enderror"
-                                    id="telefono" name="telefono" placeholder="954231232" maxlength="9" minlength="9"
+                                    id="telefono" name="telefono" placeholder="Ej. 954231232" maxlength="9" minlength="9"
                                     value="{{ Auth::user()->phone }}">
                             </div>
                             @error('telefono')
@@ -170,25 +170,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{asset('js/verificacionRut.js')}}"></script>
     <script>
-        var Fn = {
-            validaRut: function(rutCompleto) {
-                if (!/^[0-9]+-[0-9kK]{1}$/.test(rutCompleto))
-                    return false;
-                var tmp = rutCompleto.split('-');
-                var digv = tmp[1];
-                var rut = tmp[0];
-                if (digv == 'K') digv = 'k';
-                return (Fn.dv(rut) == digv);
-            },
-            dv: function(T) {
-                var M = 0,
-                    S = 1;
-                for (; T; T = Math.floor(T / 10))
-                    S = (S + T % 10 * (9 - M++ % 6)) % 11;
-                return S ? S - 1 : 'k';
-            }
-        }
         $(document).ready(function() {
             $('#btn-submit').on('click', function(e) {
                 var rut = document.getElementById('rut').value;

@@ -50,18 +50,5 @@ class UserSeeder extends Seeder
             'email' => 'inventario@vetgumiel.cl',
             'password' => bcrypt('asdf123'),
         ])->assignRole('Inventario');
-
-        Horarios::create([
-            'title'=>'Veterinario Demo',
-            'id_usuario'=>'1',
-            'start'=>'2023-04-26 08:00:00',
-            'end'=>'2023-04-26 18:00:00',
-        ]);
-        Horarios::create([
-            'title'=>'Peluquero Demo',
-            'id_usuario'=>'2',
-            'start'=>'2023-04-26 08:00:00',
-            'end'=>'2023-04-26 18:00:00',
-        ]);
     }
 }
